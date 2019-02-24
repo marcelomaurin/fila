@@ -15,12 +15,8 @@ type
   TfrmImpressao = class(TForm)
     Label1: TLabel;
     RLBNRO: TRLBarcode;
-    RLLabel1: TRLLabel;
     RLLabel2: TRLLabel;
     RLDATETIME: TRLLabel;
-    RLLabel6: TRLLabel;
-    RLLabel7: TRLLabel;
-    RLLabel8: TRLLabel;
     RLNRO: TRLLabel;
     RLEmpresa: TRLLabel;
     RLLocalizacao: TRLLabel;

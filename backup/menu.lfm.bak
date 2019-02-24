@@ -1,14 +1,16 @@
 object frmMenu: TfrmMenu
-  Left = 868
+  Left = 486
   Height = 282
-  Top = 282
+  Top = 249
   Width = 320
+  BorderStyle = bsSingle
   Caption = 'Sistema de Controle de Fila'
   ClientHeight = 282
   ClientWidth = 320
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
+  Position = poMainFormCenter
   LCLVersion = '1.8.4.0'
   object BtFila1: TButton
     Left = 16

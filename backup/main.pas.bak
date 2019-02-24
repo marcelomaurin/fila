@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Menus, menu;
+  ExtCtrls, Menus, DataPortIP, lNetComponents, menu, lNet, log;
 
 const
   Arquivo = 'cliente.cfg';
@@ -32,6 +32,8 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
+    LTCPComponent1: TLTCPComponent;
+    MenuItem3: TMenuItem;
     Versao: TLabel;
     lblocalizacao: TLabel;
     lbParams: TListBox;
@@ -41,11 +43,16 @@ type
     Timer1: TTimer;
     ToggleBox1: TToggleBox;
     TrayIcon1: TTrayIcon;
+
     procedure edCont2Change(Sender: TObject);
     procedure edCont3Change(Sender: TObject);
     procedure edTipo1Change(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure LTCPComponent1Connect(aSocket: TLSocket);
+    procedure LTCPComponent1Receive(aSocket: TLSocket);
     procedure MenuItem1Click(Sender: TObject);
+    procedure MenuItem3Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure ToggleBox1Change(Sender: TObject);
     procedure SalvarContexto();
@@ -69,6 +76,11 @@ implementation
 procedure Tfrmmain.MenuItem1Click(Sender: TObject);
 begin
   show;
+end;
+
+procedure Tfrmmain.MenuItem3Click(Sender: TObject);
+begin
+  frmLog.Show;
 end;
 
 procedure Tfrmmain.Timer1Timer(Sender: TObject);
@@ -98,6 +110,78 @@ begin
 
 end;
 
+procedure Tfrmmain.LTCPComponent1Connect(aSocket: TLSocket);
+begin
+  aSocket.SendMessage('Connected!');
+  frmLog.log('Connected:'+aSocket.PeerAddress);
+end;
+
+procedure Tfrmmain.LTCPComponent1Receive(aSocket: TLSocket);
+var
+  mensagem : string;
+  strnro : string;
+  nro : integer;
+  posicao : integer;
+  item : string;
+begin
+   //Mensagem recebida padrao Fila:nro+#13
+  aSocket.GetMessage(mensagem);
+  frmlog.log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
+  if (mensagem <> '') then
+  begin
+      if (POS(mensagem, 'Fila:')>=0) then
+      begin
+        posicao := pos(':',mensagem);
+        strnro := copy(mensagem,posicao+1,pos(#13,mensagem)-(posicao+1));
+        nro := strtoint(strnro);
+        case nro of
+            1: begin
+              if (frmmenu.Lista1.Count>0) then
+              begin
+                  item := frmmenu.Lista1.Strings[0];
+                  frmmenu.Lista1.Delete(0);
+                  frmlog.log('delete List1:'+item);
+              end
+              else
+              begin
+                item := '0';
+              end;
+            end;
+            2: begin
+              if (frmmenu.Lista2.Count>0) then
+              begin
+                  item := frmmenu.Lista2.Strings[0];
+                  frmmenu.Lista2.Delete(0);
+                  frmlog.log('delete List2:'+item);
+              end
+               else
+              begin
+                  item := '0';
+              end;
+            end;
+            3: begin
+              if (frmmenu.Lista3.Count>0) then
+              begin
+                  item := frmmenu.Lista3.Strings[0];
+                  frmmenu.Lista3.Delete(0);
+                  frmlog.log('delete List3:'+item);
+              end
+               else
+              begin
+                  item := '0';
+              end;
+            end;
+        end;
+        aSocket.SendMessage('Fila:'+inttostr(nro)+';'+Item+#13);  //Vou implementar aqui
+      end;
+  end;
+
+
+  aSocket.Disconnect(true);
+  LTCPComponent1.CallAction();
+
+end;
+
 procedure Tfrmmain.edCont2Change(Sender: TObject);
 begin
 
@@ -111,6 +195,12 @@ end;
 procedure Tfrmmain.edTipo1Change(Sender: TObject);
 begin
 
+end;
+
+procedure Tfrmmain.FormCreate(Sender: TObject);
+begin
+  frmLog := TfrmLog.create(self);
+  frmLog.hide;
 end;
 
 procedure Tfrmmain.SalvarContexto();
@@ -149,6 +239,7 @@ begin
   TrayIcon1.Animate:=false;
   TrayIcon1.BalloonHint:= 'Programa Fila';
   TrayIcon1.Visible:=true;
+  LTCPComponent1.Listen(8095);
 
 end;
 

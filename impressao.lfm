@@ -1,20 +1,20 @@
 object frmImpressao: TfrmImpressao
-  Left = 1077
-  Height = 474
-  Top = 239
-  Width = 257
+  Left = 2145
+  Height = 131
+  Top = 75
+  Width = 264
   Caption = 'cupom'
-  ClientHeight = 474
-  ClientWidth = 257
+  ClientHeight = 131
+  ClientWidth = 264
+  DesignTimePPI = 120
   LCLVersion = '1.8.4.0'
   object RLReport1: TRLReport
     Left = 8
-    Height = 454
+    Height = 94
     Top = 8
     Width = 227
     AdjustableMargins = True
     Font.Color = clBlack
-    Font.Height = -13
     Font.Name = 'Arial'
     Margins.LeftMargin = 0
     Margins.TopMargin = 0
@@ -22,29 +22,22 @@ object frmImpressao: TfrmImpressao
     Margins.BottomMargin = 0
     PageSetup.PaperSize = fpCustom
     PageSetup.PaperWidth = 60
-    PageSetup.PaperHeight = 120
+    PageSetup.PaperHeight = 25
     RealBounds.Left = 0
     RealBounds.Top = 0
     RealBounds.Width = 0
     RealBounds.Height = 0
-    object RLLabel1: TRLLabel
-      Left = 19
-      Height = 16
-      Top = 32
-      Width = 104
-      Caption = 'Sua senha na fila'
-      RealBounds.Left = 0
-      RealBounds.Top = 0
-      RealBounds.Width = 0
-      RealBounds.Height = 0
-    end
     object RLNRO: TRLLabel
-      Left = 20
-      Height = 16
-      Top = 192
-      Width = 186
+      Left = 91
+      Height = 12
+      Top = 68
+      Width = 54
       Alignment = taCenter
       Caption = '1234567890'
+      Font.Color = clBlack
+      Font.Height = 12
+      Font.Name = 'Arial'
+      ParentFont = False
       RealBounds.Left = 0
       RealBounds.Top = 0
       RealBounds.Width = 0
@@ -52,16 +45,18 @@ object frmImpressao: TfrmImpressao
       AfterPrint = RLNROAfterPrint
     end
     object RLBNRO: TRLBarcode
-      Left = 19
-      Height = 72
-      Top = 120
-      Width = 190
+      Left = 29
+      Height = 20
+      Top = 48
+      Width = 158
       Alignment = taCenter
       Anchors = [fkLeft, fkRight]
       BarcodeType = bcEAN128A
       Caption = '1234567890'
-      Margins.LeftMargin = 1
-      Margins.RightMargin = 1
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = 'Arial'
+      ParentFont = False
       RealBounds.Left = 0
       RealBounds.Top = 0
       RealBounds.Width = 0
@@ -69,48 +64,65 @@ object frmImpressao: TfrmImpressao
       AfterPrint = RLBNROAfterPrint
     end
     object RLEmpresa: TRLLabel
-      Left = 80
+      Left = 84
       Height = 16
-      Top = 16
-      Width = 70
+      Top = -2
+      Width = 72
       Alignment = taCenter
       Caption = 'EMPRESA'
+      Font.Color = clBlack
+      Font.Height = -14
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
       RealBounds.Left = 0
       RealBounds.Top = 0
       RealBounds.Width = 0
       RealBounds.Height = 0
     end
     object RLLocalizacao: TRLLabel
-      Left = 19
+      Left = 67
       Height = 16
-      Top = 224
-      Width = 185
+      Top = 80
+      Width = 78
       Alignment = taCenter
       Caption = 'Localizacao'
+      Font.Color = clBlack
+      Font.Height = -14
+      Font.Name = 'Arial'
+      ParentFont = False
       RealBounds.Left = 0
       RealBounds.Top = 0
       RealBounds.Width = 0
       RealBounds.Height = 0
     end
     object RLLabel5: TRLLabel
-      Left = 19
+      Left = 24
       Height = 16
-      Top = 58
-      Width = 37
+      Top = 15
+      Width = 40
       Caption = 'TIPO:'
+      Font.Color = clBlack
+      Font.Height = -14
+      Font.Name = 'Arial'
+      ParentFont = False
       RealBounds.Left = 0
       RealBounds.Top = 0
       RealBounds.Width = 0
       RealBounds.Height = 0
     end
     object RLTipo: TRLLabel
-      Left = 67
+      Left = 84
       Height = 16
-      Top = 56
-      Width = 59
+      Top = 15
+      Width = 62
       Caption = 'NORMAL'
       Color = clWhite
+      Font.Color = clBlack
+      Font.Height = -14
+      Font.Name = 'Arial'
       ParentColor = False
+      ParentFont = False
       RealBounds.Left = 0
       RealBounds.Top = 0
       RealBounds.Width = 0
@@ -118,67 +130,43 @@ object frmImpressao: TfrmImpressao
       Transparent = False
       AfterPrint = RLTipoAfterPrint
     end
-    object RLLabel6: TRLLabel
-      Left = 42
-      Height = 16
-      Top = 256
-      Width = 151
-      Caption = 'Impressão feita pelo FILA'
-      RealBounds.Left = 0
-      RealBounds.Top = 0
-      RealBounds.Width = 0
-      RealBounds.Height = 0
-    end
-    object RLLabel7: TRLLabel
-      Left = 75
-      Height = 16
-      Top = 272
-      Width = 86
-      Caption = 'Licença GPL3'
-      RealBounds.Left = 0
-      RealBounds.Top = 0
-      RealBounds.Width = 0
-      RealBounds.Height = 0
-    end
     object RLLabel2: TRLLabel
       Left = 19
       Height = 16
-      Top = 88
-      Width = 42
+      Top = 31
+      Width = 45
       Caption = 'DATA:'
+      Font.Color = clBlack
+      Font.Height = -14
+      Font.Name = 'Arial'
+      ParentFont = False
       RealBounds.Left = 0
       RealBounds.Top = 0
       RealBounds.Width = 0
       RealBounds.Height = 0
     end
     object RLDATETIME: TRLLabel
-      Left = 67
+      Left = 79
       Height = 16
-      Top = 88
-      Width = 84
+      Top = 31
+      Width = 4
+      Font.Color = clBlack
+      Font.Height = -14
+      Font.Name = 'Arial'
+      ParentFont = False
       RealBounds.Left = 0
       RealBounds.Top = 0
       RealBounds.Width = 0
       RealBounds.Height = 0
     end
   end
-  object RLLabel8: TRLLabel
-    Left = 56
-    Height = 15
-    Top = 304
-    Width = 137
-    Caption = 'http://maurinsoft.com.br'
-    RealBounds.Left = 0
-    RealBounds.Top = 0
-    RealBounds.Width = 0
-    RealBounds.Height = 0
-  end
   object Label1: TLabel
-    Left = 10
-    Height = 15
-    Top = 10
-    Width = 34
+    Left = 12
+    Height = 20
+    Top = 12
+    Width = 44
     Caption = 'Label1'
     ParentColor = False
+    ParentFont = False
   end
 end

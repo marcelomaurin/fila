@@ -1,188 +1,211 @@
 object frmmain: Tfrmmain
   Left = 258
-  Height = 318
+  Height = 494
   Top = 199
-  Width = 320
+  Width = 400
   BorderStyle = bsSingle
   Caption = 'FILA - GPL3'
-  ClientHeight = 318
-  ClientWidth = 320
+  ClientHeight = 494
+  ClientWidth = 400
+  DesignTimePPI = 120
+  OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '1.8.4.0'
   object Empresa: TLabel
-    Left = 12
-    Height = 15
-    Top = 10
-    Width = 45
+    Left = 15
+    Height = 20
+    Top = 12
+    Width = 57
     Caption = 'Empresa'
     ParentColor = False
+    ParentFont = False
   end
   object edEmpresa: TEdit
-    Left = 10
-    Height = 23
-    Top = 28
-    Width = 288
+    Left = 12
+    Height = 28
+    Top = 35
+    Width = 360
+    ParentFont = False
     TabOrder = 0
     Text = 'MAURINSOFT'
   end
   object lblocalizacao: TLabel
-    Left = 9
-    Height = 15
-    Top = 59
-    Width = 64
+    Left = 11
+    Height = 20
+    Top = 74
+    Width = 81
     Caption = 'Localizacao:'
     ParentColor = False
+    ParentFont = False
   end
   object edlocalizacao: TEdit
-    Left = 10
-    Height = 23
-    Top = 76
-    Width = 288
+    Left = 12
+    Height = 28
+    Top = 95
+    Width = 360
+    ParentFont = False
     TabOrder = 1
     Text = 'nao consta'
   end
   object Label1: TLabel
-    Left = 9
-    Height = 15
-    Top = 105
-    Width = 33
+    Left = 11
+    Height = 20
+    Top = 131
+    Width = 42
     Caption = 'Tipo 1'
     ParentColor = False
+    ParentFont = False
   end
   object edTipo1: TEdit
-    Left = 10
-    Height = 23
-    Top = 121
-    Width = 112
+    Left = 12
+    Height = 28
+    Top = 151
+    Width = 140
     OnChange = edTipo1Change
+    ParentFont = False
     TabOrder = 2
     Text = 'NORMAL'
   end
   object Label2: TLabel
-    Left = 144
-    Height = 15
-    Top = 104
-    Width = 33
+    Left = 180
+    Height = 20
+    Top = 130
+    Width = 42
     Caption = 'Tipo 2'
     ParentColor = False
+    ParentFont = False
   end
   object edTipo2: TEdit
-    Left = 145
-    Height = 23
-    Top = 120
-    Width = 112
+    Left = 181
+    Height = 28
+    Top = 150
+    Width = 140
+    ParentFont = False
     TabOrder = 3
     Text = 'IDOSO'
   end
   object Label3: TLabel
-    Left = 8
-    Height = 15
-    Top = 152
-    Width = 33
+    Left = 10
+    Height = 20
+    Top = 190
+    Width = 42
     Caption = 'Tipo 3'
     ParentColor = False
+    ParentFont = False
   end
   object edTipo3: TEdit
-    Left = 9
-    Height = 23
-    Top = 168
-    Width = 112
+    Left = 11
+    Height = 28
+    Top = 210
+    Width = 140
+    ParentFont = False
     TabOrder = 4
     Text = 'ESPECIAL'
   end
   object ToggleBox1: TToggleBox
-    Left = 120
-    Height = 25
-    Top = 272
-    Width = 75
+    Left = 270
+    Height = 31
+    Top = 370
+    Width = 94
     Caption = 'Iniciar'
     OnChange = ToggleBox1Change
     OnClick = ToggleBox1Click
+    ParentFont = False
     TabOrder = 5
   end
   object Label4: TLabel
-    Left = 10
-    Height = 15
-    Top = 200
-    Width = 62
+    Left = 12
+    Height = 20
+    Top = 250
+    Width = 77
     Caption = 'Contagem1'
     ParentColor = False
+    ParentFont = False
   end
   object edCont1: TEdit
-    Left = 11
-    Height = 23
-    Top = 216
-    Width = 62
+    Left = 14
+    Height = 28
+    Top = 270
+    Width = 78
+    ParentFont = False
     TabOrder = 6
     Text = '0'
   end
   object Label5: TLabel
-    Left = 96
-    Height = 15
-    Top = 200
-    Width = 62
+    Left = 120
+    Height = 20
+    Top = 250
+    Width = 77
     Caption = 'Contagem2'
     ParentColor = False
+    ParentFont = False
   end
   object edCont2: TEdit
-    Left = 97
-    Height = 23
-    Top = 216
-    Width = 62
+    Left = 121
+    Height = 28
+    Top = 270
+    Width = 78
     OnChange = edCont2Change
+    ParentFont = False
     TabOrder = 7
     Text = '0'
   end
   object edCont3: TEdit
-    Left = 185
-    Height = 23
-    Top = 216
-    Width = 62
+    Left = 231
+    Height = 28
+    Top = 270
+    Width = 78
     OnChange = edCont3Change
+    ParentFont = False
     TabOrder = 8
     Text = '0'
   end
   object Label6: TLabel
-    Left = 184
-    Height = 15
-    Top = 200
-    Width = 62
+    Left = 230
+    Height = 20
+    Top = 250
+    Width = 77
     Caption = 'Contagem3'
     ParentColor = False
+    ParentFont = False
   end
   object lbParams: TListBox
-    Left = 8
-    Height = 56
-    Top = 256
-    Width = 100
+    Left = 15
+    Height = 70
+    Top = 360
+    Width = 125
     ItemHeight = 0
+    ParentFont = False
     TabOrder = 9
     Visible = False
   end
   object Label7: TLabel
-    Left = 233
-    Height = 15
-    Top = 297
-    Width = 38
+    Left = 170
+    Height = 20
+    Top = 440
+    Width = 48
     Caption = 'Versão:'
     ParentColor = False
+    ParentFont = False
   end
   object Versao: TLabel
-    Left = 276
-    Height = 15
-    Top = 297
-    Width = 15
-    Caption = '1.0'
+    Left = 225
+    Height = 20
+    Top = 440
+    Width = 19
+    Caption = '1.1'
     ParentColor = False
+    ParentFont = False
   end
   object Label8: TLabel
-    Left = 88
-    Height = 15
-    Top = 297
-    Width = 134
+    Left = 121
+    Height = 20
+    Top = 470
+    Width = 162
     Caption = 'http://maurinsoft.com.br'
     ParentColor = False
+    ParentFont = False
   end
   object TrayIcon1: TTrayIcon
     PopUpMenu = PopupMenu1
@@ -6744,15 +6767,19 @@ object frmmain: Tfrmmain
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000
     }
-    left = 264
-    top = 160
+    left = 330
+    top = 200
   end
   object PopupMenu1: TPopupMenu
-    left = 269
-    top = 219
+    left = 336
+    top = 274
     object MenuItem1: TMenuItem
       Caption = 'Mostrar'
       OnClick = MenuItem1Click
+    end
+    object MenuItem3: TMenuItem
+      Caption = 'LOG'
+      OnClick = MenuItem3Click
     end
     object MenuItem2: TMenuItem
       Caption = 'Sair'
@@ -6760,9 +6787,18 @@ object frmmain: Tfrmmain
   end
   object Timer1: TTimer
     Enabled = False
-    Interval = 60000
+    Interval = 5000
     OnTimer = Timer1Timer
-    left = 260
-    top = 111
+    left = 325
+    top = 139
+  end
+  object LTCPComponent1: TLTCPComponent
+    Port = 8095
+    OnReceive = LTCPComponent1Receive
+    OnConnect = LTCPComponent1Connect
+    Timeout = 0
+    ReuseAddress = False
+    left = 50
+    top = 310
   end
 end

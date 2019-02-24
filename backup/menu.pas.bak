@@ -18,6 +18,9 @@ type
     BtFila1: TButton;
     btFila2: TButton;
     BtFila3: TButton;
+    Lista1 : TStringList;
+    Lista2 : TStringList;
+    Lista3 : TStringList;
     procedure BtFila1Click(Sender: TObject);
     procedure btFila2Click(Sender: TObject);
     procedure BtFila3Click(Sender: TObject);
@@ -104,12 +107,19 @@ end;
 procedure TfrmMenu.Imprime(Tipo : integer);
 var
   nro : integer;
+  Senha : String;
 begin
   frmImpressao.RLTipo.Caption:= PegaNomeFila(Tipo);
   nro := PegaNro(TIPO);
-  frmImpressao.RLBNRO.Caption := chr(ord('A')-1+Tipo)+inttostr(nro);
+  Senha := chr(ord('A')-1+Tipo)+inttostr(nro);
+  Case Tipo of
+  1: lista1.Append(senha);
+  2: lista2.Append(senha);
+  3: lista3.Append(senha);
+  end;
+  frmImpressao.RLBNRO.Caption := senha;
   frmImpressao.RLEmpresa.caption := pegaEmpresa();
-  frmImpressao.RLNRO.Caption := chr(ord('A')-1+Tipo)+inttostr(nro);
+  frmImpressao.RLNRO.Caption := senha;
   frmImpressao.RLLocalizacao.Caption:= PegaLocalizacao();
   frmImpressao.RLDATETIME.Caption:= datetimetostr(now);
   frmImpressao.RLEmpresa.Caption:= empresa;
@@ -121,6 +131,7 @@ end;
 procedure TfrmMenu.BtFila1Click(Sender: TObject);
 begin
   Imprime(1);
+
 end;
 
 procedure TfrmMenu.btFila2Click(Sender: TObject);
@@ -140,7 +151,9 @@ end;
 
 procedure TfrmMenu.FormCreate(Sender: TObject);
 begin
-
+  Lista1 := TStringList.Create();
+  Lista2 := TStringList.Create();
+  Lista3 := TStringList.Create();
 end;
 
 procedure TfrmMenu.FormShow(Sender: TObject);
