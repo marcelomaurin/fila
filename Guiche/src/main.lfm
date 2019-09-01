@@ -1,76 +1,84 @@
 object frmmain: Tfrmmain
   Left = 1392
-  Height = 240
+  Height = 192
   Top = 244
-  Width = 320
+  Width = 256
   Caption = 'Guiche'
-  ClientHeight = 240
-  ClientWidth = 320
-  DesignTimePPI = 120
-  LCLVersion = '1.8.4.0'
+  ClientHeight = 192
+  ClientWidth = 256
+  Position = poDefault
+  LCLVersion = '2.0.2.0'
   object Label1: TLabel
-    Left = 9
-    Height = 20
-    Top = 7
-    Width = 99
+    Left = 7
+    Height = 15
+    Top = 6
+    Width = 80
     Caption = 'Nro do Guiche:'
     ParentColor = False
+    ParentFont = False
   end
   object edGuiche: TEdit
-    Left = 8
-    Height = 28
-    Top = 24
-    Width = 128
+    Left = 6
+    Height = 23
+    Top = 19
+    Width = 102
+    ParentFont = False
     TabOrder = 0
     Text = '1'
   end
   object Label2: TLabel
-    Left = 9
-    Height = 20
-    Top = 64
-    Width = 42
+    Left = 7
+    Height = 15
+    Top = 51
+    Width = 34
     Caption = 'IP Fila:'
     ParentColor = False
+    ParentFont = False
   end
   object edIPFILA: TEdit
-    Left = 9
-    Height = 28
-    Top = 80
-    Width = 160
+    Left = 7
+    Height = 23
+    Top = 64
+    Width = 128
+    ParentFont = False
     TabOrder = 1
     Text = '127.0.0.1'
   end
   object edIPPainel: TEdit
-    Left = 9
-    Height = 28
-    Top = 128
-    Width = 160
+    Left = 7
+    Height = 23
+    Top = 102
+    Width = 128
+    ParentFont = False
     TabOrder = 2
     Text = '127.0.0.1'
   end
   object Label3: TLabel
-    Left = 9
-    Height = 20
-    Top = 112
-    Width = 59
+    Left = 7
+    Height = 15
+    Top = 90
+    Width = 48
     Caption = 'IP Painel:'
     ParentColor = False
+    ParentFont = False
   end
   object btStart: TButton
-    Left = 224
-    Height = 25
-    Top = 208
-    Width = 75
+    Left = 179
+    Height = 20
+    Top = 166
+    Width = 60
     Caption = 'Iniciar'
     OnClick = btStartClick
+    ParentFont = False
     TabOrder = 3
   end
   object ckGuiche: TCheckBox
-    Left = 192
-    Height = 24
-    Top = 128
-    Width = 69
+    Left = 154
+    Height = 19
+    Top = 102
+    Width = 57
     Caption = 'Guiche'
+    ParentFont = False
     TabOrder = 4
   end
   object TrayIcon1: TTrayIcon
@@ -685,8 +693,8 @@ object frmmain: Tfrmmain
       06787878787878787E79FF1F1DA47D8CE8A8C96E0000000049454E44AE426082
     }
     OnClick = TrayIcon1Click
-    left = 192
-    top = 88
+    left = 154
+    top = 70
   end
   object LTCPComponent1: TLTCPComponent
     Port = 0
@@ -696,12 +704,12 @@ object frmmain: Tfrmmain
     OnAccept = LTCPComponent1Accept
     Timeout = 0
     ReuseAddress = True
-    left = 40
-    top = 168
+    left = 32
+    top = 134
   end
   object PopupMenu1: TPopupMenu
-    left = 243
-    top = 50
+    left = 194
+    top = 40
     object btChamar: TMenuItem
       Caption = 'Chamar'
       OnClick = btChamarClick
@@ -741,7 +749,7 @@ object frmmain: Tfrmmain
     OnAccept = LTCPComponent2Accept
     Timeout = 0
     ReuseAddress = False
-    left = 152
-    top = 168
+    left = 122
+    top = 134
   end
 end
