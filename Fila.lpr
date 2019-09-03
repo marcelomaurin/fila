@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, menu, fortes324forlaz, lnetvisual, Impressao, main, log
+  Forms, menu, fortes324forlaz, lnetvisual, Impressao, main, log, ImpTicket
   { you can add units after this };
 
 {$R *.res}
@@ -18,7 +18,6 @@ begin
   Application.Initialize;
   Application.CreateForm(Tfrmmain, frmmain);
   Application.CreateForm(TfrmMenu, frmMenu);
-  Application.CreateForm(TfrmImpressao, frmImpressao);
   Application.Run;
 end.
 

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Menus, DataPortIP, lNetComponents, menu, lNet, log;
+  ExtCtrls, Menus,  lNetComponents, menu, lNet, log;
 
 const
   Arquivo = 'cliente.cfg';
@@ -52,6 +52,7 @@ type
     procedure LTCPComponent1Connect(aSocket: TLSocket);
     procedure LTCPComponent1Receive(aSocket: TLSocket);
     procedure MenuItem1Click(Sender: TObject);
+    procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure ToggleBox1Change(Sender: TObject);
@@ -76,6 +77,11 @@ implementation
 procedure Tfrmmain.MenuItem1Click(Sender: TObject);
 begin
   show;
+end;
+
+procedure Tfrmmain.MenuItem2Click(Sender: TObject);
+begin
+  close;
 end;
 
 procedure Tfrmmain.MenuItem3Click(Sender: TObject);
@@ -221,6 +227,7 @@ end;
 procedure Tfrmmain.ToggleBox1Click(Sender: TObject);
 begin
   hide;
+
   Timer1.Enabled:=true;
   frmmenu.show;
   salvarContexto();

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  RLReport, Impressao;
+  RLReport, ImpTicket;
 
 type
 
@@ -109,7 +109,8 @@ var
   nro : integer;
   Senha : String;
 begin
-  frmImpressao.RLTipo.Caption:= PegaNomeFila(Tipo);
+  frmImpTicket := TFrmImpTicket.create(self);
+  frmImpTicket.RLTipo.Caption:= PegaNomeFila(Tipo);
   nro := PegaNro(TIPO);
   Senha := chr(ord('A')-1+Tipo)+inttostr(nro);
   Case Tipo of
@@ -117,15 +118,16 @@ begin
   2: lista2.Append(senha);
   3: lista3.Append(senha);
   end;
-  frmImpressao.RLBNRO.Caption := senha;
-  frmImpressao.RLEmpresa.caption := pegaEmpresa();
-  frmImpressao.RLNRO.Caption := senha;
-  frmImpressao.RLLocalizacao.Caption:= PegaLocalizacao();
-  frmImpressao.RLDATETIME.Caption:= datetimetostr(now);
-  frmImpressao.RLEmpresa.Caption:= empresa;
-  frmImpressao.RLLocalizacao.Caption:= localizacao;
-  frmImpressao.RLReport1.PrintDialog := false;
-  frmImpressao.RLReport1.Print;
+  frmImpTicket.RLBNRO.Caption := senha;
+  frmImpTicket.RLEmpresa.caption := pegaEmpresa();
+  frmImpTicket.RLNRO.Caption := senha;
+  frmImpTicket.RLLocalizacao.Caption:= PegaLocalizacao();
+  frmImpTicket.RLDATETIME.Caption:= datetimetostr(now);
+  frmImpTicket.RLEmpresa.Caption:= empresa;
+  frmImpTicket.RLLocalizacao.Caption:= localizacao;
+  frmImpTicket.RLReport1.PrintDialog := false;
+  frmImpTicket.RLReport1.Print;
+  frmImpTicket.free();
 end;
 
 procedure TfrmMenu.BtFila1Click(Sender: TObject);
