@@ -15,7 +15,7 @@ type
     RLBNRO: TRLBarcode;
     RLEmpresa: TRLLabel;
     RLLabel1: TRLLabel;
-    RLLabel2: TRLLabel;
+    RLTipo: TRLLabel;
     RLLabel3: TRLLabel;
     RLDATETIME: TRLLabel;
     RLLocalizacao: TRLLabel;

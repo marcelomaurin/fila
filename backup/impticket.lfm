@@ -53,7 +53,7 @@ object frmImpTicket: TfrmImpTicket
       RealBounds.Height = 0
     end
     object RLNRO: TRLLabel
-      Left = 80
+      Left = 88
       Height = 16
       Top = 88
       Width = 48
@@ -63,7 +63,7 @@ object frmImpTicket: TfrmImpTicket
       RealBounds.Height = 0
     end
     object RLBNRO: TRLBarcode
-      Left = 48
+      Left = 64
       Height = 34
       Top = 56
       Width = 112
@@ -75,11 +75,11 @@ object frmImpTicket: TfrmImpTicket
       RealBounds.Width = 0
       RealBounds.Height = 0
     end
-    object RLLabel2: TRLLabel
+    object RLTipo: TRLLabel
       Left = 44
       Height = 16
       Top = 14
-      Width = 58
+      Width = 44
       RealBounds.Left = 0
       RealBounds.Top = 0
       RealBounds.Width = 0
