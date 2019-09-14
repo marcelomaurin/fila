@@ -3,13 +3,19 @@
 <head>
   <title >Painel de Senhas</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script type="text/javascript" src="js/funcs.js"></script>
+  <script type="text/javascript" src="js/painel.js"></script>
+  
+
 
 </head>
 <body>
+<div ng-app="painel" ng-controller="myCtrl">
 <div class="container">
 <h1 style="text-align:center">Painel de Senha</h1>
 </div>
@@ -31,6 +37,25 @@
     <div class="panel-body">Caixa2</div>
   </div>
 </div>
+<!-- Footer -->
+<footer class="page-footer font-small special-color-dark pt-4">
 
+  <!-- Footer Text -->
+  <div class="container-fluid text-center text-md-left">
+  
+    <!-- Grid row -->
+    <div class="row">
+
+      <!-- Grid column -->
+      <div class="col-md-12 mt-md-0 mt-3 text-right" ng-model="IP">
+	  IP:
+	  </div>
+	</div>
+  </div>
+
+</footer>
+<!-- Footer -->
+</div>
 </body>
 </html>
+
