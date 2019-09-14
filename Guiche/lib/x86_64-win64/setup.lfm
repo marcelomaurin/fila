@@ -123,12 +123,14 @@ object frmSetup: TfrmSetup
     end
     object MenuItem2: TMenuItem
       Caption = 'Rechamar'
+      OnClick = MenuItem2Click
     end
     object N1: TMenuItem
       Caption = '-'
     end
     object MenuItem6: TMenuItem
       Caption = 'Setup'
+      OnClick = MenuItem6Click
     end
     object MenuItem7: TMenuItem
       Caption = 'Sair'

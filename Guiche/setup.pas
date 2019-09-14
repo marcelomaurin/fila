@@ -46,7 +46,7 @@ type
     procedure btChamarClick(Sender: TObject);
     procedure btFila2Click(Sender: TObject);
     procedure btFila3Click(Sender: TObject);
-    procedure btRechamarClick(Sender: TObject);
+
     procedure btSairClick(Sender: TObject);
     procedure btSetupClick(Sender: TObject);
     procedure btStartClick(Sender: TObject);
@@ -60,7 +60,9 @@ type
     procedure LTCPComponent2Disconnect(aSocket: TLSocket);
     procedure LTCPComponent2Receive(aSocket: TLSocket);
     procedure MenuItem1Click(Sender: TObject);
+    procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
+    procedure MenuItem6Click(Sender: TObject);
     procedure TrayIcon1Click(Sender: TObject);
     procedure Chamar(nro : integer);
     procedure Painel(nro : string; guiche: integer);
@@ -123,6 +125,11 @@ end;
 procedure TfrmSetup.MenuItem3Click(Sender: TObject);
 begin
 
+end;
+
+procedure TfrmSetup.MenuItem6Click(Sender: TObject);
+begin
+    show;
 end;
 
 
@@ -194,7 +201,9 @@ begin
 
  // MessageDlg('Retornou',info,[],[],null);
  aSocket.Disconnect(true); //Nao recebeu nada
+
 end;
+
 
 procedure TfrmSetup.LTCPComponent2Accept(aSocket: TLSocket);
 begin
@@ -272,11 +281,20 @@ begin
   chamar(1);
 end;
 
+procedure TfrmSetup.MenuItem2Click(Sender: TObject);
+begin
+  if ckGuiche.Checked then
+  begin
+       painel(lastcall,strtoint(edGuiche.text));
+  end;
+  ShowMessage(lastcall);
+end;
+
 
 
 procedure TfrmSetup.btSairClick(Sender: TObject);
 begin
-  Exit;
+  close;
 end;
 
 
@@ -291,18 +309,11 @@ begin
   Chamar(3);
 end;
 
-procedure TfrmSetup.btRechamarClick(Sender: TObject);
-begin
-  if ckGuiche.Checked then
-  begin
-       painel(lastcall,strtoint(edGuiche.text));
-  end;
-  ShowMessage(lastcall);
-end;
+
 
 procedure TfrmSetup.btSetupClick(Sender: TObject);
 begin
-  show;
+
 end;
 
 end.
