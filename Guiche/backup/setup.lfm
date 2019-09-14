@@ -1,0 +1,143 @@
+object frmSetup: TfrmSetup
+  Left = 257
+  Height = 185
+  Top = 112
+  Width = 320
+  Caption = 'frmSetup'
+  ClientHeight = 185
+  ClientWidth = 320
+  LCLVersion = '2.0.2.0'
+  object Label1: TLabel
+    Left = 10
+    Height = 15
+    Top = 10
+    Width = 80
+    Caption = 'Nro do Guiche:'
+    ParentColor = False
+  end
+  object edGuiche: TEdit
+    Left = 10
+    Height = 23
+    Top = 24
+    Width = 112
+    TabOrder = 0
+    Text = '1'
+  end
+  object Label2: TLabel
+    Left = 10
+    Height = 15
+    Top = 48
+    Width = 34
+    Caption = 'IP Fila:'
+    ParentColor = False
+  end
+  object edIPFILA: TEdit
+    Left = 10
+    Height = 23
+    Top = 62
+    Width = 112
+    OnChange = edIPFILAChange
+    TabOrder = 1
+    Text = '127.0.0.1'
+  end
+  object Label3: TLabel
+    Left = 10
+    Height = 15
+    Top = 88
+    Width = 48
+    Caption = 'IP Painle:'
+    ParentColor = False
+  end
+  object edIPPainel: TEdit
+    Left = 10
+    Height = 23
+    Top = 102
+    Width = 112
+    TabOrder = 2
+    Text = '127.0.0.1'
+  end
+  object ckGuiche: TCheckBox
+    Left = 137
+    Height = 19
+    Top = 54
+    Width = 57
+    Caption = 'Guiche'
+    TabOrder = 3
+  end
+  object btStart: TButton
+    Left = 112
+    Height = 25
+    Top = 144
+    Width = 75
+    Caption = 'Iniciar'
+    OnClick = btStartClick
+    TabOrder = 4
+  end
+  object DataPortTCP1: TDataPortTCP
+    Active = False
+    OnDataAppear = DataPortTCP1DataAppear
+    left = 258
+    top = 91
+  end
+  object LTCPComponent1: TLTCPComponent
+    Port = 0
+    OnReceive = LTCPComponent1Receive
+    OnDisconnect = LTCPComponent1Disconnect
+    OnConnect = LTCPComponent1Connect
+    OnAccept = LTCPComponent1Accept
+    Timeout = 0
+    ReuseAddress = False
+    left = 185
+    top = 92
+  end
+  object LTCPComponent2: TLTCPComponent
+    Port = 0
+    OnReceive = LTCPComponent2Receive
+    OnDisconnect = LTCPComponent2Disconnect
+    OnAccept = LTCPComponent2Accept
+    Timeout = 0
+    ReuseAddress = False
+    left = 221
+    top = 138
+  end
+  object PopupMenu1: TPopupMenu
+    left = 224
+    top = 24
+    object MenuItem1: TMenuItem
+      Caption = 'Chamar'
+      object MenuItem3: TMenuItem
+        Tag = 1
+        Caption = 'Fila1'
+        OnClick = MenuItem1Click
+      end
+      object MenuItem4: TMenuItem
+        Tag = 2
+        Caption = 'Fila2'
+        OnClick = btFila2Click
+      end
+      object MenuItem5: TMenuItem
+        Tag = 3
+        Caption = 'Fila3'
+        OnClick = btFila3Click
+      end
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'Rechamar'
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem6: TMenuItem
+      Caption = 'Setup'
+    end
+    object MenuItem7: TMenuItem
+      Caption = 'Sair'
+      OnClick = btSairClick
+    end
+  end
+  object TrayIcon1: TTrayIcon
+    PopUpMenu = PopupMenu1
+    left = 272
+    top = 56
+  end
+end
