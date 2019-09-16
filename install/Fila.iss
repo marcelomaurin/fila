@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Fila"
-#define MyAppVersion "1.1"
+#define MyAppVersion "1.2"
 #define MyAppPublisher "maurinsoft"
 #define MyAppURL "http://maurinsoft.com.br"
 #define MyAppExeName "Fila.exe"
@@ -32,8 +32,8 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\mmm\Desktop\FILA\Fila.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mmm\Desktop\FILA\cliente.cfg"; DestDir: "{app}"; 
+Source: "I:\projetos\fila\Fila.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "I:\projetos\fila\cliente.cfg"; DestDir: "{app}"; 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
