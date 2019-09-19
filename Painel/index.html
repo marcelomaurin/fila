@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt" ng-app="painel">
 <head>
   <title >Painel de Senhas</title>
   <meta charset="utf-8">
@@ -7,16 +7,18 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>  
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-  <script type="text/javascript" src="js/funcs.js"></script>
-  <script type="text/javascript" src="js/server.js"></script>
-  <script type="text/javascript" src="js/painel.js"></script>
+  <script src="https://code.angularjs.org/1.6.4/angular.js"></script>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="js/funcs.js"></script>
+  <script src="js/server.js"></script>
+  
+  <script src="js/painel.js"></script>
   
 
 
 </head>
-<body>
-<div ng-app="painel" ng-controller="myCtrl">
+<body ng-controller="myCtrl">
+<div  >
 <div class="container">
 <h1 style="text-align:center">Painel de Senha</h1>
 </div>
@@ -48,8 +50,8 @@
     <div class="row">
 
       <!-- Grid column -->
-      <div class="col-md-12 mt-md-0 mt-3 text-right" ng-model="IP">
-	  IP:
+      <div class="col-md-12 mt-md-0 mt-3 text-right" >
+	  IP:{{IP}}
 	  </div>
 	</div>
   </div>
@@ -57,6 +59,7 @@
 </footer>
 <!-- Footer -->
 </div>
+
 </body>
 </html>
 
