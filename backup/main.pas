@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Menus, DataPortIP, lNetComponents, menu, lNet, log;
+  ExtCtrls, Menus,  lNetComponents, menu, lNet, log;
 
 const
   Arquivo = 'cliente.cfg';
@@ -89,7 +89,11 @@ end;
 
 procedure Tfrmmain.MenuItem2Click(Sender: TObject);
 begin
+<<<<<<< HEAD
   Application.Terminate;
+=======
+  close;
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
 end;
 
 procedure Tfrmmain.MenuItem3Click(Sender: TObject);
@@ -202,7 +206,7 @@ var
 begin
   aSocket.GetMessage(mensagem);
   frmlog.log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
-  aSocket.SendMessage('GUICHE>'+guiche+':'+it+';');
+  aSocket.SendMessage('GUICHE>'+guiche+':'+item+';');
   aSocket.Disconnect(true);
   LTCPComponent2.CallAction();
 end;
@@ -246,6 +250,7 @@ end;
 procedure Tfrmmain.ToggleBox1Click(Sender: TObject);
 begin
   hide;
+
   Timer1.Enabled:=true;
   frmmenu.show;
   salvarContexto();

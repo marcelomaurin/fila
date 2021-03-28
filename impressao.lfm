@@ -4,6 +4,7 @@ object frmImpressao: TfrmImpressao
   Top = 174
   Width = 211
   Caption = 'cupom'
+<<<<<<< HEAD
   ClientHeight = 105
   ClientWidth = 211
   LCLVersion = '2.0.12.0'
@@ -110,6 +111,13 @@ object frmImpressao: TfrmImpressao
       ParentFont = False
     end
   end
+=======
+  ClientHeight = 131
+  ClientWidth = 264
+  DesignTimePPI = 120
+  LCLVersion = '1.8.4.0'
+  
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
   object Label1: TLabel
     Left = 10
     Height = 15

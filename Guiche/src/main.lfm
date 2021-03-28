@@ -1,12 +1,23 @@
 object frmmain: Tfrmmain
+<<<<<<< HEAD
   Left = -736
   Height = 192
   Top = 191
+=======
+  Left = 1392
+  Height = 192
+  Top = 244
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
   Width = 256
   Caption = 'Guiche'
   ClientHeight = 192
   ClientWidth = 256
+<<<<<<< HEAD
   LCLVersion = '2.0.12.0'
+=======
+  Position = poDefault
+  LCLVersion = '2.0.2.0'
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
   object Label1: TLabel
     Left = 7
     Height = 15
@@ -692,8 +703,13 @@ object frmmain: Tfrmmain
       06787878787878787E79FF1F1DA47D8CE8A8C96E0000000049454E44AE426082
     }
     OnClick = TrayIcon1Click
+<<<<<<< HEAD
     Left = 154
     Top = 70
+=======
+    left = 154
+    top = 70
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
   end
   object LTCPComponent1: TLTCPComponent
     Port = 0
@@ -703,12 +719,21 @@ object frmmain: Tfrmmain
     OnAccept = LTCPComponent1Accept
     Timeout = 0
     ReuseAddress = True
+<<<<<<< HEAD
     Left = 32
     Top = 134
   end
   object PopupMenu1: TPopupMenu
     Left = 194
     Top = 40
+=======
+    left = 32
+    top = 134
+  end
+  object PopupMenu1: TPopupMenu
+    left = 194
+    top = 40
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
     object btChamar: TMenuItem
       Caption = 'Chamar'
       OnClick = btChamarClick
@@ -748,7 +773,12 @@ object frmmain: Tfrmmain
     OnAccept = LTCPComponent2Accept
     Timeout = 0
     ReuseAddress = False
+<<<<<<< HEAD
     Left = 122
     Top = 134
+=======
+    left = 122
+    top = 134
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
   end
 end

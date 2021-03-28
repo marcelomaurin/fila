@@ -14,6 +14,10 @@ type
 
   TfrmImpressao = class(TForm)
     Label1: TLabel;
+<<<<<<< HEAD
+=======
+    RLBNRO: TRLBarcode;
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
     RLLabel2: TRLLabel;
     RLDATETIME: TRLLabel;
     RLNRO: TRLLabel;

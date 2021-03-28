@@ -34,7 +34,11 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
+<<<<<<< HEAD
     <Units Count="2">
+=======
+    <Units Count="3">
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
       <Unit0>
         <Filename Value="Guiche.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -46,6 +50,16 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
+<<<<<<< HEAD
+=======
+      <Unit2>
+        <Filename Value="setup.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSetup"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Setup"/>
+      </Unit2>
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
     </Units>
   </ProjectOptions>
   <CompilerOptions>

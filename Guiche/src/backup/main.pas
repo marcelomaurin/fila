@@ -178,15 +178,25 @@ begin
      LTCPComponent1.Connect(edIPFILA.text,8095);
      repeat
        //tentando conectar
+<<<<<<< HEAD
        sleep(300);
+=======
+       //sleep(300);
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
        //frmlog.log('Tentando conectar');
        application.ProcessMessages;
      until  not conn ;
      //LTCPComponent1.CallAction;
+<<<<<<< HEAD
      sleep(1000);
      param := 'Fila:'+inttoStr(nro)+#13+'>'+edGuiche.text+';';
      LTCPComponent1.SendMessage(param,nil);
 
+=======
+     //delay(1000);
+     param := 'Fila:'+inttoStr(nro)+#13;
+     LTCPComponent1.SendMessage(param,nil);
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
    end;
 end;
 
