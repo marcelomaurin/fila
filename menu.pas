@@ -117,7 +117,7 @@ begin
   2: lista2.Append(senha);
   3: lista3.Append(senha);
   end;
-  frmImpressao.RLBNRO.Caption := senha;
+  //frmImpressao.RLBNRO.Caption := senha;
   frmImpressao.RLEmpresa.caption := pegaEmpresa();
   frmImpressao.RLNRO.Caption := senha;
   frmImpressao.RLLocalizacao.Caption:= PegaLocalizacao();

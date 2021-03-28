@@ -1,7 +1,7 @@
 object frmMenu: TfrmMenu
-  Left = 486
+  Left = -838
   Height = 282
-  Top = 249
+  Top = 123
   Width = 320
   BorderStyle = bsSingle
   Caption = 'Sistema de Controle de Fila'
@@ -11,7 +11,7 @@ object frmMenu: TfrmMenu
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '2.0.12.0'
   object BtFila1: TButton
     Left = 16
     Height = 49
@@ -43,7 +43,7 @@ object frmMenu: TfrmMenu
     Left = 17
     Height = 15
     Top = 6
-    Width = 61
+    Width = 60
     Caption = 'Tipo de Fila'
     ParentColor = False
   end

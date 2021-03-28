@@ -178,14 +178,15 @@ begin
      LTCPComponent1.Connect(edIPFILA.text,8095);
      repeat
        //tentando conectar
-       //sleep(300);
+       sleep(300);
        //frmlog.log('Tentando conectar');
        application.ProcessMessages;
      until  not conn ;
      //LTCPComponent1.CallAction;
-     //delay(1000);
-     param := 'Fila:'+inttoStr(nro)+#13;
+     sleep(1000);
+     param := 'Fila:'+inttoStr(nro)+#13+'>'+edGuiche.text+';';
      LTCPComponent1.SendMessage(param,nil);
+
    end;
 end;
 
@@ -222,7 +223,7 @@ end;
 
 procedure Tfrmmain.btSairClick(Sender: TObject);
 begin
-  Exit;
+  Application.Terminate;
 end;
 
 procedure Tfrmmain.btChamarClick(Sender: TObject);

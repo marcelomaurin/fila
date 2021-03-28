@@ -10,6 +10,8 @@ uses
 
 const
   Arquivo = 'cliente.cfg';
+  PortGuiche = 8095;
+  PortPainel = 8096;
 type
 
   { Tfrmmain }
@@ -17,6 +19,7 @@ type
   Tfrmmain = class(TForm)
     edCont2: TEdit;
     edCont3: TEdit;
+    edPainel: TEdit;
     edEmpresa: TEdit;
     edTipo1: TEdit;
     edlocalizacao: TEdit;
@@ -32,7 +35,9 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
+    Label9: TLabel;
     LTCPComponent1: TLTCPComponent;
+    LTCPComponent2: TLTCPComponent;
     MenuItem3: TMenuItem;
     Versao: TLabel;
     lblocalizacao: TLabel;
@@ -51,14 +56,18 @@ type
     procedure FormShow(Sender: TObject);
     procedure LTCPComponent1Connect(aSocket: TLSocket);
     procedure LTCPComponent1Receive(aSocket: TLSocket);
+    procedure LTCPComponent2Receive(aSocket: TLSocket);
     procedure MenuItem1Click(Sender: TObject);
+    procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure ToggleBox1Change(Sender: TObject);
     procedure SalvarContexto();
     procedure ToggleBox1Click(Sender: TObject);
   private
-
+    guiche : string;
+    nro : integer;
+    item : string;
   public
 
 
@@ -76,6 +85,11 @@ implementation
 procedure Tfrmmain.MenuItem1Click(Sender: TObject);
 begin
   show;
+end;
+
+procedure Tfrmmain.MenuItem2Click(Sender: TObject);
+begin
+  Application.Terminate;
 end;
 
 procedure Tfrmmain.MenuItem3Click(Sender: TObject);
@@ -120,9 +134,7 @@ procedure Tfrmmain.LTCPComponent1Receive(aSocket: TLSocket);
 var
   mensagem : string;
   strnro : string;
-  nro : integer;
   posicao : integer;
-  item : string;
 begin
    //Mensagem recebida padrao Fila:nro+#13
   aSocket.GetMessage(mensagem);
@@ -134,6 +146,7 @@ begin
         posicao := pos(':',mensagem);
         strnro := copy(mensagem,posicao+1,pos(#13,mensagem)-(posicao+1));
         nro := strtoint(strnro);
+        guiche := copy(mensagem,pos('>',mensagem)+1,pos(';',mensagem)-pos('>',mensagem)-1);
         case nro of
             1: begin
               if (frmmenu.Lista1.Count>0) then
@@ -173,6 +186,7 @@ begin
             end;
         end;
         aSocket.SendMessage('Fila:'+inttostr(nro)+';'+Item+#13);  //Vou implementar aqui
+        aSocket.Disconnect(true);
       end;
   end;
 
@@ -180,6 +194,17 @@ begin
   aSocket.Disconnect(true);
   LTCPComponent1.CallAction();
 
+end;
+
+procedure Tfrmmain.LTCPComponent2Receive(aSocket: TLSocket);
+var
+  mensagem : string;
+begin
+  aSocket.GetMessage(mensagem);
+  frmlog.log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
+  aSocket.SendMessage('GUICHE>'+guiche+':'+item+';');
+  aSocket.Disconnect(true);
+  LTCPComponent2.CallAction();
 end;
 
 procedure Tfrmmain.edCont2Change(Sender: TObject);
@@ -239,7 +264,8 @@ begin
   TrayIcon1.Animate:=false;
   TrayIcon1.BalloonHint:= 'Programa Fila';
   TrayIcon1.Visible:=true;
-  LTCPComponent1.Listen(8095);
+  LTCPComponent1.Listen(PortGuiche);
+  LTCPComponent2.Listen(PortPainel);
 
 end;
 

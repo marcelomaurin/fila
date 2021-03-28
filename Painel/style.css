@@ -1,0 +1,150 @@
+/*
+Tabela de Estilo CSS 
+Padrão do Exemplo 3
+*/
+
+.bg_video{
+	position: fixed; 
+	right: 0; 
+	bottom: 0;
+	min-width: 100%; 
+	min-height: 100%;
+	width: auto; 
+	height: auto; 
+	z-index: -1000;
+	background: url(images/torre.jpg) no-repeat;
+	background-size: cover; 
+	
+}
+
+.container
+{
+		opacity: 0.85;
+		filter: alpha(opacity=85); /* For IE8 and earlier */
+}
+	
+body
+{
+	margin:0;
+	padding:0;
+	background-color: #f0f0ff;
+}
+
+.menu_titulo
+{
+	text-align:center;
+	background-color : #9ddbda;
+	border-radius:4px;
+	padding:3px;
+	margin:4px;
+	margin-right:8px;
+	
+}	
+
+
+.menu 
+	{	
+		background-color: #A9A9A9;
+		/*margin-right: 4px;*/
+		padding-right:4px;
+		border-radius:4px;
+		height:360px;
+	}
+	
+.titulo 
+{
+	background-color:#A9A9A9;
+	text-align: center;
+	padding-top:5px;
+}
+	
+
+.logo	
+	{
+		padding-top:10px;
+		text-align:center;
+	}	
+
+
+.borda_container
+	{
+		border-radius:4px;
+		background-color:#A9A9A9;
+
+	}
+	
+
+.separacao 
+	{ 
+		margin-top: 10px;
+		margin-left: 10px;
+		margin-right:10px;
+		margin-bottom:10px;
+	}
+.box_autenticao
+	{
+		background-color:#A9A9A9;
+		color:white;		
+	}
+	
+.box_item
+{
+	padding-top:10px;
+}
+
+.box_label
+{
+	padding-top:10px;
+	text-align:right;
+	width:70px;
+}
+
+.box_edit
+{
+	width:120px;
+	text-align:left;
+	padding-top:6px;
+}
+	
+.informacao
+{
+	background-color:#A9A999;
+	height:360px;
+}	
+
+.rodape_container
+{
+	border-radius:4px;
+	background-color:#A9A9A9;
+	height:40px;
+	margin-top: 4px;
+}
+
+.rodape_item
+{
+	text-align:justify;
+}
+
+.rodape_item2
+{
+	text-align:center;
+}
+
+.help {
+	text-align:center;
+	background-color : #9ddbda;
+	border-radius:4px;
+	/*margin-left:1px;	*/
+	margin-right:4px;
+	/*font-weight:bold;*/
+	height:30px;
+}
+
+.info_help
+{
+		background-color: white;
+		height:100px;
+		text-align:justify;
+}
+
+
