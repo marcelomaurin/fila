@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="C:\Lamw\fpc\3.0.4\bin\i386-win32\fpc.exe" Date="1266908408"/>
+  <Params Value=" -Tandroid -Parm -MDelphi -Scghim -CX -Os3 -Xs -XX -l -vewnhibq -FlC:\Lamw\android-ndk-r10e\platforms\android-21\arch-arm\usr\lib -FlC:\Lamw\android-ndk-r10e\toolchains\arm-linux-androideabi-4.9\prebuilt\windows\lib\gcc\arm-linux-androideabi\4.9 -FuC:\Lamw\components\android_bridges\lib\arm-android -FuC:\Lamw\lcl\units\arm-android -FuC:\Lamw\components\lazutils\lib\arm-android -FuC:\Lamw\packager\units\arm-android -FuC:\Lamw\Projects\teste7\jni\ -FUC:\Lamw\Projects\teste7\obj\controls\ -FEC:\Lamw\Projects\teste7\libs\armeabi-v7a\ -oC:\Lamw\Projects\teste7\libs\armeabi-v7a\libcontrols.so -Xd -CfSoft -CpARMV7A -XParm-linux-androideabi- -FDC:\Lamw\android-ndk-r10e\toolchains\arm-linux-androideabi-4.9\prebuilt\windows\bin controls.lpr"/>
+</CONFIG>

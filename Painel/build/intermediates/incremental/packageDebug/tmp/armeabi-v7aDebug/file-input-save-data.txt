@@ -1,0 +1,11 @@
+#Internal package file, do not edit.
+#Sun Mar 28 15:27:56 BRT 2021
+0.base=C\:\\Lamw\\Projects\\teste7\\build\\intermediates\\transforms\\stripDebugSymbol\\debug\\0
+0.path=lib/armeabi-v7a/libcontrols.so
+1.baseType=DIRECTORY
+count=2
+1.path=classes.dex
+0.baseType=DIRECTORY
+1.set=DEX
+1.base=C\:\\Lamw\\Projects\\teste7\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
+0.set=NATIVE_RESOURCE
