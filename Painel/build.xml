@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="teste7" default="help">
+<project name="Painel" default="help">
 <property name="sdk.dir" location="C:\Lamw\android-sdk-windows\"/>
 <property name="target" value="android-29"/>
 <property file="ant.properties"/>

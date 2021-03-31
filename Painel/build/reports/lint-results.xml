@@ -12,7 +12,7 @@
         errorLine1="        am.moveTaskToFront(controls.activity.getTaskId(), 0);"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\Controls.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\Controls.java"
             line="1939"
             column="9"/>
     </issue>
@@ -28,7 +28,7 @@
         errorLine1="        devid = telephony.getDeviceId();"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\Controls.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\Controls.java"
             line="2790"
             column="17"/>
     </issue>
@@ -46,7 +46,7 @@
         errorLine1="       r = delim &lt; 0 ? inetAddress.getHostAddress().toUpperCase() : inetAddress.getHostAddress().substring(0, delim).toUpperCase();"
         errorLine2="                                                    ~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\Controls.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\Controls.java"
             line="1751"
             column="53"/>
     </issue>
@@ -64,7 +64,7 @@
         errorLine1="       r = delim &lt; 0 ? inetAddress.getHostAddress().toUpperCase() : inetAddress.getHostAddress().substring(0, delim).toUpperCase();"
         errorLine2="                                                                                                                     ~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\Controls.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\Controls.java"
             line="1751"
             column="118"/>
     </issue>
@@ -82,7 +82,7 @@
         errorLine1="  String sIP = String.format(&quot;%d.%d.%d.%d&quot;,"
         errorLine2="               ^">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\Controls.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\Controls.java"
             line="1769"
             column="16"/>
     </issue>
@@ -100,7 +100,7 @@
         errorLine1="  SimpleDateFormat formatter = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);"
         errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\Controls.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\Controls.java"
             line="648"
             column="32"/>
     </issue>
@@ -118,7 +118,7 @@
         errorLine1="    SimpleDateFormat formatter = new SimpleDateFormat ( &quot;mm:ss:SS&quot; );"
         errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\Controls.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\Controls.java"
             line="659"
             column="34"/>
     </issue>
@@ -136,7 +136,7 @@
         errorLine1="     DateFormat formatter = new SimpleDateFormat(sPattern);"
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\Controls.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\Controls.java"
             line="676"
             column="29"/>
     </issue>
@@ -152,7 +152,7 @@
         errorLine1="  &lt;application android:usesCleartextTraffic=&quot;true&quot; android:allowBackup=&quot;true&quot; android:icon=&quot;@drawable/ic_launcher&quot; android:label=&quot;@string/app_name&quot; android:theme=&quot;@style/AppTheme&quot;>"
         errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\AndroidManifest.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\AndroidManifest.xml"
             line="38"
             column="16"/>
     </issue>
@@ -168,7 +168,7 @@
         errorLine1="        classpath &apos;com.android.tools.build:gradle:3.4.3&apos;"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\build.gradle"
+            file="D:\projetos\maurinsoft\fila\Painel\build.gradle"
             line="8"
             column="9"/>
     </issue>
@@ -184,7 +184,7 @@
         errorLine1="&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; xmlns:tools=&quot;http://schemas.android.com/tools&quot; package=&quot;org.lamw.teste7&quot; android:versionCode=&quot;1&quot; android:versionName=&quot;1.0&quot;>"
         errorLine2="                                                                                                                                              ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\AndroidManifest.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\AndroidManifest.xml"
             line="2"
             column="143"/>
     </issue>
@@ -200,7 +200,7 @@
         errorLine1="&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; xmlns:tools=&quot;http://schemas.android.com/tools&quot; package=&quot;org.lamw.teste7&quot; android:versionCode=&quot;1&quot; android:versionName=&quot;1.0&quot;>"
         errorLine2="                                                                                                                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\AndroidManifest.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\AndroidManifest.xml"
             line="2"
             column="167"/>
     </issue>
@@ -216,7 +216,7 @@
         errorLine1="  &lt;uses-sdk android:minSdkVersion=&quot;14&quot; android:targetSdkVersion=&quot;29&quot;/>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\AndroidManifest.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\AndroidManifest.xml"
             line="3"
             column="13"/>
     </issue>
@@ -232,7 +232,7 @@
         errorLine1="  &lt;uses-sdk android:minSdkVersion=&quot;14&quot; android:targetSdkVersion=&quot;29&quot;/>"
         errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\AndroidManifest.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\AndroidManifest.xml"
             line="3"
             column="40"/>
     </issue>
@@ -250,7 +250,7 @@
         errorLine1="    f = telephony.getLine1Number();"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\Controls.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\Controls.java"
             line="2773"
             column="9"/>
     </issue>
@@ -268,7 +268,7 @@
         errorLine1="        devid = telephony.getDeviceId();"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\Controls.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\Controls.java"
             line="2790"
             column="17"/>
     </issue>
@@ -286,7 +286,7 @@
         errorLine1="        devid = Secure.getString(activity.getContentResolver(),Secure.ANDROID_ID);"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\Controls.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\Controls.java"
             line="2799"
             column="17"/>
     </issue>
@@ -304,7 +304,7 @@
         errorLine1="  &lt;application android:usesCleartextTraffic=&quot;true&quot; android:allowBackup=&quot;true&quot; android:icon=&quot;@drawable/ic_launcher&quot; android:label=&quot;@string/app_name&quot; android:theme=&quot;@style/AppTheme&quot;>"
         errorLine2="   ~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\AndroidManifest.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\AndroidManifest.xml"
             line="38"
             column="4"/>
     </issue>
@@ -320,7 +320,7 @@
         errorLine1="     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\jTCPSocketClient.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jTCPSocketClient.java"
             line="126"
             column="9"/>
     </issue>
@@ -334,7 +334,7 @@
         summary="Obsolete SDK_INT Version Check"
         explanation="This check flags version checks that are not necessary, because the `minSdkVersion` (or surrounding known API level) is already at least as high as the version checked for.&#xA;&#xA;Similarly, it also looks for resources in `-vNN` folders, such as `values-v14` where the version qualifier is less than or equal to the `minSdkVersion`, where the contents should be merged into the best folder.">
         <location
-            file="C:\Lamw\Projects\teste7\res\values-v11"/>
+            file="D:\projetos\maurinsoft\fila\Painel\res\values-v11"/>
     </issue>
 
     <issue
@@ -346,7 +346,7 @@
         summary="Obsolete SDK_INT Version Check"
         explanation="This check flags version checks that are not necessary, because the `minSdkVersion` (or surrounding known API level) is already at least as high as the version checked for.&#xA;&#xA;Similarly, it also looks for resources in `-vNN` folders, such as `values-v14` where the version qualifier is less than or equal to the `minSdkVersion`, where the contents should be merged into the best folder.">
         <location
-            file="C:\Lamw\Projects\teste7\res\values-v14"/>
+            file="D:\projetos\maurinsoft\fila\Painel\res\values-v14"/>
     </issue>
 
     <issue
@@ -360,7 +360,7 @@
         errorLine1=" public class BackgroundAsyncTask extends AsyncTask&lt;String, Uri, String> {"
         errorLine2="              ~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\jMediaPlayer.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jMediaPlayer.java"
             line="422"
             column="15"/>
     </issue>
@@ -376,7 +376,7 @@
         errorLine1="    class TCPSocketClientGetAllTask extends AsyncTask&lt;String, ByteArrayOutputStream, String> {"
         errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\jTCPSocketClient.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jTCPSocketClient.java"
             line="276"
             column="11"/>
     </issue>
@@ -392,7 +392,7 @@
         errorLine1=" class TCPSocketClientFileSend extends AsyncTask&lt;Void, Integer, Void> {"
         errorLine2="       ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\jTCPSocketClient.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jTCPSocketClient.java"
             line="474"
             column="8"/>
     </issue>
@@ -408,7 +408,7 @@
         errorLine1="&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
         errorLine2="^">
         <location
-            file="C:\Lamw\Projects\teste7\res\layout\activity_app.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\res\layout\activity_app.xml"
             line="1"
             column="1"/>
     </issue>
@@ -424,7 +424,7 @@
         errorLine1="  &lt;color name=&quot;primary_text&quot;>#212121&lt;/color>"
         errorLine2="         ~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\res\values\colors.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\res\values\colors.xml"
             line="6"
             column="10"/>
     </issue>
@@ -440,7 +440,7 @@
         errorLine1="  &lt;color name=&quot;secondary_text&quot;>#727272&lt;/color>"
         errorLine2="         ~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\res\values\colors.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\res\values\colors.xml"
             line="7"
             column="10"/>
     </issue>
@@ -456,7 +456,7 @@
         errorLine1="  &lt;color name=&quot;icons&quot;>#FFFFFF&lt;/color>"
         errorLine2="         ~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\res\values\colors.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\res\values\colors.xml"
             line="8"
             column="10"/>
     </issue>
@@ -472,7 +472,7 @@
         errorLine1="  &lt;color name=&quot;divider&quot;>#B6B6B6&lt;/color>"
         errorLine2="         ~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\res\values\colors.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\res\values\colors.xml"
             line="9"
             column="10"/>
     </issue>
@@ -488,7 +488,7 @@
         errorLine1="  &lt;string name=&quot;hello_world&quot;>Hello world!&lt;/string>"
         errorLine2="          ~~~~~~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\res\values\strings.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\res\values\strings.xml"
             line="4"
             column="11"/>
     </issue>
@@ -502,15 +502,15 @@
         summary="Icon density-independent size validation"
         explanation="Checks the all icons which are provided in multiple densities, all compute to roughly the same density-independent pixel (`dip`) size. This catches errors where images are either placed in the wrong folder, or icons are changed to new sizes but some folders are forgotten.">
         <location
-            file="C:\Lamw\Projects\teste7\res\drawable-xxhdpi\ic_launcher.png"/>
+            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-xxhdpi\ic_launcher.png"/>
         <location
-            file="C:\Lamw\Projects\teste7\res\drawable-xhdpi\ic_launcher.png"/>
+            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-xhdpi\ic_launcher.png"/>
         <location
-            file="C:\Lamw\Projects\teste7\res\drawable-ldpi\ic_launcher.png"/>
+            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-ldpi\ic_launcher.png"/>
         <location
-            file="C:\Lamw\Projects\teste7\res\drawable-mdpi\ic_launcher.png"/>
+            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-mdpi\ic_launcher.png"/>
         <location
-            file="C:\Lamw\Projects\teste7\res\drawable-hdpi\ic_launcher.png"/>
+            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-hdpi\ic_launcher.png"/>
     </issue>
 
     <issue
@@ -522,11 +522,11 @@
         summary="Identical bitmaps across various configurations"
         explanation="If an icon is provided under different configuration parameters such as `drawable-hdpi` or `-v11`, they should typically be different. This detector catches cases where the same icon is provided in different configuration folder which is usually not intentional.">
         <location
-            file="C:\Lamw\Projects\teste7\res\drawable-xxhdpi\ic_launcher.png"/>
+            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-xxhdpi\ic_launcher.png"/>
         <location
-            file="C:\Lamw\Projects\teste7\res\drawable-xhdpi\ic_launcher.png"/>
+            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-xhdpi\ic_launcher.png"/>
         <location
-            file="C:\Lamw\Projects\teste7\res\drawable-hdpi\ic_launcher.png"/>
+            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-hdpi\ic_launcher.png"/>
     </issue>
 
     <issue
@@ -542,7 +542,7 @@
         errorLine1="  &lt;application android:usesCleartextTraffic=&quot;true&quot; android:allowBackup=&quot;true&quot; android:icon=&quot;@drawable/ic_launcher&quot; android:label=&quot;@string/app_name&quot; android:theme=&quot;@style/AppTheme&quot;>"
         errorLine2="  ^">
         <location
-            file="C:\Lamw\Projects\teste7\AndroidManifest.xml"
+            file="D:\projetos\maurinsoft\fila\Painel\AndroidManifest.xml"
             line="38"
             column="3"/>
     </issue>
@@ -558,7 +558,7 @@
         errorLine1="public class jDigitalClock extends DigitalClock /*TextClock*/ { //please, fix what GUI object will be extended!"
         errorLine2="             ~~~~~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\jDigitalClock.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jDigitalClock.java"
             line="14"
             column="14"/>
     </issue>
@@ -574,7 +574,7 @@
         errorLine1="public class jTextView extends TextView {"
         errorLine2="             ~~~~~~~~~">
         <location
-            file="C:\Lamw\Projects\teste7\src\org\lamw\teste7\jTextView.java"
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jTextView.java"
             line="37"
             column="14"/>
     </issue>

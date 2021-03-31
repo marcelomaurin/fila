@@ -141,6 +141,7 @@
   <com.crashlytics.sdk.android/>
   <com.google.ads.afsn/>
   <com.google.ads.interactivemedia.v3/>
+  <com.google.ads.mediation/>
   <com.google.android.ads/>
   <com.google.android.ads.consent/>
   <com.google.android.apps.common.testing.accessibility.framework/>

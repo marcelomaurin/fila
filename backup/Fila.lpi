@@ -41,7 +41,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="5">
       <Unit0>
         <Filename Value="Fila.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -74,13 +74,6 @@
         <ComponentName Value="frmLog"/>
         <ResourceBaseClass Value="Form"/>
       </Unit4>
-      <Unit5>
-        <Filename Value="impticket.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmImpTicket"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ImpTicket"/>
-      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

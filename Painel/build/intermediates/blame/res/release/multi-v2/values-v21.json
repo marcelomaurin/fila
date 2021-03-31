@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Lamw\\Projects\\teste7\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v21\\values-v21.xml",
+            "outputFile": "D:\\projetos\\maurinsoft\\fila\\Painel\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v21\\values-v21.xml",
             "map": [
                 {
-                    "source": "C:\\Lamw\\Projects\\teste7\\res\\values-v21\\styles.xml",
+                    "source": "D:\\projetos\\maurinsoft\\fila\\Painel\\res\\values-v21\\styles.xml",
                     "from": {
                         "startLines": "6",
                         "startColumns": "4",
