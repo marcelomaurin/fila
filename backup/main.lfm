@@ -1,13 +1,7 @@
 object frmmain: Tfrmmain
-<<<<<<< HEAD
   Left = -713
   Height = 395
   Top = 156
-=======
-  Left = 258
-  Height = 395
-  Top = 199
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
   Width = 320
   BorderStyle = bsSingle
   Caption = 'FILA - GPL3'
@@ -16,11 +10,7 @@ object frmmain: Tfrmmain
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
-<<<<<<< HEAD
   LCLVersion = '2.0.12.0'
-=======
-  LCLVersion = '2.0.2.0'
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
   object Empresa: TLabel
     Left = 12
     Height = 15
@@ -61,11 +51,7 @@ object frmmain: Tfrmmain
     Left = 9
     Height = 15
     Top = 105
-<<<<<<< HEAD
     Width = 32
-=======
-    Width = 33
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
     Caption = 'Tipo 1'
     ParentColor = False
     ParentFont = False
@@ -84,11 +70,7 @@ object frmmain: Tfrmmain
     Left = 144
     Height = 15
     Top = 104
-<<<<<<< HEAD
     Width = 32
-=======
-    Width = 33
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
     Caption = 'Tipo 2'
     ParentColor = False
     ParentFont = False
@@ -106,11 +88,7 @@ object frmmain: Tfrmmain
     Left = 8
     Height = 15
     Top = 152
-<<<<<<< HEAD
     Width = 32
-=======
-    Width = 33
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
     Caption = 'Tipo 3'
     ParentColor = False
     ParentFont = False
@@ -136,11 +114,7 @@ object frmmain: Tfrmmain
     TabOrder = 5
   end
   object Label4: TLabel
-<<<<<<< HEAD
     Left = 9
-=======
-    Left = 10
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
     Height = 15
     Top = 200
     Width = 62
@@ -149,11 +123,7 @@ object frmmain: Tfrmmain
     ParentFont = False
   end
   object edCont1: TEdit
-<<<<<<< HEAD
     Left = 9
-=======
-    Left = 11
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
     Height = 23
     Top = 216
     Width = 62
@@ -202,11 +172,7 @@ object frmmain: Tfrmmain
   object lbParams: TListBox
     Left = 12
     Height = 56
-<<<<<<< HEAD
     Top = 320
-=======
-    Top = 288
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
     Width = 100
     ItemHeight = 0
     ParentFont = False
@@ -217,11 +183,7 @@ object frmmain: Tfrmmain
     Left = 136
     Height = 15
     Top = 352
-<<<<<<< HEAD
     Width = 37
-=======
-    Width = 38
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
     Caption = 'Versão:'
     ParentColor = False
     ParentFont = False
@@ -231,11 +193,7 @@ object frmmain: Tfrmmain
     Height = 15
     Top = 352
     Width = 15
-<<<<<<< HEAD
     Caption = '1.1'
-=======
-    Caption = '1.2'
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
     ParentColor = False
     ParentFont = False
   end
@@ -6826,21 +6784,12 @@ object frmmain: Tfrmmain
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000
     }
-<<<<<<< HEAD
     Left = 264
     Top = 160
   end
   object PopupMenu1: TPopupMenu
     Left = 269
     Top = 219
-=======
-    left = 264
-    top = 160
-  end
-  object PopupMenu1: TPopupMenu
-    left = 269
-    top = 219
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
     object MenuItem1: TMenuItem
       Caption = 'Mostrar'
       OnClick = MenuItem1Click
@@ -6858,13 +6807,8 @@ object frmmain: Tfrmmain
     Enabled = False
     Interval = 5000
     OnTimer = Timer1Timer
-<<<<<<< HEAD
     Left = 260
     Top = 111
-=======
-    left = 260
-    top = 111
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
   end
   object LTCPComponent1: TLTCPComponent
     Port = 8095
@@ -6872,7 +6816,6 @@ object frmmain: Tfrmmain
     OnConnect = LTCPComponent1Connect
     Timeout = 0
     ReuseAddress = True
-<<<<<<< HEAD
     Left = 24
     Top = 248
   end
@@ -6883,9 +6826,5 @@ object frmmain: Tfrmmain
     ReuseAddress = True
     Left = 120
     Top = 248
-=======
-    left = 40
-    top = 248
->>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
   end
 end

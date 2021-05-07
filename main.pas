@@ -203,6 +203,12 @@ begin
   aSocket.GetMessage(mensagem);
   frmlog.log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
   aSocket.SendMessage('GUICHE>'+guiche+':'+item+';');
+  sleep(200);
+  aSocket.SendMessage('GRUPO>'+'1'+':'+edTipo1.text+';');
+  sleep(200);
+  aSocket.SendMessage('GRUPO>'+'2'+':'+edTipo2.text+';');
+  sleep(200);
+  aSocket.SendMessage('GRUPO>'+'3'+':'+edTipo3.text+';');
   aSocket.Disconnect(true);
   LTCPComponent2.CallAction();
 end;
