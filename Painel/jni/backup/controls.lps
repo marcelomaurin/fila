@@ -23,7 +23,7 @@
           <Item0 Name="jControls" Value="jDigitalClock;jForm;jMediaPlayer;jTCPSocketClient;jTextView;jTimer"/>
         </CustomData>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="208"/>
+        <TopLine Value="207"/>
         <CursorPos X="17" Y="202"/>
         <UsageCount Value="35"/>
         <Loaded Value="True"/>
@@ -31,7 +31,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="main.pas"/>
         <Caret Line="40" Column="45" TopLine="33"/>
@@ -145,12 +145,8 @@
       </Position28>
       <Position29>
         <Filename Value="main.pas"/>
-        <Caret Line="201" Column="25" TopLine="202"/>
-      </Position29>
-      <Position30>
-        <Filename Value="main.pas"/>
         <Caret Line="74" Column="18" TopLine="65"/>
-      </Position30>
+      </Position29>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

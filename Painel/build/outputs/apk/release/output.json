@@ -1,0 +1,1 @@
+[{"outputType":{"type":"APK"},"apkData":{"type":"FULL_SPLIT","splits":[{"filterType":"ABI","value":"armeabi-v7a"}],"versionCode":1,"versionName":"1.0","enabled":true,"filterName":"armeabi-v7a","outputFile":"Painel-armeabi-v7a-release-unsigned.apk","fullName":"armeabi-v7aRelease","baseName":"armeabi-v7a-release"},"path":"Painel-armeabi-v7a-release-unsigned.apk","properties":{}}]

@@ -1,0 +1,4 @@
+#Fri May 07 12:05:14 BRT 2021
+base.0=D\:\\projetos\\maurinsoft\\fila\\Painel\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
+renamed.0=classes.dex
+path.0=classes.dex
