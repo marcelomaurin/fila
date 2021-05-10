@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri May 07 12:05:14 BRT 2021
+#Mon May 10 19:17:12 BRT 2021
 0.base=D\:\\projetos\\maurinsoft\\fila\\Painel\\build\\intermediates\\transforms\\stripDebugSymbol\\debug\\0
 0.path=lib/armeabi-v7a/libcontrols.so
 1.baseType=DIRECTORY

@@ -173,10 +173,10 @@ document.getElementById(id).style.display = 'none';
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
-      <span class="mdl-layout-title">Lint Report: 2 errors and 33 warnings</span>
+      <span class="mdl-layout-title">Lint Report: 2 errors and 32 warnings</span>
       <div class="mdl-layout-spacer"></div>
       <nav class="mdl-navigation mdl-layout--large-screen-only">
-Check performed at Fri May 07 12:05:35 BRT 2021      </nav>
+Check performed at Mon May 10 19:17:34 BRT 2021      </nav>
     </div>
   </header>
   <div class="mdl-layout__drawer">
@@ -194,8 +194,7 @@ Check performed at Fri May 07 12:05:35 BRT 2021      </nav>
       <a class="mdl-navigation__link" href="#ObsoleteSdkInt"><i class="material-icons warning-icon">warning</i>Obsolete SDK_INT Version Check (3)</a>
       <a class="mdl-navigation__link" href="#StaticFieldLeak"><i class="material-icons warning-icon">warning</i>Static Field Leaks (3)</a>
       <a class="mdl-navigation__link" href="#UnusedResources"><i class="material-icons warning-icon">warning</i>Unused resources (6)</a>
-      <a class="mdl-navigation__link" href="#IconDipSize"><i class="material-icons warning-icon">warning</i>Icon density-independent size validation (1)</a>
-      <a class="mdl-navigation__link" href="#IconDuplicatesConfig"><i class="material-icons warning-icon">warning</i>Identical bitmaps across various configurations (1)</a>
+      <a class="mdl-navigation__link" href="#IconLauncherShape"><i class="material-icons warning-icon">warning</i>The launcher icon shape should use a distinct silhouette (1)</a>
       <a class="mdl-navigation__link" href="#GoogleAppIndexingWarning"><i class="material-icons warning-icon">warning</i>Missing support for Firebase App Indexing (1)</a>
       <a class="mdl-navigation__link" href="#ViewConstructor"><i class="material-icons warning-icon">warning</i>Missing View constructors for XML inflation (2)</a>
     </nav>
@@ -253,10 +252,7 @@ Check performed at Fri May 07 12:05:35 BRT 2021      </nav>
 </td></tr>
 <tr>
 <td class="countColumn">1</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
-<a href="#IconDipSize">IconDipSize</a>: Icon density-independent size validation</td></tr>
-<tr>
-<td class="countColumn">1</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
-<a href="#IconDuplicatesConfig">IconDuplicatesConfig</a>: Identical bitmaps across various configurations</td></tr>
+<a href="#IconLauncherShape">IconLauncherShape</a>: The launcher icon shape should use a distinct silhouette</td></tr>
 <tr><td class="countColumn"></td><td class="categoryColumn"><a href="#Usability">Usability</a>
 </td></tr>
 <tr>
@@ -969,42 +965,28 @@ Dismiss</button>            </div>
             </div>
           </section>
 <a name="Usability:Icons"></a>
-<a name="IconDipSize"></a>
-<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" id="IconDipSizeCard" style="display: block;">
+<a name="IconLauncherShape"></a>
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" id="IconLauncherShapeCard" style="display: block;">
             <div class="mdl-card mdl-cell mdl-cell--12-col">
   <div class="mdl-card__title">
-    <h2 class="mdl-card__title-text">Icon density-independent size validation</h2>
+    <h2 class="mdl-card__title-text">The launcher icon shape should use a distinct silhouette</h2>
   </div>
               <div class="mdl-card__supporting-text">
 <div class="issue">
 <div class="warningslist">
-<span class="location"><a href="../../res/drawable-xxhdpi/ic_launcher.png">../../res/drawable-xxhdpi/ic_launcher.png</a></span>: <span class="message">The image <code>ic_launcher.png</code> varies significantly in its density-independent (dip) size across the various density versions: drawable-hdpi\ic_launcher.png: 48x48 dp (72x72 px), drawable-ldpi\ic_launcher.png: 43x43 dp (32x32 px), drawable-mdpi\ic_launcher.png: 48x48 dp (48x48 px), drawable-xhdpi\ic_launcher.png: 36x36 dp (72x72 px), drawable-xxhdpi\ic_launcher.png: 24x24 dp (72x72 px)</span><br />
-<ul></ul><button id="Location1DivLink" onclick="reveal('Location1Div');" />+ 4 Additional Locations...</button>
-<div id="Location1Div" style="display: none">
-Additional locations: <ul>
-<li> <span class="location"><a href="../../res/drawable-xhdpi/ic_launcher.png">../../res/drawable-xhdpi/ic_launcher.png</a></span>
-<li> <span class="location"><a href="../../res/drawable-ldpi/ic_launcher.png">../../res/drawable-ldpi/ic_launcher.png</a></span>
-<li> <span class="location"><a href="../../res/drawable-mdpi/ic_launcher.png">../../res/drawable-mdpi/ic_launcher.png</a></span>
-<li> <span class="location"><a href="../../res/drawable-hdpi/ic_launcher.png">../../res/drawable-hdpi/ic_launcher.png</a></span>
-</ul>
-</div><br/><br/>
-<table>
-<tr><td><a href="../../res/drawable-ldpi/ic_launcher.png"><img border="0" align="top" src="../../res/drawable-ldpi/ic_launcher.png" /></a>
-</td><td><a href="../../res/drawable-mdpi/ic_launcher.png"><img border="0" align="top" src="../../res/drawable-mdpi/ic_launcher.png" /></a>
-</td><td><a href="../../res/drawable-hdpi/ic_launcher.png"><img border="0" align="top" src="../../res/drawable-hdpi/ic_launcher.png" /></a>
-</td><td><a href="../../res/drawable-xhdpi/ic_launcher.png"><img border="0" align="top" src="../../res/drawable-xhdpi/ic_launcher.png" /></a>
-</td><td><a href="../../res/drawable-xxhdpi/ic_launcher.png"><img border="0" align="top" src="../../res/drawable-xxhdpi/ic_launcher.png" /></a>
-</td></tr><tr><th>ldpi</th><th>mdpi</th><th>hdpi</th><th>xhdpi</th><th>xxhdpi</th></tr>
-</table>
+<span class="location"><a href="../../res/drawable-hdpi/ic_launcher.png">../../res/drawable-hdpi/ic_launcher.png</a></span>: <img class="embedimage" align="right" src="../../res/drawable-hdpi/ic_launcher.png" /><span class="message">Launcher icons should not fill every pixel of their square region; see the design guide for details</span><br clear="right"/>
 </div>
-<div class="metadata"><div class="explanation" id="explanationIconDipSize" style="display: none;">
-Checks the all icons which are provided in multiple densities, all compute to roughly the same density-independent pixel (<code>dip</code>) size. This catches errors where images are either placed in the wrong folder, or icons are changed to new sizes but some folders are forgotten.<br/>To suppress this error, use the issue id "IconDipSize" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+<div class="metadata"><div class="explanation" id="explanationIconLauncherShape" style="display: none;">
+According to the Android Design Guide (<a href="http://developer.android.com/design/style/iconography.html">http://developer.android.com/design/style/iconography.html</a>) your launcher icons should "use a distinct silhouette", a "three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth."<br/>
+<br/>
+The unique silhouette implies that your launcher icon should not be a filled square.<br/><div class="moreinfo">More info: <a href="http://developer.android.com/design/style/iconography.html">http://developer.android.com/design/style/iconography.html</a>
+</div>To suppress this error, use the issue id "IconLauncherShape" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 <br/></div>
 </div>
 </div>
 <div class="chips">
 <span class="mdl-chip">
-    <span class="mdl-chip__text">IconDipSize</span>
+    <span class="mdl-chip__text">IconLauncherShape</span>
 </span>
 <span class="mdl-chip">
     <span class="mdl-chip__text">Icons</span>
@@ -1016,65 +998,13 @@ Checks the all icons which are provided in multiple densities, all compute to ro
     <span class="mdl-chip__text">Warning</span>
 </span>
 <span class="mdl-chip">
-    <span class="mdl-chip__text">Priority 5/10</span>
+    <span class="mdl-chip__text">Priority 6/10</span>
 </span>
 </div>
               </div>
               <div class="mdl-card__actions mdl-card--border">
-<button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="explanationIconDipSizeLink" onclick="reveal('explanationIconDipSize');">
-Explain</button><button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="IconDipSizeCardLink" onclick="hideid('IconDipSizeCard');">
-Dismiss</button>            </div>
-            </div>
-          </section><a name="IconDuplicatesConfig"></a>
-<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" id="IconDuplicatesConfigCard" style="display: block;">
-            <div class="mdl-card mdl-cell mdl-cell--12-col">
-  <div class="mdl-card__title">
-    <h2 class="mdl-card__title-text">Identical bitmaps across various configurations</h2>
-  </div>
-              <div class="mdl-card__supporting-text">
-<div class="issue">
-<div class="warningslist">
-<span class="location"><a href="../../res/drawable-xxhdpi/ic_launcher.png">../../res/drawable-xxhdpi/ic_launcher.png</a></span>: <span class="message">The <code>ic_launcher.png</code> icon has identical contents in the following configuration folders: drawable-hdpi, drawable-xhdpi, drawable-xxhdpi</span><br />
-<ul></ul><button id="Location1DivLink" onclick="reveal('Location1Div');" />+ 2 Additional Locations...</button>
-<div id="Location1Div" style="display: none">
-Additional locations: <ul>
-<li> <span class="location"><a href="../../res/drawable-xhdpi/ic_launcher.png">../../res/drawable-xhdpi/ic_launcher.png</a></span>
-<li> <span class="location"><a href="../../res/drawable-hdpi/ic_launcher.png">../../res/drawable-hdpi/ic_launcher.png</a></span>
-</ul>
-</div><br/><br/>
-<table>
-<tr><td><a href="../../res/drawable-hdpi/ic_launcher.png"><img border="0" align="top" src="../../res/drawable-hdpi/ic_launcher.png" /></a>
-</td><td><a href="../../res/drawable-xhdpi/ic_launcher.png"><img border="0" align="top" src="../../res/drawable-xhdpi/ic_launcher.png" /></a>
-</td><td><a href="../../res/drawable-xxhdpi/ic_launcher.png"><img border="0" align="top" src="../../res/drawable-xxhdpi/ic_launcher.png" /></a>
-</td></tr><tr><th>hdpi</th><th>xhdpi</th><th>xxhdpi</th></tr>
-</table>
-</div>
-<div class="metadata"><div class="explanation" id="explanationIconDuplicatesConfig" style="display: none;">
-If an icon is provided under different configuration parameters such as <code>drawable-hdpi</code> or <code>-v11</code>, they should typically be different. This detector catches cases where the same icon is provided in different configuration folder which is usually not intentional.<br/>To suppress this error, use the issue id "IconDuplicatesConfig" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
-<br/></div>
-</div>
-</div>
-<div class="chips">
-<span class="mdl-chip">
-    <span class="mdl-chip__text">IconDuplicatesConfig</span>
-</span>
-<span class="mdl-chip">
-    <span class="mdl-chip__text">Icons</span>
-</span>
-<span class="mdl-chip">
-    <span class="mdl-chip__text">Usability</span>
-</span>
-<span class="mdl-chip">
-    <span class="mdl-chip__text">Warning</span>
-</span>
-<span class="mdl-chip">
-    <span class="mdl-chip__text">Priority 5/10</span>
-</span>
-</div>
-              </div>
-              <div class="mdl-card__actions mdl-card--border">
-<button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="explanationIconDuplicatesConfigLink" onclick="reveal('explanationIconDuplicatesConfig');">
-Explain</button><button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="IconDuplicatesConfigCardLink" onclick="hideid('IconDuplicatesConfigCard');">
+<button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="explanationIconLauncherShapeLink" onclick="reveal('explanationIconLauncherShape');">
+Explain</button><button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="IconLauncherShapeCardLink" onclick="hideid('IconLauncherShapeCard');">
 Dismiss</button>            </div>
             </div>
           </section>

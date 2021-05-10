@@ -494,37 +494,15 @@
     </issue>
 
     <issue
-        id="IconDipSize"
+        id="IconLauncherShape"
         severity="Warning"
-        message="The image `ic_launcher.png` varies significantly in its density-independent (dip) size across the various density versions: drawable-hdpi\\ic_launcher.png: 48x48 dp (72x72 px), drawable-ldpi\\ic_launcher.png: 43x43 dp (32x32 px), drawable-mdpi\\ic_launcher.png: 48x48 dp (48x48 px), drawable-xhdpi\\ic_launcher.png: 36x36 dp (72x72 px), drawable-xxhdpi\\ic_launcher.png: 24x24 dp (72x72 px)"
+        message="Launcher icons should not fill every pixel of their square region; see the design guide for details"
         category="Usability:Icons"
-        priority="5"
-        summary="Icon density-independent size validation"
-        explanation="Checks the all icons which are provided in multiple densities, all compute to roughly the same density-independent pixel (`dip`) size. This catches errors where images are either placed in the wrong folder, or icons are changed to new sizes but some folders are forgotten.">
-        <location
-            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-xxhdpi\ic_launcher.png"/>
-        <location
-            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-xhdpi\ic_launcher.png"/>
-        <location
-            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-ldpi\ic_launcher.png"/>
-        <location
-            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-mdpi\ic_launcher.png"/>
-        <location
-            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-hdpi\ic_launcher.png"/>
-    </issue>
-
-    <issue
-        id="IconDuplicatesConfig"
-        severity="Warning"
-        message="The `ic_launcher.png` icon has identical contents in the following configuration folders: drawable-hdpi, drawable-xhdpi, drawable-xxhdpi"
-        category="Usability:Icons"
-        priority="5"
-        summary="Identical bitmaps across various configurations"
-        explanation="If an icon is provided under different configuration parameters such as `drawable-hdpi` or `-v11`, they should typically be different. This detector catches cases where the same icon is provided in different configuration folder which is usually not intentional.">
-        <location
-            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-xxhdpi\ic_launcher.png"/>
-        <location
-            file="D:\projetos\maurinsoft\fila\Painel\res\drawable-xhdpi\ic_launcher.png"/>
+        priority="6"
+        summary="The launcher icon shape should use a distinct silhouette"
+        explanation="According to the Android Design Guide (http://developer.android.com/design/style/iconography.html) your launcher icons should &quot;use a distinct silhouette&quot;, a &quot;three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth.&quot;&#xA;&#xA;The unique silhouette implies that your launcher icon should not be a filled square."
+        url="http://developer.android.com/design/style/iconography.html"
+        urls="http://developer.android.com/design/style/iconography.html">
         <location
             file="D:\projetos\maurinsoft\fila\Painel\res\drawable-hdpi\ic_launcher.png"/>
     </issue>

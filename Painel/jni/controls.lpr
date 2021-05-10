@@ -855,8 +855,8 @@ exports
 begin
   gApp:= jApp.Create(nil);
   gApp.Screen.Style:=ssLandscape;
-  gApp.Title:= 'LAMW JNI Android Bridges Library';
-  gjAppName:= 'org.lamw.teste7';
+  gApp.Title:= 'Painel de Senhas ';
+  gjAppName:= 'br.com.maurinsoft.painel';
   gjClassName:= 'org/lamw/teste7/Controls';
   gApp.AppName:=gjAppName;
   gApp.ClassName:=gjClassName;

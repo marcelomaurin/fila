@@ -200,8 +200,6 @@ begin
            begin
                 lbGrupo3.Text:= codigo;
            end;
-
-
       end;
  end;
 end;

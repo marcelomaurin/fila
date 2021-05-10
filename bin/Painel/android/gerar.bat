@@ -1,10 +1,11 @@
 set jdkbindir=C:\Program Files\Java\jdk-11.0.9\bin
 set APP_NAME=Painel
-set Yourpassword=suasenha
+set Yourpassword=PASSWORD
 set YourApp=Painel
 set YourHavefunsoft=Maurinsoft
 set Yourcompany=maurinsoft
 set YourSigla=BR
+set Versao=armeabi-v7a-release-15
 
 del Painel.keystore
 REM "%jdkbindir%"\keytool -genkey -v -keystore Painel.keystore -alias Painel -keyalg RSA -keysize 2048 -validity 10000
@@ -12,8 +13,8 @@ REM "%jdkbindir%"\keytool -genkey -v -keystore Painel.keystore -alias Painel -ke
 REM Generating on the fly a debug key
 "%jdkbindir%\keytool" -genkeypair -v -keystore Painel.keystore -alias %YourApp% -keyalg RSA -validity 10000 -dname "cn=%YourHavefunsoft%, o=%Yourcompany%, c=%YourSigla%" -storepass "%Yourpassword%" -keypass "%Yourpassword%" -keysize 2048
 REM Assinando APK
-REM #del %APP_NAME%-armeabi-v7a-release-14.apk
-"%jdkbindir%\jarsigner" -verbose  -sigalg SHA1withRSA  -digestalg SHA1  -keystore Painel.keystore -keypass %Yourpassword% -storepass %Yourpassword%  -signedjar %APP_NAME%-desalinhado.apk %APP_NAME%-armeabi-v7a-release-14.apk Painel
+REM #del %APP_NAME%-%Versao%.apk
+"%jdkbindir%\jarsigner" -verbose  -sigalg SHA1withRSA  -digestalg SHA1  -keystore Painel.keystore -keypass %Yourpassword% -storepass %Yourpassword%  -signedjar %APP_NAME%-desalinhado.apk %APP_NAME%-%Versao%.apk Painel
 
 REM Verificando assinatura
 set jdkbindir=C:\Program Files\Java\jdk-11.0.9\bin

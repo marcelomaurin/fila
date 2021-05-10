@@ -1,4 +1,4 @@
-#Fri May 07 12:05:18 BRT 2021
+#Mon May 10 19:17:16 BRT 2021
 base.0=D\:\\projetos\\maurinsoft\\fila\\Painel\\build\\intermediates\\dex\\release\\mergeDexRelease\\out
 renamed.0=classes.dex
 path.0=classes.dex

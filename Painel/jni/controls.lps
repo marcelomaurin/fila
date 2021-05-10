@@ -9,8 +9,9 @@
         <Filename Value="controls.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="39" Y="10"/>
-        <UsageCount Value="35"/>
+        <TopLine Value="6"/>
+        <CursorPos X="55" Y="857"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -23,9 +24,9 @@
           <Item0 Name="jControls" Value="jDigitalClock;jForm;jMediaPlayer;jTCPSocketClient;jTextView;jTimer"/>
         </CustomData>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="206"/>
-        <CursorPos X="17" Y="202"/>
-        <UsageCount Value="35"/>
+        <TopLine Value="205"/>
+        <CursorPos X="55" Y="207"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
