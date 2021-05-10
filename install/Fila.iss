@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Fila"
-#define MyAppVersion "1.4"
+#define MyAppVersion "1.5"
 #define MyAppPublisher "maurinsoft"
 #define MyAppURL "http://maurinsoft.com.br"
 #define MyAppExeName "Fila.exe"
@@ -21,9 +21,11 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-OutputBaseFilename=setup_fila14
+OutputBaseFilename=fila_setup_15
 Compression=lzma
 SolidCompression=yes
+
+ 
 
 [Languages]
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
@@ -31,9 +33,42 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
+
+[Types]
+Name: "Elgin"; Description:  {cm:T_Elgin}
+Name: "Pos58"; Description: {cm:T_Pos58}
+Name: "Fila"; Description: {cm:T_Fila}
+
+[Components]
+Name: "File"; Description: "Arquivos do Fila"; Types: Fila;
+Name: "Elgin"; Description: "Instalação do Fila com Elgin"; Types:  Fila  Elgin;
+Name: "Pos58"; Description: "Instalação do Fila com POS58"; Types:  Fila Pos58;
+
+
+[CustomMessages]
+T_Elgin=Elgin
+TD_Elgin=Instalação padrão do fila com drivers do Elgin i9
+T_Pos58=Pos
+TD_Pos58=Instalação padrão do fila com drivers do Pos58
+T_Fila=Fila
+TD_Fila=Instalação padrão do fila sem drivers do fabricante de impressora
+
+; [Setup], [Files] etc sections go here
+[Code]
+#define MSIDT_CustomType "Whatever"
+#include "DescriptiveTypes.isi"
+procedure InitializeWizard();
+begin
+ InitializeDescriptiveTypes();
+end;
+
+
+
 [Files]
 Source: "D:\projetos\maurinsoft\fila\Fila.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\projetos\maurinsoft\fila\cliente.cfg"; DestDir: "{app}"; 
+Source: "D:\projetos\maurinsoft\fila\drivers\Elgin i9\ELGIN Printer Driver_v-1.6.6.exe"; DestDir: "{app}"; Components: Elgin ;
+Source: "D:\projetos\maurinsoft\fila\drivers\POS58\POS Printer Driver Setup .exe"; DestDir: "{app}"; Components: Pos58;
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -41,5 +76,7 @@ Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
+Filename: "{app}\ELGIN Printer Driver_v-1.6.6.exe"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Components: Elgin;
+Filename: "{app}\POS Printer Driver Setup .exe"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Components: Pos58; 
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
