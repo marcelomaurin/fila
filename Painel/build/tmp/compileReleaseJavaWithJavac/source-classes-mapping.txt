@@ -5,12 +5,6 @@ org/lamw/teste7/jTextView.java
 org/lamw/teste7/jTimer.java
  org.lamw.teste7.jTimer
  org.lamw.teste7.jTimer$RunnableStop
-org/lamw/teste7/jDigitalClock.java
- org.lamw.teste7.jDigitalClock
- org.lamw.teste7.jDigitalClock$1
-org/lamw/teste7/jMediaPlayer.java
- org.lamw.teste7.jMediaPlayer
- org.lamw.teste7.jMediaPlayer$BackgroundAsyncTask
 org/lamw/teste7/jSupported.java
  org.lamw.teste7.jSupported
 org/lamw/teste7/jTCPSocketClient.java
@@ -19,16 +13,10 @@ org/lamw/teste7/jTCPSocketClient.java
  org.lamw.teste7.jTCPSocketClient$TCPSocketClientGetAllTask
 org/lamw/teste7/BuildConfig.java
  org.lamw.teste7.BuildConfig
-org/lamw/teste7/App.java
- org.lamw.teste7.App
- org.lamw.teste7.App$RLAppLayout
-org/lamw/teste7/R.java
- org.lamw.teste7.R
- org.lamw.teste7.R$color
- org.lamw.teste7.R$drawable
- org.lamw.teste7.R$layout
- org.lamw.teste7.R$string
- org.lamw.teste7.R$style
+org/lamw/teste7/jButton.java
+ org.lamw.teste7.jButton
+ org.lamw.teste7.jButton$1
+ org.lamw.teste7.jButton$1$1
 org/lamw/teste7/jCommons.java
  org.lamw.teste7.jCommons
 org/lamw/teste7/Controls.java
@@ -43,3 +31,32 @@ org/lamw/teste7/Controls.java
  org.lamw.teste7.jForm$5
  org.lamw.teste7.jForm$6
  org.lamw.teste7.jForm$MyCountDownTimer
+org/lamw/teste7/jEditText.java
+ org.lamw.teste7.jEditText
+ org.lamw.teste7.jEditText$1
+ org.lamw.teste7.jEditText$2
+ org.lamw.teste7.jEditText$3
+ org.lamw.teste7.jEditText$4
+ org.lamw.teste7.jEditText$5
+org/lamw/teste7/jPanel.java
+ org.lamw.teste7.jPanel
+ org.lamw.teste7.jPanel$1
+ org.lamw.teste7.jPanel$2
+ org.lamw.teste7.jPanel$GestureListener
+ org.lamw.teste7.jPanel$simpleOnScaleGestureListener
+org/lamw/teste7/jDigitalClock.java
+ org.lamw.teste7.jDigitalClock
+ org.lamw.teste7.jDigitalClock$1
+org/lamw/teste7/jMediaPlayer.java
+ org.lamw.teste7.jMediaPlayer
+ org.lamw.teste7.jMediaPlayer$BackgroundAsyncTask
+org/lamw/teste7/App.java
+ org.lamw.teste7.App
+ org.lamw.teste7.App$RLAppLayout
+org/lamw/teste7/R.java
+ org.lamw.teste7.R
+ org.lamw.teste7.R$color
+ org.lamw.teste7.R$drawable
+ org.lamw.teste7.R$layout
+ org.lamw.teste7.R$string
+ org.lamw.teste7.R$style

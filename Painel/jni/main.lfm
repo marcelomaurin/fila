@@ -40,6 +40,7 @@ object AndroidModule1: TAndroidModule1
     TextTypeFace = tfBold
     FontSizeUnit = unitDefault
     GravityInParent = lgNone
+    OnClick = jTextView1Click
   end
   object lbSenhaAtual: jTextView
     MarginLeft = 5
@@ -312,6 +313,112 @@ object AndroidModule1: TAndroidModule1
     TextTypeFace = tfNormal
     FontSizeUnit = unitDefault
     GravityInParent = lgNone
+  end
+  object jPanel1: jPanel
+    MarginLeft = 0
+    MarginTop = 400
+    MarginRight = 0
+    MarginBottom = 0
+    Enabled = True
+    Left = 203
+    Top = 408
+    Width = 361
+    Height = 175
+    Visible = False
+    Anchor = jTextView1
+    PosRelativeToAnchor = [raAlignTop, raAlignLeft]
+    PosRelativeToParent = []
+    LayoutParamWidth = lpHalfOfParent
+    LayoutParamHeight = lpWrapContent
+    BackgroundColor = colbrNone
+    MinPinchZoomFactor = 0.25
+    MaxPinchZoomFactor = 4
+    AnimationDurationIn = 1500
+    AnimationMode = animNone
+    object jTextView2: jTextView
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 135
+      Top = 40
+      Width = 66
+      Height = 20
+      Visible = True
+      PosRelativeToAnchor = [raAlignTop, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Servidor IP:'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+    object jedIP: jEditText
+      MarginLeft = 0
+      MarginTop = 20
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 135
+      Top = 60
+      Width = 120
+      Height = 39
+      Visible = True
+      Anchor = jTextView2
+      PosRelativeToAnchor = [raAlignTop, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpOneThirdOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'jedIP'
+      Alignment = taLeft
+      InputTypeEx = itxText
+      MaxTextLength = -1
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      HintTextColor = colbrDefault
+      ScrollBarStyle = scrNone
+      MaxLines = 1
+      HorScrollBar = True
+      VerScrollBar = True
+      WrappingLine = False
+      Editable = True
+      FontSizeUnit = unitDefault
+      CloseSoftInputOnEnter = True
+      CapSentence = False
+      CaptureBackPressed = False
+      GravityInParent = lgNone
+    end
+    object jBtClose: jButton
+      MarginLeft = 5
+      MarginTop = 60
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 140
+      Top = 120
+      Width = 120
+      Height = 50
+      Visible = True
+      Anchor = jedIP
+      PosRelativeToAnchor = [raAlignTop, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpOneThirdOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Fechar'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = jBtCloseClick
+    end
   end
   object jTimer1: jTimer
     Enabled = False

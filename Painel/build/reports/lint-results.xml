@@ -88,6 +88,78 @@
     </issue>
 
     <issue
+        id="DefaultLocale"
+        severity="Warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `toUpperCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        category="Correctness"
+        priority="6"
+        summary="Implied default locale in case conversion"
+        explanation="Calling `String#toLowerCase()` or `#toUpperCase()` **without specifying an explicit locale** is a common source of bugs. The reason for that is that those methods will use the current locale on the user&apos;s device, and even though the code appears to work correctly when you are developing the app, it will fail in some locales. For example, in the Turkish locale, the uppercase replacement for `i` is **not** `I`.&#xA;&#xA;If you want the methods to just perform ASCII replacement, for example to convert an enum name, call `String#toUpperCase(Locale.US)` instead. If you really want to use the current locale, call `String#toUpperCase(Locale.getDefault())` instead."
+        url="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        urls="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        errorLine1="          if(!s.equals(s.toUpperCase()))"
+        errorLine2="                         ~~~~~~~~~~~">
+        <location
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jEditText.java"
+            line="198"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        severity="Warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `toUpperCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        category="Correctness"
+        priority="6"
+        summary="Implied default locale in case conversion"
+        explanation="Calling `String#toLowerCase()` or `#toUpperCase()` **without specifying an explicit locale** is a common source of bugs. The reason for that is that those methods will use the current locale on the user&apos;s device, and even though the code appears to work correctly when you are developing the app, it will fail in some locales. For example, in the Turkish locale, the uppercase replacement for `i` is **not** `I`.&#xA;&#xA;If you want the methods to just perform ASCII replacement, for example to convert an enum name, call `String#toUpperCase(Locale.US)` instead. If you really want to use the current locale, call `String#toUpperCase(Locale.getDefault())` instead."
+        url="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        urls="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        errorLine1="            s=s.toUpperCase();"
+        errorLine2="                ~~~~~~~~~~~">
+        <location
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jEditText.java"
+            line="200"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        severity="Warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        category="Correctness"
+        priority="6"
+        summary="Implied default locale in case conversion"
+        explanation="Calling `String#toLowerCase()` or `#toUpperCase()` **without specifying an explicit locale** is a common source of bugs. The reason for that is that those methods will use the current locale on the user&apos;s device, and even though the code appears to work correctly when you are developing the app, it will fail in some locales. For example, in the Turkish locale, the uppercase replacement for `i` is **not** `I`.&#xA;&#xA;If you want the methods to just perform ASCII replacement, for example to convert an enum name, call `String#toUpperCase(Locale.US)` instead. If you really want to use the current locale, call `String#toUpperCase(Locale.getDefault())` instead."
+        url="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        urls="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        errorLine1="           if(!s.equals(s.toLowerCase()))"
+        errorLine2="                          ~~~~~~~~~~~">
+        <location
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jEditText.java"
+            line="206"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        severity="Warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        category="Correctness"
+        priority="6"
+        summary="Implied default locale in case conversion"
+        explanation="Calling `String#toLowerCase()` or `#toUpperCase()` **without specifying an explicit locale** is a common source of bugs. The reason for that is that those methods will use the current locale on the user&apos;s device, and even though the code appears to work correctly when you are developing the app, it will fail in some locales. For example, in the Turkish locale, the uppercase replacement for `i` is **not** `I`.&#xA;&#xA;If you want the methods to just perform ASCII replacement, for example to convert an enum name, call `String#toUpperCase(Locale.US)` instead. If you really want to use the current locale, call `String#toUpperCase(Locale.getDefault())` instead."
+        url="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        urls="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        errorLine1="             s=s.toLowerCase();"
+        errorLine2="                 ~~~~~~~~~~~">
+        <location
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jEditText.java"
+            line="208"
+            column="18"/>
+    </issue>
+
+    <issue
         id="SimpleDateFormat"
         severity="Warning"
         message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates."
@@ -160,7 +232,7 @@
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.tools.build:gradle than 3.4.3 is available: 4.2.0"
+        message="A newer version of com.android.tools.build:gradle than 3.4.3 is available: 4.2.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
@@ -323,18 +395,6 @@
             file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jTCPSocketClient.java"
             line="126"
             column="9"/>
-    </issue>
-
-    <issue
-        id="ObsoleteSdkInt"
-        severity="Warning"
-        message="This folder configuration (`v11`) is unnecessary; `minSdkVersion` is 14. Merge all the resources in this folder into `values`."
-        category="Performance"
-        priority="6"
-        summary="Obsolete SDK_INT Version Check"
-        explanation="This check flags version checks that are not necessary, because the `minSdkVersion` (or surrounding known API level) is already at least as high as the version checked for.&#xA;&#xA;Similarly, it also looks for resources in `-vNN` folders, such as `values-v14` where the version qualifier is less than or equal to the `minSdkVersion`, where the contents should be merged into the best folder.">
-        <location
-            file="D:\projetos\maurinsoft\fila\Painel\res\values-v11"/>
     </issue>
 
     <issue
@@ -528,6 +588,22 @@
     <issue
         id="ViewConstructor"
         severity="Warning"
+        message="Custom view `jButton` is missing constructor used by tools: `(Context)` or `(Context,AttributeSet)` or `(Context,AttributeSet,int)`"
+        category="Usability"
+        priority="3"
+        summary="Missing View constructors for XML inflation"
+        explanation="Some layout tools (such as the Android layout editor) need to find a constructor with one of the following signatures:&#xA;* `View(Context context)`&#xA;* `View(Context context, AttributeSet attrs)`&#xA;* `View(Context context, AttributeSet attrs, int defStyle)`&#xA;&#xA;If your custom view needs to perform initialization which does not apply when used in a layout editor, you can surround the given code with a check to see if `View#isInEditMode()` is false, since that method will return `false` at runtime but true within a user interface editor."
+        errorLine1="public class jButton extends Button {"
+        errorLine2="             ~~~~~~~">
+        <location
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jButton.java"
+            line="24"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ViewConstructor"
+        severity="Warning"
         message="Custom view `jDigitalClock` is missing constructor used by tools: `(Context)` or `(Context,AttributeSet)` or `(Context,AttributeSet,int)`"
         category="Usability"
         priority="3"
@@ -538,6 +614,38 @@
         <location
             file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jDigitalClock.java"
             line="14"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ViewConstructor"
+        severity="Warning"
+        message="Custom view `jEditText` is missing constructor used by tools: `(Context)` or `(Context,AttributeSet)` or `(Context,AttributeSet,int)`"
+        category="Usability"
+        priority="3"
+        summary="Missing View constructors for XML inflation"
+        explanation="Some layout tools (such as the Android layout editor) need to find a constructor with one of the following signatures:&#xA;* `View(Context context)`&#xA;* `View(Context context, AttributeSet attrs)`&#xA;* `View(Context context, AttributeSet attrs, int defStyle)`&#xA;&#xA;If your custom view needs to perform initialization which does not apply when used in a layout editor, you can surround the given code with a check to see if `View#isInEditMode()` is false, since that method will return `false` at runtime but true within a user interface editor."
+        errorLine1="public class jEditText extends EditText {"
+        errorLine2="             ~~~~~~~~~">
+        <location
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jEditText.java"
+            line="47"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ViewConstructor"
+        severity="Warning"
+        message="Custom view `jPanel` is missing constructor used by tools: `(Context)` or `(Context,AttributeSet)` or `(Context,AttributeSet,int)`"
+        category="Usability"
+        priority="3"
+        summary="Missing View constructors for XML inflation"
+        explanation="Some layout tools (such as the Android layout editor) need to find a constructor with one of the following signatures:&#xA;* `View(Context context)`&#xA;* `View(Context context, AttributeSet attrs)`&#xA;* `View(Context context, AttributeSet attrs, int defStyle)`&#xA;&#xA;If your custom view needs to perform initialization which does not apply when used in a layout editor, you can surround the given code with a check to see if `View#isInEditMode()` is false, since that method will return `false` at runtime but true within a user interface editor."
+        errorLine1="public class jPanel extends RelativeLayout {"
+        errorLine2="             ~~~~~~">
+        <location
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jPanel.java"
+            line="23"
             column="14"/>
     </issue>
 
@@ -555,6 +663,22 @@
             file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jTextView.java"
             line="37"
             column="14"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        severity="Warning"
+        message="Custom view `jPanel` overrides `onTouchEvent` but not `performClick`"
+        category="Accessibility"
+        priority="6"
+        summary="Accessibility in Custom Views"
+        explanation="If a `View` that overrides `onTouchEvent` or uses an `OnTouchListener` does not also implement `performClick` and call it when clicks are detected, the `View` may not handle accessibility actions properly. Logic handling the click actions should ideally be placed in `View#performClick` as some accessibility services invoke `performClick` when a click action should occur."
+        errorLine1=" public boolean onTouchEvent(MotionEvent event) {"
+        errorLine2="                ~~~~~~~~~~~~">
+        <location
+            file="D:\projetos\maurinsoft\fila\Painel\src\org\lamw\teste7\jPanel.java"
+            line="135"
+            column="17"/>
     </issue>
 
 </issues>

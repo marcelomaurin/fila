@@ -43,7 +43,7 @@
         <PackageName Value="tfpandroidbridge_pack"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="3">
       <Unit0>
         <Filename Value="controls.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -53,10 +53,20 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="AndroidModule1"/>
         <HasResources Value="True"/>
-        <CustomData Count="1">
-          <Item0 Name="jControls" Value="jDigitalClock;jForm;jMediaPlayer;jTCPSocketClient;jTextView;jTimer"/>
+        <CustomData Count="2">
+          <Item0 Name="fclControls"/>
+          <Item1 Name="jControls" Value="jButton;jDigitalClock;jEditText;jForm;jMediaPlayer;jPanel;jTCPSocketClient;jTextView;jTimer"/>
         </CustomData>
       </Unit1>
+      <Unit2>
+        <Filename Value="config.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmconfig"/>
+        <CustomData Count="2">
+          <Item0 Name="fclControls"/>
+          <Item1 Name="jControls" Value="jButton;jEditText;jForm;jTextView"/>
+        </CustomData>
+      </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

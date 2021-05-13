@@ -173,10 +173,10 @@ document.getElementById(id).style.display = 'none';
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
-      <span class="mdl-layout-title">Lint Report: 2 errors and 32 warnings</span>
+      <span class="mdl-layout-title">Lint Report: 2 errors and 39 warnings</span>
       <div class="mdl-layout-spacer"></div>
       <nav class="mdl-navigation mdl-layout--large-screen-only">
-Check performed at Mon May 10 19:17:34 BRT 2021      </nav>
+Check performed at Thu May 13 15:17:17 BRT 2021      </nav>
     </div>
   </header>
   <div class="mdl-layout__drawer">
@@ -184,19 +184,20 @@ Check performed at Mon May 10 19:17:34 BRT 2021      </nav>
     <nav class="mdl-navigation">
       <a class="mdl-navigation__link" href="#overview"><i class="material-icons">dashboard</i>Overview</a>
       <a class="mdl-navigation__link" href="#MissingPermission"><i class="material-icons error-icon">error</i>Missing Permissions (2)</a>
-      <a class="mdl-navigation__link" href="#DefaultLocale"><i class="material-icons warning-icon">warning</i>Implied default locale in case conversion (3)</a>
+      <a class="mdl-navigation__link" href="#DefaultLocale"><i class="material-icons warning-icon">warning</i>Implied default locale in case conversion (7)</a>
       <a class="mdl-navigation__link" href="#SimpleDateFormat"><i class="material-icons warning-icon">warning</i>Implied locale in date format (3)</a>
       <a class="mdl-navigation__link" href="#UnusedAttribute"><i class="material-icons warning-icon">warning</i>Attribute unused on older versions (1)</a>
       <a class="mdl-navigation__link" href="#GradleDependency"><i class="material-icons warning-icon">warning</i>Obsolete Gradle Dependency (1)</a>
       <a class="mdl-navigation__link" href="#GradleOverrides"><i class="material-icons warning-icon">warning</i>Value overridden by Gradle build script (4)</a>
       <a class="mdl-navigation__link" href="#HardwareIds"><i class="material-icons warning-icon">warning</i>Hardware Id Usage (3)</a>
       <a class="mdl-navigation__link" href="#AllowBackup"><i class="material-icons warning-icon">warning</i>AllowBackup/FullBackupContent Problems (1)</a>
-      <a class="mdl-navigation__link" href="#ObsoleteSdkInt"><i class="material-icons warning-icon">warning</i>Obsolete SDK_INT Version Check (3)</a>
+      <a class="mdl-navigation__link" href="#ObsoleteSdkInt"><i class="material-icons warning-icon">warning</i>Obsolete SDK_INT Version Check (2)</a>
       <a class="mdl-navigation__link" href="#StaticFieldLeak"><i class="material-icons warning-icon">warning</i>Static Field Leaks (3)</a>
       <a class="mdl-navigation__link" href="#UnusedResources"><i class="material-icons warning-icon">warning</i>Unused resources (6)</a>
       <a class="mdl-navigation__link" href="#IconLauncherShape"><i class="material-icons warning-icon">warning</i>The launcher icon shape should use a distinct silhouette (1)</a>
       <a class="mdl-navigation__link" href="#GoogleAppIndexingWarning"><i class="material-icons warning-icon">warning</i>Missing support for Firebase App Indexing (1)</a>
-      <a class="mdl-navigation__link" href="#ViewConstructor"><i class="material-icons warning-icon">warning</i>Missing View constructors for XML inflation (2)</a>
+      <a class="mdl-navigation__link" href="#ViewConstructor"><i class="material-icons warning-icon">warning</i>Missing View constructors for XML inflation (5)</a>
+      <a class="mdl-navigation__link" href="#ClickableViewAccessibility"><i class="material-icons warning-icon">warning</i>Accessibility in Custom Views (1)</a>
     </nav>
   </div>
   <main class="mdl-layout__content">
@@ -215,7 +216,7 @@ Check performed at Mon May 10 19:17:34 BRT 2021      </nav>
 <td class="countColumn">2</td><td class="issueColumn"><i class="material-icons error-icon">error</i>
 <a href="#MissingPermission">MissingPermission</a>: Missing Permissions</td></tr>
 <tr>
-<td class="countColumn">3</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
+<td class="countColumn">7</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
 <a href="#DefaultLocale">DefaultLocale</a>: Implied default locale in case conversion</td></tr>
 <tr>
 <td class="countColumn">3</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
@@ -240,7 +241,7 @@ Check performed at Mon May 10 19:17:34 BRT 2021      </nav>
 <tr><td class="countColumn"></td><td class="categoryColumn"><a href="#Performance">Performance</a>
 </td></tr>
 <tr>
-<td class="countColumn">3</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
+<td class="countColumn">2</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
 <a href="#ObsoleteSdkInt">ObsoleteSdkInt</a>: Obsolete SDK_INT Version Check</td></tr>
 <tr>
 <td class="countColumn">3</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
@@ -259,8 +260,13 @@ Check performed at Mon May 10 19:17:34 BRT 2021      </nav>
 <td class="countColumn">1</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
 <a href="#GoogleAppIndexingWarning">GoogleAppIndexingWarning</a>: Missing support for Firebase App Indexing</td></tr>
 <tr>
-<td class="countColumn">2</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
+<td class="countColumn">5</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
 <a href="#ViewConstructor">ViewConstructor</a>: Missing View constructors for XML inflation</td></tr>
+<tr><td class="countColumn"></td><td class="categoryColumn"><a href="#Accessibility">Accessibility</a>
+</td></tr>
+<tr>
+<td class="countColumn">1</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
+<a href="#ClickableViewAccessibility">ClickableViewAccessibility</a>: Accessibility in Custom Views</td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (32)</a>
 </td></tr></table>
 <br/>              </div>
@@ -363,6 +369,46 @@ Dismiss</button>            </div>
 <span class="lineno"> 1770 </span>                (ipAddress &amp; <span class="number">0xff</span>),
 <span class="lineno"> 1771 </span>                (ipAddress >> <span class="number">8</span> &amp; <span class="number">0xff</span>),
 <span class="lineno"> 1772 </span>                (ipAddress >> <span class="number">16</span> &amp; <span class="number">0xff</span>),
+</pre>
+
+<span class="location"><a href="../../src/org/lamw/teste7/jEditText.java">../../src/org/lamw/teste7/jEditText.java</a>:198</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toUpperCase(Locale)</code> instead. For strings meant to be internal use <code>Locale.ROOT</code>, otherwise <code>Locale.getDefault()</code>.</span><br /><pre class="errorlines">
+<span class="lineno"> 195 </span>                  String s=et.toString();
+<span class="lineno"> 196 </span>                  
+<span class="lineno"> 197 </span>                  <span class="keyword">if</span>(mAllUpperCase)
+<span class="caretline"><span class="lineno"> 198 </span>                   <span class="keyword">if</span>(!s.equals(s.<span class="warning">toUpperCase</span>()))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 199 </span>                   {
+<span class="lineno"> 200 </span>                     s=s.toUpperCase();
+<span class="lineno"> 201 </span>                     mEdit.setText(s);
+</pre>
+
+<span class="location"><a href="../../src/org/lamw/teste7/jEditText.java">../../src/org/lamw/teste7/jEditText.java</a>:200</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toUpperCase(Locale)</code> instead. For strings meant to be internal use <code>Locale.ROOT</code>, otherwise <code>Locale.getDefault()</code>.</span><br /><pre class="errorlines">
+<span class="lineno"> 197 </span>                  <span class="keyword">if</span>(mAllUpperCase)
+<span class="lineno"> 198 </span>                   <span class="keyword">if</span>(!s.equals(s.toUpperCase()))
+<span class="lineno"> 199 </span>                   {
+<span class="caretline"><span class="lineno"> 200 </span>                     s=s.<span class="warning">toUpperCase</span>();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 201 </span>                     mEdit.setText(s);
+<span class="lineno"> 202 </span>                     mEdit.setSelection(mEdit.length()); <span class="comment">//fix reverse texting</span>
+<span class="lineno"> 203 </span>                   }
+</pre>
+
+<span class="location"><a href="../../src/org/lamw/teste7/jEditText.java">../../src/org/lamw/teste7/jEditText.java</a>:206</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead. For strings meant to be internal use <code>Locale.ROOT</code>, otherwise <code>Locale.getDefault()</code>.</span><br /><pre class="errorlines">
+<span class="lineno"> 203 </span>                   }
+<span class="lineno"> 204 </span>                  
+<span class="lineno"> 205 </span>                  <span class="keyword">if</span>(mAllLowerCase)
+<span class="caretline"><span class="lineno"> 206 </span>                       <span class="keyword">if</span>(!s.equals(s.<span class="warning">toLowerCase</span>()))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 207 </span>                       {
+<span class="lineno"> 208 </span>                         s=s.toLowerCase();
+<span class="lineno"> 209 </span>                         mEdit.setText(s);
+</pre>
+
+<span class="location"><a href="../../src/org/lamw/teste7/jEditText.java">../../src/org/lamw/teste7/jEditText.java</a>:208</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead. For strings meant to be internal use <code>Locale.ROOT</code>, otherwise <code>Locale.getDefault()</code>.</span><br /><pre class="errorlines">
+<span class="lineno"> 205 </span>                  <span class="keyword">if</span>(mAllLowerCase)
+<span class="lineno"> 206 </span>                       <span class="keyword">if</span>(!s.equals(s.toLowerCase()))
+<span class="lineno"> 207 </span>                       {
+<span class="caretline"><span class="lineno"> 208 </span>                         s=s.<span class="warning">toLowerCase</span>();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 209 </span>                         mEdit.setText(s);
+<span class="lineno"> 210 </span>                         mEdit.setSelection(mEdit.length()); <span class="comment">//fix reverse texting</span>
+<span class="lineno"> 211 </span>                       }
 </pre>
 
 </div>
@@ -521,7 +567,7 @@ Dismiss</button>            </div>
               <div class="mdl-card__supporting-text">
 <div class="issue">
 <div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:8</span>: <span class="message">A newer version of com.android.tools.build:gradle than 3.4.3 is available: 4.2.0</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:8</span>: <span class="message">A newer version of com.android.tools.build:gradle than 3.4.3 is available: 4.2.1</span><br /><pre class="errorlines">
 <span class="lineno">  5 </span>        google()
 <span class="lineno">  6 </span>    }
 <span class="lineno">  7 </span>    dependencies {
@@ -772,7 +818,6 @@ Dismiss</button>            </div>
 <span class="lineno"> 129 </span>            mClientGetAllTask = <span class="keyword">new</span> TCPSocketClientGetAllTask().execute();
 </pre>
 
-<span class="location"><a href="../../res/values-v11">../../res/values-v11</a></span>: <span class="message">This folder configuration (<code>v11</code>) is unnecessary; <code>minSdkVersion</code> is 14. Merge all the resources in this folder into <code>values</code>.</span><br />
 <span class="location"><a href="../../res/values-v14">../../res/values-v14</a></span>: <span class="message">This folder configuration (<code>v14</code>) is unnecessary; <code>minSdkVersion</code> is 14. Merge all the resources in this folder into <code>values</code>.</span><br />
 </div>
 <div class="metadata"><div class="explanation" id="explanationObsoleteSdkInt" style="display: none;">
@@ -1065,6 +1110,16 @@ Dismiss</button>            </div>
               <div class="mdl-card__supporting-text">
 <div class="issue">
 <div class="warningslist">
+<span class="location"><a href="../../src/org/lamw/teste7/jButton.java">../../src/org/lamw/teste7/jButton.java</a>:24</span>: <span class="message">Custom view <code>jButton</code> is missing constructor used by tools: <code>(Context)</code> or <code>(Context,AttributeSet)</code> or <code>(Context,AttributeSet,int)</code></span><br /><pre class="errorlines">
+<span class="lineno">  21 </span><span class="keyword">import</span> android.view.ViewGroup;
+<span class="lineno">  22 </span><span class="keyword">import</span> android.widget.Button;
+<span class="lineno">  23 </span>
+<span class="caretline"><span class="lineno">  24 </span><span class="keyword">public</span> <span class="keyword">class</span> <span class="warning">jButton</span> <span class="keyword">extends</span> Button {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  25 </span>
+<span class="lineno">  26 </span>    <span class="keyword">private</span> Controls controls = <span class="keyword">null</span>;   <span class="comment">// Control Class for Event</span>
+<span class="lineno">  27 </span>    <span class="keyword">private</span> jCommons LAMWCommon;
+</pre>
+
 <span class="location"><a href="../../src/org/lamw/teste7/jDigitalClock.java">../../src/org/lamw/teste7/jDigitalClock.java</a>:14</span>: <span class="message">Custom view <code>jDigitalClock</code> is missing constructor used by tools: <code>(Context)</code> or <code>(Context,AttributeSet)</code> or <code>(Context,AttributeSet,int)</code></span><br /><pre class="errorlines">
 <span class="lineno">  11 </span><span class="comment">/*https://github.com/jmpessoa/lazandroidmodulewizard*/</span>
 <span class="lineno">  12 </span><span class="comment">/*jVisualControl template*/</span>
@@ -1073,6 +1128,24 @@ Dismiss</button>            </div>
 <span class="lineno">  15 </span>
 <span class="lineno">  16 </span>    <span class="keyword">private</span> <span class="keyword">long</span>       pascalObj = <span class="number">0</span>;    <span class="comment">// Pascal Object</span>
 <span class="lineno">  17 </span>    <span class="keyword">private</span> Controls   controls  = <span class="keyword">null</span>; <span class="comment">// Control Class for events</span></pre>
+
+<span class="location"><a href="../../src/org/lamw/teste7/jEditText.java">../../src/org/lamw/teste7/jEditText.java</a>:47</span>: <span class="message">Custom view <code>jEditText</code> is missing constructor used by tools: <code>(Context)</code> or <code>(Context,AttributeSet)</code> or <code>(Context,AttributeSet,int)</code></span><br /><pre class="errorlines">
+<span class="lineno">  44 </span>
+<span class="lineno">  45 </span><span class="comment">//Reviewed by TR3E on 08/20/2019</span>
+<span class="lineno">  46 </span>
+<span class="caretline"><span class="lineno">  47 </span><span class="keyword">public</span> <span class="keyword">class</span> <span class="warning">jEditText</span> <span class="keyword">extends</span> EditText {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  48 </span>    <span class="comment">//Pascal Interface</span>
+<span class="lineno">  49 </span>    <span class="comment">//private long           PasObj   = 0;      // Pascal Obj</span>
+<span class="lineno">  50 </span>    <span class="keyword">private</span> Controls      controls = <span class="keyword">null</span>;   <span class="comment">// Control Class for Event</span></pre>
+
+<span class="location"><a href="../../src/org/lamw/teste7/jPanel.java">../../src/org/lamw/teste7/jPanel.java</a>:23</span>: <span class="message">Custom view <code>jPanel</code> is missing constructor used by tools: <code>(Context)</code> or <code>(Context,AttributeSet)</code> or <code>(Context,AttributeSet,int)</code></span><br /><pre class="errorlines">
+<span class="lineno">  20 </span><span class="keyword">import</span> android.view.animation.TranslateAnimation;
+<span class="lineno">  21 </span><span class="keyword">import</span> android.widget.RelativeLayout;
+<span class="lineno">  22 </span>
+<span class="caretline"><span class="lineno">  23 </span><span class="keyword">public</span> <span class="keyword">class</span> <span class="warning">jPanel</span> <span class="keyword">extends</span> RelativeLayout {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  24 </span>    <span class="comment">//Java-Pascal Interface</span>
+<span class="lineno">  25 </span>    <span class="keyword">private</span> <span class="keyword">long</span>             PasObj   = <span class="number">0</span>;      <span class="comment">// Pascal Obj</span>
+<span class="lineno">  26 </span>    <span class="keyword">private</span> Controls        controls = <span class="keyword">null</span>;   <span class="comment">// Control Class for Event</span></pre>
 
 <span class="location"><a href="../../src/org/lamw/teste7/jTextView.java">../../src/org/lamw/teste7/jTextView.java</a>:37</span>: <span class="message">Custom view <code>jTextView</code> is missing constructor used by tools: <code>(Context)</code> or <code>(Context,AttributeSet)</code> or <code>(Context,AttributeSet,int)</code></span><br /><pre class="errorlines">
 <span class="lineno">  34 </span><span class="keyword">import</span> android.view.Gravity;
@@ -1113,6 +1186,52 @@ If your custom view needs to perform initialization which does not apply when us
               <div class="mdl-card__actions mdl-card--border">
 <button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="explanationViewConstructorLink" onclick="reveal('explanationViewConstructor');">
 Explain</button><button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="ViewConstructorCardLink" onclick="hideid('ViewConstructorCard');">
+Dismiss</button>            </div>
+            </div>
+          </section>
+<a name="Accessibility"></a>
+<a name="ClickableViewAccessibility"></a>
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" id="ClickableViewAccessibilityCard" style="display: block;">
+            <div class="mdl-card mdl-cell mdl-cell--12-col">
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">Accessibility in Custom Views</h2>
+  </div>
+              <div class="mdl-card__supporting-text">
+<div class="issue">
+<div class="warningslist">
+<span class="location"><a href="../../src/org/lamw/teste7/jPanel.java">../../src/org/lamw/teste7/jPanel.java</a>:135</span>: <span class="message">Custom view <code>jPanel</code> overrides <code>onTouchEvent</code> but not <code>performClick</code></span><br /><pre class="errorlines">
+<span class="lineno"> 132 </span>    }
+<span class="lineno"> 133 </span>
+<span class="lineno"> 134 </span>    <span class="annotation">@Override</span>
+<span class="caretline"><span class="lineno"> 135 </span>    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="warning">onTouchEvent</span>(MotionEvent event) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno"> 136 </span>        <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(event);
+<span class="lineno"> 137 </span>    }
+</pre>
+
+</div>
+<div class="metadata"><div class="explanation" id="explanationClickableViewAccessibility" style="display: none;">
+If a <code>View</code> that overrides <code>onTouchEvent</code> or uses an <code>OnTouchListener</code> does not also implement <code>performClick</code> and call it when clicks are detected, the <code>View</code> may not handle accessibility actions properly. Logic handling the click actions should ideally be placed in <code>View#performClick</code> as some accessibility services invoke <code>performClick</code> when a click action should occur.<br/>To suppress this error, use the issue id "ClickableViewAccessibility" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+<br/></div>
+</div>
+</div>
+<div class="chips">
+<span class="mdl-chip">
+    <span class="mdl-chip__text">ClickableViewAccessibility</span>
+</span>
+<span class="mdl-chip">
+    <span class="mdl-chip__text">Accessibility</span>
+</span>
+<span class="mdl-chip">
+    <span class="mdl-chip__text">Warning</span>
+</span>
+<span class="mdl-chip">
+    <span class="mdl-chip__text">Priority 6/10</span>
+</span>
+</div>
+              </div>
+              <div class="mdl-card__actions mdl-card--border">
+<button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="explanationClickableViewAccessibilityLink" onclick="reveal('explanationClickableViewAccessibility');">
+Explain</button><button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="ClickableViewAccessibilityCardLink" onclick="hideid('ClickableViewAccessibilityCard');">
 Dismiss</button>            </div>
             </div>
           </section>

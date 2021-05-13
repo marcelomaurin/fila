@@ -3155,8 +3155,16 @@ public String jCamera_takePhoto(String path, String filename, int requestCode) {
 //SMART LAMW DESIGNER
 //-------------------------------------------------------------------------------------------------------
 
+public  java.lang.Object jButton_Create(long pasobj ) {
+  return (java.lang.Object)( new jButton(this.activity,this,pasobj));
+}
+
 public java.lang.Object jDigitalClock_jCreate(long _Self) {
    return (java.lang.Object)(new jDigitalClock(this,_Self));
+}
+
+public java.lang.Object jEditText_Create(long pasobj ) {
+  return (java.lang.Object)( new jEditText(this.activity,this,pasobj));
 }
 
 public java.lang.Object jMediaPlayer_jCreate(long _Self) {
@@ -3166,6 +3174,10 @@ public native void pOnMediaPlayerPrepared(long pasobj, int videoWidth, int video
 public native void pOnMediaPlayerVideoSizeChanged(long pasobj, int videoWidth, int videoHeight);
 public native void pOnMediaPlayerCompletion(long pasobj);
 public native void pOnMediaPlayerTimedText(long pasobj, String timedText);
+
+public  java.lang.Object jPanel_Create(long pasobj ) {
+  return (java.lang.Object)(new jPanel(this.activity,this,pasobj));
+}
 
 public java.lang.Object jTCPSocketClient_jCreate(long _Self) {
    return (java.lang.Object)(new jTCPSocketClient(this,_Self));

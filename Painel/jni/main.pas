@@ -10,7 +10,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Classes, SysUtils, AndroidWidget, Laz_And_Controls, analogclock, digitalclock,
-  videoview, tcpsocketclient, udpsocket, mediaplayer;
+  videoview, tcpsocketclient, udpsocket, mediaplayer, config;
 
 Const
   PortPainel = 8096;
@@ -20,10 +20,14 @@ type
   { TAndroidModule1 }
 
   TAndroidModule1 = class(jForm)
+    jBtClose: jButton;
     jDigitalClock1: jDigitalClock;
+    jedIP: jEditText;
     jMediaPlayer1: jMediaPlayer;
+    jPanel1: jPanel;
     jTCPSocketClient1: jTCPSocketClient;
     jTextView1: jTextView;
+    jTextView2: jTextView;
     jTimer1: jTimer;
     lbMSG: jTextView;
     lbGrupo1: jTextView;
@@ -37,11 +41,13 @@ type
     txtSenhaAtual: jTextView;
     procedure AndroidModule1Create(Sender: TObject);
     procedure AndroidModule1Show(Sender: TObject);
+    procedure jBtCloseClick(Sender: TObject);
     procedure jDigitalClock1Click(Sender: TObject);
     procedure jTCPSocketClient1Connected(Sender: TObject);
     procedure jTCPSocketClient1Disconnected(Sender: TObject);
     procedure jTCPSocketClient1MessagesReceived(Sender: TObject;
       messageReceived: string);
+    procedure jTextView1Click(Sender: TObject);
     procedure jTimer1Timer(Sender: TObject);
     procedure arquivoSenhaAtual(info : string);
   private
@@ -87,6 +93,12 @@ begin
   jTimer1.Enabled:=true;
 end;
 
+procedure TAndroidModule1.jBtCloseClick(Sender: TObject);
+begin
+  fip := jedip.text;
+  jPanel1.Visible:=false;
+end;
+
 procedure TAndroidModule1.AndroidModule1Create(Sender: TObject);
 begin
     FIP := '192.168.0.114';
@@ -118,6 +130,13 @@ procedure TAndroidModule1.jTCPSocketClient1MessagesReceived(Sender: TObject;
 begin
     //lbMSG.Text:= messageReceived;
     ProcessaMSG(messageReceived);
+end;
+
+procedure TAndroidModule1.jTextView1Click(Sender: TObject);
+begin
+  jPanel1.Visible:=true;
+  jedip.Text:=FIP;
+  lbMSG.Text:='chamou config';
 end;
 
 procedure TAndroidModule1.arquivoSenhaAtual(info : string);

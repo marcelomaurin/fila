@@ -8,7 +8,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
-  Laz_And_Controls_Events, main;
+  Laz_And_Controls_Events, main, config;
   
 {%region /fold 'LAMW generated code'}
 
