@@ -110,11 +110,7 @@ object frmImpressao: TfrmImpressao
       ParentFont = False
     end
   end
-  ClientHeight = 131
-  ClientWidth = 264
-  DesignTimePPI = 120
-  LCLVersion = '1.8.4.0'
-  
+ 
   object Label1: TLabel
     Left = 10
     Height = 15
