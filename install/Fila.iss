@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Fila"
-#define MyAppVersion "1.5"
+#define MyAppVersion "1.16"
 #define MyAppPublisher "maurinsoft"
 #define MyAppURL "http://maurinsoft.com.br"
 #define MyAppExeName "Fila.exe"
@@ -37,12 +37,14 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Types]
 Name: "Elgin"; Description:  {cm:T_Elgin}
 Name: "Pos58"; Description: {cm:T_Pos58}
+Name: "Pos5811"; Description: {cm:T_Pos5811}
 Name: "Fila"; Description: {cm:T_Fila}
 
 [Components]
 Name: "File"; Description: "Arquivos do Fila"; Types: Fila;
 Name: "Elgin"; Description: "Instalação do Fila com Elgin"; Types:  Fila  Elgin;
 Name: "Pos58"; Description: "Instalação do Fila com POS58"; Types:  Fila Pos58;
+Name: "Pos5811"; Description: "Instalação do Fila com POS5811"; Types:  Fila Pos5811;
 
 
 [CustomMessages]
@@ -50,6 +52,8 @@ T_Elgin=Elgin
 TD_Elgin=Instalação padrão do fila com drivers do Elgin i9
 T_Pos58=Pos
 TD_Pos58=Instalação padrão do fila com drivers do Pos58
+T_Pos5811=Pos
+TD_Pos5811=Instalação padrão do fila com drivers do Pos5811
 T_Fila=Fila
 TD_Fila=Instalação padrão do fila sem drivers do fabricante de impressora
 
@@ -69,6 +73,7 @@ Source: "D:\projetos\maurinsoft\fila\Fila.exe"; DestDir: "{app}"; Flags: ignorev
 Source: "D:\projetos\maurinsoft\fila\cliente.cfg"; DestDir: "{app}"; 
 Source: "D:\projetos\maurinsoft\fila\drivers\Elgin i9\ELGIN Printer Driver_v-1.6.6.exe"; DestDir: "{app}"; Components: Elgin ;
 Source: "D:\projetos\maurinsoft\fila\drivers\POS58\POS Printer Driver Setup .exe"; DestDir: "{app}"; Components: Pos58;
+Source: "D:\projetos\maurinsoft\fila\drivers\POS5811-DD\POS Printer Driver Setup .exe"; DestDir: "{app}"; Components: Pos5811;
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -78,5 +83,6 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 [Run]
 Filename: "{app}\ELGIN Printer Driver_v-1.6.6.exe"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Components: Elgin;
 Filename: "{app}\POS Printer Driver Setup .exe"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Components: Pos58; 
+Filename: "{app}\POS Printer Driver Setup .exe"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Components: Pos5811; 
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
