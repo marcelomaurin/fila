@@ -4,15 +4,14 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="6">
+    <Units Count="11">
       <Unit0>
         <Filename Value="Fila.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="6"/>
         <CursorPos Y="23"/>
         <UsageCount Value="35"/>
-        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="menu.pas"/>
@@ -20,9 +19,10 @@
         <ComponentName Value="frmMenu"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="134"/>
-        <CursorPos Y="112"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="135"/>
+        <CursorPos X="10" Y="142"/>
         <UsageCount Value="35"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -34,9 +34,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Impressao"/>
-        <CursorPos X="50" Y="13"/>
+        <CursorPos X="22" Y="6"/>
         <UsageCount Value="35"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="main.pas"/>
@@ -44,10 +45,8 @@
         <ComponentName Value="frmmain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="198"/>
-        <CursorPos X="52" Y="211"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="70"/>
         <UsageCount Value="35"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -70,12 +69,53 @@
         <CursorPos Y="114"/>
         <UsageCount Value="9"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="C:\Users\marce\AppData\Local\lazarus\onlinepackagemanager\packages\lnet\lazaruspackage\lclwineventer.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="64" Y="84"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="C:\Users\marce\AppData\Local\lazarus\onlinepackagemanager\packages\fortes4lazarus 3.24\rlprintdialog.lfm"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="C:\Users\marce\AppData\Local\lazarus\onlinepackagemanager\packages\fortes4lazarus 3.24\rlpagesetupconfig.lfm"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="C:\Users\marce\AppData\Local\lazarus\onlinepackagemanager\packages\fortes4lazarus 3.24\rlabout.lfm"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="13" Y="8"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="d:\lazarus\lcl\include\control.inc"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="3936"/>
+        <CursorPos Y="3945"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit10>
     </Units>
-    <JumpHistory Count="1">
+    <JumpHistory Count="3" HistoryIndex="2">
       <Position1>
         <Filename Value="main.pas"/>
-        <Caret Line="184" Column="55" TopLine="175"/>
+        <Caret Line="191" Column="10" TopLine="187"/>
       </Position1>
+      <Position2>
+        <Filename Value="main.pas"/>
+        <Caret TopLine="70"/>
+      </Position2>
+      <Position3>
+        <Filename Value="menu.pas"/>
+        <Caret Line="140" Column="10" TopLine="133"/>
+      </Position3>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -6,18 +6,20 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  RLReport, Impressao;
+  ExtCtrls, RLReport, Impressao;
 
 type
 
   { TfrmMenu }
 
   TfrmMenu = class(TForm)
+    Image1: TImage;
 
     Label1: TLabel;
     BtFila1: TButton;
     btFila2: TButton;
     BtFila3: TButton;
+    Label2: TLabel;
     Lista1 : TStringList;
     Lista2 : TStringList;
     Lista3 : TStringList;
