@@ -21,7 +21,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-OutputBaseFilename=fila_setup_15
+OutputBaseFilename=fila_setup_16
 Compression=lzma
 SolidCompression=yes
 
