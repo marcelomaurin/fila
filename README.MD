@@ -19,9 +19,9 @@ O Projeto Fila possui 3 software básicos:
 <h3>São os softwares:</h3>
 
 <ul>
-FILA – Emite o ticket de senha, além de possuir uma impressora térmica, tambem pode ser acoplado a um monitor touch screen.
-Guiche – Instalado no terminal da pessoa que irá realizar o atendimento, pega o próximo número baseado na listagem armazenada no FILA.
-Painel – Instalado em um tablet ou tv android, permite ler as informações do FILA.
+<li>FILA – Emite o ticket de senha, além de possuir uma impressora térmica, tambem pode ser acoplado a um monitor touch screen.</li>
+<li>Guiche – Instalado no terminal da pessoa que irá realizar o atendimento, pega o próximo número baseado na listagem armazenada no FILA.</li>
+<li>Painel – Instalado em um tablet ou tv android, permite ler as informações do FILA.</li>
 </ul>
 
 <h1>English:</h1>
