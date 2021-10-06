@@ -18,10 +18,11 @@ O Projeto Fila possui 3 software básicos:
 
 <h3>São os softwares:</h3>
 
+<ul>
 FILA – Emite o ticket de senha, além de possuir uma impressora térmica, tambem pode ser acoplado a um monitor touch screen.
 Guiche – Instalado no terminal da pessoa que irá realizar o atendimento, pega o próximo número baseado na listagem armazenada no FILA.
 Painel – Instalado em um tablet ou tv android, permite ler as informações do FILA.
-
+</ul>
 
 <h1>English:</h1>
 <h2>Fila Project</h2>
@@ -40,10 +41,11 @@ The Fila Project has 3 basic software:
 
 <h3>The softwares are:</h3>
 
+<ul>
 FILA - Issue the password ticket, in addition to having a thermal printer, it can also be coupled to a touch screen monitor.
 Guiche - Installed in the terminal of the person who will perform the service, pick up the next number based on the list stored in FILA.
 Panel - Installed on an android tablet or tv, it allows you to read the FILA information.
-
+</ul>
 
 <h1>Spanish:</h1>
 <h2>Proyecto Fila</h2>
@@ -62,7 +64,8 @@ El Proyecto Fila tiene 3 software básico:
 
 <h3>Los softwares son:</h3>
 
-
+<ul>
 FILA - Emite el ticket de contraseña, además de tener una impresora térmica, también se puede acoplar a un monitor de pantalla táctil.
 Guiche - Instalado en el terminal de la persona que realizará el servicio, recoja el siguiente número en base a la lista almacenada en FILA.
 Panel: instalado en una tableta o televisor Android, le permite leer la información de la FILA.
+</ul>
