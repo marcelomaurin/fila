@@ -9,7 +9,7 @@ uses
   ExtCtrls, Menus, DataPortIP, lNetComponents, menu, lNet, log;
 
 const
-  Arquivo = 'cliente.cfg';
+  Arquivo = 'fila.cfg';
   PortGuiche = 8095;
   PortPainel = 8096;
 type
@@ -106,11 +106,14 @@ begin
 end;
 
 procedure Tfrmmain.FormShow(Sender: TObject);
+var
+  local : string;
 begin
   Timer1.Enabled:=false;
-  if FileExists(arquivo) then
+  local := SysUtils.GetEnvironmentVariable('APPDATA')+'\'+arquivo;
+  if FileExists(local) then
   begin
-      lbParams.Items.LoadFromFile(arquivo);
+      lbParams.Items.LoadFromFile(local);
       edEmpresa.text:= lbParams.Items[0];
       edlocalizacao.text:= lbParams.Items[1];
       edTipo1.text:= lbParams.Items[2];
@@ -235,6 +238,8 @@ begin
 end;
 
 procedure Tfrmmain.SalvarContexto();
+var
+  local : string;
 begin
       lbParams.Items.Clear;
       lbParams.Items.Add(edEmpresa.text);
@@ -245,7 +250,8 @@ begin
       lbParams.Items.Add( edCont1.text);
       lbParams.Items.Add(edCont2.text);
       lbParams.Items.Add( edCont3.text);
-      lbParams.Items.SaveToFile(arquivo);
+      local := SysUtils.GetEnvironmentVariable('APPDATA')+'\'+arquivo;
+      lbParams.Items.SaveToFile(local);
 
 end;
 
