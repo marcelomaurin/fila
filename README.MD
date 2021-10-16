@@ -17,7 +17,7 @@ Também existe um software, destinado a servir como painel de visualização dos
 <p>Assista o vídeo de como instalar e como funciona</p>
 
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/wPoVD_J6qp4/0.jpg)](https://www.youtube.com/embed/wPoVD_J6qp4)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/wPoVD_J6qp4/0.jpg)](https://www.youtube.com/watch?v=wPoVD_J6qp4)
 
 
 
