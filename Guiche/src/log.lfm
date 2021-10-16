@@ -1,0 +1,26 @@
+object frmLog: TfrmLog
+  Left = 704
+  Height = 240
+  Top = 247
+  Width = 320
+  Caption = 'Log de Ocorrências'
+  ClientHeight = 240
+  ClientWidth = 320
+  LCLVersion = '2.0.12.0'
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 320
+    Align = alTop
+    TabOrder = 0
+  end
+  object meLog: TMemo
+    Left = 0
+    Height = 190
+    Top = 50
+    Width = 320
+    Align = alClient
+    TabOrder = 1
+  end
+end
