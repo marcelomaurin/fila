@@ -3,7 +3,7 @@ SITE: http://maurinsoft.com.br/index.php/projeto-fila/
 <h1>Portuguese:</h1>
 
 <h2>Projeto Fila</h2>
-------------
+
 Projeto simples para controle de fila.
 
 
@@ -16,7 +16,8 @@ Também existe um software, destinado a servir como painel de visualização dos
 
 <p>Assista o vídeo de como instalar e como funciona</p>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/wPoVD_J6qp4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<a href="https://www.youtube.com/embed/wPoVD_J6qp4">Entenda como funciona</a>
+
 
 
 O Projeto Fila possui 3 software básicos:
