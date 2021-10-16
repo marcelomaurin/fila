@@ -5,7 +5,7 @@
 #define MyAppVersion "1.18"
 #define MyAppPublisher "Maurinsoft"
 #define MyAppURL "http://maurinsoft.com.br"
-#define MyAppExeName "setup-Guiche118.exe"
+#define MyAppExeName "Guiche.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
