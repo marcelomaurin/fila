@@ -1,88 +1,142 @@
 object frmmain: Tfrmmain
-  Left = -736
-  Height = 192
-  Top = 191
-  Width = 256
+  Left = 580
+  Height = 782
+  Top = 78
+  Width = 435
   Caption = 'Guiche'
-  ClientHeight = 192
-  ClientWidth = 256
+  ClientHeight = 782
+  ClientWidth = 435
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poMainFormCenter
   LCLVersion = '2.0.12.0'
-  object Label1: TLabel
-    Left = 7
-    Height = 15
-    Top = 6
-    Width = 80
-    Caption = 'Nro do Guiche:'
-    ParentColor = False
-    ParentFont = False
-  end
-  object edGuiche: TEdit
-    Left = 6
-    Height = 23
-    Top = 19
-    Width = 102
-    ParentFont = False
+  object PageControl1: TPageControl
+    Left = 0
+    Height = 652
+    Top = 80
+    Width = 435
+    ActivePage = TabSheet1
+    Align = alClient
+    TabIndex = 0
     TabOrder = 0
-    Text = '1'
+    object TabSheet1: TTabSheet
+      Caption = 'Fila'
+      ClientHeight = 624
+      ClientWidth = 427
+      object tvFila: TTreeView
+        Left = 0
+        Height = 624
+        Top = 0
+        Width = 427
+        Align = alClient
+        TabOrder = 0
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = 'Config'
+      ClientHeight = 624
+      ClientWidth = 427
+      object btSetup01: TButton
+        Left = 169
+        Height = 40
+        Top = 8
+        Width = 92
+        Anchors = [akTop, akRight]
+        Caption = 'Setup'
+        OnClick = btSetup01Click
+        ParentFont = False
+        TabOrder = 0
+      end
+      object btLog: TButton
+        Left = 297
+        Height = 40
+        Top = 8
+        Width = 92
+        Anchors = [akTop, akRight]
+        Caption = 'Log'
+        OnClick = btLogClick
+        ParentFont = False
+        TabOrder = 1
+      end
+    end
   end
-  object Label2: TLabel
-    Left = 7
-    Height = 15
-    Top = 51
-    Width = 34
-    Caption = 'IP Fila:'
-    ParentColor = False
-    ParentFont = False
-  end
-  object edIPFILA: TEdit
-    Left = 7
-    Height = 23
-    Top = 64
-    Width = 128
-    ParentFont = False
+  object Panel1: TPanel
+    Left = 0
+    Height = 80
+    Top = 0
+    Width = 435
+    Align = alTop
+    ClientHeight = 80
+    ClientWidth = 435
     TabOrder = 1
-    Text = '127.0.0.1'
+    object btTipo1: TButton
+      Left = 16
+      Height = 40
+      Top = 16
+      Width = 92
+      Anchors = [akTop, akRight]
+      Caption = 'Tipo1'
+      OnClick = btTipo1Click
+      ParentFont = False
+      TabOrder = 0
+    end
   end
-  object edIPPainel: TEdit
-    Left = 7
-    Height = 23
-    Top = 102
-    Width = 128
-    ParentFont = False
+  object Panel2: TPanel
+    Left = 0
+    Height = 50
+    Top = 732
+    Width = 435
+    Align = alBottom
     TabOrder = 2
-    Text = '127.0.0.1'
   end
-  object Label3: TLabel
-    Left = 7
-    Height = 15
-    Top = 90
-    Width = 48
-    Caption = 'IP Painel:'
-    ParentColor = False
-    ParentFont = False
-  end
-  object btStart: TButton
-    Left = 179
-    Height = 20
-    Top = 166
-    Width = 60
-    Caption = 'Iniciar'
-    OnClick = btStartClick
+  object btTipo2: TButton
+    Left = 169
+    Height = 40
+    Top = 16
+    Width = 92
+    Anchors = [akTop, akRight]
+    Caption = 'Tipo2'
+    OnClick = btTipo2Click
     ParentFont = False
     TabOrder = 3
   end
-  object ckGuiche: TCheckBox
-    Left = 154
-    Height = 19
-    Top = 102
-    Width = 57
-    Caption = 'Guiche'
+  object btTipo3: TButton
+    Left = 328
+    Height = 40
+    Top = 16
+    Width = 92
+    Anchors = [akTop, akRight]
+    Caption = 'Tipo3'
+    OnClick = btTipo3Click
     ParentFont = False
     TabOrder = 4
   end
+  object LTCPComponent1: TLTCPComponent
+    Port = 0
+    OnReceive = LTCPComponent1Receive
+    OnDisconnect = LTCPComponent1Disconnect
+    OnConnect = LTCPComponent1Connect
+    OnAccept = LTCPComponent1Accept
+    Timeout = 0
+    ReuseAddress = True
+    Left = 128
+    Top = 632
+  end
+  object LTCPComponent2: TLTCPComponent
+    Port = 0
+    OnReceive = LTCPComponent2Receive
+    OnDisconnect = LTCPComponent2Disconnect
+    OnAccept = LTCPComponent2Accept
+    Timeout = 0
+    ReuseAddress = False
+    Left = 218
+    Top = 632
+  end
   object TrayIcon1: TTrayIcon
     BalloonTitle = 'Guiche'
-    PopUpMenu = PopupMenu1
+    PopUpMenu = PopupMenu2
     Icon.Data = {
       BC4B00000000010001000000000001002000A64B00001600000089504E470D0A
       1A0A0000000D4948445200000200000002000806000000F478D4FA00004B6D49
@@ -691,64 +745,61 @@ object frmmain: Tfrmmain
       0FCFADD7AA0038736F9B67C5787878787878785E79536708D46AE18C8936F7C5
       06787878787878787E79FF1F1DA47D8CE8A8C96E0000000049454E44AE426082
     }
-    OnClick = TrayIcon1Click
-    Left = 154
-    Top = 70
+    Left = 152
+    Top = 712
   end
-  object LTCPComponent1: TLTCPComponent
-    Port = 0
-    OnReceive = LTCPComponent1Receive
-    OnDisconnect = LTCPComponent1Disconnect
-    OnConnect = LTCPComponent1Connect
-    OnAccept = LTCPComponent1Accept
-    Timeout = 0
-    ReuseAddress = True
-    Left = 32
-    Top = 134
-  end
-  object PopupMenu1: TPopupMenu
-    Left = 194
-    Top = 40
-    object btChamar: TMenuItem
+  object PopupMenu2: TPopupMenu
+    Left = 88
+    Top = 712
+    object MenuItem8: TMenuItem
       Caption = 'Chamar'
-      OnClick = btChamarClick
-      object MenuItem1: TMenuItem
+      object MenuItem9: TMenuItem
+        Tag = 1
         Caption = 'Fila1'
-        OnClick = MenuItem1Click
+        OnClick = MenuItem9Click
       end
-      object btFila2: TMenuItem
+      object MenuItem10: TMenuItem
+        Tag = 2
         Caption = 'Fila2'
-        OnClick = btFila2Click
+        OnClick = MenuItem10Click
       end
-      object btFila3: TMenuItem
+      object MenuItem11: TMenuItem
+        Tag = 3
         Caption = 'Fila3'
-        OnClick = btFila3Click
+        OnClick = MenuItem11Click
       end
     end
-    object btRechamar: TMenuItem
+    object MenuItem12: TMenuItem
       Caption = 'Rechamar'
-      OnClick = btRechamarClick
+      OnClick = MenuItem12Click
     end
-    object MenuItem3: TMenuItem
+    object N2: TMenuItem
       Caption = '-'
     end
-    object btSetup: TMenuItem
+    object MenuItem13: TMenuItem
       Caption = 'Setup'
-      OnClick = btSetupClick
+      OnClick = MenuItem13Click
     end
-    object btSair: TMenuItem
+    object miLog: TMenuItem
+      Caption = 'Log'
+      OnClick = miLogClick
+    end
+    object MenuItem1: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem14: TMenuItem
       Caption = 'Sair'
-      OnClick = btSairClick
     end
   end
-  object LTCPComponent2: TLTCPComponent
-    Port = 0
-    OnReceive = LTCPComponent2Receive
-    OnDisconnect = LTCPComponent2Disconnect
-    OnAccept = LTCPComponent2Accept
-    Timeout = 0
-    ReuseAddress = False
-    Left = 122
-    Top = 134
+  object PopupNotifier1: TPopupNotifier
+    Color = clInfoBk
+    Icon.Data = {
+      07544269746D617000000000
+    }
+    Text = 'Text'
+    Title = 'Caption'
+    Visible = False
+    Left = 216
+    Top = 712
   end
 end
