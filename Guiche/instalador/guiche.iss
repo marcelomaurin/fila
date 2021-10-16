@@ -2,10 +2,10 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Guiche"
-#define MyAppVersion "1.17"
+#define MyAppVersion "1.18"
 #define MyAppPublisher "Maurinsoft"
 #define MyAppURL "http://maurinsoft.com.br"
-#define MyAppExeName "setup-Guiche117.exe"
+#define MyAppExeName "setup-Guiche118.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -21,7 +21,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\Fila
 DisableProgramGroupPage=yes
-OutputBaseFilename=setup_guiche117
+OutputBaseFilename=setup_guiche118
 Compression=lzma
 SolidCompression=yes
 
