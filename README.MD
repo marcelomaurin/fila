@@ -14,6 +14,11 @@ Onde, é possível através de um terminal, pegar o próximo numero da fila.
 
 Também existe um software, destinado a servir como painel de visualização dos tickets chamados.
 
+<p>Assista o vídeo de como instalar e como funciona</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wPoVD_J6qp4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 O Projeto Fila possui 3 software básicos:
 
 <h3>São os softwares:</h3>
