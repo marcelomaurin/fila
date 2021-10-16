@@ -6,12 +6,14 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Menus, DataPortIP, lNetComponents, menu, lNet, log;
+  ExtCtrls, Menus, DataPortIP, lNetComponents, menu, lNet, log, splash, registro;
 
 const
   Arquivo = 'fila.cfg';
   PortGuiche = 8095;
   PortPainel = 8096;
+  intversao = 1;
+  intrevisao = 18;
 type
 
   { Tfrmmain }
@@ -53,6 +55,7 @@ type
     procedure edCont3Change(Sender: TObject);
     procedure edTipo1Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure LTCPComponent1Connect(aSocket: TLSocket);
     procedure LTCPComponent1Receive(aSocket: TLSocket);
@@ -84,7 +87,7 @@ implementation
 
 procedure Tfrmmain.MenuItem1Click(Sender: TObject);
 begin
-  show;
+  frmmenu.show;
 end;
 
 procedure Tfrmmain.MenuItem2Click(Sender: TObject);
@@ -109,6 +112,7 @@ procedure Tfrmmain.FormShow(Sender: TObject);
 var
   local : string;
 begin
+
   Timer1.Enabled:=false;
   local := SysUtils.GetEnvironmentVariable('APPDATA')+'\'+arquivo;
   if FileExists(local) then
@@ -124,13 +128,13 @@ begin
       edCont3.text:= lbParams.Items[7];
 
   end;
-
+  frmSplash.hide;
 end;
 
 procedure Tfrmmain.LTCPComponent1Connect(aSocket: TLSocket);
 begin
   aSocket.SendMessage('Connected!');
-  frmLog.log('Connected:'+aSocket.PeerAddress);
+  frmLog.RegistraLog('Connected:'+aSocket.PeerAddress);
 end;
 
 procedure Tfrmmain.LTCPComponent1Receive(aSocket: TLSocket);
@@ -141,7 +145,7 @@ var
 begin
    //Mensagem recebida padrao Fila:nro+#13
   aSocket.GetMessage(mensagem);
-  frmlog.log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
+  frmlog.RegistraLog('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
   if (mensagem <> '') then
   begin
       if (POS(mensagem, 'Fila:')>=0) then
@@ -156,7 +160,7 @@ begin
               begin
                   item := frmmenu.Lista1.Strings[0];
                   frmmenu.Lista1.Delete(0);
-                  frmlog.log('delete List1:'+item);
+                  frmlog.RegistraLog('delete List1:'+item);
               end
               else
               begin
@@ -168,7 +172,7 @@ begin
               begin
                   item := frmmenu.Lista2.Strings[0];
                   frmmenu.Lista2.Delete(0);
-                  frmlog.log('delete List2:'+item);
+                  frmlog.RegistraLog('delete List2:'+item);
               end
                else
               begin
@@ -180,7 +184,7 @@ begin
               begin
                   item := frmmenu.Lista3.Strings[0];
                   frmmenu.Lista3.Delete(0);
-                  frmlog.log('delete List3:'+item);
+                  frmlog.RegistraLog('delete List3:'+item);
               end
                else
               begin
@@ -204,7 +208,7 @@ var
   mensagem : string;
 begin
   aSocket.GetMessage(mensagem);
-  frmlog.log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
+  frmlog.RegistraLog('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
   aSocket.SendMessage('GUICHE>'+guiche+':'+item+';');
   sleep(200);
   aSocket.SendMessage('GRUPO>'+'1'+':'+edTipo1.text+';');
@@ -233,8 +237,22 @@ end;
 
 procedure Tfrmmain.FormCreate(Sender: TObject);
 begin
+  frmRegistrar := TfrmRegistrar.Create(self);
+  frmRegistrar.Identifica();
+  frmSplash := TfrmSplash.create(self);
+  frmSplash.lbVersao.Caption := inttostr(intVersao) + '.' + inttostr(intRevisao);
+  sleep(2000);
+  Versao.Caption:= inttostr(intVersao) + '.' + inttostr(intRevisao);
+
   frmLog := TfrmLog.create(self);
   frmLog.hide;
+
+end;
+
+procedure Tfrmmain.FormDestroy(Sender: TObject);
+begin
+  frmRegistrar.free();
+  frmRegistrar := nil;
 end;
 
 procedure Tfrmmain.SalvarContexto();
@@ -258,26 +276,35 @@ end;
 procedure Tfrmmain.ToggleBox1Click(Sender: TObject);
 begin
   hide;
-  Timer1.Enabled:=true;
-  frmmenu.show;
-  salvarContexto();
-  frmMenu.posFila1:= strtoint(edCont1.Text);
-  frmMenu.posFila2:= strtoint(edCont2.Text);
-  frmMenu.posFila3:= strtoint(edCont3.Text);
-  frmMenu.empresa := edEmpresa.Text;
-  frmMenu.localizacao:= edlocalizacao.text;
-  frmMenu.BtFila1.Caption:= edTipo1.text;
-  frmMenu.BtFila2.Caption:= edTipo2.text;
-  frmMenu.BtFila3.Caption:= edTipo3.text;
-  frmMenu.lbFILA1 := edTipo1.text;
-  frmMenu.lbFILA2 := edTipo2.text;
-  frmMenu.lbFILA3 := edTipo3.text;
-  TrayIcon1.BalloonTitle:='FILA';
-  TrayIcon1.Animate:=false;
-  TrayIcon1.BalloonHint:= 'Programa Fila';
-  TrayIcon1.Visible:=true;
-  LTCPComponent1.Listen(PortGuiche);
-  LTCPComponent2.Listen(PortPainel);
+  if(frmMenu = nil) then
+  begin
+    frmMenu := TfrmMenu.create(self);
+    Timer1.Enabled:=true;
+    frmmenu.show;
+    salvarContexto();
+    frmMenu.posFila1:= strtoint(edCont1.Text);
+    frmMenu.posFila2:= strtoint(edCont2.Text);
+    frmMenu.posFila3:= strtoint(edCont3.Text);
+    frmMenu.empresa := edEmpresa.Text;
+    frmMenu.localizacao:= edlocalizacao.text;
+    frmMenu.BtFila1.Caption:= edTipo1.text;
+    frmMenu.BtFila2.Caption:= edTipo2.text;
+    frmMenu.BtFila3.Caption:= edTipo3.text;
+    frmMenu.lbFILA1 := edTipo1.text;
+    frmMenu.lbFILA2 := edTipo2.text;
+    frmMenu.lbFILA3 := edTipo3.text;
+    TrayIcon1.BalloonTitle:='FILA';
+    TrayIcon1.Animate:=false;
+    TrayIcon1.BalloonHint:= 'Programa Fila';
+    TrayIcon1.Visible:=true;
+    LTCPComponent1.Listen(PortGuiche);
+    LTCPComponent2.Listen(PortPainel);
+
+  end
+  else
+  begin
+    frmMenu.show();
+  end;
 
 end;
 

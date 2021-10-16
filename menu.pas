@@ -28,6 +28,7 @@ type
     procedure BtFila3Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
 
   private
@@ -153,10 +154,17 @@ end;
 
 procedure TfrmMenu.FormCreate(Sender: TObject);
 begin
+  frmImpressao := TfrmImpressao.create(self);
   Lista1 := TStringList.Create();
   Lista2 := TStringList.Create();
   Lista3 := TStringList.Create();
 
+end;
+
+procedure TfrmMenu.FormDestroy(Sender: TObject);
+begin
+  frmImpressao.free;
+  frmImpressao := nil;
 end;
 
 procedure TfrmMenu.FormShow(Sender: TObject);

@@ -7,8 +7,10 @@ object frmMenu: TfrmMenu
   Caption = 'http://maurinsoft.com.br - Sistema de Controle de Fila'
   ClientHeight = 466
   ClientWidth = 822
+  DefaultMonitor = dmPrimary
   OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '2.0.12.0'

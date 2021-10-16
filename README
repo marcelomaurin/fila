@@ -1,0 +1,67 @@
+SITE: http://maurinsoft.com.br/index.php/projeto-fila/
+
+Portuguese:
+
+Projeto Fila
+------------
+Projeto simples para controle de fila.
+
+
+Permite o controle de filas através de sistema simples de emissão de ticket.
+
+
+Onde, é possível através de um terminal, pegar o próximo numero da fila.
+
+Também existe um software, destinado a servir como painel de visualização dos tickets chamados.
+
+O Projeto Fila possui 3 software básicos:
+
+São os softwares:
+
+FILA – Emite o ticket de senha, além de possuir uma impressora térmica, tambem pode ser acoplado a um monitor touch screen.
+Guiche – Instalado no terminal da pessoa que irá realizar o atendimento, pega o próximo número baseado na listagem armazenada no FILA.
+Painel – Instalado em um tablet ou tv android, permite ler as informações do FILA.
+
+
+English:
+Fila Project
+------------
+Simple design for queue control.
+
+
+It allows the control of queues through a simple ticketing system.
+
+
+Where, it is possible through a terminal, to take the next number in the queue.
+
+There is also a software, intended to serve as a display panel for tickets called.
+
+The Fila Project has 3 basic software:
+
+The softwares are:
+
+FILA - Issue the password ticket, in addition to having a thermal printer, it can also be coupled to a touch screen monitor.
+Guiche - Installed in the terminal of the person who will perform the service, pick up the next number based on the list stored in FILA.
+Panel - Installed on an android tablet or tv, it allows you to read the FILA information.
+
+
+Spanish:
+Proyecto Fila
+------------
+Diseño simple para control de colas.
+
+
+Permite el control de colas a través de un sencillo sistema de ticketing.
+
+
+Donde, es posible a través de una terminal, tomar el siguiente número en la cola.
+
+También hay un software, diseñado para servir como panel de visualización de los tickets llamados.
+
+El Proyecto Fila tiene 3 software básico:
+
+Los softwares son:
+
+FILA - Emite el ticket de contraseña, además de tener una impresora térmica, también se puede acoplar a un monitor de pantalla táctil.
+Guiche - Instalado en el terminal de la persona que realizará el servicio, recoja el siguiente número en base a la lista almacenada en FILA.
+Panel: instalado en una tableta o televisor Android, le permite leer la información de la FILA.
