@@ -1,0 +1,54 @@
+object frmMenu: TfrmMenu
+  Left = -838
+  Height = 282
+  Top = 123
+  Width = 320
+  BorderStyle = bsSingle
+  Caption = 'Sistema de Controle de Fila'
+  ClientHeight = 282
+  ClientWidth = 320
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poMainFormCenter
+<<<<<<< HEAD
+  LCLVersion = '2.0.12.0'
+=======
+  LCLVersion = '2.0.2.0'
+>>>>>>> 8771412255176c8e466a3b3f7f8d466ae78c5763
+  object BtFila1: TButton
+    Left = 16
+    Height = 49
+    Top = 24
+    Width = 288
+    Caption = 'COMUM'
+    OnClick = BtFila1Click
+    TabOrder = 0
+  end
+  object btFila2: TButton
+    Left = 16
+    Height = 49
+    Top = 120
+    Width = 288
+    Caption = 'IDOSO'
+    OnClick = btFila2Click
+    TabOrder = 1
+  end
+  object BtFila3: TButton
+    Left = 16
+    Height = 49
+    Top = 216
+    Width = 288
+    Caption = 'ESPECIAL'
+    OnClick = BtFila3Click
+    TabOrder = 2
+  end
+  object Label1: TLabel
+    Left = 17
+    Height = 15
+    Top = 6
+    Width = 60
+    Caption = 'Tipo de Fila'
+    ParentColor = False
+  end
+end

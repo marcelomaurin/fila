@@ -1,0 +1,30 @@
+unit log;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls;
+
+type
+
+  { TfrmLog }
+
+  TfrmLog = class(TForm)
+    Memo1: TMemo;
+  private
+
+  public
+
+  end;
+
+var
+  frmLog: TfrmLog;
+
+implementation
+
+{$R *.lfm}
+
+end.
+
