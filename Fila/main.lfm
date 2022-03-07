@@ -193,7 +193,7 @@ object frmmain: Tfrmmain
     Height = 15
     Top = 352
     Width = 21
-    Caption = '1.17'
+    Caption = '1.18'
     ParentColor = False
     ParentFont = False
   end

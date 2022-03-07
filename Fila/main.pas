@@ -134,7 +134,7 @@ end;
 procedure Tfrmmain.LTCPComponent1Connect(aSocket: TLSocket);
 begin
   aSocket.SendMessage('Connected!');
-  frmLog.RegistraLog('Connected:'+aSocket.PeerAddress);
+  frmLog.Log('Connected:'+aSocket.PeerAddress);
 end;
 
 procedure Tfrmmain.LTCPComponent1Receive(aSocket: TLSocket);
@@ -145,7 +145,7 @@ var
 begin
    //Mensagem recebida padrao Fila:nro+#13
   aSocket.GetMessage(mensagem);
-  frmlog.RegistraLog('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
+  frmlog.Log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
   if (mensagem <> '') then
   begin
       if (POS(mensagem, 'Fila:')>=0) then
@@ -160,7 +160,7 @@ begin
               begin
                   item := frmmenu.Lista1.Strings[0];
                   frmmenu.Lista1.Delete(0);
-                  frmlog.RegistraLog('delete List1:'+item);
+                  frmlog.Log('delete List1:'+item);
               end
               else
               begin
@@ -172,7 +172,7 @@ begin
               begin
                   item := frmmenu.Lista2.Strings[0];
                   frmmenu.Lista2.Delete(0);
-                  frmlog.RegistraLog('delete List2:'+item);
+                  frmlog.Log('delete List2:'+item);
               end
                else
               begin
@@ -184,7 +184,7 @@ begin
               begin
                   item := frmmenu.Lista3.Strings[0];
                   frmmenu.Lista3.Delete(0);
-                  frmlog.RegistraLog('delete List3:'+item);
+                  frmlog.Log('delete List3:'+item);
               end
                else
               begin
@@ -208,7 +208,7 @@ var
   mensagem : string;
 begin
   aSocket.GetMessage(mensagem);
-  frmlog.RegistraLog('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
+  frmlog.Log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
   aSocket.SendMessage('GUICHE>'+guiche+':'+item+';');
   sleep(200);
   aSocket.SendMessage('GRUPO>'+'1'+':'+edTipo1.text+';');
