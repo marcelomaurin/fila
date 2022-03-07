@@ -12,6 +12,7 @@ type
   { TfrmSplash }
 
   TfrmSplash = class(TForm)
+    cbnotsplash: TCheckBox;
     Image1: TImage;
     Label1: TLabel;
     Label2: TLabel;

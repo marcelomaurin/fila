@@ -13,7 +13,7 @@ object frmSplash: TfrmSplash
   object Image1: TImage
     Left = 24
     Height = 194
-    Top = 24
+    Top = 8
     Width = 272
     Picture.Data = {
       055449636F6EBC4B00000000010001000000000001002000A64B000016000000
@@ -653,5 +653,13 @@ object frmSplash: TfrmSplash
     Font.Height = -20
     ParentColor = False
     ParentFont = False
+  end
+  object cbnotsplash: TCheckBox
+    Left = 176
+    Height = 19
+    Top = 183
+    Width = 111
+    Caption = 'don´t show again'
+    TabOrder = 0
   end
 end
