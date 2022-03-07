@@ -97,7 +97,7 @@ begin
   aSocket.GetMessage(retorno);
 
   //ShowMessage(retorno);
-  frmlog.RegistraLog('Recebeu retorno do socket:'+copy(retorno,1,10));
+  frmlog.Log('Recebeu retorno do socket:'+copy(retorno,1,10));
 end;
 
 procedure TfrmRegistrar.Memo1Change(Sender: TObject);

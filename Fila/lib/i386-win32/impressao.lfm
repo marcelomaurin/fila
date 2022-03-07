@@ -1,7 +1,7 @@
 object frmImpressao: TfrmImpressao
-  Left = -777
+  Left = 589
   Height = 105
-  Top = 174
+  Top = 323
   Width = 211
   Caption = 'cupom'
   ClientHeight = 105
@@ -103,7 +103,7 @@ object frmImpressao: TfrmImpressao
       Left = 63
       Height = 14
       Top = 25
-      Width = 3
+      Width = 65
       Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'Arial'

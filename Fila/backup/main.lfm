@@ -1,10 +1,10 @@
 object frmmain: Tfrmmain
-  Left = -713
+  Left = 673
   Height = 395
-  Top = 156
+  Top = 343
   Width = 320
   BorderStyle = bsSingle
-  Caption = 'FILA - GPL3'
+  Caption = 'FILA - Configuração'
   ClientHeight = 395
   ClientWidth = 320
   OnCreate = FormCreate
@@ -192,8 +192,8 @@ object frmmain: Tfrmmain
     Left = 180
     Height = 15
     Top = 352
-    Width = 15
-    Caption = '1.1'
+    Width = 21
+    Caption = '1.18'
     ParentColor = False
     ParentFont = False
   end
