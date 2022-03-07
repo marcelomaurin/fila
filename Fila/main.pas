@@ -6,10 +6,11 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Menus, DataPortIP, lNetComponents, menu, lNet, log, splash, registro;
+  ExtCtrls, Menus, DataPortIP, lNetComponents, menu, lNet, log, splash, registro,
+  setmain;
 
 const
-  Arquivo = 'fila.cfg';
+
   PortGuiche = 8095;
   PortPainel = 8096;
   intversao = 1;
@@ -43,7 +44,6 @@ type
     MenuItem3: TMenuItem;
     Versao: TLabel;
     lblocalizacao: TLabel;
-    lbParams: TListBox;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     PopupMenu1: TPopupMenu;
@@ -105,7 +105,7 @@ begin
  edCont1.Text:= inttostr(frmMenu.posFila1);
  edCont2.Text:= inttostr(frmMenu.posFila2);
  edCont3.Text:= inttostr(frmMenu.posFila3);
- SalvarContexto();
+ //SalvarContexto();
 end;
 
 procedure Tfrmmain.FormShow(Sender: TObject);
@@ -114,20 +114,14 @@ var
 begin
 
   Timer1.Enabled:=false;
-  local := SysUtils.GetEnvironmentVariable('APPDATA')+'\'+arquivo;
-  if FileExists(local) then
-  begin
-      lbParams.Items.LoadFromFile(local);
-      edEmpresa.text:= lbParams.Items[0];
-      edlocalizacao.text:= lbParams.Items[1];
-      edTipo1.text:= lbParams.Items[2];
-      edTipo2.text:= lbParams.Items[3];
-      edTipo3.text:= lbParams.Items[4];
-      edCont1.text:= lbParams.Items[5];
-      edCont2.text:= lbParams.Items[6];
-      edCont3.text:= lbParams.Items[7];
-
-  end;
+  edEmpresa.text:= FSETMAIN.empresa;
+  edlocalizacao.text:= fsetmain.localizacao;
+  edTipo1.text:= fsetmain.Tipo1;
+  edTipo2.text:= fsetmain.tipo2;
+  edTipo3.text:= fsetmain.tipo3;
+  edCont1.text:= inttostr(fsetmain.Contagem1);
+  edCont2.text:= inttostr(fsetmain.Contagem2);
+  edCont3.text:= inttostr(fsetmain.Contagem3);
   frmSplash.hide;
 end;
 
@@ -237,15 +231,41 @@ end;
 
 procedure Tfrmmain.FormCreate(Sender: TObject);
 begin
-  frmRegistrar := TfrmRegistrar.Create(self);
-  frmRegistrar.Identifica();
   frmSplash := TfrmSplash.create(self);
   frmSplash.lbVersao.Caption := inttostr(intVersao) + '.' + inttostr(intRevisao);
-  sleep(2000);
-  Versao.Caption:= inttostr(intVersao) + '.' + inttostr(intRevisao);
 
-  frmLog := TfrmLog.create(self);
-  frmLog.hide;
+  Fsetmain := TSetmain.create();
+  Fsetmain.CarregaContexto();
+  if  Fsetmain.splash then
+  begin
+    frmSplash.show();
+  end;
+  frmLog := Tfrmlog.create(self);
+  frmRegistrar := TfrmRegistrar.Create(self);
+  frmRegistrar.Identifica();
+  Versao.Caption:= inttostr(intVersao) + '.' + inttostr(intRevisao);
+  if  FSETMAIN.splash then
+  begin
+    Application.ProcessMessages;
+    sleep(1000);
+    Application.ProcessMessages;
+    sleep(1000);
+    Application.ProcessMessages;
+    sleep(1000);
+    Application.ProcessMessages;
+    sleep(1000);
+  end;
+  Application.ProcessMessages;
+  if  Fsetmain.splash then
+  begin
+   frmSplash.hide();
+  end;
+  if  Fsetmain.splash then
+  begin
+    Fsetmain.splash :=  not frmSplash.cbnotsplash.Checked;
+  end;
+  //frmLog.hide;
+
 
 end;
 
@@ -253,23 +273,23 @@ procedure Tfrmmain.FormDestroy(Sender: TObject);
 begin
   frmRegistrar.free();
   frmRegistrar := nil;
+  FSETMAIN.SalvaContexto();
 end;
 
 procedure Tfrmmain.SalvarContexto();
 var
   local : string;
 begin
-      lbParams.Items.Clear;
-      lbParams.Items.Add(edEmpresa.text);
-      lbParams.Items.Add( edlocalizacao.text);
-      lbParams.Items.Add(edTipo1.text);
-      lbParams.Items.Add(edTipo2.text) ;
-      lbParams.Items.Add(edTipo3.text);
-      lbParams.Items.Add( edCont1.text);
-      lbParams.Items.Add(edCont2.text);
-      lbParams.Items.Add( edCont3.text);
-      local := SysUtils.GetEnvironmentVariable('APPDATA')+'\'+arquivo;
-      lbParams.Items.SaveToFile(local);
+
+      FSETMAIN.empresa := edEmpresa.text;
+      FSETMAIN.Localizacao :=  edlocalizacao.text;
+      FSETMAIN.Tipo1 :=  edTipo1.text;
+      FSETMAIN.Tipo2 := edTipo2.text;
+      FSETMAIN.Tipo3 := edTipo3.text;
+      FSETMAIN.Contagem1 :=  strtoint(edCont1.text);
+      FSETMAIN.Contagem2 := strtoint(edCont2.text);
+      FSETMAIN.Contagem3 := strtoint( edCont3.text);
+      FSetmain.painel:= edPainel.text;
 
 end;
 
@@ -281,7 +301,7 @@ begin
     frmMenu := TfrmMenu.create(self);
     Timer1.Enabled:=true;
     frmmenu.show;
-    salvarContexto();
+    //salvarContexto();
     frmMenu.posFila1:= strtoint(edCont1.Text);
     frmMenu.posFila2:= strtoint(edCont2.Text);
     frmMenu.posFila3:= strtoint(edCont3.Text);

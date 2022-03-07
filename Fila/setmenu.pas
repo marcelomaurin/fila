@@ -17,6 +17,8 @@ const filename = 'menu.cfg';
 type
   { TfrmMenu }
 
+  { TSetMenu }
+
   TSetMenu = class(TObject)
     constructor create();
     destructor destroy();
@@ -25,10 +27,12 @@ type
         ckdevice : boolean;
         FPosX : integer;
         FPosY : integer;
+        FSplash : boolean;
         procedure Default();
         procedure SetPOSX(value : integer);
         procedure SetPOSY(value : integer);
         procedure SetDevice(const Value : Boolean);
+        procedure SetSplash(value : boolean);
 
   public
         procedure SalvaContexto();
@@ -36,9 +40,14 @@ type
         property device : boolean read ckdevice write SetDevice;
         property posx : integer read FPosX write SetPOSX;
         property posy : integer read FPosY write SetPOSY;
+        property splash : boolean read FSplash write SetSplash;
   end;
 
+var
+  Fsetmenu : TSetmenu;
+
 implementation
+
 
 procedure TSetMenu.SetPOSX(value : integer);
 begin
@@ -56,6 +65,11 @@ begin
   ckdevice := Value;
 end;
 
+procedure TSetMenu.SetSplash(value: boolean);
+begin
+  FSplash:= value;
+end;
+
 
 //Valores default do codigo
 procedure TSetMenu.Default();
@@ -63,7 +77,7 @@ begin
     ckdevice := false;
 end;
 
-Procedure TSetMenu.CarregaContexto();
+procedure TSetMenu.CarregaContexto();
 var
   posicao: integer;
 begin
@@ -80,10 +94,13 @@ begin
       FPOSY := strtoint(RetiraInfo(arquivo.Strings[posicao]));
     end;
 
+
+
+
 end;
 
 //Metodo construtor
-Constructor TSetMenu.create();
+constructor TSetMenu.create();
 begin
   arquivo := TStringList.create();
   if (FileExists(filename)) then

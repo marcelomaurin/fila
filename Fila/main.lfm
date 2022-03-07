@@ -1,7 +1,7 @@
 object frmmain: Tfrmmain
-  Left = 673
+  Left = 478
   Height = 395
-  Top = 343
+  Top = 324
   Width = 320
   BorderStyle = bsSingle
   Caption = 'FILA - Configuração'
@@ -169,16 +169,6 @@ object frmmain: Tfrmmain
     ParentColor = False
     ParentFont = False
   end
-  object lbParams: TListBox
-    Left = 12
-    Height = 56
-    Top = 320
-    Width = 100
-    ItemHeight = 0
-    ParentFont = False
-    TabOrder = 9
-    Visible = False
-  end
   object Label7: TLabel
     Left = 136
     Height = 15
@@ -221,7 +211,7 @@ object frmmain: Tfrmmain
     Top = 261
     Width = 151
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 9
     Text = '192.168.0.108'
   end
   object TrayIcon1: TTrayIcon
@@ -6816,15 +6806,15 @@ object frmmain: Tfrmmain
     OnConnect = LTCPComponent1Connect
     Timeout = 0
     ReuseAddress = True
-    Left = 24
-    Top = 248
+    Left = 128
+    Top = 312
   end
   object LTCPComponent2: TLTCPComponent
     Port = 8095
     OnReceive = LTCPComponent2Receive
     Timeout = 0
     ReuseAddress = True
-    Left = 120
-    Top = 248
+    Left = 240
+    Top = 320
   end
 end
