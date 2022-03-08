@@ -45,6 +45,7 @@ type
         FContagem3: integer;
         FPainel : string;
         FSplash : boolean;
+        FTipoImp : integer;
         procedure Default();
         procedure SetPOSX(value : integer);
         procedure SetPOSY(value : integer);
@@ -66,6 +67,7 @@ type
         procedure SetContagem3(value: integer);
         procedure SetPainel(value: string);
         procedure SetSplash(value:boolean);
+        procedure SetTipoImp(value: integer);
 
   public
         procedure SalvaContexto();
@@ -90,6 +92,7 @@ type
         property Contagem3 : integer read FContagem3 write SetContagem3;
         property Painel : string read FPainel write SetPainel;
         property Splash : boolean read FSplash write SetSplash;
+        property TipoImp : integer read FTipoImp write SetTipoImp;
   end;
 
   var
@@ -198,6 +201,11 @@ begin
   FSplash := value;
 end;
 
+procedure TSetMain.SetTipoImp(value: integer);
+begin
+  FTipoImp := value;
+end;
+
 
 //Valores default do codigo
 procedure TSetMain.Default();
@@ -224,6 +232,7 @@ begin
     FContagem2 := 0;
     FContagem3 := 0;
     FPainel := '192.168.0.108';
+    FTipoImp := 0;
 end;
 
 procedure TSetMain.CarregaContexto();
@@ -310,6 +319,10 @@ begin
     begin
       FSPLASH := strtobool(RetiraInfo(arquivo.Strings[posicao]));
     end;
+    if  BuscaChave(arquivo,'TIPOIMP:',posicao) then
+    begin
+      FTIPOIMP := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+    end;
 
 end;
 
@@ -369,6 +382,7 @@ begin
   arquivo.Append('CONTAGEM3:'+ inttostr(FCONTAGEM3));
   arquivo.Append('PAINEL:'+ FPAINEL);
   arquivo.Append('SPLASH:'+ booltostr(FSPLASH));
+  arquivo.Append('TIPOIMP:'+ inttostr(FTIPOIMP));
   arquivo.SaveToFile(fpath+filename);
 end;
 

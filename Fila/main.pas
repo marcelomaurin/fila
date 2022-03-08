@@ -13,13 +13,15 @@ const
 
   PortGuiche = 8095;
   PortPainel = 8096;
-  intversao = 1;
-  intrevisao = 18;
+  intversao = 2;
+  intrevisao = 00;
 type
 
   { Tfrmmain }
 
   Tfrmmain = class(TForm)
+    cbIniciar: TCheckBox;
+    cbTipoImp: TComboBox;
     edCont2: TEdit;
     edCont3: TEdit;
     edPainel: TEdit;
@@ -30,7 +32,9 @@ type
     edTipo3: TEdit;
     edCont1: TEdit;
     Empresa: TLabel;
+    Image1: TImage;
     Label1: TLabel;
+    Label10: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -41,6 +45,7 @@ type
     Label9: TLabel;
     LTCPComponent1: TLTCPComponent;
     LTCPComponent2: TLTCPComponent;
+    Memo1: TMemo;
     MenuItem3: TMenuItem;
     Versao: TLabel;
     lblocalizacao: TLabel;
@@ -72,7 +77,7 @@ type
     nro : integer;
     item : string;
   public
-
+    procedure Executar();
 
   end;
 
@@ -105,15 +110,16 @@ begin
  edCont1.Text:= inttostr(frmMenu.posFila1);
  edCont2.Text:= inttostr(frmMenu.posFila2);
  edCont3.Text:= inttostr(frmMenu.posFila3);
- //SalvarContexto();
+ SalvarContexto();
 end;
 
 procedure Tfrmmain.FormShow(Sender: TObject);
 var
   local : string;
 begin
-
   Timer1.Enabled:=false;
+  self.top := fsetmain.posy;
+  self.Left:= fsetmain.posx;
   edEmpresa.text:= FSETMAIN.empresa;
   edlocalizacao.text:= fsetmain.localizacao;
   edTipo1.text:= fsetmain.Tipo1;
@@ -122,7 +128,13 @@ begin
   edCont1.text:= inttostr(fsetmain.Contagem1);
   edCont2.text:= inttostr(fsetmain.Contagem2);
   edCont3.text:= inttostr(fsetmain.Contagem3);
+  cbIniciar.Checked:= fsetmain.EXEC;
+  cbTipoImp.ItemIndex:= fsetmain.TipoImp;
   frmSplash.hide;
+  if (cbIniciar.Checked) then
+  begin
+    Executar();
+  end;
 end;
 
 procedure Tfrmmain.LTCPComponent1Connect(aSocket: TLSocket);
@@ -235,7 +247,8 @@ begin
   frmSplash.lbVersao.Caption := inttostr(intVersao) + '.' + inttostr(intRevisao);
 
   Fsetmain := TSetmain.create();
-  Fsetmain.CarregaContexto();
+  self.left := Fsetmain.posx;
+  self.top := fsetmain.posy;
   if  Fsetmain.splash then
   begin
     frmSplash.show();
@@ -273,14 +286,12 @@ procedure Tfrmmain.FormDestroy(Sender: TObject);
 begin
   frmRegistrar.free();
   frmRegistrar := nil;
-  FSETMAIN.SalvaContexto();
+  SalvarContexto();
+  Fsetmain.free();
 end;
 
 procedure Tfrmmain.SalvarContexto();
-var
-  local : string;
 begin
-
       FSETMAIN.empresa := edEmpresa.text;
       FSETMAIN.Localizacao :=  edlocalizacao.text;
       FSETMAIN.Tipo1 :=  edTipo1.text;
@@ -289,19 +300,29 @@ begin
       FSETMAIN.Contagem1 :=  strtoint(edCont1.text);
       FSETMAIN.Contagem2 := strtoint(edCont2.text);
       FSETMAIN.Contagem3 := strtoint( edCont3.text);
+      FSETMAIN.posx := self.left;
+      FSetMain.posy := self.top;
       FSetmain.painel:= edPainel.text;
+      Fsetmain.tipoimp := cbTipoImp.ItemIndex;
+      Fsetmain.EXEC:= cbIniciar.Checked;
 
+      FSETMAIN.SalvaContexto();
 end;
 
 procedure Tfrmmain.ToggleBox1Click(Sender: TObject);
+begin
+     executar();
+end;
+
+procedure Tfrmmain.Executar();
 begin
   hide;
   if(frmMenu = nil) then
   begin
     frmMenu := TfrmMenu.create(self);
+    salvarContexto();
     Timer1.Enabled:=true;
-    frmmenu.show;
-    //salvarContexto();
+
     frmMenu.posFila1:= strtoint(edCont1.Text);
     frmMenu.posFila2:= strtoint(edCont2.Text);
     frmMenu.posFila3:= strtoint(edCont3.Text);
@@ -313,16 +334,18 @@ begin
     frmMenu.lbFILA1 := edTipo1.text;
     frmMenu.lbFILA2 := edTipo2.text;
     frmMenu.lbFILA3 := edTipo3.text;
+
     TrayIcon1.BalloonTitle:='FILA';
     TrayIcon1.Animate:=false;
     TrayIcon1.BalloonHint:= 'Programa Fila';
     TrayIcon1.Visible:=true;
     LTCPComponent1.Listen(PortGuiche);
     LTCPComponent2.Listen(PortPainel);
-
+    frmmenu.show;
   end
   else
   begin
+    Timer1.Enabled:=true;
     frmMenu.show();
   end;
 
