@@ -27,19 +27,22 @@
         <Mode0 Name="default"/>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="4">
+    <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="lnetvisual"/>
+        <PackageName Value="LazSerialPort"/>
       </Item1>
       <Item2>
-        <PackageName Value="DataPortLasarus"/>
+        <PackageName Value="lnetvisual"/>
       </Item2>
       <Item3>
-        <PackageName Value="fortes324forlaz"/>
+        <PackageName Value="DataPortLasarus"/>
       </Item3>
       <Item4>
-        <PackageName Value="LCL"/>
+        <PackageName Value="fortes324forlaz"/>
       </Item4>
+      <Item5>
+        <PackageName Value="LCL"/>
+      </Item5>
     </RequiredPackages>
     <Units Count="13">
       <Unit0>

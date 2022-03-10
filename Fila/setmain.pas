@@ -46,6 +46,9 @@ type
         FPainel : string;
         FSplash : boolean;
         FTipoImp : integer;
+        FModeloImp : integer;
+
+
         procedure Default();
         procedure SetPOSX(value : integer);
         procedure SetPOSY(value : integer);
@@ -68,6 +71,7 @@ type
         procedure SetPainel(value: string);
         procedure SetSplash(value:boolean);
         procedure SetTipoImp(value: integer);
+        procedure SetModeloImp(value: integer);
 
   public
         procedure SalvaContexto();
@@ -93,6 +97,7 @@ type
         property Painel : string read FPainel write SetPainel;
         property Splash : boolean read FSplash write SetSplash;
         property TipoImp : integer read FTipoImp write SetTipoImp;
+        property ModeloImp : integer read FModeloImp write SetModeloImp;
   end;
 
   var
@@ -206,6 +211,12 @@ begin
   FTipoImp := value;
 end;
 
+procedure TSetMain.SetModeloImp(value: integer);
+begin
+  FModeloImp:= value;
+end;
+
+
 
 //Valores default do codigo
 procedure TSetMain.Default();
@@ -233,6 +244,7 @@ begin
     FContagem3 := 0;
     FPainel := '192.168.0.108';
     FTipoImp := 0;
+    FModeloImp := 0;
 end;
 
 procedure TSetMain.CarregaContexto();
@@ -323,7 +335,10 @@ begin
     begin
       FTIPOIMP := strtoint(RetiraInfo(arquivo.Strings[posicao]));
     end;
-
+    if  BuscaChave(arquivo,'MODELOIMP:',posicao) then
+    begin
+      FMODELOIMP := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+    end;
 end;
 
 //Metodo construtor
@@ -383,6 +398,7 @@ begin
   arquivo.Append('PAINEL:'+ FPAINEL);
   arquivo.Append('SPLASH:'+ booltostr(FSPLASH));
   arquivo.Append('TIPOIMP:'+ inttostr(FTIPOIMP));
+  arquivo.Append('MODELOIMP:'+ inttostr(FMODELOIMP));
   arquivo.SaveToFile(fpath+filename);
 end;
 

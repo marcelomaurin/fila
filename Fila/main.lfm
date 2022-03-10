@@ -106,9 +106,10 @@ object frmmain: Tfrmmain
   object ToggleBox1: TToggleBox
     Left = 519
     Height = 25
-    Top = 254
+    Top = 296
     Width = 75
     Caption = 'Iniciar'
+    OnChange = ToggleBox1Change
     OnClick = ToggleBox1Click
     ParentFont = False
     TabOrder = 5
@@ -215,9 +216,9 @@ object frmmain: Tfrmmain
     Text = '192.168.0.108'
   end
   object cbIniciar: TCheckBox
-    Left = 224
+    Left = 376
     Height = 19
-    Top = 254
+    Top = 296
     Width = 102
     Caption = 'Iniciar ao Entrar'
     TabOrder = 10
@@ -230,6 +231,7 @@ object frmmain: Tfrmmain
     Caption = 'Tipo Impressora:'
     ParentColor = False
     ParentFont = False
+    OnClick = Label10Click
   end
   object cbTipoImp: TComboBox
     Left = 400
@@ -6599,6 +6601,45 @@ object frmmain: Tfrmmain
     )
     ReadOnly = True
     TabOrder = 12
+  end
+  object Label11: TLabel
+    Left = 400
+    Height = 15
+    Top = 240
+    Width = 62
+    Caption = 'Porta Serial:'
+    ParentColor = False
+    ParentFont = False
+    OnClick = Label10Click
+  end
+  object edPorta: TEdit
+    Left = 400
+    Height = 23
+    Top = 256
+    Width = 150
+    TabOrder = 13
+  end
+  object Label12: TLabel
+    Left = 224
+    Height = 15
+    Top = 240
+    Width = 44
+    Caption = 'Modelo:'
+    ParentColor = False
+    ParentFont = False
+    OnClick = Label10Click
+  end
+  object cbModeImp: TComboBox
+    Left = 225
+    Height = 23
+    Top = 256
+    Width = 151
+    ItemHeight = 15
+    Items.Strings = (
+      'Impressora Elgin i9'
+    )
+    TabOrder = 14
+    Text = 'cbModeImp'
   end
   object TrayIcon1: TTrayIcon
     PopUpMenu = PopupMenu1

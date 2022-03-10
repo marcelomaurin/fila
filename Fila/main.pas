@@ -22,8 +22,10 @@ type
   Tfrmmain = class(TForm)
     cbIniciar: TCheckBox;
     cbTipoImp: TComboBox;
+    cbModeImp: TComboBox;
     edCont2: TEdit;
     edCont3: TEdit;
+    edPorta: TEdit;
     edPainel: TEdit;
     edEmpresa: TEdit;
     edTipo1: TEdit;
@@ -35,6 +37,8 @@ type
     Image1: TImage;
     Label1: TLabel;
     Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -62,6 +66,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Label10Click(Sender: TObject);
     procedure LTCPComponent1Connect(aSocket: TLSocket);
     procedure LTCPComponent1Receive(aSocket: TLSocket);
     procedure LTCPComponent2Receive(aSocket: TLSocket);
@@ -128,13 +133,20 @@ begin
   edCont1.text:= inttostr(fsetmain.Contagem1);
   edCont2.text:= inttostr(fsetmain.Contagem2);
   edCont3.text:= inttostr(fsetmain.Contagem3);
+  edPorta.text:= fsetmain.COMPORT;
   cbIniciar.Checked:= fsetmain.EXEC;
   cbTipoImp.ItemIndex:= fsetmain.TipoImp;
+  cbModeImp.ItemIndex:= fsetmain.ModeloImp;
   frmSplash.hide;
   if (cbIniciar.Checked) then
   begin
     Executar();
   end;
+end;
+
+procedure Tfrmmain.Label10Click(Sender: TObject);
+begin
+
 end;
 
 procedure Tfrmmain.LTCPComponent1Connect(aSocket: TLSocket);
@@ -304,6 +316,8 @@ begin
       FSetMain.posy := self.top;
       FSetmain.painel:= edPainel.text;
       Fsetmain.tipoimp := cbTipoImp.ItemIndex;
+      Fsetmain.modeloimp := cbModeImp.ItemIndex;
+      FSetmain.COMPORT := edPorta.text;
       Fsetmain.EXEC:= cbIniciar.Checked;
 
       FSETMAIN.SalvaContexto();
@@ -334,6 +348,9 @@ begin
     frmMenu.lbFILA1 := edTipo1.text;
     frmMenu.lbFILA2 := edTipo2.text;
     frmMenu.lbFILA3 := edTipo3.text;
+    frmMenu.comport := edPorta.text;
+    frmMenu.Tipoimp :=   CTipoIMP(cbTipoImp.ItemIndex);
+    frmMenu.modeloimp := CModeloIMP(cbModeImp.itemindex);
 
     TrayIcon1.BalloonTitle:='FILA';
     TrayIcon1.Animate:=false;

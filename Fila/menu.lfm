@@ -722,4 +722,16 @@ object frmMenu: TfrmMenu
     }
     Stretch = True
   end
+  object LazSerial1: TLazSerial
+    Active = False
+    BaudRate = br__9600
+    DataBits = db8bits
+    Parity = pNone
+    FlowControl = fcNone
+    StopBits = sbOne
+    Device = 'COM1'
+    RcvLineCRLF = False
+    Left = 48
+    Top = 16
+  end
 end

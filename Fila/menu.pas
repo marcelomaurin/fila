@@ -6,7 +6,10 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, RLReport, Impressao;
+  ExtCtrls, RLReport, LazSerial, Impressao, imp_ELGINI9;
+
+type CTipoIMP = (TI_DRIVER, TI_SERIAL,  TI_BLUETOOTH);
+type CModeloIMP = (MI_ELGINI9);
 
 type
 
@@ -20,6 +23,7 @@ type
     btFila2: TButton;
     BtFila3: TButton;
     Label2: TLabel;
+    LazSerial1: TLazSerial;
     Lista1 : TStringList;
     Lista2 : TStringList;
     Lista3 : TStringList;
@@ -43,13 +47,22 @@ type
     lbFILA3: string;
     empresa : string;
     localizacao : string;
+    comport : string;
+    tipoimp : CTipoIMP;
+    modeloimp: CModeloIMP;
     procedure Imprime(Tipo : integer);
     function PegaNro(Tipo: integer): integer;
     function PegaNomeFila(Tipo : integer): string;
     function PegaLocalizacao(): string;
     function PegaEmpresa():string;
-
+    procedure ImprimeDriver(tipo: integer; nro : integer; senha : string);
+    procedure ImprimeSerial(Tipo: integer; nro : integer; senha : string);
+    procedure DefaultSerial();
+    procedure TextoSerial(info : string);
+    procedure LineSerial();
   end;
+
+
 
 var
   frmMenu: TfrmMenu;
@@ -107,18 +120,13 @@ begin
 
 end;
 
-procedure TfrmMenu.Imprime(Tipo : integer);
-var
-  nro : integer;
-  Senha : String;
+procedure TfrmMenu.ImprimeDriver(tipo: integer; nro : integer; senha : string);
 begin
   frmImpressao.RLTipo.Caption:= PegaNomeFila(Tipo);
-  nro := PegaNro(TIPO);
-  Senha := chr(ord('A')-1+Tipo)+inttostr(nro);
   Case Tipo of
-  1: lista1.Append(senha);
-  2: lista2.Append(senha);
-  3: lista3.Append(senha);
+      1: lista1.Append(senha);
+      2: lista2.Append(senha);
+      3: lista3.Append(senha);
   end;
   //frmImpressao.RLBNRO.Caption := senha;
   frmImpressao.RLEmpresa.caption := pegaEmpresa();
@@ -129,6 +137,81 @@ begin
   frmImpressao.RLLocalizacao.Caption:= localizacao;
   frmImpressao.RLReport1.PrintDialog := false;
   frmImpressao.RLReport1.Print;
+end;
+
+procedure TfrmMenu.ImprimeSerial(Tipo: integer; nro : integer; senha : string);
+begin
+  try
+    LazSerial1.close;
+    DefaultSerial();
+    LazSerial1.Device:= comport;
+    LazSerial1.Open;
+    TextoSerial(pegaEmpresa);
+    LineSerial();
+    TextoSerial(senha);
+    LineSerial();
+    LazSerial1.close;
+  Except
+     on e: EInOutError do
+       ShowMessage(E.ClassName + '/'+ E.Message);
+  end;
+end;
+
+procedure TfrmMenu.DefaultSerial();
+begin
+  LazSerial1.BaudRate:= br__9600;
+  LazSerial1.DataBits:=db8bits;
+  LazSerial1.FlowControl := fcNone;
+  LazSerial1.StopBits:= sbOne;
+
+end;
+
+procedure TfrmMenu.TextoSerial(info : string);
+var
+  impElginI9 : TIMP_ELGINI9;
+  tmp : string;
+begin
+  if modeloimp = MI_ELGINI9 then
+  begin
+       impElginI9 := TIMP_ELGINI9.create();
+       tmp := impElginI9.LineText(info);
+       impElginI9.destroy();
+  end;
+  LazSerial1.WriteData(tmp);
+end;
+
+procedure TfrmMenu.LineSerial();
+var
+  impElginI9 : TIMP_ELGINI9;
+  tmp : string;
+
+begin
+  if modeloimp = MI_ELGINI9 then
+  begin
+       impElginI9 := TIMP_ELGINI9.create();
+       tmp := impElginI9.NewLine();
+       impElginI9.free();
+  end;
+  LazSerial1.WriteData(tmp);
+end;
+
+procedure TfrmMenu.Imprime(Tipo : integer);
+var
+  nro : integer;
+  Senha : String;
+begin
+  nro := PegaNro(TIPO);
+  Senha := chr(ord('A')-1+Tipo)+inttostr(nro);
+
+  if(TIPOIMP = TI_DRIVER) then (*Tipo driver*)
+  begin
+    ImprimeDriver(Tipo, nro, senha);
+  end;
+  if(TIPOIMP = TI_SERIAL) then  (*Tipo Serial*)
+  begin
+    ImprimeSerial(Tipo, nro , senha);
+  end;
+
 end;
 
 procedure TfrmMenu.BtFila1Click(Sender: TObject);
@@ -158,6 +241,7 @@ begin
   Lista1 := TStringList.Create();
   Lista2 := TStringList.Create();
   Lista3 := TStringList.Create();
+  DefaultSerial();
 
 end;
 
