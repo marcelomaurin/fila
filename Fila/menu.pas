@@ -6,13 +6,15 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, RLReport, LazSerial, Impressao, imp_ELGINI9;
+  ExtCtrls, RLReport, LazSerial, Impressao, imp_ELGINI9, cupom,funcoes;
 
 type CTipoIMP = (TI_DRIVER, TI_SERIAL,  TI_BLUETOOTH);
 type CModeloIMP = (MI_ELGINI9);
 
-type
+type CFormat = (FLeft, FCenter, FRigth); (*Formatacao do Texto*)
+type CTypeText = (TT_NORMAL, TT_DOUBLE ); (*Tipo do Texto*)
 
+type
   { TfrmMenu }
 
   TfrmMenu = class(TForm)
@@ -34,6 +36,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Label2Click(Sender: TObject);
+
 
   private
 
@@ -59,7 +63,11 @@ type
     procedure ImprimeSerial(Tipo: integer; nro : integer; senha : string);
     procedure DefaultSerial();
     procedure TextoSerial(info : string);
+    procedure TextoSerial(info : string; Formatacao : CFormat);
+    procedure TextoSerial(info : string; Formatacao : CFormat; typetext : CTypeText);
     procedure LineSerial();
+    function FormatacaoString(info: string;tam: integer; Formatacao:CFormat; margin: integer): TStringList;
+    procedure EjetarCUPOM();
   end;
 
 
@@ -111,12 +119,12 @@ end;
 
 function TfrmMenu.PegaLocalizacao(): string;
 begin
-  result := 'sem localizacao ';
+  result := localizacao;
 end;
 
 function TfrmMenu.PegaEmpresa():string;
 begin
-  result := 'Nao implementado';
+  result := empresa;
 
 end;
 
@@ -142,19 +150,42 @@ end;
 procedure TfrmMenu.ImprimeSerial(Tipo: integer; nro : integer; senha : string);
 begin
   try
+    Case Tipo of
+        1: lista1.Append(senha);
+        2: lista2.Append(senha);
+        3: lista3.Append(senha);
+    end;
     LazSerial1.close;
     DefaultSerial();
     LazSerial1.Device:= comport;
     LazSerial1.Open;
-    TextoSerial(pegaEmpresa);
-    LineSerial();
-    TextoSerial(senha);
-    LineSerial();
+    TextoSerial(pegaEmpresa(),FCENTER,TT_DOUBLE);
+    //LineSerial();
+    TextoSerial('TIPO:'+PegaNomeFila(Tipo),FLEFT,TT_NORMAL);
+    TextoSerial('Data:'+DateTimeToStr(now),FLEFT,TT_NORMAL);
+    //LineSerial();
+    TextoSerial('Senha:'+ senha,FLeft, TT_DOUBLE);
+    //LineSerial();
+    TextoSerial(PegaLocalizacao(),Fcenter);
+    EjetarCUPOM();
     LazSerial1.close;
   Except
      on e: EInOutError do
        ShowMessage(E.ClassName + '/'+ E.Message);
   end;
+end;
+
+procedure TfrmMenu.EjetarCUPOM();
+begin
+  TextoSerial(' -------- ',FCenter);
+  //LineSerial();
+  LineSerial();
+  LineSerial();
+  LineSerial();
+  LineSerial();
+  LineSerial();
+  LineSerial();
+  LineSerial();
 end;
 
 procedure TfrmMenu.DefaultSerial();
@@ -180,6 +211,59 @@ begin
   LazSerial1.WriteData(tmp);
 end;
 
+procedure TfrmMenu.TextoSerial(info: string; Formatacao: CFormat);
+var
+  info2 : Tstringlist;
+  tam : integer;
+  a : integer;
+begin
+  if modeloimp = MI_ELGINI9 then
+  begin
+       impElginI9 := TIMP_ELGINI9.create();
+       tam := impElginI9.Coluna;
+       impElginI9.destroy();
+  end;
+
+  info2 := FormatacaoString(info, tam, Formatacao,4);
+  for a := 0 to info2.Count-1 do
+    TextoSerial(info2.Strings[a]);
+end;
+
+procedure TfrmMenu.TextoSerial(info: string; Formatacao: CFormat;
+  typetext: CTypeText);
+var
+  info2 : Tstringlist;
+  tam : integer;
+  a : integer;
+  typetextantes : string;
+  typetextdepois : string;
+begin
+
+  if modeloimp = MI_ELGINI9 then
+  begin
+       impElginI9 := TIMP_ELGINI9.create();
+       tam := impElginI9.Coluna;
+       typetextdepois:= IMPELGINI9.Normal();
+       if (typetext = TT_NORMAL) then
+       begin
+            typetextantes:= IMPELGINI9.Normal();
+       end;
+
+       if (typetext = TT_DOUBLE) then
+       begin
+            typetextantes:= IMPELGINI9.DoubleTexto();
+            tam := (tam div 2);
+       end;
+       impElginI9.destroy();
+  end;
+
+  info2 := FormatacaoString(info, tam, Formatacao,iif(typetext=TT_DOUBLE,2,4));
+  TextoSerial(typetextantes);
+  for a := 0 to info2.Count-1 do
+    TextoSerial(info2.Strings[a]);
+  TextoSerial(typetextdepois);
+end;
+
 procedure TfrmMenu.LineSerial();
 var
   impElginI9 : TIMP_ELGINI9;
@@ -193,7 +277,50 @@ begin
        impElginI9.free();
   end;
   LazSerial1.WriteData(tmp);
+  frmcupom.mecupom.Lines.Append('');
+  sleep(200);
 end;
+
+function TfrmMenu.FormatacaoString(info: string; tam: integer;
+  Formatacao: CFormat; margin: integer): TStringList;
+var
+  tam2 : integer;
+  listagem : TStringList;
+  margem : integer;
+  aux : string;
+  spaces : string;
+  margemesquerda : integer;
+begin
+  listagem := TStringList.create();
+  margem := margin;
+  (*Quebrando em linhas*)
+  repeat
+           aux := copy(info,0,(tam-margem));
+           if (Formatacao = FLeft) then
+           begin
+                spaces := space(margem div 2);
+           end;
+           if (Formatacao = FCENTER) then
+           begin
+                margemesquerda := margem div 2;
+                spaces := space(margemesquerda)+space((Length(aux) div 2)-margemesquerda);
+           end;
+
+           aux :=spaces + aux;
+           //showmessage(aux);
+           listagem.Append(aux );
+           frmcupom.mecupom.Lines.Append(aux);
+           info := copy(info,(tam-margem)+1,Length(info));
+
+
+
+  until (Length(info)<(tam-margem)) ;
+
+  (*Formatando linhas*)
+  result := listagem;
+end;
+
+
 
 procedure TfrmMenu.Imprime(Tipo : integer);
 var
@@ -238,6 +365,7 @@ end;
 procedure TfrmMenu.FormCreate(Sender: TObject);
 begin
   frmImpressao := TfrmImpressao.create(self);
+  frmcupom := tfrmcupom.create(self);
   Lista1 := TStringList.Create();
   Lista2 := TStringList.Create();
   Lista3 := TStringList.Create();
@@ -248,12 +376,19 @@ end;
 procedure TfrmMenu.FormDestroy(Sender: TObject);
 begin
   frmImpressao.free;
+  frmcupom.free;
   frmImpressao := nil;
+  frmcupom := nil;
 end;
 
 procedure TfrmMenu.FormShow(Sender: TObject);
 begin
 
+end;
+
+procedure TfrmMenu.Label2Click(Sender: TObject);
+begin
+  frmcupom.show;
 end;
 
 end.

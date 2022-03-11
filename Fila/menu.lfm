@@ -64,6 +64,7 @@ object frmMenu: TfrmMenu
     Alignment = taCenter
     Caption = 'Projeto FILA, sistema Opensource de emissão de tickets para controle de fila.'
     ParentColor = False
+    OnClick = Label2Click
   end
   object Image1: TImage
     Left = 8

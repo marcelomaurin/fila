@@ -46,6 +46,7 @@ type
      function ImprimeQRCODEArmazenado(): string;
  published
      property Serial : String read getserial  write setserial;
+     property Coluna : integer read FCOLUNA;
 end;
 
 var
