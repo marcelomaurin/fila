@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Menus, DataPortIP, lNetComponents, menu, lNet, log, splash, registro,
-  setmain;
+  setmain, IMP;
 
 const
 
@@ -349,8 +349,8 @@ begin
     frmMenu.lbFILA2 := edTipo2.text;
     frmMenu.lbFILA3 := edTipo3.text;
     frmMenu.comport := edPorta.text;
-    frmMenu.Tipoimp :=   CTipoIMP(cbTipoImp.ItemIndex);
-    frmMenu.modeloimp := CModeloIMP(cbModeImp.itemindex);
+    frmMenu.FIMP.Tipoimp :=   CTipoIMP(cbTipoImp.ItemIndex);
+    frmMenu.FIMP.modeloimp := CModeloIMP(cbModeImp.itemindex);
 
     TrayIcon1.BalloonTitle:='FILA';
     TrayIcon1.Animate:=false;
