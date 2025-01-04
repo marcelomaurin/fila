@@ -1,7 +1,7 @@
 set Source=D:\projetos\maurinsoft\fila\Painel\build\outputs\apk\release\Painel-armeabi-v7a-release-unsigned.apk
 set jdkbindir=C:\Program Files\Java\jdk-11.0.9\bin
 set APP_NAME=Painel
-set Yourpassword=226468
+set Yourpassword=PASSWORD
 set YourApp=Painel
 set YourHavefunsoft=Maurinsoft
 set Yourcompany=maurinsoft
