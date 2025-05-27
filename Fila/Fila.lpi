@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
+      <Flags>
+        <CompatibilityMode Value="True"/>
+      </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="Fila"/>
       <Scaled Value="True"/>
       <ResourceType Value="res"/>
@@ -27,24 +29,30 @@
         <Mode0 Name="default"/>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="5">
+    <RequiredPackages Count="7">
       <Item1>
-        <PackageName Value="LazSerialPort"/>
+        <PackageName Value="industrial"/>
       </Item1>
       <Item2>
-        <PackageName Value="lnetvisual"/>
+        <PackageName Value="rxnew"/>
       </Item2>
       <Item3>
-        <PackageName Value="DataPortLasarus"/>
+        <PackageName Value="LazSerialPort"/>
       </Item3>
       <Item4>
-        <PackageName Value="fortes324forlaz"/>
+        <PackageName Value="lnetvisual"/>
       </Item4>
       <Item5>
-        <PackageName Value="LCL"/>
+        <PackageName Value="DataPortLasarus"/>
       </Item5>
+      <Item6>
+        <PackageName Value="fortes324forlaz"/>
+      </Item6>
+      <Item7>
+        <PackageName Value="LCL"/>
+      </Item7>
     </RequiredPackages>
-    <Units Count="14">
+    <Units Count="16">
       <Unit0>
         <Filename Value="Fila.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -121,8 +129,23 @@
         <Filename Value="cupom.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmcupom"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit13>
+      <Unit14>
+        <Filename Value="impressao2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmimpressao2"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="toolsfalar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmToolsfalar"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit15>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -142,6 +165,9 @@
       </Optimizations>
     </CodeGeneration>
     <Linking>
+      <Debugging>
+        <DebugInfoType Value="dsDwarf3"/>
+      </Debugging>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>

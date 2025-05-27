@@ -1,55 +1,55 @@
 object frmMenu: TfrmMenu
-  Left = 443
-  Height = 466
-  Top = 362
-  Width = 822
+  Left = 350
+  Height = 736
+  Top = 145
+  Width = 929
   BorderStyle = bsNone
   Caption = 'http://maurinsoft.com.br - Sistema de Controle de Fila'
-  ClientHeight = 466
-  ClientWidth = 822
+  ClientHeight = 736
+  ClientWidth = 929
   DefaultMonitor = dmPrimary
+  Position = poMainFormCenter
+  LCLVersion = '4.0.0.4'
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poMainFormCenter
-  LCLVersion = '2.0.12.0'
   object BtFila1: TButton
     Left = 336
     Height = 81
     Top = 80
-    Width = 467
+    Width = 574
     Anchors = [akTop, akLeft, akRight]
     Caption = 'COMUM'
-    OnClick = BtFila1Click
     TabOrder = 0
+    OnClick = BtFila1Click
   end
   object btFila2: TButton
     Left = 336
     Height = 81
     Top = 208
-    Width = 467
+    Width = 574
     Anchors = [akTop, akLeft, akRight]
     Caption = 'IDOSO'
-    OnClick = btFila2Click
     TabOrder = 1
+    OnClick = btFila2Click
   end
   object BtFila3: TButton
     Left = 336
     Height = 81
     Top = 336
-    Width = 467
+    Width = 574
     Anchors = [akTop, akLeft, akRight]
     Caption = 'ESPECIAL'
-    OnClick = BtFila3Click
     TabOrder = 2
+    OnClick = BtFila3Click
   end
   object Label1: TLabel
     Left = 120
     Height = 37
     Top = 16
-    Width = 546
-    Caption = 'Pressione o botão para imprimir seu ticket'
+    Width = 654
+    Caption = 'Click ou Pressione o botão para imprimir seu ticket'
     Font.Height = -27
     Font.Style = [fsBold]
     ParentColor = False
@@ -58,8 +58,8 @@ object frmMenu: TfrmMenu
   object Label2: TLabel
     Left = 0
     Height = 15
-    Top = 451
-    Width = 822
+    Top = 721
+    Width = 929
     Align = alBottom
     Alignment = taCenter
     Caption = 'Projeto FILA, sistema Opensource de emissão de tickets para controle de fila.'
@@ -723,6 +723,26 @@ object frmMenu: TfrmMenu
     }
     Stretch = True
   end
+  object BtFila4: TButton
+    Left = 336
+    Height = 81
+    Top = 472
+    Width = 574
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'ESPECIAL'
+    TabOrder = 3
+    OnClick = BtFila4Click
+  end
+  object BtFila5: TButton
+    Left = 336
+    Height = 81
+    Top = 592
+    Width = 574
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'ESPECIAL'
+    TabOrder = 4
+    OnClick = BtFila5Click
+  end
   object LazSerial1: TLazSerial
     Active = False
     BaudRate = br__9600
@@ -730,6 +750,17 @@ object frmMenu: TfrmMenu
     Parity = pNone
     FlowControl = fcNone
     StopBits = sbOne
+    SynSer.Tag = 0
+    SynSer.Handle = -1
+    SynSer.RaiseExcept = False
+    SynSer.TestDSR = False
+    SynSer.TestCTS = False
+    SynSer.MaxLineLength = 0
+    SynSer.DeadlockTimeout = 30000
+    SynSer.LinuxLock = False
+    SynSer.ConvertLineEnd = False
+    SynSer.AtTimeout = 1000
+    SynSer.InterPacketTimeout = True
     Device = 'COM1'
     RcvLineCRLF = False
     Left = 48

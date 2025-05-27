@@ -33,6 +33,11 @@ type
         FIPFILA : String;
         FIPPAINEL : String;
         FLastFiles : String;
+        FRotulo01 : string;
+        FRotulo02 : string;
+        FRotulo03 : string;
+        FRotulo04 : string;
+        FRotulo05 : string;
         //filename : String;
         procedure SetTOP(value : integer);
         procedure SetLEFT(value : integer);
@@ -56,6 +61,12 @@ type
         property IPFILA: string read FIPFILA write SetIPFILA;
         property IPPAINEL: string read FIPPAINEL write SetIPPAINEL;
         property PAINEL: boolean read FPAINEL write SetPAINEL;
+        property Rotulo01 : string read FRotulo01 write FRotulo01;
+        property Rotulo02 : string read FRotulo02 write FRotulo02;
+        property Rotulo03 : string read FRotulo03 write FRotulo03;
+        property Rotulo04 : string read FRotulo04 write FRotulo04;
+        property Rotulo05 : string read FRotulo05 write FRotulo05;
+
   end;
 
   var
@@ -78,6 +89,11 @@ begin
    FIPFILA:='127.0.0.1';
    FIPPAINEL:='127.0.0.1';
    FPainel := true;
+   FRotulo01 := 'Tipo01';
+   FRotulo02 := 'Tipo02';
+   FRotulo03 := 'Tipo03';
+   FRotulo04 := 'Tipo04';
+   FRotulo05 := 'Tipo05';
 end;
 
 procedure TSetMain.SetLEFT(value: integer);
@@ -160,7 +176,26 @@ begin
     begin
       FPAINEL := iif(RetiraInfo(arquivo.Strings[posicao])='TRUE',TRUE,FALSE);
     end;
-
+    if  BuscaChave(arquivo,'ROTULO01:',posicao) then
+    begin
+      FRotulo01 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'ROTULO02:',posicao) then
+    begin
+      FRotulo02 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'ROTULO03:',posicao) then
+    begin
+      FRotulo03 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'ROTULO04:',posicao) then
+    begin
+      FRotulo04 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'ROTULO05:',posicao) then
+    begin
+      FRotulo05 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
 end;
 
 
@@ -209,7 +244,11 @@ begin
   arquivo.Append('IPFILA:'+FIPFILA);
   arquivo.Append('IPPAINEL:'+FIPPAINEL);
   arquivo.Append('CKPAINEL:'+iif(FPAINEL=true,'TRUE','FALSE'));
-
+  arquivo.Append('ROTULO01:'+FROTULO01);
+  arquivo.Append('ROTULO02:'+FROTULO02);
+  arquivo.Append('ROTULO03:'+FROTULO03);
+  arquivo.Append('ROTULO04:'+FROTULO04);
+  arquivo.Append('ROTULO05:'+FROTULO05);
   arquivo.SaveToFile(fullname);
 end;
 

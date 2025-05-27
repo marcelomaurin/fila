@@ -6,10 +6,10 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Menus, ComCtrls, PopupNotifier, lNetComponents, lNet, DataPortIP,
-  setmain, setup, splash, registro, log;
+  StdCtrls, Menus, ComCtrls, PopupNotifier, Buttons, lNetComponents, lNet,
+  DataPortIP, setmain, setup, splash, registro, log, hint;
 
-const Versao = '1.16';
+const Versao = '1.19';
 
 type
 
@@ -21,6 +21,9 @@ type
     btLog: TButton;
     btTipo1: TButton;
     btTipo3: TButton;
+    btTipo4: TButton;
+    btTipo5: TButton;
+    ImageList1: TImageList;
     LTCPComponent1: TLTCPComponent;
     btChamar: TMenuItem;
     btRechamar: TMenuItem;
@@ -34,6 +37,8 @@ type
     MenuItem12: TMenuItem;
     MenuItem13: TMenuItem;
     MenuItem14: TMenuItem;
+    miLimpar: TMenuItem;
+    miRechamar: TMenuItem;
     miLog: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
@@ -41,8 +46,10 @@ type
     PageControl1: TPageControl;
     Panel1: TPanel;
     Panel2: TPanel;
+    pmItem: TPopupMenu;
+    pmraiz: TPopupMenu;
     PopupMenu2: TPopupMenu;
-    PopupNotifier1: TPopupNotifier;
+    btrechamar3: TSpeedButton;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     TrayIcon1: TTrayIcon;
@@ -51,6 +58,8 @@ type
     procedure btFila2Click(Sender: TObject);
     procedure btFila3Click(Sender: TObject);
     procedure btLogClick(Sender: TObject);
+    procedure btrechamar2Click(Sender: TObject);
+    procedure btrechamar3Click(Sender: TObject);
     procedure btRechamarClick(Sender: TObject);
     procedure btSairClick(Sender: TObject);
     procedure btSetup01Click(Sender: TObject);
@@ -59,6 +68,8 @@ type
     procedure btTipo1Click(Sender: TObject);
     procedure btTipo2Click(Sender: TObject);
     procedure btTipo3Click(Sender: TObject);
+    procedure btTipo4Click(Sender: TObject);
+    procedure btTipo5Click(Sender: TObject);
     procedure DataPortTCP1DataAppear(Sender: TObject);
     procedure edGuicheChange(Sender: TObject);
     procedure edIPFILAChange(Sender: TObject);
@@ -80,21 +91,29 @@ type
     procedure MenuItem13Click(Sender: TObject);
     procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
+    procedure miLimparClick(Sender: TObject);
     procedure miLogClick(Sender: TObject);
+    procedure miRechamarClick(Sender: TObject);
     procedure TrayIcon1Click(Sender: TObject);
     procedure Chamar(nro : integer);
     procedure Painel(nro : string; guiche: integer);
     procedure Config();
+    procedure tvFilaChange(Sender: TObject; Node: TTreeNode);
 
   private
     conn : boolean;
+    conn2 : boolean;
     lastcall : string;
-    FsetMain :TSetMain;
+
     lista : TStringList;
     Mudou : boolean;
     procedure CarregaContexto();
   public
     tnFila : TTreeNode;
+    tnsel : TTreeNode;
+    procedure Rechamar();
+    procedure CadastraRaiz();
+    procedure AtualizaBotoes();
   end;
 
 var
@@ -115,9 +134,41 @@ begin
   self.width:= FsetMain.width;
   self.Height:= FSetMain.height;
 
-  frmsetup.edGuiche.text := FSETMAIN.NROGUICHE;
-  frmsetup.edIPFILA.text := FSETMAIN.IPFILA;
-  frmsetup.edIPPainel.text := FSETMAIN.IPPAINEL;
+
+end;
+
+procedure Tfrmmain.Rechamar();
+begin
+  if FsetMain.PAINEL then
+  begin
+       if(lastcall<>'') then
+       begin
+         painel(lastcall,strtoint(FSetMain.NROGUICHE));
+         frmhint.MessageHint(lastcall);
+       end
+       else
+       begin
+         //frmHint.MessageHint('Não há senhas a serem chamadas!');
+         ShowMessage('Não há senhas a serem chamadas!');
+       end;
+  end;
+  //ShowMessage(lastcall);
+
+end;
+
+procedure Tfrmmain.CadastraRaiz();
+begin
+  tnFila := tvFila.Items.AddFirst(nil,'Fila');
+  tnFila.ImageIndex:= 6;
+end;
+
+procedure Tfrmmain.AtualizaBotoes();
+begin
+       btTipo1.Caption:= FSetMain.Rotulo01;
+       btTipo2.Caption:= FSetMain.Rotulo02;
+       btTipo3.Caption:= FSetMain.Rotulo03;
+       btTipo4.Caption:= FSetMain.Rotulo04;
+       btTipo5.Caption:= FSetMain.Rotulo05;
 end;
 
 procedure Tfrmmain.btStartClick(Sender: TObject);
@@ -138,6 +189,16 @@ end;
 procedure Tfrmmain.btTipo3Click(Sender: TObject);
 begin
   chamar(3);
+end;
+
+procedure Tfrmmain.btTipo4Click(Sender: TObject);
+begin
+  chamar(4);
+end;
+
+procedure Tfrmmain.btTipo5Click(Sender: TObject);
+begin
+  chamar(5);
 end;
 
 procedure Tfrmmain.DataPortTCP1DataAppear(Sender: TObject);
@@ -173,21 +234,29 @@ end;
 
 procedure Tfrmmain.FormCreate(Sender: TObject);
 begin
+  frmhint := TfrmHint.create(self);
   self.Caption := 'Guiche - '+versao;
   frmSplash := TfrmSplash.create(self);
   frmSplash.lbVersao.caption := Versao;
+  FsetMain := TsetMain.create();
+  CarregaContexto();
+
+  frmsetup := Tfrmsetup.Create(self);
+
+
   frmLog := TfrmLog.create(self);
   frmSplash.show();
   application.ProcessMessages;
   frmRegistrar := TfrmRegistrar.create(self);
   frmRegistrar.Identifica(); (*Bate na Maurinsoft*)
-  frmsetup := Tfrmsetup.Create(self);
+  AtualizaBotoes();
+
   sleep(2000);
   lista := TStringList.create;
-  FsetMain := TsetMain.create();
-  CarregaContexto();
 
-  tnFila := tvFila.Items.AddFirst(nil,'Fila');
+
+
+  CadastraRaiz();
 
 
 end;
@@ -195,6 +264,7 @@ end;
 procedure Tfrmmain.FormDestroy(Sender: TObject);
 begin
   frmRegistrar.free();
+  frmHint.Free;
 end;
 
 procedure Tfrmmain.FormShow(Sender: TObject);
@@ -228,6 +298,7 @@ var
   nro : integer;
   posicao : integer;
   posfim : integer;
+  tvitem : TTreeNode;
 begin
   aSocket.GetMessage(info);
   posicao := pos('Fila:',info);
@@ -235,19 +306,30 @@ begin
   begin
     posfim := pos(#13,info);
     strNro := copy(info , posicao+7,posfim-(posicao+6));
+
     if (strNro <> '0'+#13) then
     begin
       lastcall:= strnro;
-      strNro2 := copy(strNro,2,length(strnro)-2);
-      nro := strtoint(strnro2);
+      strNro := StringReplace(strNro, #13, '', [rfReplaceAll]); // remove \r
+      strNro2 := StringReplace(strNro, #10, '', [rfReplaceAll]); // remove \n
+      //nro := strtoint(strnro2);
+      sleep(1000);
+      Application.ProcessMessages;
       if frmsetup.ckPainel.Checked then
       begin
-           Painel(strNro, strtoint(frmsetup.edGuiche.TextHint));
+           Painel(strNro2, strtoint(FSetMain.NROGUICHE));
       end;
       //ShowMessage('Senha:'+strNro);
-      PopupNotifier1.Text:=strNro;
-      PopupNotifier1.Show;
-      tvFila.Items.AddChild(tnFila,strNro);
+      //PopupNotifier1.Text:=strNro;
+      //PopupNotifier1.Show;
+      frmHint.MessageHint('Senha:'+strNro2);
+      tvitem := tvFila.Items.AddChild(tnFila,strNro2);
+      tvitem.ImageIndex:= 5;
+      //Chama o painel
+      if(FsetMain.PAINEL) then
+      begin
+         Painel( strNro2,strtoint(FsetMain.NROGUICHE));
+      end;
     end
     else
     begin
@@ -265,13 +347,13 @@ end;
 
 procedure Tfrmmain.LTCPComponent2Accept(aSocket: TLSocket);
 begin
-    conn := true;
+    conn2 := true;
 end;
 
 procedure Tfrmmain.LTCPComponent2Disconnect(aSocket: TLSocket);
 begin
   aSocket.Disconnect(true);
-  conn := false;
+  conn2 := false;
 end;
 
 procedure Tfrmmain.LTCPComponent2Receive(aSocket: TLSocket);
@@ -304,11 +386,7 @@ end;
 
 procedure Tfrmmain.MenuItem12Click(Sender: TObject);
 begin
-  if frmsetup.ckPainel.Checked then
-  begin
-       painel(lastcall,strtoint(frmsetup.edGuiche.text));
-  end;
-  ShowMessage(lastcall);
+     Rechamar();
 end;
 
 procedure Tfrmmain.Config();
@@ -330,6 +408,23 @@ begin
   FsetMain.SalvaContexto(false);
 end;
 
+procedure Tfrmmain.tvFilaChange(Sender: TObject; Node: TTreeNode);
+begin
+  tnsel := node;
+  if(node <> nil) then
+  begin
+    if(node.Parent = tnFila) then
+    begin
+      tvfila.PopupMenu := pmItem;
+    end
+    else
+    begin
+      tvfila.PopupMenu := pmraiz;
+    end;
+
+  end;
+end;
+
 procedure Tfrmmain.MenuItem13Click(Sender: TObject);
 begin
   Config();
@@ -342,7 +437,7 @@ begin
    conn := false;
    if not (LTCPComponent1.Connected) then
    begin
-     LTCPComponent1.Connect(frmsetup.edIPFILA.text,8095);
+     LTCPComponent1.Connect(FSetMain.IPFILA,8095);
      repeat
        //tentando conectar
        sleep(300);
@@ -351,10 +446,8 @@ begin
      until  not conn ;
      //LTCPComponent1.CallAction;
      sleep(1000);
-     param := 'Fila:'+inttoStr(nro)+#13+'>'+frmsetup.edGuiche.text+';';
+     param := 'Fila:'+inttoStr(nro)+#13+'>'+FSetMain.NROGUICHE+';';
      LTCPComponent1.SendMessage(param,nil);
-
-
    end;
 end;
 
@@ -362,19 +455,19 @@ procedure Tfrmmain.Painel(nro : string; guiche: integer);
 var
   param : string;
 begin
-   conn := false;
+   conn2 := false;
    if not (LTCPComponent2.Connected) then
    begin
-     LTCPComponent2.Connect(frmsetup.edIPPainel.text,8096);
+     LTCPComponent2.Connect(FsetMain.IPPAINEL,8196);
      repeat
        //tentando conectar
-       //sleep(300);
+       sleep(300);
        //frmlog.log('Tentando conectar');
        application.ProcessMessages;
-     until  not conn ;
+     until  not conn2 ;
      //LTCPComponent1.CallAction;
-     //delay(1000);
-     param := 'Fila:'+nro;
+     sleep(1000);
+     param := 'FILA:'+nro+'>'+inttostr(guiche)+';';
      LTCPComponent2.SendMessage(param,nil);
    end;
 end;
@@ -389,9 +482,34 @@ begin
   chamar(1);
 end;
 
+procedure Tfrmmain.miLimparClick(Sender: TObject);
+begin
+  tvFila.Items.Clear;
+  CadastraRaiz();
+end;
+
 procedure Tfrmmain.miLogClick(Sender: TObject);
 begin
   frmLog.show;
+end;
+
+procedure Tfrmmain.miRechamarClick(Sender: TObject);
+begin
+
+  if (tnsel <> nil)then
+  begin
+       if( tnsel.Text<>'') then
+       begin
+         painel( tnsel.Text,strtoint(FSetMain.NROGUICHE));
+         frmhint.MessageHint(lastcall);
+       end
+       else
+       begin
+         //frmHint.MessageHint('Não há senhas a serem chamadas!');
+         ShowMessage('Não há senhas a serem chamadas!');
+       end;
+  end;
+  //ShowMessage(lastcall);
 end;
 
 procedure Tfrmmain.TrayIcon1Click(Sender: TObject);
@@ -424,11 +542,22 @@ begin
   frmLog.show;
 end;
 
+procedure Tfrmmain.btrechamar2Click(Sender: TObject);
+begin
+
+end;
+
+procedure Tfrmmain.btrechamar3Click(Sender: TObject);
+begin
+   Rechamar();
+end;
+
 procedure Tfrmmain.btRechamarClick(Sender: TObject);
 begin
-  if frmsetup.ckpainel.Checked then
+  if FsetMain.PAINEL then
   begin
-       painel(lastcall,strtoint(frmsetup.edGuiche.text));
+       painel(lastcall,strtoint(FSetMain.NROGUICHE));
+       AtualizaBotoes();
   end;
   ShowMessage(lastcall);
 end;

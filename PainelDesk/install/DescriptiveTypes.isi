@@ -1,0 +1,130 @@
+[Code]
+//////////////////////////////////////////////////////////////////////////////
+// Descriptive Types Inno Setup extension
+// Copyright (C) 2004 by Gavin Lambert
+// This file can be freely distributed; however a credit would be nice.
+// Any modifications made to this file must be sent back to
+// isdt@mirality.co.nz for possible inclusion in a later version.
+//
+// File version: 1.0.1
+//////////////////////////////////////////////////////////////////////////////
+//
+//                       D O C U M E N T A T I O N
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+// First, you will need to define the descriptions for each setup type.  For
+// example, if you define the following setup types:
+//
+// [Types]
+// Name: Standard; Description: {cm:T_Standard}
+// Name: Complicated; Description: {cm:T_Complicated}
+// Name: Custom; Description: {cm:T_Custom}; Flags: iscustom
+//
+// Then you need to define the descriptions like so:
+//
+// [CustomMessages]
+// T_Standard=Standard
+// TD_Standard=Long description for the 'Standard' setup type
+// T_Complicated=Big and Complex
+// TD_Complicated=Long description for the 'Big and Complex' setup type
+// T_Custom=Custom
+// TD_Custom=Long description for the 'Custom' setup type
+//
+// The T_* messages are the short names shown in the combobox, as normal.
+// The TD_* messages are the descriptive text shown next to the component
+// list when the corresponding type is selected.  The bit after the
+// underscore must be the "Name" of the type.
+//
+// Next up, you need to provide the name of your custom type, if it isn't
+// "custom".  This is because the component list will only be editable when
+// this particular type is selected.  In the above example, we don't need to
+// do anything, but if our custom line read like this instead:
+//   Name: Whatever; Description: {cm:T_Whatever}; Flags: iscustom
+// Then you need to include the following line in your script:
+//   #define MSIDT_CustomType "Whatever"
+//
+// Finally, you need to #include this file, and then somewhere *below* that,
+// include the following line in your InitializeWizard function:
+//   InitializeDescriptiveTypes();
+//
+// So, a complete example (assuming the custom type was called 'Whatever'):
+//
+//   ; [Setup], [Files] etc sections go here
+//   [Code]
+//   #define MSIDT_CustomType "Whatever"
+//   #include "DescriptiveTypes.isi"
+//   // -- the rest of your code goes here
+//   procedure InitializeWizard();
+//   begin
+//       InitializeDescriptiveTypes();
+//       // do anything else you want to do in InitializeWizard...
+//   end;
+//
+//////////////////////////////////////////////////////////////////////////////
+
+#ifndef MSIDT_CustomType
+  #define MSIDT_CustomType "custom"
+#endif
+
+var
+	MSIDT_StandardTypeChangeHandler: TNotifyEvent;
+
+procedure MSIDT_OnChangeType(Sender: TObject);
+var
+	setupType: String;
+	TypeDescHeader, TypeDescBlurb: TLabel;
+begin
+	MSIDT_StandardTypeChangeHandler(Sender);
+
+	TypeDescHeader := TLabel(WizardForm.FindComponent('MSIDT_TypeDescHeader'));
+	TypeDescBlurb := TLabel(WizardForm.FindComponent('MSIDT_TypeDescBlurb'));
+	setupType := WizardSetupType(False);
+
+	TypeDescHeader.Caption := ExpandConstant(WizardSetupType(True));
+	TypeDescBlurb.Caption := ExpandConstant('{cm:TD_' + setupType + '}');
+
+	WizardForm.ComponentsList.Enabled := (Lowercase(setupType) = Lowercase('{#MSIDT_CustomType}'));
+end;
+
+procedure InitializeDescriptiveTypes();
+var
+	TypeDescPanel: TPanel;
+	TypeDescHeader, TypeDescBlurb: TLabel;
+begin
+	TypeDescPanel := TPanel.Create(WizardForm);
+	TypeDescPanel.Top := WizardForm.TypesCombo.Top;
+	TypeDescPanel.Width := 150;
+	TypeDescPanel.Left := WizardForm.TypesCombo.Left + WizardForm.TypesCombo.Width - TypeDescPanel.Width;
+	TypeDescPanel.Height := (WizardForm.ComponentsList.Top + WizardForm.ComponentsList.Height) - TypeDescPanel.Top;
+	TypeDescPanel.BevelOuter := bvLowered;
+	TypeDescPanel.BevelInner := bvRaised;
+	TypeDescPanel.Color := $DDFFFF;
+	TypeDescPanel.Parent := WizardForm.TypesCombo.Parent;
+	WizardForm.TypesCombo.Width := WizardForm.TypesCombo.Width - TypeDescPanel.Width - 4;
+	WizardForm.ComponentsList.Width := WizardForm.ComponentsList.Width - TypeDescPanel.Width - 4;
+
+	TypeDescHeader := TLabel.Create(WizardForm);
+	TypeDescHeader.Name := 'MSIDT_TypeDescHeader';
+	TypeDescHeader.AutoSize := False;
+	TypeDescHeader.Top := 4;
+	TypeDescHeader.Width := TypeDescPanel.Width - 8;
+	TypeDescHeader.Left := 4;
+	TypeDescHeader.Font.Style := [fsBold];
+	TypeDescHeader.Parent := TypeDescPanel;
+
+	TypeDescBlurb := TLabel.Create(WizardForm);
+	TypeDescBlurb.Name := 'MSIDT_TypeDescBlurb';
+	TypeDescBlurb.AutoSize := False;
+	TypeDescBlurb.WordWrap := True;
+	TypeDescBlurb.Top := WizardForm.ComponentsList.Top - TypeDescPanel.Top;
+	TypeDescBlurb.Left := 4;
+	TypeDescBlurb.Width := TypeDescHeader.Width;
+	TypeDescBlurb.Height := TypeDescPanel.Height - TypeDescBlurb.Top - 4;
+	TypeDescBlurb.Parent := TypeDescPanel;
+
+	MSIDT_StandardTypeChangeHandler := WizardForm.TypesCombo.OnChange;
+	WizardForm.TypesCombo.OnChange := @MSIDT_OnChangeType;
+
+	MSIDT_OnChangeType(nil);
+end;

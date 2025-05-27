@@ -1,0 +1,431 @@
+object frmmain: Tfrmmain
+  Left = -1614
+  Height = 863
+  Top = 53
+  Width = 1211
+  Caption = 'Painel Desktop'
+  ClientHeight = 863
+  ClientWidth = 1211
+  LCLVersion = '4.0.0.4'
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 1211
+    Align = alTop
+    ClientHeight = 50
+    ClientWidth = 1211
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 376
+      Height = 40
+      Top = 8
+      Width = 456
+      Alignment = taCenter
+      Caption = 'Painel de Atendimento de senhas'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Height = 711
+    Top = 50
+    Width = 844
+    Align = alClient
+    ClientHeight = 711
+    ClientWidth = 844
+    TabOrder = 1
+    object PageControl1: TPageControl
+      Left = 1
+      Height = 709
+      Top = 1
+      Width = 842
+      ActivePage = tsAnuncios
+      Align = alClient
+      TabIndex = 0
+      TabOrder = 0
+      object tsAnuncios: TTabSheet
+        Caption = 'Anuncios'
+        ClientHeight = 681
+        ClientWidth = 834
+        object Image1: TImage
+          Left = 0
+          Height = 681
+          Top = 0
+          Width = 834
+          Align = alClient
+          Stretch = True
+        end
+      end
+      object TabSheet2: TTabSheet
+        Caption = 'Hora'
+        ClientHeight = 681
+        ClientWidth = 834
+        object AnalogWatch1: TAnalogWatch
+          Left = 16
+          Height = 376
+          Top = 16
+          Width = 440
+          Interval = 1000
+          DefinedTime = '18:26:26:00'
+          MeetTime = '12:00:00'
+        end
+      end
+      object tsSenha: TTabSheet
+        Caption = 'Senhas'
+        ClientHeight = 681
+        ClientWidth = 834
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        ParentFont = False
+        object Label8: TLabel
+          Left = 16
+          Height = 128
+          Top = 48
+          Width = 791
+          Caption = 'Guichê:      Senha:'
+          Font.CharSet = ANSI_CHARSET
+          Font.Height = -96
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lbSenhaAtual: TLabel
+          Left = 512
+          Height = 128
+          Top = 232
+          Width = 282
+          Caption = 'B0000'
+          Font.CharSet = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -96
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lbguicheatual: TLabel
+          Left = 32
+          Height = 128
+          Top = 232
+          Width = 335
+          Caption = 'Guichê:'
+          Font.CharSet = ANSI_CHARSET
+          Font.Height = -96
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+      end
+      object tbConfig: TTabSheet
+        Caption = 'Configurações'
+        ClientHeight = 681
+        ClientWidth = 834
+        object Label2: TLabel
+          Left = 8
+          Height = 15
+          Top = 32
+          Width = 48
+          Caption = 'IP Painel:'
+        end
+        object edIPServidor: TIPEdit
+          Left = 8
+          Height = 23
+          Top = 50
+          Width = 160
+          TabOrder = 0
+          Text = '127.  0.  0.  1'
+        end
+        object edPorta: TEdit
+          Left = 197
+          Height = 23
+          Top = 48
+          Width = 80
+          TabOrder = 1
+          Text = '8196'
+        end
+        object Label17: TLabel
+          Left = 200
+          Height = 15
+          Top = 32
+          Width = 31
+          Caption = 'Porta:'
+        end
+        object btSalvar: TButton
+          Left = 189
+          Height = 41
+          Top = 192
+          Width = 88
+          Caption = 'Salvar'
+          TabOrder = 2
+          OnClick = btSalvarClick
+        end
+        object edIPFalarServidor: TIPEdit
+          Left = 8
+          Height = 23
+          Top = 98
+          Width = 160
+          TabOrder = 3
+          Text = '127.  0.  0.  1'
+        end
+        object Label6: TLabel
+          Left = 8
+          Height = 15
+          Top = 80
+          Width = 41
+          Caption = 'IP Falar:'
+        end
+        object edFalarPorta: TEdit
+          Left = 197
+          Height = 23
+          Top = 96
+          Width = 80
+          TabOrder = 4
+          Text = '8096'
+        end
+        object Label18: TLabel
+          Left = 200
+          Height = 15
+          Top = 80
+          Width = 31
+          Caption = 'Porta:'
+        end
+        object Label7: TLabel
+          Left = 10
+          Height = 15
+          Top = 131
+          Width = 24
+          Caption = 'URL:'
+        end
+        object edURL: TEdit
+          Left = 8
+          Height = 23
+          Top = 144
+          Width = 344
+          TabOrder = 5
+        end
+      end
+      object tbLog: TTabSheet
+        Caption = 'Log'
+        ClientHeight = 681
+        ClientWidth = 834
+        object Memo1: TMemo
+          Left = 0
+          Height = 681
+          Top = 0
+          Width = 834
+          Align = alClient
+          Lines.Strings = (
+            'Memo1'
+          )
+          TabOrder = 0
+        end
+      end
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Height = 102
+    Top = 761
+    Width = 1211
+    Align = alBottom
+    ClientHeight = 102
+    ClientWidth = 1211
+    TabOrder = 2
+    object Label3: TLabel
+      Left = 16
+      Height = 40
+      Top = 8
+      Width = 72
+      Caption = 'Data:'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object ledData: TLEDNumber
+      Left = 16
+      Height = 30
+      Top = 48
+      Width = 170
+      Caption = '01/01/2025'
+    end
+    object Label4: TLabel
+      Left = 200
+      Height = 40
+      Top = 8
+      Width = 76
+      Caption = 'Hora:'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object ledhora: TLEDNumber
+      Left = 200
+      Height = 30
+      Top = 48
+      Width = 136
+      Caption = '12:00:00'
+      Columns = 8
+    end
+    object Label5: TLabel
+      Left = 376
+      Height = 40
+      Top = 8
+      Width = 160
+      Caption = 'Mensagem:'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbmsg: TLabel
+      Left = 376
+      Height = 40
+      Top = 40
+      Width = 580
+      Caption = 'Painel de chamada, aguarde atendimento.'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  object Panel4: TPanel
+    Left = 844
+    Height = 711
+    Top = 50
+    Width = 367
+    Align = alRight
+    ClientHeight = 711
+    ClientWidth = 367
+    TabOrder = 3
+    object lbIGrupo1: TLabel
+      Left = 24
+      Height = 40
+      Top = 134
+      Width = 127
+      Caption = 'Guichê 1:'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbIGrupo2: TLabel
+      Left = 24
+      Height = 40
+      Top = 214
+      Width = 127
+      Caption = 'Guichê 2:'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbIGrupo3: TLabel
+      Left = 24
+      Height = 40
+      Top = 294
+      Width = 127
+      Caption = 'Guichê 3:'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbIGrupo4: TLabel
+      Left = 24
+      Height = 40
+      Top = 382
+      Width = 127
+      Caption = 'Guichê 4:'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label9: TLabel
+      Left = 24
+      Height = 80
+      Top = 24
+      Width = 241
+      Caption = 'Anteriores'#13#10'Guichê:      Senha:'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbGrupo1: TLabel
+      Left = 176
+      Height = 40
+      Top = 134
+      Width = 87
+      Caption = 'B0000'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbGrupo2: TLabel
+      Left = 176
+      Height = 40
+      Top = 208
+      Width = 87
+      Caption = 'B0000'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbGrupo3: TLabel
+      Left = 176
+      Height = 40
+      Top = 294
+      Width = 87
+      Caption = 'B0000'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbGrupo4: TLabel
+      Left = 176
+      Height = 40
+      Top = 382
+      Width = 87
+      Caption = 'B0000'
+      Font.Height = -29
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    Left = 331
+    Top = 323
+  end
+  object LTCPComponent1: TLTCPComponent
+    Port = 0
+    OnReceive = LTCPComponent1Receive
+    OnError = LTCPComponent1Error
+    OnDisconnect = LTCPComponent1Disconnect
+    OnConnect = LTCPComponent1Connect
+    OnAccept = LTCPComponent1Accept
+    Timeout = 0
+    ReuseAddress = False
+    Left = 122
+    Top = 255
+  end
+  object tmEspera: TTimer
+    Enabled = False
+    Interval = 60000
+    OnTimer = tmEsperaTimer
+    Left = 570
+    Top = 531
+  end
+  object tmImagens: TTimer
+    Enabled = False
+    Interval = 60000
+    OnTimer = tmImagensTimer
+    Left = 489
+    Top = 141
+  end
+end

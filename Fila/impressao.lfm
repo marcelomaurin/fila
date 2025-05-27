@@ -2,11 +2,11 @@ object frmImpressao: TfrmImpressao
   Left = 589
   Height = 105
   Top = 323
-  Width = 211
+  Width = 334
   Caption = 'cupom'
   ClientHeight = 105
-  ClientWidth = 211
-  LCLVersion = '2.0.12.0'
+  ClientWidth = 334
+  LCLVersion = '4.0.0.4'
   object RLReport1: TRLReport
     Left = 0
     Height = 94
@@ -25,14 +25,14 @@ object frmImpressao: TfrmImpressao
     PageSetup.PaperHeight = 25
     Transparent = False
     object RLNRO: TRLLabel
-      Left = 83
-      Height = 10
-      Top = 56
-      Width = 42
+      Left = 24
+      Height = 32
+      Top = 40
+      Width = 158
       Alignment = taCenter
       Caption = '1234567890'
       Font.Color = clBlack
-      Font.Height = 10
+      Font.Height = -27
       Font.Name = 'Arial'
       ParentFont = False
       AfterPrint = RLNROAfterPrint

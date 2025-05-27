@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="paineldesk.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="60" Y="13"/>
+        <UsageCount Value="53"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmmain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="481"/>
+        <CursorPos X="40" Y="511"/>
+        <UsageCount Value="53"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="setmain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="226"/>
+        <CursorPos X="31" Y="251"/>
+        <UsageCount Value="53"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="funcoes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="53"/>
+      </Unit>
+      <Unit>
+        <Filename Value="toolsfalar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmToolsfalar"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="28"/>
+        <CursorPos X="16" Y="49"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\Users\mmaurin\Desktop\projetos\maurinsoft\CHATGPT\pacote\chatgpt.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="180"/>
+        <CursorPos X="8" Y="194"/>
+        <UsageCount Value="8"/>
+      </Unit>
+      <Unit>
+        <Filename Value="D:\lazarus32\onlinepackagemanager\packages\lnet\lib\lnet.pp"/>
+        <UnitName Value="lNet"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="126"/>
+        <CursorPos X="14" Y="140"/>
+        <UsageCount Value="14"/>
+      </Unit>
+      <Unit>
+        <Filename Value="D:\lazarus32\onlinepackagemanager\packages\lnet\lazaruspackage\lnetcomponents.pas"/>
+        <UnitName Value="lNetComponents"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="140"/>
+        <CursorPos X="18" Y="43"/>
+        <UsageCount Value="16"/>
+      </Unit>
+      <Unit>
+        <Filename Value="D:\lazarus32\onlinepackagemanager\packages\lnet\lib\lhttp.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1638"/>
+        <CursorPos X="23" Y="1664"/>
+        <UsageCount Value="16"/>
+      </Unit>
+      <Unit>
+        <Filename Value="D:\lazarus32\onlinepackagemanager\packages\Indy10\Core\IdContext.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="97"/>
+        <CursorPos X="3" Y="95"/>
+        <UsageCount Value="14"/>
+      </Unit>
+      <Unit>
+        <Filename Value="D:\lazarus32\onlinepackagemanager\packages\Indy10\Core\IdSocketHandle.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="141"/>
+        <CursorPos X="13" Y="154"/>
+        <UsageCount Value="14"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="207" Column="23" TopLine="186"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="213" Column="30" TopLine="207"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="391" Column="28" TopLine="384"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="91" Column="56" TopLine="70"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="92" Column="24" TopLine="74"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="93" Column="15" TopLine="68"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="94" Column="37" TopLine="77"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="433" Column="14" TopLine="412"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="468" Column="3" TopLine="444"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="14" Column="27"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="325" Column="25" TopLine="308"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="14" Column="36"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="404" Column="25" TopLine="385"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="97" Column="29" TopLine="87"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="458" Column="18" TopLine="448"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="84" Column="32" TopLine="56"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="416" Column="8" TopLine="400"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="9" Column="76"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="495" Column="17" TopLine="480"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="496" Column="17" TopLine="481"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="508" Column="17" TopLine="480"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="84" Column="29" TopLine="68"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="131" Column="11" TopLine="107"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="132" Column="11" TopLine="107"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="133" Column="11" TopLine="107"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="483" Column="29" TopLine="457"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="511" Column="46" TopLine="493"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="118" Column="12" TopLine="111"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="120" Column="12" TopLine="113"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="130" Column="19" TopLine="113"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="537"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="533"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="273"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="197"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="194"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="180"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="518"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="135"/>
+      </Item>
+    </BreakPoints>
+  </Debugging>
+</CONFIG>
