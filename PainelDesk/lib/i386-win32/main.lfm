@@ -1,15 +1,15 @@
 object frmmain: Tfrmmain
-  Left = -1614
+  Left = 207
   Height = 863
-  Top = 53
+  Top = 111
   Width = 1211
   Caption = 'Painel Desktop'
   ClientHeight = 863
   ClientWidth = 1211
-  LCLVersion = '4.0.0.4'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
+  LCLVersion = '3.8.0.0'
   object Panel1: TPanel
     Left = 0
     Height = 50
@@ -45,9 +45,9 @@ object frmmain: Tfrmmain
       Height = 709
       Top = 1
       Width = 842
-      ActivePage = tsAnuncios
+      ActivePage = tbConfig
       Align = alClient
-      TabIndex = 0
+      TabIndex = 3
       TabOrder = 0
       object tsAnuncios: TTabSheet
         Caption = 'Anuncios'

@@ -92,7 +92,7 @@ begin
    FPORTPAINEL := '8196';
    FIPFALAR := '127.0.0.1';
    FPORTFALAR := '8096';
-   FURL := 'http://192.168.7.200/downloads/ptela/';
+   FURL := 'https://maurinsoft.com.br/downloads/ptela/';
    FPainel := true;
 end;
 

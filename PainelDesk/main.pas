@@ -137,7 +137,7 @@ begin
   FSetMain.IPFALAR:= edIPFalarServidor.text;
   FSetMain.PORTFALAR:= edFalarPorta.text;
   FSetMain.URL:= edURL.text;
-  FSetMain.SalvaContexto(true);
+  FSetMain.SalvaContexto(false);
 end;
 
 procedure Tfrmmain.Start_srv;
