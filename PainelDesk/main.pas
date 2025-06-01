@@ -8,10 +8,10 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
   MMSystem, ComCtrls, LedNumber, uplaysound, AnalogWatch, IPEdit, FileUtil,
   lNetComponents, IdSocksServer, IdCompressionIntercept, IdBlockCipherIntercept,
-  IdServerInterceptLogEvent, IdSSLOpenSSL, setmain, IdThread, IdCustomTCPServer,
-  IdContext, IdTCPServer, IdCmdTCPServer, IdSimpleServer, IdIOHandlerStack,
-  IdIOHandlerStream, IdServerIOHandlerStack, IdIntercept, IdComponent, lNet,
-  toolsfalar, fphttpclient, RegExpr;
+  IdServerInterceptLogEvent, IdSSLOpenSSL, IdHTTP, setmain, IdThread,
+  IdCustomTCPServer, IdContext, IdTCPServer, IdCmdTCPServer, IdSimpleServer,
+  IdIOHandlerStack, IdIOHandlerStream, IdServerIOHandlerStack, IdIntercept,
+  IdComponent, lNet, toolsfalar, fphttpclient, RegExpr;
 
 Const
   PortPainel = '8196';
@@ -27,6 +27,8 @@ type
     edURL: TEdit;
     edPorta: TEdit;
     edFalarPorta: TEdit;
+    IdHTTP1: TIdHTTP;
+    IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
     Image1: TImage;
     edIPServidor: TIPEdit;
     Label1: TLabel;
@@ -65,7 +67,7 @@ type
     Panel3: TPanel;
     Panel4: TPanel;
     tsAnuncios: TTabSheet;
-    TabSheet2: TTabSheet;
+    tsrelogio: TTabSheet;
     tbConfig: TTabSheet;
     Timer1: TTimer;
     procedure btSalvarClick(Sender: TObject);
@@ -120,7 +122,14 @@ end;
 
 procedure Tfrmmain.tmEsperaTimer(Sender: TObject);
 begin
-   PageControl1.ActivePage := tsAnuncios;
+   if(FSetMain.URL<> '') then
+   begin
+        PageControl1.ActivePage := tsAnuncios;
+   end
+   else
+   begin
+        PageControl1.ActivePage := tsrelogio;
+   end;
    PageControl1.Refresh;
    tmEspera.Enabled:= false;
 end;
@@ -334,55 +343,62 @@ end;
 
 procedure Tfrmmain.BaixarImagens(URL, PastaDestino: string);
 var
-  HTTP: TFPHTTPClient;
+  HTTP: TIdHTTP;
+  SSL: TIdSSLIOHandlerSocketOpenSSL;
   HTMLContent: TStringList;
   Regex: TRegExpr;
   FileName, FullURL, NomeArquivo: string;
   i: Integer;
 begin
-  HTTP := TFPHTTPClient.Create(nil);
+  HTTP := TIdHTTP.Create(nil);
+  SSL := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
   HTMLContent := TStringList.Create;
   Regex := TRegExpr.Create;
 
   try
-    // Limpa a pasta destino antes de baixar as imagens
+    //HTTP.IOHandler := SSL;
+    HTTP.HandleRedirects := True;
+    HTTP.Request.UserAgent := 'Mozilla/5.0 (compatible; IndyClient)';
+
     LimparPasta(PastaDestino);
 
-    // Baixa o HTML da URL fornecida
-    HTMLContent.Text := HTTP.Get(URL);
+    // ✅ CORRETO: captura HTML no TStringList com Indy
+    HTTP.Get(URL);
 
-    // Configura a expressão regular para encontrar arquivos de imagem
-    Regex.Expression := '<a href=[\"\'']([^\"\'']+\.(?:jpg|jpeg|png|gif|bmp|webp|svg|mp4))';
+    HTMLContent.Append(HTTP.ResponseText);
 
-    // Procura arquivos no HTML
+    // Regex para png, bmp e jpg
+    Regex.Expression := '<a href=["'']([^"'' ]+\.(?:png|bmp|jpg))["'']';
+
     i := 0;
     if Regex.Exec(HTMLContent.Text) then
     begin
-      //WriteLn('Iniciando download das imagens:');
       repeat
         FileName := Regex.Match[1];
 
-        // Cria a URL completa do arquivo
         if Pos('http', FileName) = 1 then
           FullURL := FileName
+        else if FileName[1] = '/' then
+          FullURL := Copy(URL, 1, Pos('/', URL, 9)) + FileName
         else
           FullURL := URL + '/' + FileName;
 
-        // Define o nome do arquivo local
-        NomeArquivo := Format('%s/image_%d%s', [PastaDestino, i, ExtractFileExt(FileName)]);
+        NomeArquivo := Format('%simage_%d%s', [IncludeTrailingPathDelimiter(PastaDestino), i, ExtractFileExt(FileName)]);
 
-        // Baixa o arquivo
-        HTTP.Get(FullURL, NomeArquivo);
-        //WriteLn('Imagem baixada: ', NomeArquivo);
+        try
+          HTTP.Get(FullURL);
+          NomeArquivo := HTTP.ResponseText;
+        except
+          on E: Exception do
+            ShowMessage('Erro ao baixar: ' + FullURL + sLineBreak + E.Message);
+        end;
+
         Inc(i);
-
       until not Regex.ExecNext;
     end;
-    //else
-      //WriteLn('Nenhum arquivo de imagem encontrado na URL fornecida.');
-
   finally
     HTTP.Free;
+    SSL.Free;
     HTMLContent.Free;
     Regex.Free;
   end;
@@ -502,13 +518,20 @@ begin
   Sleep(2000);
   Application.ProcessMessages;
   //frmToolsfalar.Hide;
+  if(fsetmain.URL<>'') then
+  begin
+    BaixarImagens(fsetmain.URL,IncludeTrailingPathDelimiter(GetEnvironmentVariable('APPDATA')) + 'protetor');
+    // Carrega imagens da pasta AppData
+    LoadImagesFromAppData;
+    ContaTelas();
+    tmImagens.Enabled:= true;
+    PageControl1.ActivePage := tsAnuncios;
 
-  BaixarImagens(fsetmain.URL,IncludeTrailingPathDelimiter(GetEnvironmentVariable('APPDATA')) + 'protetor');
-  // Carrega imagens da pasta AppData
-  LoadImagesFromAppData;
-  ContaTelas();
-  tmImagens.Enabled:= true;
-  PageControl1.ActivePage := tsAnuncios;
+  end
+  else
+  begin
+    PageControl1.ActivePage := tsRelogio;
+  end;
 
   //Start_srv;
 end;

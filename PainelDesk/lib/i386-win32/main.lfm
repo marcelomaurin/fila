@@ -45,9 +45,9 @@ object frmmain: Tfrmmain
       Height = 709
       Top = 1
       Width = 842
-      ActivePage = tbConfig
+      ActivePage = tsrelogio
       Align = alClient
-      TabIndex = 3
+      TabIndex = 1
       TabOrder = 0
       object tsAnuncios: TTabSheet
         Caption = 'Anuncios'
@@ -62,18 +62,19 @@ object frmmain: Tfrmmain
           Stretch = True
         end
       end
-      object TabSheet2: TTabSheet
+      object tsrelogio: TTabSheet
         Caption = 'Hora'
         ClientHeight = 681
         ClientWidth = 834
         object AnalogWatch1: TAnalogWatch
-          Left = 16
-          Height = 376
-          Top = 16
-          Width = 440
+          Left = 0
+          Height = 681
+          Top = 0
+          Width = 834
           Interval = 1000
           DefinedTime = '18:26:26:00'
           MeetTime = '12:00:00'
+          Align = alClient
         end
       end
       object tsSenha: TTabSheet
@@ -427,5 +428,32 @@ object frmmain: Tfrmmain
     OnTimer = tmImagensTimer
     Left = 489
     Top = 141
+  end
+  object IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL
+    MaxLineAction = maException
+    Port = 0
+    DefaultPort = 0
+    SSLOptions.Mode = sslmUnassigned
+    SSLOptions.VerifyMode = []
+    SSLOptions.VerifyDepth = 0
+    Left = 116
+    Top = 343
+  end
+  object IdHTTP1: TIdHTTP
+    IOHandler = IdSSLIOHandlerSocketOpenSSL1
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 126
+    Top = 457
   end
 end
