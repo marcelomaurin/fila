@@ -77,3 +77,33 @@ FILA - Emite el ticket de contraseña, además de tener una impresora térmica, 
 Guiche - Instalado en el terminal de la persona que realizará el servicio, recoja el siguiente número en base a la lista almacenada en FILA.
 Panel: instalado en una tableta o televisor Android, le permite leer la información de la FILA.
 </ul>
+
+## Building the Projects
+
+### Lazarus Projects
+The directories `Fila`, `Guiche` and `PainelDesk` each contain a Lazarus project
+file (`*.lpi`). To build a project:
+
+1. Open the `.lpi` file in the Lazarus IDE.
+2. Ensure the required packages are installed.
+3. Use **Run → Build** to compile the executable for your platform.
+
+### Android Module
+The Android client lives in `Painel/Painel_Laz`. Open this project with
+[LAMW](https://github.com/jmpessoa/lazandroidmodulewizard) and use
+**[LAMW] Build Android Apk and Run** (or the provided `gradlew`/`ant` scripts)
+to create the APK.
+
+### Pre‑built Binaries
+Pre‑compiled releases are kept in the `bin` directory or may be distributed on
+the project website.
+
+## Text‑to‑Speech Server
+The script `PainelDesk/srvfalar.py` provides optional text‑to‑speech support.
+Install the Python requirements and run the server:
+
+```bash
+pip install -r requirements.txt
+python PainelDesk/srvfalar.py
+```
+
