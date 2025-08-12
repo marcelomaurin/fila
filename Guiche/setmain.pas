@@ -33,6 +33,17 @@ type
         FIPFILA : String;
         FIPPAINEL : String;
         FLastFiles : String;
+        FRotulo01 : string;
+        FRotulo02 : string;
+        FRotulo03 : string;
+        FRotulo04 : string;
+        FRotulo05 : string;
+        FHabilitado01: boolean;
+        FHabilitado02: boolean;
+        FHabilitado03: boolean;
+        FHabilitado04: boolean;
+        FHabilitado05: boolean;
+
         //filename : String;
         procedure SetTOP(value : integer);
         procedure SetLEFT(value : integer);
@@ -56,6 +67,16 @@ type
         property IPFILA: string read FIPFILA write SetIPFILA;
         property IPPAINEL: string read FIPPAINEL write SetIPPAINEL;
         property PAINEL: boolean read FPAINEL write SetPAINEL;
+        property Rotulo01 : string read FRotulo01 write FRotulo01;
+        property Rotulo02 : string read FRotulo02 write FRotulo02;
+        property Rotulo03 : string read FRotulo03 write FRotulo03;
+        property Rotulo04 : string read FRotulo04 write FRotulo04;
+        property Rotulo05 : string read FRotulo05 write FRotulo05;
+        property Habilitado01 : boolean read FHabilitado01 write FHabilitado01;
+        property Habilitado02 : boolean read FHabilitado02 write FHabilitado02;
+        property Habilitado03 : boolean read FHabilitado03 write FHabilitado03;
+        property Habilitado04 : boolean read FHabilitado04 write FHabilitado04;
+        property Habilitado05 : boolean read FHabilitado05 write FHabilitado05;
   end;
 
   var
@@ -78,6 +99,16 @@ begin
    FIPFILA:='127.0.0.1';
    FIPPAINEL:='127.0.0.1';
    FPainel := true;
+   FRotulo01 := 'Tipo01';
+   FRotulo02 := 'Tipo02';
+   FRotulo03 := 'Tipo03';
+   FRotulo04 := 'Tipo04';
+   FRotulo05 := 'Tipo05';
+   FHabilitado01 := true;
+   FHabilitado02 := true;
+   FHabilitado03 := true;
+   FHabilitado04 := true;
+   FHabilitado05 := true;
 end;
 
 procedure TSetMain.SetLEFT(value: integer);
@@ -160,7 +191,46 @@ begin
     begin
       FPAINEL := iif(RetiraInfo(arquivo.Strings[posicao])='TRUE',TRUE,FALSE);
     end;
-
+    if  BuscaChave(arquivo,'ROTULO01:',posicao) then
+    begin
+      FRotulo01 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'ROTULO02:',posicao) then
+    begin
+      FRotulo02 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'ROTULO03:',posicao) then
+    begin
+      FRotulo03 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'ROTULO04:',posicao) then
+    begin
+      FRotulo04 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'ROTULO05:',posicao) then
+    begin
+      FRotulo05 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'HABILITADO01:',posicao) then
+    begin
+      FHABILITADO01 := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HABILITADO02:',posicao) then
+    begin
+      FHABILITADO02 := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HABILITADO03:',posicao) then
+    begin
+      FHABILITADO03 := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HABILITADO04:',posicao) then
+    begin
+      FHABILITADO04 := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HABILITADO05:',posicao) then
+    begin
+      FHABILITADO05 := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
 end;
 
 
@@ -209,7 +279,16 @@ begin
   arquivo.Append('IPFILA:'+FIPFILA);
   arquivo.Append('IPPAINEL:'+FIPPAINEL);
   arquivo.Append('CKPAINEL:'+iif(FPAINEL=true,'TRUE','FALSE'));
-
+  arquivo.Append('ROTULO01:'+FROTULO01);
+  arquivo.Append('ROTULO02:'+FROTULO02);
+  arquivo.Append('ROTULO03:'+FROTULO03);
+  arquivo.Append('ROTULO04:'+FROTULO04);
+  arquivo.Append('ROTULO05:'+FROTULO05);
+  arquivo.Append('HABILITADO01:'+iif(FHABILITADO01=true,'TRUE','FALSE'));
+  arquivo.Append('HABILITADO02:'+iif(FHABILITADO02=true,'TRUE','FALSE'));
+  arquivo.Append('HABILITADO03:'+iif(FHABILITADO03=true,'TRUE','FALSE'));
+  arquivo.Append('HABILITADO04:'+iif(FHABILITADO04=true,'TRUE','FALSE'));
+  arquivo.Append('HABILITADO05:'+iif(FHABILITADO05=true,'TRUE','FALSE'));
   arquivo.SaveToFile(fullname);
 end;
 

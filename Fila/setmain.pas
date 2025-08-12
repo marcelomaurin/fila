@@ -11,11 +11,17 @@ interface
 uses
   Classes, SysUtils, funcoes;
 
-const filename = 'main.cfg';
+const filename = 'fila.cfg';
 
 
 type
   { TfrmMenu }
+    TPadraoPapel = (TP_58MM, TP_80MM);
+    TTipoIMP = (TI_DRIVER, TI_SERIAL,  TI_BLUETOOTH);
+    TFormat = (FLeft, FCenter, FRigth); (*Formatacao do Texto*)
+    TTypeText = (TT_NORMAL, TT_DOUBLE ); (*Tipo do Texto*)
+    TModeloImpressora = (TI_ELGINI9, TI_ELGINI7, TI_GENERICA58);
+
 
   { TSetmain }
 
@@ -40,13 +46,40 @@ type
         FTipo1: string;
         FTipo2: string;
         FTipo3: string;
+        FTipo4: string;
+        FTipo5: string;
         FContagem1: integer;
         FContagem2: integer;
         FContagem3: integer;
+        FContagem4: integer;
+        FContagem5: integer;
+        FHabilita01 : boolean;
+        FHabilita02 : boolean;
+        FHabilita03 : boolean;
+        FHabilita04 : boolean;
+        FHabilita05 : boolean;
         FPainel : string;
         FSplash : boolean;
-        FTipoImp : integer;
-        FModeloImp : integer;
+
+        FModeloImp : TModeloImpressora;
+        FTipoIMP : TTipoIMP;
+        FImagem : string;
+
+        FAbrev01 : string;
+        FAbrev02 : string;
+        FAbrev03 : string;
+        FAbrev04 : string;
+        FAbrev05 : string;
+
+        FFALAR : boolean;
+        FIPFALAR : string;
+
+        //Tipo Papel
+        FTipoPapel : TPadraoPapel;
+
+        FPainelMaximizar : boolean;
+        FPainelEsquerdo : boolean;
+        FRotuloTopo : String;
 
 
         procedure Default();
@@ -65,13 +98,18 @@ type
         procedure SetTipo1(value: string);
         procedure SetTipo2(value: string);
         procedure SetTipo3(value: string);
+        procedure SetTipo4(value: string);
+        procedure SetTipo5(value: string);
         procedure SetContagem1(value: integer);
         procedure SetContagem2(value: integer);
         procedure SetContagem3(value: integer);
+        procedure SetContagem4(value: integer);
+        procedure SetContagem5(value: integer);
         procedure SetPainel(value: string);
         procedure SetSplash(value:boolean);
-        procedure SetTipoImp(value: integer);
-        procedure SetModeloImp(value: integer);
+
+        procedure SetModeloImp(value: TModeloImpressora);
+        procedure SetTipoImp(value: TTipoIMP);
 
   public
         procedure SalvaContexto();
@@ -91,13 +129,37 @@ type
         property Tipo1 : string read FTipo1 write SetTipo1;
         property Tipo2 : string read FTipo2 write SetTipo2;
         property Tipo3 : string read FTipo3 write SetTipo3;
+        property Tipo4 : string read FTipo4 write SetTipo4;
+        property Tipo5 : string read FTipo5 write SetTipo5;
+        property habilita01 : boolean read Fhabilita01 write Fhabilita01;
+        property habilita02 : boolean read Fhabilita02 write Fhabilita02;
+        property habilita03 : boolean read Fhabilita03 write Fhabilita03;
+        property habilita04 : boolean read Fhabilita04 write Fhabilita04;
+        property habilita05 : boolean read Fhabilita05 write Fhabilita05;
         property Contagem1 : integer read FContagem1 write SetContagem1;
         property Contagem2 : integer read FContagem2 write SetContagem2;
         property Contagem3 : integer read FContagem3 write SetContagem3;
+        property Contagem4 : integer read FContagem4 write SetContagem4;
+        property Contagem5 : integer read FContagem5 write SetContagem5;
         property Painel : string read FPainel write SetPainel;
         property Splash : boolean read FSplash write SetSplash;
-        property TipoImp : integer read FTipoImp write SetTipoImp;
-        property ModeloImp : integer read FModeloImp write SetModeloImp;
+
+        property ModeloImp : TModeloImpressora read FModeloImp write SetModeloImp;
+        property TipoIMP: TTipoIMP read FTipoIMP write FTipoIMP;
+        property Imagem : string read FImagem write FImagem;
+        property TipoPapel : TPadraoPapel read FTipoPapel write FTipoPapel;
+        property Falar : boolean read FFalar write FFalar;
+        property IPFALAR : string read FIPFALAR write FIPFALAR;
+
+        property Abrev01: string read FAbrev01 write FAbrev01;
+        property Abrev02: string read FAbrev02 write FAbrev02;
+        property Abrev03: string read FAbrev03 write FAbrev03;
+        property Abrev04: string read FAbrev04 write FAbrev04;
+        property Abrev05: string read FAbrev05 write FAbrev05;
+
+        property PainelMaximizar : boolean read FPainelMaximizar write FPainelMaximizar;
+        property PainelEsquerdo : boolean read FPainelEsquerdo write FPainelEsquerdo;
+        property RotuloTopo : String read FRotuloTopo write FRotuloTopo;
   end;
 
   var
@@ -181,6 +243,16 @@ begin
  FTipo3:= value;
 end;
 
+procedure TSetMain.SetTipo4(value: string);
+begin
+  FTipo4:= value;
+end;
+
+procedure TSetMain.SetTipo5(value: string);
+begin
+  FTipo5:= value;
+end;
+
 procedure TSetMain.SetContagem1(value: integer);
 begin
  FContagem1 := value;
@@ -196,6 +268,16 @@ begin
  FContagem3 := value;
 end;
 
+procedure TSetMain.SetContagem4(value: integer);
+begin
+  FContagem4 := value;
+end;
+
+procedure TSetMain.SetContagem5(value: integer);
+begin
+  FContagem5 := value;
+end;
+
 procedure TSetMain.SetPainel(value: string);
 begin
  FPainel := value;
@@ -206,17 +288,16 @@ begin
   FSplash := value;
 end;
 
-procedure TSetMain.SetTipoImp(value: integer);
-begin
-  FTipoImp := value;
-end;
 
-procedure TSetMain.SetModeloImp(value: integer);
+procedure TSetMain.SetModeloImp(value: TModeloImpressora);
 begin
   FModeloImp:= value;
 end;
 
-
+procedure TSetMain.SetTipoImp(value: TTipoIMP);
+begin
+  FTipoIMP:= value;
+end;
 
 //Valores default do codigo
 procedure TSetMain.Default();
@@ -238,13 +319,36 @@ begin
     FLocalizacao := 'nothing';
     FTipo1 := 'Normal';
     FTIpo2 := 'Idoso';
-    FTipo3 := 'Especial';
+    FTipo3 := 'Especial1';
+    FTipo4 := 'Especia2';
+    FTipo5 := 'Especia3';
+    FHabilita01 := true;
+    FHabilita02 := true;
+    FHabilita03 := true;
+    FHabilita04 := true;
+    FHabilita05 := true;
     FContagem1 := 0;
     FContagem2 := 0;
     FContagem3 := 0;
+    FContagem4 := 0;
+    FContagem5 := 0;
     FPainel := '192.168.0.108';
-    FTipoImp := 0;
-    FModeloImp := 0;
+
+    FModeloImp := TI_ELGINI9;
+    FTipoIMP:= TI_DRIVER;
+    FImagem := '';
+    FTipoPapel:= TP_58MM;
+
+    FFALAR:= false;
+    FIPFALAR:= '127.0.0.1';
+
+    FAbrev01 := 'AB1';
+    FAbrev02 := 'AB2';
+    FAbrev03 := 'AB3';
+    FAbrev04 := 'AB4';
+    FAbrev05 := 'AB5';
+
+    FRotuloTopo:= 'Click ou Pressione o botão para imprimir seu ticket';
 end;
 
 procedure TSetMain.CarregaContexto();
@@ -311,6 +415,35 @@ begin
     begin
       FTIPO3 := RetiraInfo(arquivo.Strings[posicao]);
     end;
+    if  BuscaChave(arquivo,'TIPO4:',posicao) then
+    begin
+      FTIPO4 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'TIPO5:',posicao) then
+    begin
+      FTIPO5 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'HABILITA01:',posicao) then
+    begin
+      FHabilita01 := strtobool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HABILITA02:',posicao) then
+    begin
+      FHabilita02 := strtobool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HABILITA03:',posicao) then
+    begin
+      FHabilita03 := strtobool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HABILITA04:',posicao) then
+    begin
+      FHabilita04 := strtobool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HABILITA05:',posicao) then
+    begin
+      FHabilita05 := strtobool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+
     if  BuscaChave(arquivo,'CONTAGEM1:',posicao) then
     begin
       FCONTAGEM1 := strtoint(RetiraInfo(arquivo.Strings[posicao]));
@@ -323,6 +456,19 @@ begin
     begin
       FCONTAGEM3 := strtoint(RetiraInfo(arquivo.Strings[posicao]));
     end;
+    if  BuscaChave(arquivo,'CONTAGEM4:',posicao) then
+    begin
+      FCONTAGEM4 := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'CONTAGEM5:',posicao) then
+    begin
+      FCONTAGEM5 := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'IMAGEM:',posicao) then
+    begin
+      FIMAGEM := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+
     if  BuscaChave(arquivo,'PAINEL:',posicao) then
     begin
       FPAINEL := RetiraInfo(arquivo.Strings[posicao]);
@@ -333,11 +479,57 @@ begin
     end;
     if  BuscaChave(arquivo,'TIPOIMP:',posicao) then
     begin
-      FTIPOIMP := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+      FTIPOIMP := TTipoIMP(strtoint(RetiraInfo(arquivo.Strings[posicao])));
     end;
+
     if  BuscaChave(arquivo,'MODELOIMP:',posicao) then
     begin
-      FMODELOIMP := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+      FMODELOIMP := TModeloImpressora(strtoint(RetiraInfo(arquivo.Strings[posicao])));
+    end;
+    if  BuscaChave(arquivo,'TIPOPAPEL:',posicao) then
+    begin
+      FTipoPapel := TPadraoPapel(strtoint(RetiraInfo(arquivo.Strings[posicao])));
+    end;
+    if  BuscaChave(arquivo,'FALAR:',posicao) then
+    begin
+      FFALAR := strtobool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'IPFLR:',posicao) then
+    begin
+      FIPFALAR := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+
+    if  BuscaChave(arquivo,'ABREV01:',posicao) then
+    begin
+      FAbrev01 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'ABREV02:',posicao) then
+    begin
+      FAbrev02 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'ABREV03:',posicao) then
+    begin
+      FAbrev03 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'ABREV04:',posicao) then
+    begin
+      FAbrev04 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'ABREV05:',posicao) then
+    begin
+      FAbrev05 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'PAINELMAXIMIZAR:',posicao) then
+    begin
+      FPainelMaximizar := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'PAINELESQUERDO:',posicao) then
+    begin
+      FPainelEsquerdo := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'ROTULOTOPO:',posicao) then
+    begin
+      FRotuloTopo := RetiraInfo(arquivo.Strings[posicao]);
     end;
 end;
 
@@ -392,13 +584,38 @@ begin
   arquivo.Append('TIPO1:'+ FTIPO1);
   arquivo.Append('TIPO2:'+ FTIPO2);
   arquivo.Append('TIPO3:'+ FTIPO3);
+  arquivo.Append('TIPO4:'+ FTIPO4);
+  arquivo.Append('TIPO5:'+ FTIPO5);
+  arquivo.Append('IMAGEM:'+ FIMAGEM);
+  arquivo.Append('HABILITA01:'+ BoolToStr(FHabilita01));
+  arquivo.Append('HABILITA02:'+ BoolToStr(FHabilita02));
+  arquivo.Append('HABILITA03:'+ BoolToStr(FHabilita03));
+  arquivo.Append('HABILITA04:'+ BoolToStr(FHabilita04));
+  arquivo.Append('HABILITA05:'+ BoolToStr(FHabilita05));
   arquivo.Append('CONTAGEM1:'+ inttostr(FCONTAGEM1));
   arquivo.Append('CONTAGEM2:'+ inttostr(FCONTAGEM2));
   arquivo.Append('CONTAGEM3:'+ inttostr(FCONTAGEM3));
+  arquivo.Append('CONTAGEM4:'+ inttostr(FCONTAGEM4));
+  arquivo.Append('CONTAGEM5:'+ inttostr(FCONTAGEM5));
   arquivo.Append('PAINEL:'+ FPAINEL);
   arquivo.Append('SPLASH:'+ booltostr(FSPLASH));
-  arquivo.Append('TIPOIMP:'+ inttostr(FTIPOIMP));
-  arquivo.Append('MODELOIMP:'+ inttostr(FMODELOIMP));
+  arquivo.Append('TIPOIMP:'+ inttostr(integer(FTipoIMP)));
+  arquivo.Append('MODELOIMP:'+ inttostr(integer(FModeloImp)));
+  arquivo.Append('TIPOPAPEL:'+ inttostr(Integer(FTipoPapel)));
+  arquivo.Append('FALAR:'+ booltostr(FFALAR));
+  arquivo.Append('IPFLR:'+ FIPFALAR);
+
+  arquivo.Append('ABREV01:'+ FAbrev01);
+  arquivo.Append('ABREV02:'+ FAbrev02);
+  arquivo.Append('ABREV03:'+ FAbrev03);
+  arquivo.Append('ABREV04:'+ FAbrev04);
+  arquivo.Append('ABREV05:'+ FAbrev05);
+  arquivo.Append('PAINELMAXIMIZAR:'+ booltostr(FPainelMaximizar));
+  arquivo.Append('PAINELESQUERDO:'+ booltostr(FPainelEsquerdo));
+  arquivo.Append('ROTULOTOPO:'+ FRotuloTopo);
+
+
+
   arquivo.SaveToFile(fpath+filename);
 end;
 

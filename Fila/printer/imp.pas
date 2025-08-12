@@ -5,15 +5,8 @@ unit imp;
 interface
 
 uses
-  Classes, SysUtils, imp_generico, imp_elgini9, imp_qr203,LazSerial, funcoes;
-
-
-
-type CTipoIMP = (TI_DRIVER, TI_SERIAL,  TI_BLUETOOTH);
-type CModeloIMP = (MI_ELGINI9);
-
-type CFormat = (FLeft, FCenter, FRigth); (*Formatacao do Texto*)
-type CTypeText = (TT_NORMAL, TT_DOUBLE ); (*Tipo do Texto*)
+  Classes, SysUtils, imp_generico, imp_elgini9, imp_qr203, LazSerial, funcoes,
+  setmain;
 
   { Timp }
 
@@ -23,29 +16,32 @@ type TImp = class(tobject)
       FDevice: string;
           LazSerial1: TLazSerial;
           FSetDevice : string;
-          Ftipoimp : CTipoIMP;
-          Fmodeloimp: CModeloIMP;
+          Ftipoimp : TTipoIMP;
+          FModeloImp :TModeloImpressora;
+
           procedure SetDevice( value: string);
-          procedure SetTipoimp(value : CTipoIMP);
-          procedure Setmodeloimp(value : CModeloIMP);
+          procedure SetModeloImp(AValue: TModeloImpressora);
+          procedure SetTipoimp(value : TTipoIMP);
+
+
 
 
     public
           constructor create(PLazSerial1: TLazSerial);
           destructor destroy();
           procedure DefaultSerial();
-          function FormatacaoString(info: string;tam: integer; Formatacao:CFormat; margin: integer): TStringList;
+          function FormatacaoString(info: string;tam: integer; Formatacao:TFormat; margin: integer): TStringList;
           procedure TextoSerial(info : string);
-          procedure TextoSerial(info : string; Formatacao : CFormat);
-          procedure TextoSerial(info : string; Formatacao : CFormat; typetext : CTypeText);
+          procedure TextoSerial(info : string; Formatacao : TFormat);
+          procedure TextoSerial(info : string; Formatacao : TFormat; typetext : TTypeText);
           procedure LineSerial();
           procedure close();
           procedure open;
           procedure Guilhotina();
           procedure EjetarCUPOM();
           property device : string read FDevice write SetDevice ;
-          property tipoimp : CTipoIMP read Ftipoimp write SetTipoimp;
-          property modeloimp : CModeloIMP read Fmodeloimp write SetModeloImp;
+          property tipoimp : TTipoIMP read Ftipoimp write SetTipoimp;
+          property modeloimp : TModeloImpressora read Fmodeloimp write SetModeloImp;
 
 
 
@@ -61,15 +57,17 @@ begin
   LazSerial1.device := FDevice;
 end;
 
-procedure TImp.SetTipoimp(value: CTipoIMP);
+procedure TImp.SetModeloImp(AValue: TModeloImpressora);
+begin
+  if Fmodeloimp=AValue then Exit;
+  Fmodeloimp:=AValue;
+end;
+
+procedure TImp.SetTipoimp(value: TTipoIMP);
 begin
   Ftipoimp:= value;
 end;
 
-procedure TImp.Setmodeloimp(value: CModeloIMP);
-begin
-  Fmodeloimp := value;
-end;
 
 constructor TImp.create(PLazSerial1: TLazSerial);
 begin
@@ -92,13 +90,13 @@ begin
 end;
 
 
-procedure TImp.TextoSerial(info: string; Formatacao: CFormat);
+procedure TImp.TextoSerial(info: string; Formatacao: TFormat);
 var
   info2 : Tstringlist;
   tam : integer;
   a : integer;
 begin
-  if modeloimp = MI_ELGINI9 then
+  if (modeloimp = TI_ELGINI9) then
   begin
        impElginI9 := TIMP_ELGINI9.create();
        tam := impElginI9.Coluna;
@@ -110,8 +108,8 @@ begin
     TextoSerial(info2.Strings[a]);
 end;
 
-procedure TImp.TextoSerial(info: string; Formatacao: CFormat;
-  typetext: CTypeText);
+procedure TImp.TextoSerial(info: string; Formatacao: TFormat;
+  typetext: TTypeText);
 var
   info2 : Tstringlist;
   tam : integer;
@@ -120,7 +118,7 @@ var
   typetextdepois : string;
 begin
 
-  if modeloimp = MI_ELGINI9 then
+  if modeloimp = TI_ELGINI9 then
   begin
        impElginI9 := TIMP_ELGINI9.create();
        tam := impElginI9.Coluna;
@@ -150,7 +148,7 @@ var
   impElginI9 : TIMP_ELGINI9;
   tmp : string;
 begin
-  if modeloimp = MI_ELGINI9 then
+  if modeloimp = TI_ELGINI9 then
   begin
        impElginI9 := TIMP_ELGINI9.create();
        tmp := impElginI9.LineText(info);
@@ -178,7 +176,7 @@ var
   tmp : string;
 
 begin
-  if modeloimp = MI_ELGINI9 then
+  if modeloimp = TI_ELGINI9 then
   begin
        impElginI9 := TIMP_ELGINI9.create();
        tmp := impElginI9.NewLine();
@@ -205,7 +203,7 @@ var
   tmp : string;
 
 begin
-  if modeloimp = MI_ELGINI9 then
+  if modeloimp = TI_ELGINI9 then
   begin
        impElginI9 := TIMP_ELGINI9.create();
        tmp := impElginI9.Guilhotina();
@@ -216,7 +214,7 @@ begin
   sleep(200);
 end;
 
-function TImp.FormatacaoString(info: string; tam: integer; Formatacao: CFormat;
+function TImp.FormatacaoString(info: string; tam: integer; Formatacao: TFormat;
   margin: integer): TStringList;
 var
   tam2 : integer;

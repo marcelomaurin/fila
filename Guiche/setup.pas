@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Menus, lNetComponents, lNet, DataPortIP;
+  StdCtrls, Menus, ComCtrls, lNetComponents, lNet, DataPortIP, setmain, Types;
 
 
 
@@ -17,14 +17,34 @@ type
   { TfrmSetup }
 
   TfrmSetup = class(TForm)
+    btCancelar: TButton;
+    btSalvar: TButton;
+    ckRotulo01: TCheckBox;
     ckPainel: TCheckBox;
+    ckRotulo02: TCheckBox;
+    ckRotulo03: TCheckBox;
+    ckRotulo04: TCheckBox;
+    ckRotulo05: TCheckBox;
     DataPortTCP1: TDataPortTCP;
     edGuiche: TEdit;
     edIPFILA: TEdit;
     edIPPainel: TEdit;
+    edRotulo01: TEdit;
+    edRotulo02: TEdit;
+    edRotulo03: TEdit;
+    edRotulo04: TEdit;
+    edRotulo05: TEdit;
+    Image1: TImage;
+    Image2: TImage;
+    Image3: TImage;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
     LTCPComponent1: TLTCPComponent;
     btChamar: TMenuItem;
     btRechamar: TMenuItem;
@@ -41,13 +61,21 @@ type
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
     N1: TMenuItem;
+    PageControl1: TPageControl;
+    Panel1: TPanel;
     PopupMenu1: TPopupMenu;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    TabSheet4: TTabSheet;
 
+    procedure btCancelarClick(Sender: TObject);
     procedure btChamarClick(Sender: TObject);
     procedure btFila2Click(Sender: TObject);
     procedure btFila3Click(Sender: TObject);
 
     procedure btSairClick(Sender: TObject);
+    procedure btSalvarClick(Sender: TObject);
     procedure btSetupClick(Sender: TObject);
     procedure btStartClick(Sender: TObject);
     procedure DataPortTCP1DataAppear(Sender: TObject);
@@ -64,6 +92,8 @@ type
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
+    procedure TabSheet4ContextPopup(Sender: TObject; MousePos: TPoint;
+      var Handled: Boolean);
     procedure TrayIcon1Click(Sender: TObject);
     procedure Chamar(nro : integer);
     procedure Painel(nro : string; guiche: integer);
@@ -72,6 +102,8 @@ type
     lastcall : string;
   public
      procedure default();
+     procedure CarregaParametros();
+     procedure SalvaParametros();
   end;
 
 var
@@ -86,6 +118,11 @@ implementation
 procedure TfrmSetup.btChamarClick(Sender: TObject);
 begin
 
+end;
+
+procedure TfrmSetup.btCancelarClick(Sender: TObject);
+begin
+  Close;
 end;
 
 
@@ -106,7 +143,7 @@ end;
 
 procedure TfrmSetup.FormCreate(Sender: TObject);
 begin
-
+     CarregaParametros();
 end;
 
 procedure TfrmSetup.MenuItem3Click(Sender: TObject);
@@ -115,6 +152,12 @@ begin
 end;
 
 procedure TfrmSetup.MenuItem6Click(Sender: TObject);
+begin
+
+end;
+
+procedure TfrmSetup.TabSheet4ContextPopup(Sender: TObject; MousePos: TPoint;
+  var Handled: Boolean);
 begin
 
 end;
@@ -260,8 +303,55 @@ begin
   edGuiche.Text:= '1';
   edIPFILA.text := '127.0.0.1';
   edIPPainel.text := '127.0.0.1';
+  edRotulo01.text := 'Tipo01';
+  edRotulo02.text := 'Tipo02';
+  edRotulo03.text := 'Tipo03';
+  edRotulo04.text := 'Tipo04';
+  edRotulo05.text := 'Tipo05';
+  ckRotulo01.Checked:= true;
+  ckRotulo02.Checked:= true;
+  ckRotulo03.Checked:= true;
+  ckRotulo04.Checked:= true;
+  ckRotulo05.Checked:= true;
   ckPainel.Checked:= true;
 
+end;
+
+procedure TfrmSetup.CarregaParametros();
+begin
+  edGuiche.text := FSETMAIN.NROGUICHE;
+  edIPFILA.text := FSETMAIN.IPFILA;
+  edIPPainel.text := FSETMAIN.IPPAINEL;
+  ckPainel.Checked := FSetMain.PAINEL;
+  edRotulo01.text := FSetMain.Rotulo01;
+  edRotulo02.text := FSetMain.Rotulo02;
+  edRotulo03.text := FSetMain.Rotulo03;
+  edRotulo04.text := FSetMain.Rotulo04;
+  edRotulo05.text := FSetMain.Rotulo05;
+  ckRotulo01.Checked:= FSetMain.Habilitado01;
+  ckRotulo02.Checked:= FSetMain.Habilitado02;
+  ckRotulo03.Checked:= FSetMain.Habilitado03;
+  ckRotulo04.Checked:= FSetMain.Habilitado04;
+  ckRotulo05.Checked:= FSetMain.Habilitado05;
+end;
+
+procedure TfrmSetup.SalvaParametros();
+begin
+  FSETMAIN.NROGUICHE := edGuiche.text;
+  FSETMAIN.IPFILA:= edIPFILA.text;
+  FSETMAIN.IPPAINEL := edIPPainel.text;
+  FSetMain.PAINEL:= ckPainel.Checked;
+  FSetMain.Rotulo01:= edRotulo01.text;
+  FSetMain.Rotulo02:= edRotulo02.text;
+  FSetMain.Rotulo03:= edRotulo03.text;
+  FSetMain.Rotulo04:= edRotulo04.text;
+  FSetMain.Rotulo05:= edRotulo05.text;
+  FSetMain.Habilitado01:= ckRotulo01.Checked;
+  FSetMain.Habilitado02:= ckRotulo02.Checked;
+  FSetMain.Habilitado03:= ckRotulo03.Checked;
+  FSetMain.Habilitado04:= ckRotulo04.Checked;
+  FSetMain.Habilitado05:= ckRotulo05.Checked;
+  FSetMain.SalvaContexto(false);
 end;
 
 procedure TfrmSetup.MenuItem1Click(Sender: TObject);
@@ -278,6 +368,12 @@ end;
 
 procedure TfrmSetup.btSairClick(Sender: TObject);
 begin
+  close;
+end;
+
+procedure TfrmSetup.btSalvarClick(Sender: TObject);
+begin
+  SalvaParametros();
   close;
 end;
 

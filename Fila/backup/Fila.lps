@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units Count="27">
+      <Unit0>
+        <Filename Value="Fila.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="9"/>
+        <CursorPos X="36" Y="6"/>
+        <UsageCount Value="89"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="menu.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmMenu"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="221"/>
+        <CursorPos Y="235"/>
+        <UsageCount Value="89"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="impressao.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmImpressao"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Impressao"/>
+        <TopLine Value="31"/>
+        <CursorPos X="18" Y="13"/>
+        <UsageCount Value="89"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmmain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="570"/>
+        <CursorPos Y="596"/>
+        <UsageCount Value="89"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="log.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmLog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="10"/>
+        <TopLine Value="54"/>
+        <CursorPos X="3" Y="80"/>
+        <UsageCount Value="85"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="printer\imp_elgini9.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="imp_ELGINI9"/>
+        <EditorIndex Value="13"/>
+        <TopLine Value="31"/>
+        <CursorPos X="45" Y="49"/>
+        <UsageCount Value="74"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="printer\imp_generico.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="14"/>
+        <UsageCount Value="74"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="printer\imp_qr203.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="15"/>
+        <UsageCount Value="74"/>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="setmenu.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5"/>
+        <CursorPos X="41" Y="5"/>
+        <UsageCount Value="74"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="setmain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="8"/>
+        <TopLine Value="596"/>
+        <CursorPos Y="613"/>
+        <UsageCount Value="74"/>
+        <Loaded Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="registro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmRegistrar"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="87"/>
+        <CursorPos X="66" Y="95"/>
+        <UsageCount Value="74"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="funcoes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="20"/>
+        <CursorPos X="9" Y="21"/>
+        <UsageCount Value="74"/>
+        <Loaded Value="True"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="splash.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSplash"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="12"/>
+        <CursorPos X="10" Y="20"/>
+        <UsageCount Value="74"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="cupom.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmcupom"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="56"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="impressao2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmimpressao2"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="6"/>
+        <CursorPos X="89" Y="26"/>
+        <UsageCount Value="37"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="toolsfalar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmToolsfalar"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="115"/>
+        <CursorPos X="47" Y="128"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="C:\lazarus\lcl\lclmessageglue.pas"/>
+        <UnitName Value="LCLMessageGlue"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="105"/>
+        <CursorPos Y="114"/>
+        <UsageCount Value="8"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="C:\Users\marce\AppData\Local\lazarus\onlinepackagemanager\packages\lnet\lazaruspackage\lclwineventer.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="64" Y="84"/>
+        <UsageCount Value="9"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="C:\Users\marce\AppData\Local\lazarus\onlinepackagemanager\packages\fortes4lazarus 3.24\rlprintdialog.lfm"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="C:\Users\marce\AppData\Local\lazarus\onlinepackagemanager\packages\fortes4lazarus 3.24\rlpagesetupconfig.lfm"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="C:\Users\marce\AppData\Local\lazarus\onlinepackagemanager\packages\fortes4lazarus 3.24\rlabout.lfm"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="13" Y="8"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="d:\lazarus\lcl\include\control.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3936"/>
+        <CursorPos X="30" Y="3943"/>
+        <UsageCount Value="19"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="d:\lazarus\lcl\include\customform.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="927"/>
+        <CursorPos Y="940"/>
+        <UsageCount Value="14"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="C:\Users\marce\AppData\Local\lazarus\onlinepackagemanager\packages\LazSerial\lazserial.pas"/>
+        <UnitName Value="LazSerial"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="216"/>
+        <CursorPos Y="238"/>
+        <UsageCount Value="13"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="C:\Users\marce\AppData\Local\lazarus\onlinepackagemanager\packages\LazSerial\lazsynaser.pas"/>
+        <UnitName Value="LazSynaSer"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="221"/>
+        <CursorPos X="17" Y="243"/>
+        <UsageCount Value="9"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="C:\Users\marce\AppData\Local\lazarus\onlinepackagemanager\packages\LazSerial\lazsynautil.pas"/>
+        <UnitName Value="LazSynaUtil"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="118"/>
+        <CursorPos Y="118"/>
+        <UsageCount Value="9"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="printer\imp.pas"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="189"/>
+        <CursorPos X="28" Y="206"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit26>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="setmain.pas"/>
+        <Caret Line="522" TopLine="505"/>
+      </Position1>
+      <Position2>
+        <Filename Value="setmain.pas"/>
+        <Caret Line="524" TopLine="505"/>
+      </Position2>
+      <Position3>
+        <Filename Value="setmain.pas"/>
+        <Caret Line="526" TopLine="505"/>
+      </Position3>
+      <Position4>
+        <Filename Value="setmain.pas"/>
+        <Caret Line="528" TopLine="505"/>
+      </Position4>
+      <Position5>
+        <Filename Value="setmain.pas"/>
+        <Caret Line="530" TopLine="505"/>
+      </Position5>
+      <Position6>
+        <Filename Value="main.pas"/>
+        <Caret Line="536" TopLine="521"/>
+      </Position6>
+      <Position7>
+        <Filename Value="main.pas"/>
+        <Caret Line="537" TopLine="521"/>
+      </Position7>
+      <Position8>
+        <Filename Value="main.pas"/>
+        <Caret Line="538" TopLine="521"/>
+      </Position8>
+      <Position9>
+        <Filename Value="main.pas"/>
+        <Caret Line="541" TopLine="521"/>
+      </Position9>
+      <Position10>
+        <Filename Value="setmain.pas"/>
+        <Caret Line="613" TopLine="596"/>
+      </Position10>
+      <Position11>
+        <Filename Value="setmain.pas"/>
+        <Caret Line="614" TopLine="596"/>
+      </Position11>
+      <Position12>
+        <Filename Value="setmain.pas"/>
+        <Caret Line="615" TopLine="596"/>
+      </Position12>
+      <Position13>
+        <Filename Value="setmain.pas"/>
+        <Caret Line="619" TopLine="596"/>
+      </Position13>
+      <Position14>
+        <Filename Value="main.pas"/>
+        <Caret Line="538" Column="34" TopLine="521"/>
+      </Position14>
+      <Position15>
+        <Filename Value="main.pas"/>
+        <Caret Line="536" TopLine="521"/>
+      </Position15>
+      <Position16>
+        <Filename Value="main.pas"/>
+        <Caret Line="537" TopLine="521"/>
+      </Position16>
+      <Position17>
+        <Filename Value="main.pas"/>
+        <Caret Line="538" TopLine="521"/>
+      </Position17>
+      <Position18>
+        <Filename Value="main.pas"/>
+        <Caret Line="541" TopLine="521"/>
+      </Position18>
+      <Position19>
+        <Filename Value="menu.pas"/>
+        <Caret Line="235" Column="25" TopLine="218"/>
+      </Position19>
+      <Position20>
+        <Filename Value="main.pas"/>
+        <Caret Line="536" TopLine="521"/>
+      </Position20>
+      <Position21>
+        <Filename Value="main.pas"/>
+        <Caret Line="537" Column="33" TopLine="521"/>
+      </Position21>
+      <Position22>
+        <Filename Value="main.pas"/>
+        <Caret Line="536" TopLine="521"/>
+      </Position22>
+      <Position23>
+        <Filename Value="main.pas"/>
+        <Caret Line="537" TopLine="521"/>
+      </Position23>
+      <Position24>
+        <Filename Value="main.pas"/>
+        <Caret Line="538" TopLine="521"/>
+      </Position24>
+      <Position25>
+        <Filename Value="main.pas"/>
+        <Caret Line="541" TopLine="521"/>
+      </Position25>
+      <Position26>
+        <Filename Value="main.pas"/>
+        <Caret Line="498" TopLine="480"/>
+      </Position26>
+      <Position27>
+        <Filename Value="main.pas"/>
+        <Caret Line="542" TopLine="526"/>
+      </Position27>
+      <Position28>
+        <Filename Value="main.pas"/>
+        <Caret Line="556" TopLine="527"/>
+      </Position28>
+      <Position29>
+        <Filename Value="menu.pas"/>
+        <Caret Line="235" TopLine="221"/>
+      </Position29>
+      <Position30>
+        <Filename Value="main.pas"/>
+        <Caret Line="582" TopLine="570"/>
+      </Position30>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode="default"/>
+    </RunParams>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="536"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="menu.pas"/>
+        <Line Value="235"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="menu.pas"/>
+        <Line Value="235"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="582"/>
+      </Item>
+    </BreakPoints>
+  </Debugging>
+</CONFIG>
