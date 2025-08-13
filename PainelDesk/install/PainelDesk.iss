@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "PainelDesk"
-#define MyAppVersion "1.20"
+#define MyAppVersion "1.21"
 #define MyAppPublisher "maurinsoft"
 #define MyAppURL "http://maurinsoft.com.br"
 #define MyAppExeName "PainelDesk.exe"
@@ -18,7 +18,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-OutputBaseFilename=paineldesk_setup_20
+OutputBaseFilename=paineldesk_setup_121
 Compression=lzma
 SolidCompression=yes
 
