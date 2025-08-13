@@ -19,9 +19,8 @@
         <ComponentName Value="frmmain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="501"/>
-        <CursorPos Y="533"/>
+        <TopLine Value="502"/>
+        <CursorPos Y="509"/>
         <UsageCount Value="53"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -29,9 +28,10 @@
       <Unit>
         <Filename Value="setmain.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="233"/>
-        <CursorPos Y="251"/>
+        <TopLine Value="70"/>
+        <CursorPos X="18" Y="95"/>
         <UsageCount Value="53"/>
         <Loaded Value="True"/>
       </Unit>

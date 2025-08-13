@@ -8,6 +8,7 @@
       <Unit>
         <Filename Value="paineldesk.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <CursorPos X="37" Y="5"/>
         <UsageCount Value="53"/>
@@ -19,7 +20,7 @@
         <ComponentName Value="frmmain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="502"/>
+        <TopLine Value="46"/>
         <CursorPos Y="509"/>
         <UsageCount Value="53"/>
         <Loaded Value="True"/>
@@ -28,9 +29,8 @@
       <Unit>
         <Filename Value="setmain.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="70"/>
+        <TopLine Value="58"/>
         <CursorPos X="18" Y="95"/>
         <UsageCount Value="53"/>
         <Loaded Value="True"/>

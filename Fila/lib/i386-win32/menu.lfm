@@ -728,6 +728,8 @@ object frmMenu: TfrmMenu
       Top = 32
       Width = 574
       Anchors = [akTop, akLeft, akRight]
+      Caption = '1222'
+      ParentFont = False
       TabOrder = 0
       OnClick = BtFila1Click
     end

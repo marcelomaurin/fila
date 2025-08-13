@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Menus, ComCtrls, EditBtn, DataPortIP, rxfolderlister,
+  ExtCtrls, Menus, ComCtrls, EditBtn, Spin, DataPortIP, rxfolderlister,
   lNetComponents, menu, lNet, log, splash, registro, setmain, IMP,
   toolsfalar;
 
@@ -15,7 +15,7 @@ const
   PortGuiche = 8095;
   PortPainel = 8096;
   intversao = 3;
-  intrevisao = 10;
+  intrevisao = 11;
 type
 
   { Tfrmmain }
@@ -78,6 +78,7 @@ type
     Label23: TLabel;
     Label24: TLabel;
     Label25: TLabel;
+    Label26: TLabel;
     lblist01: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -106,6 +107,7 @@ type
     PageControl1: TPageControl;
     Separator2: TMenuItem;
     Separator1: TMenuItem;
+    seFonteSize: TSpinEdit;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
@@ -241,6 +243,8 @@ begin
   ckPainelMaximizar.Checked := FSETMAIN.PainelMaximizar;
   ckPainelEsquerdo.Checked := FSETMAIN.PainelEsquerdo;
   edRotuloTopo.text := FSETMAIN.RotuloTopo;
+
+  seFonteSize.Value :=  FSETMAIN.FonteSize;
 
   frmSplash.hide;
   if (cbIniciar.Checked) then
@@ -537,6 +541,8 @@ begin
       FSETMAIN.PainelEsquerdo:=  ckPainelEsquerdo.Checked;
       FSETMAIN.RotuloTopo:= edRotuloTopo.text;
 
+      FSETMAIN.FonteSize:= seFonteSize.Value;
+
 
       FSETMAIN.SalvaContexto();
 end;
@@ -579,6 +585,14 @@ begin
     frmMenu.lbFILA5 := edTipo5.text;
     frmMenu.comport := edPorta.text;
 
+    //Tamanho da fonte dos botões
+    frmMenu.BtFila1.Font.Size :=  FSETMAIN.FonteSize;
+    frmMenu.BtFila2.Font.Size :=  FSETMAIN.FonteSize;
+    frmMenu.BtFila3.Font.Size :=  FSETMAIN.FonteSize;
+    frmMenu.BtFila4.Font.Size :=  FSETMAIN.FonteSize;
+    frmMenu.BtFila5.Font.Size :=  FSETMAIN.FonteSize;
+
+
     frmMenu.pnLeft.Visible := not FSETMAIN.PainelEsquerdo;
     //
     if FSETMAIN.PainelMaximizar then
@@ -605,8 +619,6 @@ begin
     begin
          frmMenu.Image1.Picture.LoadFromFile(fileimagem.text);
     end;
-
-
 
     TrayIcon1.BalloonTitle:='FILA';
     TrayIcon1.Animate:=false;

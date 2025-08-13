@@ -80,6 +80,7 @@ type
         FPainelMaximizar : boolean;
         FPainelEsquerdo : boolean;
         FRotuloTopo : String;
+        FFonteSize : integer;
 
 
         procedure Default();
@@ -160,6 +161,7 @@ type
         property PainelMaximizar : boolean read FPainelMaximizar write FPainelMaximizar;
         property PainelEsquerdo : boolean read FPainelEsquerdo write FPainelEsquerdo;
         property RotuloTopo : String read FRotuloTopo write FRotuloTopo;
+        property FonteSize : integer read FFonteSize write FFonteSize;
   end;
 
   var
@@ -347,6 +349,7 @@ begin
     FAbrev03 := 'AB3';
     FAbrev04 := 'AB4';
     FAbrev05 := 'AB5';
+    FFonteSize := 0;  //Default do sistema
 
     FRotuloTopo:= 'Click ou Pressione o botão para imprimir seu ticket';
 end;
@@ -531,6 +534,10 @@ begin
     begin
       FRotuloTopo := RetiraInfo(arquivo.Strings[posicao]);
     end;
+    if  BuscaChave(arquivo,'FONTESIZE:',posicao) then
+    begin
+      FFONTESIZE := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+    end;
 end;
 
 //Metodo construtor
@@ -613,6 +620,7 @@ begin
   arquivo.Append('PAINELMAXIMIZAR:'+ booltostr(FPainelMaximizar));
   arquivo.Append('PAINELESQUERDO:'+ booltostr(FPainelEsquerdo));
   arquivo.Append('ROTULOTOPO:'+ FRotuloTopo);
+  arquivo.Append('FONTESIZE:'+ inttostr(FFonteSize));
 
 
 

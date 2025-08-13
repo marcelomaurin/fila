@@ -13456,6 +13456,21 @@ object frmmain: Tfrmmain
         TabOrder = 2
         Text = 'Click ou Pressione o botão para imprimir seu ticket'
       end
+      object seFonteSize: TSpinEdit
+        Left = 40
+        Height = 23
+        Top = 192
+        Width = 74
+        MaxValue = 80
+        TabOrder = 3
+      end
+      object Label26: TLabel
+        Left = 40
+        Height = 15
+        Top = 176
+        Width = 53
+        Caption = 'Fonte Size'
+      end
     end
   end
   object PopupMenu1: TPopupMenu

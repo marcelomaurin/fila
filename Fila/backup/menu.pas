@@ -232,17 +232,7 @@ begin
     frmToolsfalar.Conectar();
 
   end;
-  pnLeft.Visible := not FSETMAIN.PainelEsquerdo;
-  //
-  if FSETMAIN.PainelMaximizar then
-  begin
-    self.WindowState:= wsMaximized;
-  end
-  else
-  begin
-    self.WindowState:= wsNormal;
-  end;
-  lbRotulo.Caption:= FSETMAIN.RotuloTopo;
+
 
 
 end;
