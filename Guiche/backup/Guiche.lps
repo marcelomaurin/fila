@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="16"/>
-        <UsageCount Value="72"/>
+        <UsageCount Value="76"/>
       </Unit0>
       <Unit1>
         <Filename Value="src\main.pas"/>
@@ -19,9 +19,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="556"/>
-        <CursorPos X="111" Y="573"/>
-        <UsageCount Value="72"/>
+        <TopLine Value="473"/>
+        <CursorPos Y="450"/>
+        <UsageCount Value="76"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -33,17 +33,17 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Setup"/>
         <EditorIndex Value="4"/>
-        <CursorPos X="3" Y="315"/>
-        <UsageCount Value="72"/>
+        <TopLine Value="276"/>
+        <CursorPos X="24" Y="282"/>
+        <UsageCount Value="76"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="setmain.pas"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="271"/>
-        <CursorPos X="51" Y="291"/>
-        <UsageCount Value="47"/>
+        <CursorPos X="21" Y="8"/>
+        <UsageCount Value="49"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -51,7 +51,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="331"/>
         <CursorPos Y="357"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -69,8 +69,8 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
         <TopLine Value="87"/>
-        <CursorPos Y="97"/>
-        <UsageCount Value="41"/>
+        <CursorPos X="37" Y="100"/>
+        <UsageCount Value="43"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit6>
@@ -110,122 +110,122 @@
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="setup.pas"/>
-        <Caret Line="171" Column="50" TopLine="156"/>
+        <Filename Value="src\main.pas"/>
+        <Caret Line="516" Column="72" TopLine="499"/>
       </Position1>
       <Position2>
-        <Filename Value="setup.pas"/>
-        <Caret Line="172" Column="50" TopLine="157"/>
+        <Filename Value="src\main.pas"/>
+        <Caret Line="517" Column="72" TopLine="500"/>
       </Position2>
       <Position3>
-        <Filename Value="setup.pas"/>
-        <Caret Line="173" Column="50" TopLine="158"/>
+        <Filename Value="src\main.pas"/>
+        <Caret Line="518" Column="72" TopLine="501"/>
       </Position3>
       <Position4>
-        <Filename Value="setup.pas"/>
-        <Caret Line="161" Column="18" TopLine="189"/>
+        <Filename Value="src\main.pas"/>
+        <Caret Line="519" Column="72" TopLine="502"/>
       </Position4>
       <Position5>
-        <Filename Value="setup.pas"/>
-        <Caret Line="361" Column="18" TopLine="352"/>
+        <Filename Value="src\main.pas"/>
+        <Caret Line="518" Column="72" TopLine="501"/>
       </Position5>
       <Position6>
-        <Filename Value="setup.pas"/>
-        <Caret Line="106" Column="31" TopLine="90"/>
+        <Filename Value="src\main.pas"/>
+        <Caret Line="266" Column="17" TopLine="240"/>
       </Position6>
       <Position7>
         <Filename Value="src\main.pas"/>
-        <Caret Line="457" Column="46" TopLine="432"/>
+        <Caret Line="121" Column="29" TopLine="95"/>
       </Position7>
       <Position8>
         <Filename Value="src\main.pas"/>
+        <Caret Line="170" Column="34" TopLine="154"/>
       </Position8>
       <Position9>
-        <Filename Value="setup.pas"/>
-        <Caret Line="312" Column="3" TopLine="295"/>
+        <Filename Value="src\main.pas"/>
+        <Caret Line="266" TopLine="236"/>
       </Position9>
       <Position10>
-        <Filename Value="setup.pas"/>
-        <Caret Line="315" Column="3" TopLine="298"/>
+        <Filename Value="src\main.pas"/>
       </Position10>
       <Position11>
         <Filename Value="src\main.pas"/>
-        <Caret Line="12" Column="21"/>
+        <Caret Line="121" Column="29" TopLine="93"/>
       </Position11>
       <Position12>
         <Filename Value="src\main.pas"/>
-        <Caret Line="498" Column="3" TopLine="496"/>
+        <Caret Line="170" Column="34" TopLine="154"/>
       </Position12>
       <Position13>
         <Filename Value="src\main.pas"/>
-        <Caret Line="552" Column="4" TopLine="542"/>
+        <Caret Line="573" Column="111" TopLine="556"/>
       </Position13>
       <Position14>
         <Filename Value="src\main.pas"/>
-        <Caret Line="513" Column="72" TopLine="496"/>
+        <Caret Line="452" TopLine="435"/>
       </Position14>
       <Position15>
         <Filename Value="src\main.pas"/>
-        <Caret Line="512" Column="72" TopLine="495"/>
+        <Caret Line="447" Column="32" TopLine="436"/>
       </Position15>
       <Position16>
-        <Filename Value="src\main.pas"/>
-        <Caret Line="513" Column="72" TopLine="496"/>
+        <Filename Value="setup.pas"/>
+        <Caret Line="15" Column="65" TopLine="247"/>
       </Position16>
       <Position17>
-        <Filename Value="src\main.pas"/>
-        <Caret Line="514" Column="72" TopLine="497"/>
+        <Filename Value="setup.pas"/>
+        <Caret Line="378" Column="18" TopLine="369"/>
       </Position17>
       <Position18>
-        <Filename Value="src\main.pas"/>
-        <Caret Line="515" Column="72" TopLine="498"/>
+        <Filename Value="setup.pas"/>
       </Position18>
       <Position19>
-        <Filename Value="src\main.pas"/>
-        <Caret Line="516" Column="72" TopLine="499"/>
+        <Filename Value="setup.pas"/>
+        <Caret Line="108" Column="31" TopLine="80"/>
       </Position19>
       <Position20>
         <Filename Value="src\main.pas"/>
-        <Caret Line="517" Column="72" TopLine="500"/>
+        <Caret Line="167" Column="53" TopLine="157"/>
       </Position20>
       <Position21>
         <Filename Value="src\main.pas"/>
-        <Caret Line="518" Column="72" TopLine="501"/>
+        <Caret Line="191" Column="9" TopLine="166"/>
       </Position21>
       <Position22>
         <Filename Value="src\main.pas"/>
-        <Caret Line="519" Column="72" TopLine="502"/>
+        <Caret Line="196" Column="9" TopLine="168"/>
       </Position22>
       <Position23>
         <Filename Value="src\main.pas"/>
-        <Caret Line="518" Column="72" TopLine="501"/>
+        <Caret Line="201" Column="9" TopLine="173"/>
       </Position23>
       <Position24>
         <Filename Value="src\main.pas"/>
-        <Caret Line="266" Column="17" TopLine="240"/>
+        <Caret Line="206" Column="9" TopLine="178"/>
       </Position24>
       <Position25>
         <Filename Value="src\main.pas"/>
-        <Caret Line="121" Column="29" TopLine="95"/>
+        <Caret Line="211" Column="9" TopLine="183"/>
       </Position25>
       <Position26>
         <Filename Value="src\main.pas"/>
-        <Caret Line="170" Column="34" TopLine="154"/>
+        <Caret Line="391" Column="9" TopLine="363"/>
       </Position26>
       <Position27>
         <Filename Value="src\main.pas"/>
-        <Caret Line="266" TopLine="236"/>
+        <Caret Line="396" Column="8" TopLine="368"/>
       </Position27>
       <Position28>
         <Filename Value="src\main.pas"/>
+        <Caret Line="401" Column="14" TopLine="373"/>
       </Position28>
       <Position29>
         <Filename Value="src\main.pas"/>
-        <Caret Line="121" Column="29" TopLine="93"/>
+        <Caret Line="496" Column="31" TopLine="473"/>
       </Position29>
       <Position30>
         <Filename Value="src\main.pas"/>
-        <Caret Line="170" Column="34" TopLine="154"/>
+        <Caret Line="456" Column="43" TopLine="433"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -240,14 +240,14 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="setup.pas"/>
-        <Line Value="197"/>
+        <Line Value="199"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="setup.pas"/>
-        <Line Value="284"/>
+        <Line Value="286"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
@@ -261,28 +261,14 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="src\main.pas"/>
-        <Line Value="571"/>
+        <Line Value="587"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="setup.pas"/>
-        <Line Value="249"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="src\main.pas"/>
-        <Line Value="452"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="src\main.pas"/>
-        <Line Value="483"/>
+        <Line Value="251"/>
       </Item>
     </BreakPoints>
   </Debugging>

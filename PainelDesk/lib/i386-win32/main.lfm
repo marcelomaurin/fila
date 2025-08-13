@@ -1,7 +1,7 @@
 object frmmain: Tfrmmain
-  Left = -1614
+  Left = -1589
   Height = 863
-  Top = 53
+  Top = 59
   Width = 1211
   Caption = 'Painel Desktop'
   ClientHeight = 863

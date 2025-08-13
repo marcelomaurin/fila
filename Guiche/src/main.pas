@@ -9,7 +9,7 @@ uses
   StdCtrls, Menus, ComCtrls, PopupNotifier, Buttons, lNetComponents, lNet,
   DataPortIP, setmain, setup, splash, registro, log, hint;
 
-const Versao = '1.20';
+const Versao = '1.21';
 
 type
 
@@ -458,7 +458,14 @@ begin
      until  not conn ;
      //LTCPComponent1.CallAction;
      sleep(1000);
-     param := 'Fila:'+inttoStr(nro)+#13+'>'+FSetMain.NROGUICHE+';';
+     if (FSetMain.PROTOCOLO = 1) then
+     begin
+          param := 'Fila:'+inttoStr(nro)+#13+'>'+FSetMain.NROGUICHE+';';
+     end
+     else
+     begin
+       param := 'Fila:'+inttoStr(nro)+#13+'>'+FSetMain.NROGUICHE+';';
+     end;
      LTCPComponent1.SendMessage(param,nil);
    end;
 end;
@@ -479,7 +486,16 @@ begin
      until  not conn2 ;
      //LTCPComponent1.CallAction;
      sleep(1000);
-     param := 'FILA:'+nro+'>'+inttostr(guiche)+';';
+     if (FSetMain.PROTOCOLO = 1) then
+     begin
+          param := 'FILA:'+nro+'>'+inttostr(guiche)+';';
+
+     end
+     else
+     begin
+          param := 'Fila:'+nro+#13+'>'+inttostr(guiche)+';';
+     end;
+
      LTCPComponent2.SendMessage(param,nil);
    end;
 end;

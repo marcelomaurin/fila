@@ -43,6 +43,7 @@ type
         FHabilitado03: boolean;
         FHabilitado04: boolean;
         FHabilitado05: boolean;
+        FPROTOCOLO : integer;
 
         //filename : String;
         procedure SetTOP(value : integer);
@@ -77,6 +78,7 @@ type
         property Habilitado03 : boolean read FHabilitado03 write FHabilitado03;
         property Habilitado04 : boolean read FHabilitado04 write FHabilitado04;
         property Habilitado05 : boolean read FHabilitado05 write FHabilitado05;
+        property PROTOCOLO : integer read FPROTOCOLO write FPROTOCOLO;
   end;
 
   var
@@ -104,6 +106,12 @@ begin
    FRotulo03 := 'Tipo03';
    FRotulo04 := 'Tipo04';
    FRotulo05 := 'Tipo05';
+   FHabilitado01 := true;
+   FHabilitado02 := true;
+   FHabilitado03 := true;
+   FHabilitado04 := true;
+   FHabilitado05 := true;
+   FPROTOCOLO:= 1;
 end;
 
 procedure TSetMain.SetLEFT(value: integer);
@@ -206,6 +214,30 @@ begin
     begin
       FRotulo05 := RetiraInfo(arquivo.Strings[posicao]);
     end;
+    if  BuscaChave(arquivo,'HABILITADO01:',posicao) then
+    begin
+      FHABILITADO01 := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HABILITADO02:',posicao) then
+    begin
+      FHABILITADO02 := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HABILITADO03:',posicao) then
+    begin
+      FHABILITADO03 := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HABILITADO04:',posicao) then
+    begin
+      FHABILITADO04 := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HABILITADO05:',posicao) then
+    begin
+      FHABILITADO05 := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'PROTOCOLO:',posicao) then
+    begin
+      FPROTOCOLO := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+    end;
 end;
 
 
@@ -259,6 +291,12 @@ begin
   arquivo.Append('ROTULO03:'+FROTULO03);
   arquivo.Append('ROTULO04:'+FROTULO04);
   arquivo.Append('ROTULO05:'+FROTULO05);
+  arquivo.Append('HABILITADO01:'+iif(FHABILITADO01=true,'TRUE','FALSE'));
+  arquivo.Append('HABILITADO02:'+iif(FHABILITADO02=true,'TRUE','FALSE'));
+  arquivo.Append('HABILITADO03:'+iif(FHABILITADO03=true,'TRUE','FALSE'));
+  arquivo.Append('HABILITADO04:'+iif(FHABILITADO04=true,'TRUE','FALSE'));
+  arquivo.Append('HABILITADO05:'+iif(FHABILITADO05=true,'TRUE','FALSE'));
+  arquivo.Append('PROTOCOLO:'+inttostr(FPROTOCOLO));
   arquivo.SaveToFile(fullname);
 end;
 

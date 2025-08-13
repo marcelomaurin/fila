@@ -24,7 +24,8 @@ type
     ckRotulo02: TCheckBox;
     ckRotulo03: TCheckBox;
     ckRotulo04: TCheckBox;
-    ckRotulo5: TCheckBox;
+    ckRotulo05: TCheckBox;
+    cbProtocolo: TComboBox;
     DataPortTCP1: TDataPortTCP;
     edGuiche: TEdit;
     edIPFILA: TEdit;
@@ -45,6 +46,7 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
+    Label9: TLabel;
     LTCPComponent1: TLTCPComponent;
     btChamar: TMenuItem;
     btRechamar: TMenuItem;
@@ -333,6 +335,7 @@ begin
   ckRotulo03.Checked:= FSetMain.Habilitado03;
   ckRotulo04.Checked:= FSetMain.Habilitado04;
   ckRotulo05.Checked:= FSetMain.Habilitado05;
+  cbProtocolo.ItemIndex:= FSetMain.PROTOCOLO;
 end;
 
 procedure TfrmSetup.SalvaParametros();
@@ -351,6 +354,7 @@ begin
   FSetMain.Habilitado03:= ckRotulo03.Checked;
   FSetMain.Habilitado04:= ckRotulo04.Checked;
   FSetMain.Habilitado05:= ckRotulo05.Checked;
+  FSetMain.PROTOCOLO:= cbProtocolo.ItemIndex;
   FSetMain.SalvaContexto(false);
 end;
 

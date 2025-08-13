@@ -37,6 +37,7 @@ type
         FIPFALAR : string;
         FPORTFALAR : String;
         FLastFiles : String;
+        FURL : string;
         //filename : String;
         procedure SetTOP(value : integer);
         procedure SetLEFT(value : integer);
@@ -64,6 +65,7 @@ type
         property PORTFILA : string read FPORTFILA write FPORTFILA;
         property PORTPAINEL : string read FPORTPAINEL write FPORTPAINEL;
         property PORTFALAR : string read FPORTFALAR write FPORTFALAR;
+        property URL : string read FURL write FURL;
 
   end;
 
@@ -90,6 +92,7 @@ begin
    FPORTPAINEL := '8196';
    FIPFALAR := '127.0.0.1';
    FPORTFALAR := '8096';
+   FURL := 'http://maurinsoft.com.br/downloads/ptela/';
    FPainel := true;
 end;
 
@@ -155,6 +158,10 @@ begin
     if  BuscaChave(arquivo,'HEIGHT:',posicao) then
     begin
       FHEIGHT := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'URL:',posicao) then
+    begin
+      FURL := RetiraInfo(arquivo.Strings[posicao]);
     end;
 
     if  BuscaChave(arquivo,'NROGUICHE:',posicao) then
@@ -241,6 +248,7 @@ begin
   arquivo.Append('PORTPAINEL:'+FPORTPAINEL);
   arquivo.Append('IPFALAR:'+FIPFALAR);
   arquivo.Append('PORTFALAR:'+FPORTFALAR);
+  arquivo.Append('URL:'+FURL);
   arquivo.Append('CKPAINEL:'+iif(FPAINEL=true,'TRUE','FALSE'));
 
   arquivo.SaveToFile(fullname);

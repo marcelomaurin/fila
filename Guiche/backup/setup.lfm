@@ -1,7 +1,7 @@
 object frmSetup: TfrmSetup
-  Left = 591
+  Left = 251
   Height = 385
-  Top = 140
+  Top = 467
   Width = 492
   Caption = 'Setup '
   ClientHeight = 385
@@ -12748,6 +12748,27 @@ object frmSetup: TfrmSetup
         Caption = 'Chama Painel'
         TabOrder = 1
       end
+      object Label9: TLabel
+        Left = 224
+        Height = 15
+        Top = 108
+        Width = 95
+        Caption = 'Protocolo Padrão:'
+      end
+      object cbProtocolo: TComboBox
+        Left = 224
+        Height = 23
+        Top = 128
+        Width = 176
+        ItemHeight = 15
+        ItemIndex = 1
+        Items.Strings = (
+          'Antigo Painel APP'
+          'Painel Desktop'
+        )
+        TabOrder = 2
+        Text = 'Painel Desktop'
+      end
     end
     object TabSheet3: TTabSheet
       Caption = 'Guichê'
@@ -19222,7 +19243,7 @@ object frmSetup: TfrmSetup
         Caption = 'habilitado 04'
         TabOrder = 8
       end
-      object ckRotulo5: TCheckBox
+      object ckRotulo05: TCheckBox
         Left = 150
         Height = 19
         Top = 249

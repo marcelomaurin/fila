@@ -43,6 +43,7 @@ type
         FHabilitado03: boolean;
         FHabilitado04: boolean;
         FHabilitado05: boolean;
+        FPROTOCOLO : integer;
 
         //filename : String;
         procedure SetTOP(value : integer);
@@ -77,6 +78,7 @@ type
         property Habilitado03 : boolean read FHabilitado03 write FHabilitado03;
         property Habilitado04 : boolean read FHabilitado04 write FHabilitado04;
         property Habilitado05 : boolean read FHabilitado05 write FHabilitado05;
+        property PROTOCOLO : integer read FPROTOCOLO write FPROTOCOLO;
   end;
 
   var
@@ -109,6 +111,7 @@ begin
    FHabilitado03 := true;
    FHabilitado04 := true;
    FHabilitado05 := true;
+   FPROTOCOLO:= 1;  //Padrao o novo protocolo
 end;
 
 procedure TSetMain.SetLEFT(value: integer);
@@ -231,6 +234,10 @@ begin
     begin
       FHABILITADO05 := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
     end;
+    if  BuscaChave(arquivo,'PROTOCOLO:',posicao) then
+    begin
+      FPROTOCOLO := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+    end;
 end;
 
 
@@ -289,6 +296,7 @@ begin
   arquivo.Append('HABILITADO03:'+iif(FHABILITADO03=true,'TRUE','FALSE'));
   arquivo.Append('HABILITADO04:'+iif(FHABILITADO04=true,'TRUE','FALSE'));
   arquivo.Append('HABILITADO05:'+iif(FHABILITADO05=true,'TRUE','FALSE'));
+  arquivo.Append('PROTOCOLO:'+inttostr(FPROTOCOLO));
   arquivo.SaveToFile(fullname);
 end;
 
