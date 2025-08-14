@@ -61,6 +61,7 @@ type
     fileimagem: TFileNameEdit;
     Image1: TImage;
     Image2: TImage;
+    Image3: TImage;
     Label1: TLabel;
     Label10: TLabel;
     Label11: TLabel;
@@ -79,6 +80,12 @@ type
     Label24: TLabel;
     Label25: TLabel;
     Label26: TLabel;
+    Label27: TLabel;
+    Label28: TLabel;
+    Label29: TLabel;
+    Label30: TLabel;
+    lbPlataforma: TLabel;
+    lbversao: TLabel;
     lblist01: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -102,6 +109,7 @@ type
     LTCPComponent1: TLTCPComponent;
     LTCPComponent2: TLTCPComponent;
     Memo1: TMemo;
+    Memo2: TMemo;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     PageControl1: TPageControl;
@@ -111,6 +119,7 @@ type
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
+    tsSobre: TTabSheet;
     tsMenuTickets: TTabSheet;
     tsAcessibilidade: TTabSheet;
     tbIniciar: TTabSheet;
@@ -151,6 +160,7 @@ type
     guiche : string;
     nro : integer;
     item : string;
+    procedure SobreProjeto();
   public
     procedure Executar();
     procedure Configurar();
@@ -485,6 +495,7 @@ begin
     Fsetmain.splash :=  not frmSplash.cbnotsplash.Checked;
   end;
   //frmLog.hide;
+  SobreProjeto();
 
 
 end;
@@ -551,6 +562,32 @@ procedure Tfrmmain.ToggleBox1Click(Sender: TObject);
 begin
      executar();
 end;
+
+procedure Tfrmmain.SobreProjeto();
+var
+  plataforma : string;
+begin
+  // Detecta o SO
+  {$IFDEF WINDOWS}
+    plataforma := 'Windows ';
+  {$ENDIF}
+  {$IFDEF LINUX}
+    plataforma := 'Linux ';
+  {$ENDIF}
+
+  // Detecta a arquitetura
+  {$IFDEF CPU32}
+    plataforma := plataforma + 'x86';
+  {$ENDIF}
+  {$IFDEF CPU64}
+    plataforma := plataforma + 'x64';
+  {$ENDIF}
+
+  // Preenche os labels
+  lbversao.Caption := IntToStr(intversao) + '.' + IntToStr(intrevisao);
+  lbplataforma.Caption := plataforma;
+end;
+
 
 procedure Tfrmmain.Executar();
 begin

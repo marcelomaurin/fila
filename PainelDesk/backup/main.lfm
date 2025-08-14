@@ -45,9 +45,9 @@ object frmmain: Tfrmmain
       Height = 709
       Top = 1
       Width = 842
-      ActivePage = tbConfig
+      ActivePage = tsAnuncios
       Align = alClient
-      TabIndex = 3
+      TabIndex = 0
       TabOrder = 0
       object tsAnuncios: TTabSheet
         Caption = 'Anuncios'

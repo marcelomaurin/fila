@@ -226,15 +226,10 @@ begin
   end;
   if ( FSETMAIN.Falar) then
   begin
-
     frmToolsfalar.Falar('Sua senha é '+senha+ ' do tipo '+ PegaNomeFila(Tipo));
     Sleep(2000);
     frmToolsfalar.Conectar();
-
   end;
-
-
-
 end;
 
 procedure TfrmMenu.ImprimeSerial(Tipo: integer; nro : integer; senha : string);

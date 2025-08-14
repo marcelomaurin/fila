@@ -8,10 +8,9 @@
       <Unit>
         <Filename Value="paineldesk.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <CursorPos X="37" Y="5"/>
-        <UsageCount Value="53"/>
+        <CursorPos X="51" Y="13"/>
+        <UsageCount Value="55"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -20,9 +19,10 @@
         <ComponentName Value="frmmain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="46"/>
-        <CursorPos Y="509"/>
-        <UsageCount Value="53"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="433"/>
+        <CursorPos Y="461"/>
+        <UsageCount Value="55"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -32,7 +32,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="58"/>
         <CursorPos X="18" Y="95"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="55"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -42,7 +42,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="55"/>
       </Unit>
       <Unit>
         <Filename Value="toolsfalar.pas"/>
@@ -53,7 +53,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="28"/>
         <CursorPos X="16" Y="49"/>
-        <UsageCount Value="30"/>
+        <UsageCount Value="32"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -105,123 +105,123 @@
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="137" TopLine="118"/>
+        <Caret Line="461" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="138" TopLine="118"/>
+        <Caret Line="446" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="140" Column="31" TopLine="118"/>
+        <Caret Line="461" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="518" TopLine="501"/>
+        <Caret Line="446" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="135" TopLine="118"/>
+        <Caret Line="461" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="136" TopLine="118"/>
+        <Caret Line="446" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="137" TopLine="118"/>
+        <Caret Line="461" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="138" TopLine="118"/>
+        <Caret Line="446" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="139" TopLine="118"/>
+        <Caret Line="461" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="140" TopLine="118"/>
+        <Caret Line="446" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="134" TopLine="118"/>
+        <Caret Line="461" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="518" TopLine="501"/>
+        <Caret Line="446" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="135" TopLine="118"/>
+        <Caret Line="461" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="136" TopLine="118"/>
+        <Caret Line="446" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="137" TopLine="118"/>
+        <Caret Line="461" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="138" TopLine="118"/>
+        <Caret Line="446" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="139" TopLine="118"/>
+        <Caret Line="461" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="140" TopLine="118"/>
-      </Position>
-      <Position>
-        <Filename Value="setmain.pas"/>
-        <Caret Line="251" TopLine="226"/>
-      </Position>
-      <Position>
-        <Filename Value="setmain.pas"/>
-        <Caret Line="234" TopLine="226"/>
-      </Position>
-      <Position>
-        <Filename Value="setmain.pas"/>
-        <Caret Line="251" TopLine="226"/>
-      </Position>
-      <Position>
-        <Filename Value="setmain.pas"/>
-        <Caret Line="252" TopLine="226"/>
-      </Position>
-      <Position>
-        <Filename Value="setmain.pas"/>
-        <Caret Line="254" TopLine="226"/>
+        <Caret Line="446" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="518" TopLine="501"/>
+        <Caret Line="461" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="135" TopLine="118"/>
+        <Caret Line="446" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="140" TopLine="118"/>
-      </Position>
-      <Position>
-        <Filename Value="setmain.pas"/>
-        <Caret Line="251" TopLine="226"/>
-      </Position>
-      <Position>
-        <Filename Value="setmain.pas"/>
-        <Caret Line="95" Column="17" TopLine="73"/>
+        <Caret Line="461" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="518" TopLine="501"/>
+        <Caret Line="446" TopLine="433"/>
       </Position>
       <Position>
-        <Filename Value="setmain.pas"/>
-        <Caret Line="251" TopLine="233"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="461" TopLine="433"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="446" TopLine="433"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="461" TopLine="433"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="446" TopLine="433"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="461" TopLine="433"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="446" TopLine="433"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="461" TopLine="433"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="446" TopLine="433"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -236,7 +236,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="537"/>
+        <Line Value="628"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
@@ -271,7 +271,28 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="576"/>
+        <Line Value="667"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="415"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="415"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="466"/>
       </Item>
     </BreakPoints>
   </Debugging>
