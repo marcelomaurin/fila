@@ -15,6 +15,7 @@ uses
 
 Const
   PortPainel = '8196';
+  Versao = '2.1';
 
 type
 
@@ -30,6 +31,10 @@ type
     Image1: TImage;
     edIPServidor: TIPEdit;
     Label1: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    lbversao: TLabel;
     Label18: TLabel;
     Label6: TLabel;
     Label7: TLabel;
@@ -51,6 +56,7 @@ type
     lbSenhaAtual: TLabel;
     LTCPComponent1: TLTCPComponent;
     Memo1: TMemo;
+    TabSheet1: TTabSheet;
     tmImagens: TTimer;
     tmEspera: TTimer;
     tsSenha: TTabSheet;
@@ -332,37 +338,43 @@ var
 
 end;
 
-function EncodeUrl(url: string): string;
-var
-  x: integer;
-  sBuff: string;
-const
-  SafeMask = ['A'..'Z', '0'..'9', 'a'..'z', '*', '@', '.', '_', '-'];
+function IsHexDigit(A: AnsiChar): Boolean; inline;
 begin
-  //Init
-  sBuff := '';
+  Result := (A in ['0'..'9','A'..'F','a'..'f']);
+end;
 
-  for x := 1 to Length(url) do
+function EncodeUrl(const url: string): string;
+const
+  // Conjunto "unreserved" (RFC 3986): ALPHA / DIGIT / "-" / "." / "_" / "~"
+  Unreserved: set of AnsiChar = ['A'..'Z','a'..'z','0'..'9','-','.','_','~'];
+var
+  i, L: SizeInt;
+  c: AnsiChar;
+  bytes: UTF8String; // garante iteração byte a byte (UTF-8)
+begin
+  Result := '';
+  bytes := UTF8String(url);
+  L := Length(bytes);
+  i := 1;
+  while i <= L do
   begin
-    //Check if we have a safe char
-    if url[x] in SafeMask then
-    begin
-      //Append all other chars
-      sBuff := sBuff + url[x];
-    end
-    else if url[x] = ' ' then
-    begin
-      //Append space
-      sBuff := sBuff + '+';
-    end
-    else
-    begin
-      //Convert to hex
-      sBuff := sBuff + '%' + IntToHex(Ord(url[x]), 2);
-    end;
-  end;
+    c := bytes[i];
 
-  Result := sBuff;
+    // Mantém %XX já existente (evita double-encode)
+    if (c = '%') and (i + 2 <= L) and IsHexDigit(bytes[i+1]) and IsHexDigit(bytes[i+2]) then
+    begin
+      Result := Result + c + bytes[i+1] + bytes[i+2];
+      Inc(i, 3);
+      Continue;
+    end;
+
+    if c in Unreserved then
+      Result := Result + c
+    else
+      Result := Result + '%' + IntToHex(Ord(c), 2); // %XX (HEX maiúsculo)
+
+    Inc(i);
+  end;
 end;
 
 function DecodeUrl(url: string): string;

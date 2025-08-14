@@ -9,7 +9,7 @@ uses
   StdCtrls, Menus, ComCtrls, PopupNotifier, Buttons, lNetComponents, lNet,
   DataPortIP, setmain, setup, splash, registro, log, hint;
 
-const Versao = '1.21';
+const Versao = '1.22';
 
 type
 
@@ -54,7 +54,7 @@ type
     pmItem: TPopupMenu;
     pmraiz: TPopupMenu;
     PopupMenu2: TPopupMenu;
-    TabSheet1: TTabSheet;
+    tsFila: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
     TrayIcon1: TTrayIcon;
@@ -447,6 +447,7 @@ var
   param : string;
 begin
    conn := false;
+   PageControl1.ActivePage  :=  tsFila;
    if not (LTCPComponent1.Connected) then
    begin
      LTCPComponent1.Connect(FSetMain.IPFILA,8095);

@@ -20,8 +20,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="433"/>
-        <CursorPos Y="461"/>
+        <TopLine Value="587"/>
+        <CursorPos X="35" Y="600"/>
         <UsageCount Value="55"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -105,10 +105,6 @@
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="461" TopLine="433"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
         <Caret Line="446" TopLine="433"/>
       </Position>
       <Position>
@@ -222,6 +218,10 @@
       <Position>
         <Filename Value="main.pas"/>
         <Caret Line="446" TopLine="433"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="12" Column="21"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -236,63 +236,63 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="628"/>
+        <Line Value="635"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="273"/>
+        <Line Value="279"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="197"/>
+        <Line Value="203"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="194"/>
+        <Line Value="200"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="180"/>
+        <Line Value="186"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="667"/>
+        <Line Value="674"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="415"/>
+        <Line Value="421"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="415"/>
+        <Line Value="421"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="466"/>
+        <Line Value="472"/>
       </Item>
     </BreakPoints>
   </Debugging>

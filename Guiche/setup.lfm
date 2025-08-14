@@ -14,9 +14,9 @@ object frmSetup: TfrmSetup
     Height = 328
     Top = 0
     Width = 492
-    ActivePage = TabSheet4
+    ActivePage = TabSheet2
     Align = alClient
-    TabIndex = 3
+    TabIndex = 1
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Servidores'

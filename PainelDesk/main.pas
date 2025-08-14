@@ -15,6 +15,7 @@ uses
 
 Const
   PortPainel = '8196';
+  Versao = '2.1';
 
 type
 
@@ -30,6 +31,10 @@ type
     Image1: TImage;
     edIPServidor: TIPEdit;
     Label1: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    lbversao: TLabel;
     Label18: TLabel;
     Label6: TLabel;
     Label7: TLabel;
@@ -51,6 +56,7 @@ type
     lbSenhaAtual: TLabel;
     LTCPComponent1: TLTCPComponent;
     Memo1: TMemo;
+    TabSheet1: TTabSheet;
     tmImagens: TTimer;
     tmEspera: TTimer;
     tsSenha: TTabSheet;
@@ -600,6 +606,7 @@ begin
   ContaTelas();
   tmImagens.Enabled:= true;
   PageControl1.ActivePage := tsAnuncios;
+  lbversao.Caption:= Versao;
 
   //Start_srv;
 end;
