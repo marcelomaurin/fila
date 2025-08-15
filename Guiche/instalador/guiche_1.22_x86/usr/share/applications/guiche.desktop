@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=guiche
+Comment=Descrição breve da sua aplicação GUI.
+Exec=/usr/bin/Guiche
+Icon=Guiche.ico
+Terminal=false
+Type=Application
+Categories=Utility;  # Ajuste categorias (ex: Development;Graphics;)
+StartupNotify=true

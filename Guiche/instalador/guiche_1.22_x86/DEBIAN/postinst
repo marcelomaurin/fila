@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+echo "Instalação do Guiche concluída."
+echo "A aplicação agora aparece no menu e inicia automaticamente ao login."
+
+# Atualiza o cache de ícones e menus (opcional, para desktops como GNOME)
+update-icon-caches /usr/share/icons/* || true
+update-desktop-database || true
+
+exit 0

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=guiche
+Comment=Aplicacao de chamada de senha
+Exec=/usr/bin/Guiche
+Icon=Guiche
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true  # Para GNOME; remova se usar outro desktop

@@ -1,0 +1,9 @@
+Package: guiche
+Version: 1.22
+Architecture: all
+Maintainer: Marcelo Maurin Martins <marcelomaurinmartins@gmail.com>
+Depends: 
+Installed-Size: 10  # Tamanho em KB, aproximado
+Homepage: https://maurinsoft.com.br
+Description: Pacote Guiche, chamador de fila de atendimento
+ O Guiche faz parte integrante do projeto fila, que permite o controle de filas de atendimento. O módulo guiche permite ser usado pelo atendente para atendimento de usuários.
