@@ -2,7 +2,7 @@ Package: guiche
 Version: 1.22
 Architecture: all
 Maintainer: Marcelo Maurin Martins <marcelomaurinmartins@gmail.com>
-Depends: 
+Depends: openssh-client, libssl-dev
 Installed-Size: 10  # Tamanho em KB, aproximado
 Homepage: https://maurinsoft.com.br
 Description: Pacote Guiche, chamador de fila de atendimento

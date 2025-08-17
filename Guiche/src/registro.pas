@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  lNetComponents, lNet, log;
+  lNetComponents, lNet, log, IdHTTP, IdSSLOpenSSL, IdSSLOpenSSLHeaders;
 
 type
 
@@ -16,6 +16,8 @@ type
     Button1: TButton;
     edNome: TEdit;
     edEmail: TEdit;
+    IdHTTP1: TIdHTTP;
+    IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -112,18 +114,34 @@ end;
 
 procedure TfrmRegistrar.Identifica();
 begin
+  (*
   if(LTCPComponent1.Connected) then
   begin
        LTCPComponent1.Disconnect(true);
        sleep(1000);
   end;
+  *)
 
-  INFO :=  'GET /ws/register/iconnected.php HTTP/1.0'+#13+#10+
-           'Connection: close'+#13+#10+
-            #13+#10;
+  {$IFDEF MSWINDOWS}
+  IdOpenSSLSetLibSSL(ExtractFilePath(ParamStr(0)) + 'libssl-1_0-x64.dll');  // Ajuste o nome se for ssleay32.dll
+  IdOpenSSLSetLibCrypto(ExtractFilePath(ParamStr(0)) + 'libcrypto-1_0-x64.dll');  // Ajuste o nome se for libeay32.dll
+  {$ENDIF}
+  {$IFDEF LINUX}
+  //IdOpenSSLSetLibSSL('/usr/lib/x86_64-linux-gnu/libssl.so.3');  // Ajuste o nome se for ssleay32.dll
+  //IdOpenSSLSetLibCrypto('/usr/lib/x86_64-linux-gnu/libcrypto.so');  // Ajuste o nome se for libeay32.dll
+  {$ENDIF}
 
+  // No Linux, não defina caminhos; use os defaults do sistema após a instalação acima.
 
-  LTCPComponent1.Connect('maurinsoft.com.br',80);
+  //SSLHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  //SSLHandler.SSLOptions;
+  try
+    //IdHTTP1.IOHandler := SSLHandler;
+    IdSSLIOHandlerSocketOpenSSL1.SSLOptions.VerifyDirs:='/usr/lib/i386-linux-gnu/';
+    IdHTTP1.Get('https://maurinsoft.com.br/ws/register/iconnected.php');
+  finally
+    //SSLHandler.Free;
+  end;
 end;
 
 end.
