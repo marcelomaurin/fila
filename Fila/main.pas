@@ -15,7 +15,7 @@ const
   PortGuiche = 8095;
   PortPainel = 8096;
   intversao = 3;
-  intrevisao = 11;
+  intrevisao = 12;
 type
 
   { Tfrmmain }
@@ -165,6 +165,7 @@ type
     procedure Executar();
     procedure Configurar();
     procedure carregalistagem();
+    procedure salvalistagem();
 
   end;
 
@@ -176,6 +177,35 @@ implementation
 {$R *.lfm}
 
 { Tfrmmain }
+
+procedure Tfrmmain.salvalistagem();
+var
+  diretorio: string;
+  arq: string;
+begin
+  // Obtém o diretório temporário de forma automática
+  diretorio := GetTempDir;
+
+  // Remove a barra ou contrabarra no final, se houver
+  if (diretorio <> '') and (diretorio[Length(diretorio)] in ['\', '/']) then
+    Delete(diretorio, Length(diretorio), 1);
+
+  // Salva os arquivos
+  arq := diretorio + PathDelim + 'list01.txt';
+  frmmain.lista1.Items.SaveToFile(arq);
+
+  arq := diretorio + PathDelim + 'list02.txt';
+  frmmain.lista2.Items.SaveToFile(arq);
+
+  arq := diretorio + PathDelim + 'list03.txt';
+  frmmain.lista3.Items.SaveToFile(arq);
+
+  arq := diretorio + PathDelim + 'list04.txt';
+  frmmain.lista4.Items.SaveToFile(arq);
+
+  arq := diretorio + PathDelim + 'list05.txt';
+  frmmain.lista5.Items.SaveToFile(arq);
+end;
 
 procedure Tfrmmain.MenuItem1Click(Sender: TObject);
 begin
@@ -412,6 +442,7 @@ end;
 procedure Tfrmmain.btSalvarClick(Sender: TObject);
 begin
   SalvarContexto();
+  salvalistagem();
 end;
 
 procedure Tfrmmain.cbIniciarChange(Sender: TObject);
@@ -502,9 +533,10 @@ end;
 
 procedure Tfrmmain.FormDestroy(Sender: TObject);
 begin
+  SalvarContexto();
   frmRegistrar.free();
   frmRegistrar := nil;
-  SalvarContexto();
+
   Fsetmain.free();
   frmToolsfalar.free;
 end;

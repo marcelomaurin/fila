@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Fila"
-#define MyAppVersion "3.11"
+#define MyAppVersion "3.12"
 #define MyAppPublisher "maurinsoft"
 #define MyAppURL "http://maurinsoft.com.br"
 #define MyAppExeName "Fila.exe"
@@ -18,7 +18,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-OutputBaseFilename=fila_setup_311
+OutputBaseFilename=fila_setup_312
 Compression=lzma
 SolidCompression=yes
 
@@ -61,6 +61,9 @@ end;
 [Files]
 Source: "D:\projetos\maurinsoft\fila\Fila\Fila.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\projetos\maurinsoft\fila\Fila\srvfalar.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\projetos\maurinsoft\fila\Fila\libcrypto-3.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\projetos\maurinsoft\fila\Fila\libssl-3.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\projetos\maurinsoft\fila\Fila\Win32OpenSSL_Light-3_5_2.msi"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\projetos\maurinsoft\fila\drivers\Elgin i9\ELGIN Printer Driver_v-1.6.6.exe"; DestDir: "{app}"; Components: Elgin;
 Source: "D:\projetos\maurinsoft\fila\drivers\POS58\POS Printer Driver Setup .exe"; DestDir: "{app}"; Components: Pos58;
 Source: "D:\projetos\maurinsoft\fila\drivers\POS5811-DD\POS Printer Driver Setup .exe"; DestDir: "{app}"; Components: Pos5811;

@@ -1,5 +1,5 @@
 object frmRegistrar: TfrmRegistrar
-  Left = -1462
+  Left = 458
   Height = 251
   Top = 276
   Width = 547
@@ -8,35 +8,34 @@ object frmRegistrar: TfrmRegistrar
   ClientHeight = 251
   ClientWidth = 547
   Position = poMainFormCenter
-  LCLVersion = '4.0.0.4'
   OnCreate = FormCreate
   OnShow = FormShow
   object Label1: TLabel
     Left = 232
-    Height = 15
+    Height = 18
     Top = 64
-    Width = 36
+    Width = 44
     Caption = 'Nome:'
     ParentColor = False
   end
   object edNome: TEdit
     Left = 232
-    Height = 23
+    Height = 35
     Top = 81
     Width = 188
     TabOrder = 0
   end
   object Label2: TLabel
     Left = 232
-    Height = 15
+    Height = 18
     Top = 120
-    Width = 32
+    Width = 41
     Caption = 'Email:'
     ParentColor = False
   end
   object edEmail: TEdit
     Left = 231
-    Height = 23
+    Height = 35
     Top = 134
     Width = 308
     TabOrder = 1
@@ -60,9 +59,9 @@ object frmRegistrar: TfrmRegistrar
   end
   object Label3: TLabel
     Left = 144
-    Height = 40
+    Height = 36
     Top = 8
-    Width = 266
+    Width = 268
     Caption = 'Registro necessário'
     Font.Height = -29
     Font.Style = [fsBold]
@@ -79,8 +78,8 @@ object frmRegistrar: TfrmRegistrar
     OnClick = Button1Click
   end
   object LTCPComponent1: TLTCPComponent
-    Host = 'http://maurinsoft.com.br'
-    Port = 80
+    Host = 'https://maurinsoft.com.br'
+    Port = 440
     OnReceive = LTCPComponent1Receive
     OnConnect = LTCPComponent1Connect
     OnAccept = LTCPComponent1Accept
@@ -88,5 +87,32 @@ object frmRegistrar: TfrmRegistrar
     ReuseAddress = True
     Left = 262
     Top = 185
+  end
+  object IdHTTP1: TIdHTTP
+    IOHandler = IdSSLIOHandlerSocketOpenSSL1
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 429
+    Top = 63
+  end
+  object IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL
+    MaxLineAction = maException
+    Port = 0
+    DefaultPort = 0
+    SSLOptions.Mode = sslmBoth
+    SSLOptions.VerifyMode = []
+    SSLOptions.VerifyDepth = 0
+    Left = 480
+    Top = 68
   end
 end
