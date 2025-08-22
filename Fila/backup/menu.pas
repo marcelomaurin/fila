@@ -116,6 +116,13 @@ begin
     result := posFila5;
   end;
 
+  FSETMAIN.Contagem1:=posFila1;
+  FSETMAIN.Contagem2:=posFila2;
+  FSETMAIN.Contagem3:=posFila3;
+  FSETMAIN.Contagem4:=posFila4;
+  FSETMAIN.Contagem5:=posFila5;
+  frmmain.SalvarContexto();
+
 
 end;
 
@@ -291,6 +298,7 @@ begin
   begin
     ImprimeSerial(Tipo, nro , senha);
   end;
+  frmmain.salvarContexto();
 
 end;
 

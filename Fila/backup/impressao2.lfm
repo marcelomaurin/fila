@@ -1,5 +1,5 @@
 object frmimpressao2: Tfrmimpressao2
-  Left = 316
+  Left = -1604
   Height = 427
   Top = 237
   Width = 422
@@ -102,7 +102,7 @@ object frmimpressao2: Tfrmimpressao2
       Left = 82
       Height = 18
       Top = 104
-      Width = 4
+      Width = 103
       Font.Color = clBlack
       Font.Height = -16
       Font.Name = 'Arial'

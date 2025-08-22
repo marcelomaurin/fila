@@ -14,8 +14,8 @@ const
 
   PortGuiche = 8095;
   PortPainel = 8096;
-  intversao = 3;
-  intrevisao = 12;
+  intversao = 4;
+  intrevisao = 01;
 type
 
   { Tfrmmain }
@@ -32,6 +32,7 @@ type
     cbModeImp: TComboBox;
     cbTipoImp: TComboBox;
     cbhab01: TCheckBox;
+    cbTipoProtocolo: TComboBox;
     cbTipoPapel: TComboBox;
     ckPainelMaximizar: TCheckBox;
     ckPainelEsquerdo: TCheckBox;
@@ -84,6 +85,7 @@ type
     Label28: TLabel;
     Label29: TLabel;
     Label30: TLabel;
+    Label31: TLabel;
     lbPlataforma: TLabel;
     lbversao: TLabel;
     lblist01: TLabel;
@@ -265,6 +267,8 @@ begin
   cbIniciar.Checked:= fsetmain.EXEC;
   cbTipoImp.ItemIndex:= integer(fsetmain.TipoIMP);
   cbModeImp.ItemIndex:= integer(fsetmain.ModeloImp);
+
+  cbTipoProtocolo.ItemIndex:=integer(FSETMAIN.TipoProtocolo);
   fileimagem.text := FSETMAIN.Imagem;
 
   edAbrev01.text :=  FSETMAIN.Abrev01;
@@ -302,6 +306,42 @@ procedure Tfrmmain.LTCPComponent1Connect(aSocket: TLSocket);
 begin
   aSocket.SendMessage('Connected!');
   frmLog.Log('Connected:'+aSocket.PeerAddress);
+end;
+
+procedure Tfrmmain.LTCPComponent2Receive(aSocket: TLSocket);
+var
+  mensagem : string;
+begin
+  aSocket.GetMessage(mensagem);
+  frmlog.Log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
+  aSocket.SendMessage('GUICHE>'+guiche+':'+item+';');
+  sleep(200);
+  aSocket.SendMessage('GRUPO>'+'1'+':'+edTipo1.text+';');
+  sleep(200);
+  aSocket.SendMessage('GRUPO>'+'2'+':'+edTipo2.text+';');
+  sleep(200);
+  aSocket.SendMessage('GRUPO>'+'3'+':'+edTipo3.text+';');
+  sleep(200);
+  aSocket.SendMessage('GRUPO>'+'4'+':'+edTipo4.text+';');
+  sleep(200);
+  aSocket.SendMessage('GRUPO>'+'5'+':'+edTipo5.text+';');
+  if(FSETMAIN.TipoProtocolo=TP_APK) then
+  begin
+    item := frmmain.Lista1.items.Strings[0];
+    aSocket.SendMessage('Fila:'+inttostr(1)+';'+Item+#13);  //Vou implementar aqui
+    item := frmmain.Lista2.items.Strings[0];
+    aSocket.SendMessage('Fila:'+inttostr(2)+';'+Item+#13);  //Vou implementar aqui
+    item := frmmain.Lista3.items.Strings[0];
+    aSocket.SendMessage('Fila:'+inttostr(3)+';'+Item+#13);  //Vou implementar aqui
+  end
+  else
+  begin
+
+  end;
+
+
+  aSocket.Disconnect(true);
+  LTCPComponent2.CallAction();
 end;
 
 procedure Tfrmmain.LTCPComponent1Receive(aSocket: TLSocket);
@@ -397,28 +437,7 @@ begin
 
 end;
 
-procedure Tfrmmain.LTCPComponent2Receive(aSocket: TLSocket);
-var
-  mensagem : string;
-begin
-  aSocket.GetMessage(mensagem);
-  frmlog.Log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
-  aSocket.SendMessage('GUICHE>'+guiche+':'+item+';');
-  sleep(200);
-  aSocket.SendMessage('GRUPO>'+'1'+':'+edTipo1.text+';');
-  sleep(200);
-  aSocket.SendMessage('GRUPO>'+'2'+':'+edTipo2.text+';');
-  sleep(200);
-  aSocket.SendMessage('GRUPO>'+'3'+':'+edTipo3.text+';');
-  sleep(200);
-  aSocket.SendMessage('GRUPO>'+'4'+':'+edTipo4.text+';');
-  sleep(200);
-  aSocket.SendMessage('GRUPO>'+'5'+':'+edTipo5.text+';');
 
-
-  aSocket.Disconnect(true);
-  LTCPComponent2.CallAction();
-end;
 
 procedure Tfrmmain.edCont2Change(Sender: TObject);
 begin
@@ -564,6 +583,7 @@ begin
       FSetMain.posy := self.top;
       FSetmain.painel:= edPainel.text;
       Fsetmain.tipoimp := TTipoIMP(cbTipoImp.ItemIndex);
+      FSETMAIN.TipoProtocolo:= TTIPOPROTOCOLO(cbTipoProtocolo.ItemIndex);
       Fsetmain.modeloimp := TModeloImpressora(cbModeImp.ItemIndex);
       FSetmain.COMPORT := edPorta.text;
       Fsetmain.EXEC:= cbIniciar.Checked;
@@ -683,6 +703,7 @@ begin
     end;
     //frmMenu.FIMP.Tipoimp :=   TTipoImpressora(cbTipoImp.ItemIndex);
     frmMenu.FIMP.modeloimp := TModeloImpressora(cbModeImp.itemindex);
+
     //Verifica se existe caminho
     if (fileimagem.text<>'') then
     begin

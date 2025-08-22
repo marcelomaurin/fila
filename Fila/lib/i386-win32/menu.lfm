@@ -1,7 +1,7 @@
 object frmMenu: TfrmMenu
-  Left = -3130
+  Left = -1210
   Height = 770
-  Top = 108
+  Top = 100
   Width = 929
   BorderStyle = bsNone
   Caption = 'http://maurinsoft.com.br - Sistema de Controle de Fila'

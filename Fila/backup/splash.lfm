@@ -1,5 +1,5 @@
 object frmSplash: TfrmSplash
-  Left = 681
+  Left = -1239
   Height = 240
   Top = 361
   Width = 320
@@ -9,7 +9,7 @@ object frmSplash: TfrmSplash
   ClientWidth = 320
   FormStyle = fsSplash
   Position = poMainFormCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '4.0.0.4'
   object Image1: TImage
     Left = 24
     Height = 194
@@ -658,7 +658,7 @@ object frmSplash: TfrmSplash
     Left = 176
     Height = 19
     Top = 183
-    Width = 111
+    Width = 109
     Caption = 'don´t show again'
     TabOrder = 0
   end

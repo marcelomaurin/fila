@@ -1,5 +1,5 @@
 object frmImpressao: TfrmImpressao
-  Left = 589
+  Left = -1331
   Height = 198
   Top = 323
   Width = 334

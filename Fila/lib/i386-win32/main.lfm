@@ -17,9 +17,9 @@ object frmmain: Tfrmmain
     Height = 399
     Top = 0
     Width = 989
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     Align = alClient
-    TabIndex = 1
+    TabIndex = 2
     TabOrder = 0
     object tbIniciar: TTabSheet
       Caption = 'Iniciar'
@@ -6525,27 +6525,27 @@ object frmmain: Tfrmmain
         Text = 'cbModeImp'
       end
       object Label7: TLabel
-        Left = 243
+        Left = 707
         Height = 15
-        Top = 296
+        Top = 56
         Width = 37
         Caption = 'Versão:'
         ParentColor = False
         ParentFont = False
       end
       object Versao: TLabel
-        Left = 288
+        Left = 752
         Height = 15
-        Top = 296
+        Top = 56
         Width = 21
         Caption = '1.18'
         ParentColor = False
         ParentFont = False
       end
       object Label8: TLabel
-        Left = 224
+        Left = 688
         Height = 15
-        Top = 320
+        Top = 80
         Width = 134
         Caption = 'http://maurinsoft.com.br'
         ParentColor = False
@@ -6584,6 +6584,28 @@ object frmmain: Tfrmmain
         Caption = '&Salvar Configuração'
         TabOrder = 8
         OnClick = btSalvarClick
+      end
+      object Label31: TLabel
+        Left = 226
+        Height = 15
+        Top = 288
+        Width = 81
+        Caption = 'Tipo Protocolo:'
+        ParentColor = False
+        ParentFont = False
+        OnClick = Label10Click
+      end
+      object cbTipoProtocolo: TComboBox
+        Left = 224
+        Height = 23
+        Top = 305
+        Width = 151
+        ItemHeight = 15
+        Items.Strings = (
+          'Painel Android '
+          'Painel Desktop'
+        )
+        TabOrder = 9
       end
     end
     object TabSheet2: TTabSheet
@@ -19921,16 +19943,16 @@ object frmmain: Tfrmmain
     OnConnect = LTCPComponent1Connect
     Timeout = 0
     ReuseAddress = True
-    Left = 304
-    Top = 328
+    Left = 792
+    Top = 288
   end
   object LTCPComponent2: TLTCPComponent
     Port = 8095
     OnReceive = LTCPComponent2Receive
     Timeout = 0
     ReuseAddress = True
-    Left = 392
-    Top = 328
+    Left = 920
+    Top = 288
   end
   object TrayIcon1: TTrayIcon
     PopUpMenu = PopupMenu1

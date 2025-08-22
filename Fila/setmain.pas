@@ -21,6 +21,7 @@ type
     TFormat = (FLeft, FCenter, FRigth); (*Formatacao do Texto*)
     TTypeText = (TT_NORMAL, TT_DOUBLE ); (*Tipo do Texto*)
     TModeloImpressora = (TI_ELGINI9, TI_ELGINI7, TI_GENERICA58);
+    TTIPOPROTOCOLO = (TP_APK, TP_DESKTOP);
 
 
   { TSetmain }
@@ -62,6 +63,7 @@ type
         FSplash : boolean;
 
         FModeloImp : TModeloImpressora;
+        FTipoProtocolo : TTIPOPROTOCOLO;
         FTipoIMP : TTipoIMP;
         FImagem : string;
 
@@ -146,6 +148,7 @@ type
         property Splash : boolean read FSplash write SetSplash;
 
         property ModeloImp : TModeloImpressora read FModeloImp write SetModeloImp;
+        property TipoProtocolo : TTipoProtocolo read FTipoProtocolo write FTipoProtocolo;
         property TipoIMP: TTipoIMP read FTipoIMP write FTipoIMP;
         property Imagem : string read FImagem write FImagem;
         property TipoPapel : TPadraoPapel read FTipoPapel write FTipoPapel;
@@ -340,6 +343,7 @@ begin
     FTipoIMP:= TI_DRIVER;
     FImagem := '';
     FTipoPapel:= TP_58MM;
+    FTipoProtocolo:= TP_DESKTOP;
 
     FFALAR:= false;
     FIPFALAR:= '127.0.0.1';
@@ -449,23 +453,23 @@ begin
 
     if  BuscaChave(arquivo,'CONTAGEM1:',posicao) then
     begin
-      FCONTAGEM1 := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+      FCONTAGEM1 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+2;
     end;
     if  BuscaChave(arquivo,'CONTAGEM2:',posicao) then
     begin
-      FCONTAGEM2 := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+      FCONTAGEM2 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+2;
     end;
     if  BuscaChave(arquivo,'CONTAGEM3:',posicao) then
     begin
-      FCONTAGEM3 := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+      FCONTAGEM3 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+2;
     end;
     if  BuscaChave(arquivo,'CONTAGEM4:',posicao) then
     begin
-      FCONTAGEM4 := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+      FCONTAGEM4 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+2;
     end;
     if  BuscaChave(arquivo,'CONTAGEM5:',posicao) then
     begin
-      FCONTAGEM5 := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+      FCONTAGEM5 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+2;
     end;
     if  BuscaChave(arquivo,'IMAGEM:',posicao) then
     begin
@@ -488,6 +492,10 @@ begin
     if  BuscaChave(arquivo,'MODELOIMP:',posicao) then
     begin
       FMODELOIMP := TModeloImpressora(strtoint(RetiraInfo(arquivo.Strings[posicao])));
+    end;
+    if  BuscaChave(arquivo,'TIPOPROTOCOLO:',posicao) then
+    begin
+      FTIPOPROTOCOLO := TTIPOPROTOCOLO(strtoint(RetiraInfo(arquivo.Strings[posicao])));
     end;
     if  BuscaChave(arquivo,'TIPOPAPEL:',posicao) then
     begin
@@ -607,6 +615,7 @@ begin
   arquivo.Append('PAINEL:'+ FPAINEL);
   arquivo.Append('SPLASH:'+ booltostr(FSPLASH));
   arquivo.Append('TIPOIMP:'+ inttostr(integer(FTipoIMP)));
+  arquivo.Append('TIPOPROTOCOLO:'+ inttostr(integer(FTipoProtocolo)));
   arquivo.Append('MODELOIMP:'+ inttostr(integer(FModeloImp)));
   arquivo.Append('TIPOPAPEL:'+ inttostr(Integer(FTipoPapel)));
   arquivo.Append('FALAR:'+ booltostr(FFALAR));

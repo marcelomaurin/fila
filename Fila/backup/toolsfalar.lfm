@@ -1,5 +1,5 @@
 object frmToolsfalar: TfrmToolsfalar
-  Left = 862
+  Left = -1058
   Height = 130
   Top = 315
   Width = 404

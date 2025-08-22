@@ -1,12 +1,12 @@
 object frmcupom: Tfrmcupom
-  Left = 1151
+  Left = -769
   Height = 371
   Top = 281
   Width = 532
   Caption = 'CUPOM'
   ClientHeight = 371
   ClientWidth = 532
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '4.0.0.4'
   object mecupom: TMemo
     Left = 0
     Height = 371
