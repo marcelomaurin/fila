@@ -7,7 +7,7 @@ SITE: http://maurinsoft.com.br/index.php/projeto-fila/
 Projeto simples para controle de fila.
 
 
-Permite o controle de filas através de sistema simples de emissão de ticket.
+Permite o controle de filas através de sistema simples de emissão de ticket. 
 
 
 Onde, é possível através de um terminal, pegar o próximo numero da fila.
@@ -28,11 +28,11 @@ O Projeto Fila possui 3 software básicos:
 
 <ul>
 <li>FILA – Emite o ticket de senha, além de possuir uma impressora térmica, tambem pode ser acoplado a um monitor touch screen.</li>
-[!Fila](https://github.com/marcelomaurin/fila/blob/master/img/fila.png)
+[![Fila](https://github.com/marcelomaurin/fila/blob/master/img/fila.png)
 <li>Guiche – Instalado no terminal da pessoa que irá realizar o atendimento, pega o próximo número baseado na listagem armazenada no FILA.</li>
-[!Guiche](https://github.com/marcelomaurin/fila/blob/master/img/Guiche.png)
+[![Guiche](https://github.com/marcelomaurin/fila/blob/master/img/Guiche.png)
 <li>Painel – Instalado em um tablet ou tv android, permite ler as informações do FILA.</li>
-[!PainelDesktop](https://github.com/marcelomaurin/fila/blob/master/img/paineldesktop.png)
+[![PainelDesktop](https://github.com/marcelomaurin/fila/blob/master/img/paineldesktop.png)
 </ul>
 
 <h1>English:</h1>
