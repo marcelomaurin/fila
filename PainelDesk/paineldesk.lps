@@ -20,7 +20,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="587"/>
+        <TopLine Value="588"/>
         <CursorPos X="35" Y="600"/>
         <UsageCount Value="55"/>
         <Loaded Value="True"/>
@@ -272,13 +272,6 @@
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
         <Line Value="674"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="421"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>

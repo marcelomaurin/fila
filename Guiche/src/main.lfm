@@ -4,8 +4,8 @@ object frmmain: Tfrmmain
   Top = 305
   Width = 332
   Caption = 'Guiche'
-  ClientHeight = 481
-  ClientWidth = 332
+  ClientHeight = 0
+  ClientWidth = 0
   Position = poMainFormCenter
   LCLVersion = '4.0.0.4'
   OnClose = FormClose
@@ -17,9 +17,9 @@ object frmmain: Tfrmmain
     Height = 481
     Top = 0
     Width = 189
-    ActivePage = TabSheet3
+    ActivePage = TabSheet2
     Align = alClient
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 0
     object TabSheet3: TTabSheet
       Caption = 'Sobre'

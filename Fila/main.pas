@@ -15,7 +15,7 @@ const
   PortGuiche = 8095;
   PortPainel = 8096;
   intversao = 4;
-  intrevisao = 01;
+  intrevisao = 02;
 type
 
   { Tfrmmain }

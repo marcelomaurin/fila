@@ -195,7 +195,7 @@ begin
     frmImpressao.RLLocalizacao.Caption:= localizacao;
     frmImpressao.RLReport1.PrintDialog := false;
     frmImpressao.RLReport1.Print;
-    frmimpressao.free;
+
     //frmImpressao.RLBNRO.Caption := senha;
     if(FSETMAIN.ModeloImp <> TI_ELGINI9) then
     begin
@@ -232,6 +232,8 @@ begin
     frmImpressao2.RLReport1.Print;
     frmimpressao2.free;
   end;
+  frmimpressao.free;
+
   if ( FSETMAIN.Falar) then
   begin
     frmToolsfalar.Falar('Sua senha é '+senha+ ' do tipo '+ PegaNomeFila(Tipo));

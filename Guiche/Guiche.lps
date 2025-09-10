@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="16"/>
-        <UsageCount Value="86"/>
+        <UsageCount Value="88"/>
       </Unit0>
       <Unit1>
         <Filename Value="src\main.pas"/>
@@ -18,9 +18,11 @@
         <ComponentName Value="frmmain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="271"/>
         <CursorPos X="40" Y="271"/>
-        <UsageCount Value="86"/>
+        <ComponentState Value="1"/>
+        <UsageCount Value="88"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -31,26 +33,27 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Setup"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="276"/>
         <CursorPos X="24" Y="282"/>
-        <UsageCount Value="86"/>
+        <ComponentState Value="1"/>
+        <UsageCount Value="88"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="setmain.pas"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="3"/>
         <CursorPos Y="8"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="55"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="funcoes.pas"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="7"/>
         <CursorPos X="27" Y="14"/>
-        <UsageCount Value="44"/>
+        <UsageCount Value="45"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -60,7 +63,8 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
         <CursorPos X="3" Y="26"/>
-        <UsageCount Value="40"/>
+        <ComponentState Value="1"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit5>
@@ -70,9 +74,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="117"/>
+        <TopLine Value="113"/>
         <CursorPos Y="141"/>
-        <UsageCount Value="48"/>
+        <ComponentState Value="1"/>
+        <UsageCount Value="49"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit6>
@@ -110,24 +115,22 @@
         <UsageCount Value="12"/>
       </Unit10>
       <Unit11>
-        <Filename Value="..\..\..\..\..\..\usr\share\lazarus\4.2.0\lcl\include\customform.inc"/>
-        <EditorIndex Value="6"/>
+        <Filename Value="D:\usr\share\lazarus\4.2.0\lcl\include\customform.inc"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="910"/>
         <CursorPos Y="927"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit11>
       <Unit12>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Core\IdTCPClient.pas"/>
-        <EditorIndex Value="5"/>
+        <Filename Value="D:\.lazarus\onlinepackagemanager\packages\Indy10\Core\IdTCPClient.pas"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="201"/>
         <CursorPos X="15" Y="216"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit12>
       <Unit13>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\System\IdStackUnix.pas"/>
+        <Filename Value="D:\.lazarus\onlinepackagemanager\packages\Indy10\System\IdStackUnix.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="417"/>
         <CursorPos Y="433"/>
@@ -135,17 +138,15 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit13>
       <Unit14>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdSSLOpenSSL.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <Filename Value="D:\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdSSLOpenSSL.pas"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="3132"/>
         <CursorPos Y="3154"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit14>
       <Unit15>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdSSLOpenSSLHeaders.pas"/>
+        <Filename Value="D:\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdSSLOpenSSLHeaders.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="22942"/>
         <CursorPos X="37" Y="22970"/>
@@ -153,136 +154,43 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit15>
       <Unit16>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <EditorIndex Value="4"/>
+        <Filename Value="D:\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="3270"/>
         <CursorPos Y="3298"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit16>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="7" HistoryIndex="6">
       <Position1>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3262" TopLine="3237"/>
+        <Filename Value="src\registro.pas"/>
+        <Caret Line="140" TopLine="113"/>
       </Position1>
       <Position2>
         <Filename Value="src\registro.pas"/>
-        <Caret Line="140" TopLine="113"/>
+        <Caret Line="140" Column="58" TopLine="117"/>
       </Position2>
       <Position3>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="1163" TopLine="1146"/>
+        <Filename Value="src\registro.pas"/>
+        <Caret Line="141" TopLine="117"/>
       </Position3>
       <Position4>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="1164" TopLine="1146"/>
-      </Position4>
-      <Position5>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3254" TopLine="3237"/>
-      </Position5>
-      <Position6>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3255" TopLine="3237"/>
-      </Position6>
-      <Position7>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3256" TopLine="3237"/>
-      </Position7>
-      <Position8>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3257" TopLine="3237"/>
-      </Position8>
-      <Position9>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3268" TopLine="3240"/>
-      </Position9>
-      <Position10>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3269" TopLine="3241"/>
-      </Position10>
-      <Position11>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3277" TopLine="3260"/>
-      </Position11>
-      <Position12>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3279" TopLine="3260"/>
-      </Position12>
-      <Position13>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3280" TopLine="3260"/>
-      </Position13>
-      <Position14>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3281" TopLine="3260"/>
-      </Position14>
-      <Position15>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3283" TopLine="3260"/>
-      </Position15>
-      <Position16>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3284" TopLine="3260"/>
-      </Position16>
-      <Position17>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3289" TopLine="3261"/>
-      </Position17>
-      <Position18>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3290" TopLine="3262"/>
-      </Position18>
-      <Position19>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3291" TopLine="3263"/>
-      </Position19>
-      <Position20>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3292" TopLine="3264"/>
-      </Position20>
-      <Position21>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3294" TopLine="3266"/>
-      </Position21>
-      <Position22>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3296" TopLine="3268"/>
-      </Position22>
-      <Position23>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdHTTP.pas"/>
-        <Caret Line="3297" TopLine="3269"/>
-      </Position23>
-      <Position24>
-        <Filename Value="src\registro.pas"/>
-        <Caret Line="140" Column="58" TopLine="117"/>
-      </Position24>
-      <Position25>
-        <Filename Value="src\registro.pas"/>
-        <Caret Line="141" TopLine="117"/>
-      </Position25>
-      <Position26>
         <Filename Value="src\registro.pas"/>
         <Caret Line="140" Column="85" TopLine="117"/>
-      </Position26>
-      <Position27>
+      </Position4>
+      <Position5>
         <Filename Value="src\registro.pas"/>
         <Caret Line="141" TopLine="117"/>
-      </Position27>
-      <Position28>
+      </Position5>
+      <Position6>
         <Filename Value="src\registro.pas"/>
         <Caret Line="140" Column="82" TopLine="117"/>
-      </Position28>
-      <Position29>
+      </Position6>
+      <Position7>
         <Filename Value="src\registro.pas"/>
         <Caret Line="141" TopLine="117"/>
-      </Position29>
-      <Position30>
-        <Filename Value="..\..\..\..\.lazarus\onlinepackagemanager\packages\Indy10\Protocols\IdSSLOpenSSL.pas"/>
-        <Caret Line="3146" Column="38" TopLine="3132"/>
-      </Position30>
+      </Position7>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

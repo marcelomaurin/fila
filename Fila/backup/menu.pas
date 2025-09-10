@@ -122,6 +122,7 @@ begin
   FSETMAIN.Contagem4:=posFila4;
   FSETMAIN.Contagem5:=posFila5;
   frmmain.SalvarContexto();
+  application.ProcessMessages;
 
 
 end;
