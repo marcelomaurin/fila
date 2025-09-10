@@ -29,7 +29,9 @@ type
     DataPortTCP1: TDataPortTCP;
     edGuiche: TEdit;
     edIPFILA: TEdit;
-    edIPPainel: TEdit;
+    edIPPainel1: TEdit;
+    edIPPainel2: TEdit;
+    edIPPainel3: TEdit;
     edRotulo01: TEdit;
     edRotulo02: TEdit;
     edRotulo03: TEdit;
@@ -39,6 +41,8 @@ type
     Image2: TImage;
     Image3: TImage;
     Label1: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -98,7 +102,9 @@ type
       var Handled: Boolean);
     procedure TrayIcon1Click(Sender: TObject);
     procedure Chamar(nro : integer);
-    procedure Painel(nro : string; guiche: integer);
+    procedure Painel1(nro : string; guiche: integer);
+    procedure Painel2(nro : string; guiche: integer);
+    procedure Painel3(nro : string; guiche: integer);
   private
     conn : boolean;
     lastcall : string;
@@ -209,7 +215,9 @@ begin
       nro := strtoint(strnro2);
       if ckPainel.Checked then
       begin
-           Painel(strNro, strtoint(edGuiche.TextHint));
+           Painel1(strNro, strtoint(edGuiche.TextHint));
+           Painel2(strNro, strtoint(edGuiche.TextHint));
+           Painel3(strNro, strtoint(edGuiche.TextHint));
       end;
       ShowMessage('Senha:'+strNro);
     end
@@ -279,14 +287,56 @@ begin
    end;
 end;
 
-procedure TfrmSetup.Painel(nro : string; guiche: integer);
+procedure TfrmSetup.Painel1(nro : string; guiche: integer);
 var
   param : string;
 begin
    conn := false;
    if not (LTCPComponent2.Connected) then
    begin
-     LTCPComponent2.Connect(edIPPainel.text,8096);
+     LTCPComponent2.Connect(edIPPainel1.text,8096);
+     repeat
+       //tentando conectar
+       //sleep(300);
+       //frmlog.log('Tentando conectar');
+       application.ProcessMessages;
+     until  not conn ;
+     //LTCPComponent1.CallAction;
+     //delay(1000);
+     param := 'Fila:'+nro;
+     LTCPComponent2.SendMessage(param,nil);
+   end;
+end;
+
+procedure TfrmSetup.Painel2(nro: string; guiche: integer);
+var
+  param : string;
+begin
+   conn := false;
+   if not (LTCPComponent2.Connected) then
+   begin
+     LTCPComponent2.Connect(edIPPainel2.text,8096);
+     repeat
+       //tentando conectar
+       //sleep(300);
+       //frmlog.log('Tentando conectar');
+       application.ProcessMessages;
+     until  not conn ;
+     //LTCPComponent1.CallAction;
+     //delay(1000);
+     param := 'Fila:'+nro;
+     LTCPComponent2.SendMessage(param,nil);
+   end;
+end;
+
+procedure TfrmSetup.Painel3(nro: string; guiche: integer);
+var
+  param : string;
+begin
+   conn := false;
+   if not (LTCPComponent2.Connected) then
+   begin
+     LTCPComponent2.Connect(edIPPainel3.text,8096);
      repeat
        //tentando conectar
        //sleep(300);
@@ -304,7 +354,9 @@ procedure TfrmSetup.default();
 begin
   edGuiche.Text:= '1';
   edIPFILA.text := '127.0.0.1';
-  edIPPainel.text := '127.0.0.1';
+  edIPPainel1.text := '127.0.0.1';
+  edIPPainel2.text := '';
+  edIPPainel3.text := '';
   edRotulo01.text := 'Tipo01';
   edRotulo02.text := 'Tipo02';
   edRotulo03.text := 'Tipo03';
@@ -323,7 +375,9 @@ procedure TfrmSetup.CarregaParametros();
 begin
   edGuiche.text := FSETMAIN.NROGUICHE;
   edIPFILA.text := FSETMAIN.IPFILA;
-  edIPPainel.text := FSETMAIN.IPPAINEL;
+  edIPPainel1.text := FSETMAIN.IPPAINEL1;
+  edIPPainel2.text := FSETMAIN.IPPAINEL2;
+  edIPPainel3.text := FSETMAIN.IPPAINEL3;
   ckPainel.Checked := FSetMain.PAINEL;
   edRotulo01.text := FSetMain.Rotulo01;
   edRotulo02.text := FSetMain.Rotulo02;
@@ -342,7 +396,9 @@ procedure TfrmSetup.SalvaParametros();
 begin
   FSETMAIN.NROGUICHE := edGuiche.text;
   FSETMAIN.IPFILA:= edIPFILA.text;
-  FSETMAIN.IPPAINEL := edIPPainel.text;
+  FSETMAIN.IPPAINEL1 := edIPPainel1.text;
+  FSETMAIN.IPPAINEL2 := edIPPainel2.text;
+  FSETMAIN.IPPAINEL3 := edIPPainel3.text;
   FSetMain.PAINEL:= ckPainel.Checked;
   FSetMain.Rotulo01:= edRotulo01.text;
   FSetMain.Rotulo02:= edRotulo02.text;

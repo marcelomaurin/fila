@@ -123,8 +123,8 @@ begin
   *)
 
   {$IFDEF MSWINDOWS}
-  IdOpenSSLSetLibSSL(ExtractFilePath(ParamStr(0)) + 'libssl-1_0-x64.dll');  // Ajuste o nome se for ssleay32.dll
-  IdOpenSSLSetLibCrypto(ExtractFilePath(ParamStr(0)) + 'libcrypto-1_0-x64.dll');  // Ajuste o nome se for libeay32.dll
+  //IdOpenSSLSetLibSSL(ExtractFilePath(ParamStr(0)) + 'libssl-1_0-x64.dll');  // Ajuste o nome se for ssleay32.dll
+  //IdOpenSSLSetLibCrypto(ExtractFilePath(ParamStr(0)) + 'libcrypto-1_0-x64.dll');  // Ajuste o nome se for libeay32.dll
   {$ENDIF}
   {$IFDEF LINUX}
   //IdOpenSSLSetLibSSL('/usr/lib/x86_64-linux-gnu/libssl.so.3');  // Ajuste o nome se for ssleay32.dll
@@ -137,8 +137,8 @@ begin
   //SSLHandler.SSLOptions;
   try
     //IdHTTP1.IOHandler := SSLHandler;
-    IdSSLIOHandlerSocketOpenSSL1.SSLOptions.VerifyDirs:='/usr/lib/i386-linux-gnu/';
-    IdHTTP1.Get('https://maurinsoft.com.br/ws/register/iconnected.php');
+    //IdSSLIOHandlerSocketOpenSSL1.SSLOptions.VerifyDirs:='/usr/lib/i386-linux-gnu/';
+    //IdHTTP1.Get('https://maurinsoft.com.br/ws/register/iconnected.php');
   finally
     //SSLHandler.Free;
   end;

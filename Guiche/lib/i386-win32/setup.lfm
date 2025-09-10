@@ -1,27 +1,27 @@
 object frmSetup: TfrmSetup
-  Left = 251
-  Height = 385
-  Top = 467
-  Width = 492
+  Left = 980
+  Height = 358
+  Top = 202
+  Width = 524
   Caption = 'Setup '
-  ClientHeight = 385
-  ClientWidth = 492
+  ClientHeight = 358
+  ClientWidth = 524
   Position = poScreenCenter
   LCLVersion = '4.0.0.4'
   OnCreate = FormCreate
   object PageControl1: TPageControl
     Left = 0
-    Height = 328
+    Height = 301
     Top = 0
-    Width = 492
+    Width = 524
     ActivePage = TabSheet2
     Align = alClient
     TabIndex = 1
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Servidores'
-      ClientHeight = 300
-      ClientWidth = 484
+      ClientHeight = 273
+      ClientWidth = 516
       object Image1: TImage
         Left = 16
         Height = 212
@@ -6382,8 +6382,8 @@ object frmSetup: TfrmSetup
     end
     object TabSheet2: TTabSheet
       Caption = 'Painel'
-      ClientHeight = 300
-      ClientWidth = 484
+      ClientHeight = 273
+      ClientWidth = 516
       object Image2: TImage
         Left = 16
         Height = 212
@@ -12728,11 +12728,11 @@ object frmSetup: TfrmSetup
         Left = 224
         Height = 15
         Top = 24
-        Width = 48
-        Caption = 'IP Painel:'
+        Width = 63
+        Caption = 'IP Painel 01:'
         ParentColor = False
       end
-      object edIPPainel: TEdit
+      object edIPPainel1: TEdit
         Left = 224
         Height = 23
         Top = 40
@@ -12743,7 +12743,7 @@ object frmSetup: TfrmSetup
       object ckPainel: TCheckBox
         Left = 224
         Height = 19
-        Top = 80
+        Top = 160
         Width = 91
         Caption = 'Chama Painel'
         TabOrder = 1
@@ -12751,14 +12751,14 @@ object frmSetup: TfrmSetup
       object Label9: TLabel
         Left = 224
         Height = 15
-        Top = 108
+        Top = 188
         Width = 95
         Caption = 'Protocolo Padrão:'
       end
       object cbProtocolo: TComboBox
         Left = 224
         Height = 23
-        Top = 128
+        Top = 208
         Width = 176
         ItemHeight = 15
         ItemIndex = 1
@@ -12769,11 +12769,43 @@ object frmSetup: TfrmSetup
         TabOrder = 2
         Text = 'Painel Desktop'
       end
+      object edIPPainel2: TEdit
+        Left = 224
+        Height = 23
+        Top = 80
+        Width = 112
+        TabOrder = 3
+        Text = '127.0.0.1'
+      end
+      object Label10: TLabel
+        Left = 224
+        Height = 15
+        Top = 64
+        Width = 63
+        Caption = 'IP Painel 02:'
+        ParentColor = False
+      end
+      object Label11: TLabel
+        Left = 224
+        Height = 15
+        Top = 104
+        Width = 63
+        Caption = 'IP Painel 03:'
+        ParentColor = False
+      end
+      object edIPPainel3: TEdit
+        Left = 224
+        Height = 23
+        Top = 120
+        Width = 112
+        TabOrder = 4
+        Text = '127.0.0.1'
+      end
     end
     object TabSheet3: TTabSheet
       Caption = 'Guichê'
-      ClientHeight = 300
-      ClientWidth = 484
+      ClientHeight = 273
+      ClientWidth = 516
       object Label1: TLabel
         Left = 224
         Height = 15
@@ -19133,8 +19165,8 @@ object frmSetup: TfrmSetup
     end
     object TabSheet4: TTabSheet
       Caption = 'Tickets'
-      ClientHeight = 300
-      ClientWidth = 484
+      ClientHeight = 273
+      ClientWidth = 516
       OnContextPopup = TabSheet4ContextPopup
       object Label4: TLabel
         Left = 10
@@ -19256,11 +19288,11 @@ object frmSetup: TfrmSetup
   object Panel1: TPanel
     Left = 0
     Height = 57
-    Top = 328
-    Width = 492
+    Top = 301
+    Width = 524
     Align = alBottom
     ClientHeight = 57
-    ClientWidth = 492
+    ClientWidth = 524
     TabOrder = 1
     object btSalvar: TButton
       Left = 384

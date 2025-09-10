@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="9"/>
         <CursorPos X="36" Y="6"/>
-        <UsageCount Value="109"/>
+        <UsageCount Value="110"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -22,8 +22,8 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="183"/>
-        <CursorPos Y="200"/>
-        <UsageCount Value="109"/>
+        <CursorPos X="17" Y="194"/>
+        <UsageCount Value="110"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -36,7 +36,7 @@
         <UnitName Value="Impressao"/>
         <TopLine Value="31"/>
         <CursorPos X="18" Y="13"/>
-        <UsageCount Value="109"/>
+        <UsageCount Value="110"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
@@ -49,7 +49,7 @@
         <EditorIndex Value="6"/>
         <TopLine Value="16"/>
         <CursorPos X="18" Y="18"/>
-        <UsageCount Value="109"/>
+        <UsageCount Value="110"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit3>
@@ -62,7 +62,7 @@
         <EditorIndex Value="10"/>
         <TopLine Value="54"/>
         <CursorPos X="3" Y="80"/>
-        <UsageCount Value="105"/>
+        <UsageCount Value="106"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit4>
@@ -73,21 +73,21 @@
         <EditorIndex Value="12"/>
         <TopLine Value="31"/>
         <CursorPos X="45" Y="49"/>
-        <UsageCount Value="94"/>
+        <UsageCount Value="95"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="printer\imp_generico.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="13"/>
-        <UsageCount Value="94"/>
+        <UsageCount Value="95"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
         <Filename Value="printer\imp_qr203.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="14"/>
-        <UsageCount Value="94"/>
+        <UsageCount Value="95"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
@@ -96,7 +96,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="5"/>
         <CursorPos X="41" Y="5"/>
-        <UsageCount Value="94"/>
+        <UsageCount Value="95"/>
       </Unit8>
       <Unit9>
         <Filename Value="setmain.pas"/>
@@ -104,7 +104,7 @@
         <EditorIndex Value="8"/>
         <TopLine Value="409"/>
         <CursorPos X="65" Y="453"/>
-        <UsageCount Value="94"/>
+        <UsageCount Value="95"/>
         <Loaded Value="True"/>
       </Unit9>
       <Unit10>
@@ -116,7 +116,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="115"/>
         <CursorPos X="3" Y="127"/>
-        <UsageCount Value="94"/>
+        <UsageCount Value="95"/>
       </Unit10>
       <Unit11>
         <Filename Value="funcoes.pas"/>
@@ -124,7 +124,7 @@
         <EditorIndex Value="5"/>
         <TopLine Value="20"/>
         <CursorPos X="9" Y="21"/>
-        <UsageCount Value="94"/>
+        <UsageCount Value="95"/>
         <Loaded Value="True"/>
       </Unit11>
       <Unit12>
@@ -135,7 +135,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="11"/>
         <CursorPos X="28" Y="4"/>
-        <UsageCount Value="94"/>
+        <UsageCount Value="95"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit12>
@@ -146,7 +146,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="4"/>
-        <UsageCount Value="76"/>
+        <UsageCount Value="77"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit13>
@@ -159,7 +159,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="6"/>
         <CursorPos X="89" Y="26"/>
-        <UsageCount Value="57"/>
+        <UsageCount Value="58"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit14>
@@ -172,7 +172,7 @@
         <EditorIndex Value="7"/>
         <TopLine Value="115"/>
         <CursorPos X="39" Y="120"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="55"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit15>

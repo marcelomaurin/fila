@@ -9,7 +9,7 @@ uses
   StdCtrls, Menus, ComCtrls, PopupNotifier, Buttons, lNetComponents, lNet,
   DataPortIP, setmain, setup, splash, registro, log, hint;
 
-const Versao = '1.22';
+const Versao = '1.23';
 
 type
 
@@ -37,6 +37,8 @@ type
     btFila2: TMenuItem;
     btSair: TMenuItem;
     btFila3: TMenuItem;
+    LTCPComponent3: TLTCPComponent;
+    LTCPComponent4: TLTCPComponent;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
@@ -101,7 +103,9 @@ type
     procedure miRechamarClick(Sender: TObject);
     procedure TrayIcon1Click(Sender: TObject);
     procedure Chamar(nro : integer);
-    procedure Painel(nro : string; guiche: integer);
+    procedure Painel1(nro : string; guiche: integer);
+    procedure Painel2(nro : string; guiche: integer);
+    procedure Painel3(nro : string; guiche: integer);
     procedure Config();
     procedure tvFilaChange(Sender: TObject; Node: TTreeNode);
 
@@ -148,7 +152,9 @@ begin
   begin
        if(lastcall<>'') then
        begin
-         painel(lastcall,strtoint(FSetMain.NROGUICHE));
+         painel1(lastcall,strtoint(FSetMain.NROGUICHE));
+         painel2(lastcall,strtoint(FSetMain.NROGUICHE));
+         painel3(lastcall,strtoint(FSetMain.NROGUICHE));
          frmhint.MessageHint(lastcall);
        end
        else
@@ -329,7 +335,9 @@ begin
       Application.ProcessMessages;
       if frmsetup.ckPainel.Checked then
       begin
-           Painel(strNro2, strtoint(FSetMain.NROGUICHE));
+           Painel1(strNro2, strtoint(FSetMain.NROGUICHE));
+           Painel2(strNro2, strtoint(FSetMain.NROGUICHE));
+           Painel3(strNro2, strtoint(FSetMain.NROGUICHE));
       end;
       //ShowMessage('Senha:'+strNro);
       //PopupNotifier1.Text:=strNro;
@@ -340,7 +348,9 @@ begin
       //Chama o painel
       if(FsetMain.PAINEL) then
       begin
-         Painel( strNro2,strtoint(FsetMain.NROGUICHE));
+         Painel1( strNro2,strtoint(FsetMain.NROGUICHE));
+         Painel2( strNro2,strtoint(FsetMain.NROGUICHE));
+         Painel3( strNro2,strtoint(FsetMain.NROGUICHE));
       end;
     end
     else
@@ -404,12 +414,16 @@ end;
 procedure Tfrmmain.Config();
 begin
   frmsetup.edIPFILA.text := fsetmain.IPFILA;
-  frmsetup.edIPPainel.text := fsetmain.IPPAINEL;
+  frmsetup.edIPPainel1.text := fsetmain.IPPAINEL1;
+  frmsetup.edIPPainel2.text := fsetmain.IPPAINEL2;
+  frmsetup.edIPPainel3.text := fsetmain.IPPAINEL3;
   frmsetup.edGuiche.text := fsetmain.NROGUICHE;
   frmsetup.ckPainel.Checked:= FsetMain.PAINEL;
   frmsetup.showmodal;
   fsetmain.IPFILA := frmsetup.edIPFILA.text;
-  fsetmain.IPPAINEL := frmsetup.edIPPainel.text;
+  fsetmain.IPPAINEL1 := frmsetup.edIPPainel1.text;
+  fsetmain.IPPAINEL2 := frmsetup.edIPPainel2.text;
+  fsetmain.IPPAINEL3 := frmsetup.edIPPainel3.text;
   fsetmain.NROGUICHE := frmsetup.edGuiche.text;
   fsetmain.PAINEL:= frmsetup.ckPainel.Checked;
   fsetmain.top := self.top;
@@ -471,14 +485,17 @@ begin
    end;
 end;
 
-procedure Tfrmmain.Painel(nro : string; guiche: integer);
+procedure Tfrmmain.Painel1(nro: string; guiche: integer);
 var
   param : string;
 begin
+ if(FsetMain.IPPAINEL1 <> '') then
+ begin
    conn2 := false;
+
    if not (LTCPComponent2.Connected) then
    begin
-     LTCPComponent2.Connect(FsetMain.IPPAINEL,8196);
+     LTCPComponent2.Connect(FsetMain.IPPAINEL1,8196);
      repeat
        //tentando conectar
        sleep(300);
@@ -499,7 +516,79 @@ begin
 
      LTCPComponent2.SendMessage(param,nil);
    end;
+ end;
 end;
+
+procedure Tfrmmain.Painel2(nro: string; guiche: integer);
+var
+  param : string;
+begin
+ if(FsetMain.IPPAINEL2 <> '') then
+ begin
+   conn2 := false;
+   if not (LTCPComponent2.Connected) then
+   begin
+     LTCPComponent3.Connect(FsetMain.IPPAINEL2,8196);
+     repeat
+       //tentando conectar
+       sleep(300);
+       //frmlog.log('Tentando conectar');
+       application.ProcessMessages;
+     until  not conn2 ;
+     //LTCPComponent1.CallAction;
+     sleep(1000);
+     if (FSetMain.PROTOCOLO = 1) then
+     begin
+          param := 'FILA:'+nro+'>'+inttostr(guiche)+';';
+
+     end
+     else
+     begin
+          param := 'Fila:'+nro+#13+'>'+inttostr(guiche)+';';
+     end;
+
+     LTCPComponent3.SendMessage(param,nil);
+   end;
+ end;
+
+end;
+
+procedure Tfrmmain.Painel3(nro: string; guiche: integer);
+var
+  param : string;
+begin
+   conn2 := false;
+ if not (LTCPComponent2.Connected) then
+ begin
+
+   if not (LTCPComponent4.Connected) then
+   begin
+     LTCPComponent4.Connect(FsetMain.IPPAINEL3,8196);
+     repeat
+       //tentando conectar
+       sleep(300);
+       //frmlog.log('Tentando conectar');
+       application.ProcessMessages;
+     until  not conn2 ;
+     //LTCPComponent1.CallAction;
+     sleep(1000);
+     if (FSetMain.PROTOCOLO = 1) then
+     begin
+          param := 'FILA:'+nro+'>'+inttostr(guiche)+';';
+
+     end
+     else
+     begin
+          param := 'Fila:'+nro+#13+'>'+inttostr(guiche)+';';
+     end;
+
+     LTCPComponent4.SendMessage(param,nil);
+   end;
+ end;
+end;
+
+
+
 
 procedure Tfrmmain.MenuItem1Click(Sender: TObject);
 begin
@@ -529,7 +618,9 @@ begin
   begin
        if( tnsel.Text<>'') then
        begin
-         painel( tnsel.Text,strtoint(FSetMain.NROGUICHE));
+         painel1( tnsel.Text,strtoint(FSetMain.NROGUICHE));
+         painel2( tnsel.Text,strtoint(FSetMain.NROGUICHE));
+         painel3( tnsel.Text,strtoint(FSetMain.NROGUICHE));
          frmhint.MessageHint(lastcall);
        end
        else
@@ -587,7 +678,9 @@ procedure Tfrmmain.btRechamarClick(Sender: TObject);
 begin
   if FsetMain.PAINEL then
   begin
-       painel(lastcall,strtoint(FSetMain.NROGUICHE));
+       painel1(lastcall,strtoint(FSetMain.NROGUICHE));
+       painel2(lastcall,strtoint(FSetMain.NROGUICHE));
+       painel3(lastcall,strtoint(FSetMain.NROGUICHE));
        AtualizaBotoes();
   end;
   ShowMessage(lastcall);

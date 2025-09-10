@@ -31,7 +31,9 @@ type
         FPainel: boolean;
         FNROGUICHE : string;
         FIPFILA : String;
-        FIPPAINEL : String;
+        FIPPAINEL1 : String;
+        FIPPAINEL2 : String;
+        FIPPAINEL3 : String;
         FLastFiles : String;
         FRotulo01 : string;
         FRotulo02 : string;
@@ -52,7 +54,9 @@ type
         procedure SetHEIGHT(value : integer);
         procedure SetPainel(value : boolean);
 
-        procedure SetIPPAINEL(value : string);
+        procedure SetIPPAINEL1(value : string);
+        procedure SetIPPAINEL2(value : string);
+        procedure SetIPPAINEL3(value : string);
         procedure SetIPFILA(value : string);
         procedure SetNROGUICHE(value : string);
         procedure Default();
@@ -66,7 +70,9 @@ type
         property HEIGHT : integer read FHEIGHT write SetHEIGHT;
         property NROGUICHE: string read FNROGUICHE write SetNROGUICHE;
         property IPFILA: string read FIPFILA write SetIPFILA;
-        property IPPAINEL: string read FIPPAINEL write SetIPPAINEL;
+        property IPPAINEL1: string read FIPPAINEL1 write SetIPPAINEL1;
+        property IPPAINEL2: string read FIPPAINEL2 write SetIPPAINEL2;
+        property IPPAINEL3: string read FIPPAINEL3 write SetIPPAINEL3;
         property PAINEL: boolean read FPAINEL write SetPAINEL;
         property Rotulo01 : string read FRotulo01 write FRotulo01;
         property Rotulo02 : string read FRotulo02 write FRotulo02;
@@ -99,7 +105,9 @@ begin
    FLEFT:= 1617;
    FNROGUICHE:='1';
    FIPFILA:='127.0.0.1';
-   FIPPAINEL:='127.0.0.1';
+   FIPPAINEL1:='127.0.0.1';
+   FIPPAINEL2:='';
+   FIPPAINEL3:='';
    FPainel := true;
    FRotulo01 := 'Tipo01';
    FRotulo02 := 'Tipo02';
@@ -131,7 +139,22 @@ end;
 
 procedure TSetMain.SetPainel(value: boolean);
 begin
-  FPainel := value;
+   FPainel := value;
+end;
+
+procedure TSetMain.SetIPPAINEL1(value: string);
+begin
+  FIPPAINEL1 := value;
+end;
+
+procedure TSetMain.SetIPPAINEL2(value: string);
+begin
+  FIPPAINEL2 := value;
+end;
+
+procedure TSetMain.SetIPPAINEL3(value: string);
+begin
+  FIPPAINEL3 := value;
 end;
 
 procedure TSetMain.SetWIDTH(value: integer);
@@ -152,10 +175,7 @@ begin
 end;
 
 
-procedure TSetMain.SetIPPAINEL(value: string);
-begin
-  FIPPAINEL:= value;
-end;
+
 
 procedure TSetMain.CarregaContexto();
 var
@@ -182,10 +202,18 @@ begin
     begin
       FNROGUICHE := RetiraInfo(arquivo.Strings[posicao]);
     end;
-    if  BuscaChave(arquivo,'IPPAINEL:',posicao) then
+    if  BuscaChave(arquivo,'IPPAINEL1:',posicao) then
     begin
-      FIPPAINEL := RetiraInfo(arquivo.Strings[posicao]);
+      FIPPAINEL1 := RetiraInfo(arquivo.Strings[posicao]);
     end;
+    if  BuscaChave(arquivo,'IPPAINEL2:',posicao) then
+    begin
+      FIPPAINEL2 := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'IPPAINEL3:',posicao) then
+       begin
+         FIPPAINEL3 := RetiraInfo(arquivo.Strings[posicao]);
+       end;
     if  BuscaChave(arquivo,'IPFILA:',posicao) then
     begin
       FIPFILA := RetiraInfo(arquivo.Strings[posicao]);
@@ -284,7 +312,9 @@ begin
   arquivo.Append('HEIGHT:'+inttostr(FHEIGHT));
   arquivo.Append('NROGUICHE:'+FNROGUICHE);
   arquivo.Append('IPFILA:'+FIPFILA);
-  arquivo.Append('IPPAINEL:'+FIPPAINEL);
+  arquivo.Append('IPPAINEL1:'+FIPPAINEL1);
+  arquivo.Append('IPPAINEL2:'+FIPPAINEL2);
+  arquivo.Append('IPPAINEL3:'+FIPPAINEL3);
   arquivo.Append('CKPAINEL:'+iif(FPAINEL=true,'TRUE','FALSE'));
   arquivo.Append('ROTULO01:'+FROTULO01);
   arquivo.Append('ROTULO02:'+FROTULO02);
