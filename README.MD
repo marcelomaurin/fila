@@ -35,6 +35,9 @@ O Projeto Fila possui 3 software básicos:
 [![PainelDesktop](https://github.com/marcelomaurin/fila/blob/master/img/paineldesktop.png)
 </ul>
 
+<h3>Empresas que usam o FILA</h3>
+- Secretaria da Saúde de Ribeirão Preto
+
 <h1>English:</h1>
 <h2>Fila Project</h2>
 ------------
@@ -80,3 +83,6 @@ FILA - Emite el ticket de contraseña, además de tener una impresora térmica, 
 Guiche - Instalado en el terminal de la persona que realizará el servicio, recoja el siguiente número en base a la lista almacenada en FILA.
 Panel: instalado en una tableta o televisor Android, le permite leer la información de la FILA.
 </ul>
+
+
+
