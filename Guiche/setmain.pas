@@ -272,8 +272,20 @@ end;
 procedure TSetMain.IdentificaArquivo(Carrega: boolean);
 var
   fullname : string;
+  identificador : string;
 begin
-  fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
+  identificador := 'c:\guiche\global.cfg';
+  if(FileExists(identificador) ) then
+  begin
+    //fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
+    fullname := 'c:\guiche\'+filename;
+  end
+  else
+  begin
+    fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
+  end;
+
+
   if (FileExists(fullname)) then
   begin
     arquivo.LoadFromFile(fullname);
@@ -299,8 +311,19 @@ end;
 procedure TSetMain.SalvaContexto(flag: boolean);
 var
   fullname : string;
+  identificador : string;
 begin
-  fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
+  identificador := 'c:\guiche\global.cfg';
+  if(FileExists(identificador) ) then
+  begin
+     //fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
+     fullname := 'c:\guiche\'+filename;
+  end
+   else
+  begin
+     fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
+  end;
+  //fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
   if (flag) then
   begin
     IdentificaArquivo(false);

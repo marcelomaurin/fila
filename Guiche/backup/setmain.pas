@@ -272,8 +272,20 @@ end;
 procedure TSetMain.IdentificaArquivo(Carrega: boolean);
 var
   fullname : string;
+  identificador : string;
 begin
-  fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
+  identificador := 'c:\guiche\global.cfg';
+  if(FileExists(identificador) ) then
+  begin
+    //fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
+    fullname := 'c:\guiche\'+filename;
+  end
+  else
+  begin
+    fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
+  end;
+
+
   if (FileExists(fullname)) then
   begin
     arquivo.LoadFromFile(fullname);
@@ -300,7 +312,17 @@ procedure TSetMain.SalvaContexto(flag: boolean);
 var
   fullname : string;
 begin
-  fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
+  identificador := 'c:\guiche\global.cfg';
+  if(FileExists(identificador) ) then
+  begin
+     //fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
+     fullname := 'c:\guiche\'+filename;
+  end
+   else
+  begin
+     fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
+  end;
+  //fullname := SysUtils.GetEnvironmentVariable('APPDATA')+'\' + filename;
   if (flag) then
   begin
     IdentificaArquivo(false);
@@ -312,7 +334,9 @@ begin
   arquivo.Append('HEIGHT:'+inttostr(FHEIGHT));
   arquivo.Append('NROGUICHE:'+FNROGUICHE);
   arquivo.Append('IPFILA:'+FIPFILA);
-  arquivo.Append('IPPAINEL:'+FIPPAINEL);
+  arquivo.Append('IPPAINEL1:'+FIPPAINEL1);
+  arquivo.Append('IPPAINEL2:'+FIPPAINEL2);
+  arquivo.Append('IPPAINEL3:'+FIPPAINEL3);
   arquivo.Append('CKPAINEL:'+iif(FPAINEL=true,'TRUE','FALSE'));
   arquivo.Append('ROTULO01:'+FROTULO01);
   arquivo.Append('ROTULO02:'+FROTULO02);

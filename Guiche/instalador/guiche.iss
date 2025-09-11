@@ -2,16 +2,13 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Guiche"
-#define MyAppVersion "1.23"
+#define MyAppVersion "1.24"
 #define MyAppPublisher "Maurinsoft"
 #define MyAppURL "http://maurinsoft.com.br"
 #define MyAppExeName "Guiche.exe"
 
 [Setup]
-; NOTE: The value of AppId uniquely identifies this application.
-; Do not use the same AppId value in installers for other applications.
-; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{472790A2-45A6-442C-A62A-4992BD141B37}
+AppId={{472790A2-45A6-442C-A62A-4992BD141B37}}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -19,11 +16,13 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\Fila
+DefaultDirName={pf}\Guiche
 DisableProgramGroupPage=yes
-OutputBaseFilename=setup_guiche123
+OutputBaseFilename=setup_guiche124
 Compression=lzma
 SolidCompression=yes
+; Necessário para gravar em C:\
+PrivilegesRequired=admin
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -34,7 +33,12 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "D:\projetos\maurinsoft\fila\Guiche\Guiche.exe"; DestDir: "{app}"; Flags: ignoreversion
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+; Copia o arquivo global.cfg APENAS se a configuração for coletiva
+Source: "D:\projetos\maurinsoft\fila\Guiche\global.cfg"; DestDir: "C:\guiche"; Flags: ignoreversion; Check: IsColetiva
+
+[Dirs]
+; Cria C:\guiche somente se for configuração coletiva
+Name: "C:\guiche"; Check: IsColetiva
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -43,3 +47,31 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
+[Code]
+var
+  PageConfig: TWizardPage;
+  rbIndividual, rbColetiva: TRadioButton;
+
+function IsColetiva: Boolean;
+begin
+  // Verdadeiro se o usuário escolher "Coletiva"
+  Result := (rbColetiva <> nil) and rbColetiva.Checked;
+end;
+
+procedure InitializeWizard;
+begin
+  // Página personalizada logo após Tarefas (pode mudar para outra etapa se preferir)
+  PageConfig := CreateCustomPage(wpSelectTasks,
+    'Tipo de configuração',
+    'Escolha o modo de configuração da aplicação:');
+
+  rbIndividual := TNewRadioButton.Create(PageConfig);
+  rbIndividual.Parent := PageConfig.Surface;
+  rbIndividual.Caption := 'Usuário ';
+  rbIndividual.Checked := True;
+
+  rbColetiva := TNewRadioButton.Create(PageConfig);
+  rbColetiva.Parent := PageConfig.Surface;
+  rbColetiva.Caption := 'Global';
+  rbColetiva.Top := rbIndividual.Top + rbIndividual.Height + ScaleY(8);
+end;

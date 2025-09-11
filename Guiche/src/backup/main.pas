@@ -9,7 +9,7 @@ uses
   StdCtrls, Menus, ComCtrls, PopupNotifier, Buttons, lNetComponents, lNet,
   DataPortIP, setmain, setup, splash, registro, log, hint;
 
-const Versao = '1.22';
+const Versao = '1.23';
 
 type
 
