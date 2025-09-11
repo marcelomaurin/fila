@@ -15,7 +15,7 @@ uses
 
 Const
   PortPainel = '8196';
-  Versao = '2.1';
+  Versao = '2.2';
 
 type
 

@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "PainelDesk"
-#define MyAppVersion "1.21"
+#define MyAppVersion "1.22"
 #define MyAppPublisher "maurinsoft"
 #define MyAppURL "http://maurinsoft.com.br"
 #define MyAppExeName "PainelDesk.exe"
@@ -18,7 +18,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-OutputBaseFilename=paineldesk_setup_121
+OutputBaseFilename=paineldesk_setup_122
 Compression=lzma
 SolidCompression=yes
 
@@ -50,12 +50,16 @@ end;
 [Files]
 Source: "D:\projetos\maurinsoft\fila\PainelDesk\paineldesk.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\projetos\maurinsoft\fila\PainelDesk\srvfalar.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\projetos\maurinsoft\fila\PainelDesk\libssl-3.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\projetos\maurinsoft\fila\PainelDesk\libcrypto-3.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\projetos\maurinsoft\fila\PainelDesk\Win32OpenSSL_Light-3_5_2.msi"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 Name: "{commonstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Comment: "Inicia automaticamente com o Windows"
 Name: "{commonstartup}\srvfalar"; Filename: "{app}\{#MySrvExeName}"; Comment: "Inicia automaticamente com o Windows"
+
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent

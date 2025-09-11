@@ -606,6 +606,7 @@ begin
   ContaTelas();
   tmImagens.Enabled:= true;
   PageControl1.ActivePage := tsAnuncios;
+  lbversao.Caption:= Versao;
 
   //Start_srv;
 end;
