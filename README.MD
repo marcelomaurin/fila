@@ -35,7 +35,7 @@ O Projeto Fila possui 3 software básicos:
 [![PainelDesktop](https://github.com/marcelomaurin/fila/blob/master/img/paineldesktop.png)
 </ul>
 
-<h3>Empresas que usam o FILA</h3>
+<h3>Empresa que usa o FILA</h3>
 - Secretaria da Saúde de Ribeirão Preto
 
 <h1>English:</h1>
