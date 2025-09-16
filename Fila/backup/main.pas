@@ -6,16 +6,16 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Menus, ComCtrls, EditBtn, Spin, DataPortIP, rxfolderlister,
-  lNetComponents, menu, lNet, log, splash, registro, setmain, IMP,
-  toolsfalar;
+  ExtCtrls, Menus, ComCtrls, EditBtn, Spin, DataPortIP, rxfolderlister, rxclock,
+  RxTimeEdit, lNetComponents, menu, lNet, log, splash, registro, setmain, IMP,
+  toolsfalar, DateUtils;
 
 const
 
   PortGuiche = 8095;
   PortPainel = 8096;
   intversao = 4;
-  intrevisao = 01;
+  intrevisao = 03;
 type
 
   { Tfrmmain }
@@ -34,6 +34,7 @@ type
     cbhab01: TCheckBox;
     cbTipoProtocolo: TComboBox;
     cbTipoPapel: TComboBox;
+    cbReset: TCheckBox;
     ckPainelMaximizar: TCheckBox;
     ckPainelEsquerdo: TCheckBox;
     ckFala: TCheckBox;
@@ -86,6 +87,7 @@ type
     Label29: TLabel;
     Label30: TLabel;
     Label31: TLabel;
+    Label32: TLabel;
     lbPlataforma: TLabel;
     lbversao: TLabel;
     lblist01: TLabel;
@@ -115,12 +117,14 @@ type
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     PageControl1: TPageControl;
+    edtime: TRxTimeEdit;
     Separator2: TMenuItem;
     Separator1: TMenuItem;
     seFonteSize: TSpinEdit;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
+    tsProgramacao: TTabSheet;
     tsSobre: TTabSheet;
     tsMenuTickets: TTabSheet;
     tsAcessibilidade: TTabSheet;
@@ -168,7 +172,8 @@ type
     procedure Configurar();
     procedure carregalistagem();
     procedure salvalistagem();
-
+    procedure resetnumeracao();
+    procedure resetlistas();
   end;
 
 var
@@ -209,6 +214,24 @@ begin
   frmmain.lista5.Items.SaveToFile(arq);
 end;
 
+procedure Tfrmmain.resetnumeracao();
+begin
+   edCont1.Text:= '0';
+   edCont2.Text:= '0';
+   edCont3.Text:= '0';
+   edCont4.Text:= '0';
+   edCont5.Text:= '0';
+end;
+
+procedure Tfrmmain.resetlistas();
+begin
+  Lista1.Items.clear;
+  Lista2.Items.clear;
+  Lista3.Items.clear;
+  Lista4.Items.clear;
+  Lista5.Items.clear;
+end;
+
 procedure Tfrmmain.MenuItem1Click(Sender: TObject);
 begin
   frmmenu.show;
@@ -230,13 +253,43 @@ begin
 end;
 
 procedure Tfrmmain.Timer1Timer(Sender: TObject);
+var
+  HoraAlvo, AgoraTime, JanelaFimTime: TDateTime;
+  S: string;
+  Dispara: Boolean;
 begin
- edCont1.Text:= inttostr(frmMenu.posFila1);
- edCont2.Text:= inttostr(frmMenu.posFila2);
- edCont3.Text:= inttostr(frmMenu.posFila3);
- edCont4.Text:= inttostr(frmMenu.posFila4);
- edCont5.Text:= inttostr(frmMenu.posFila5);
- //SalvarContexto();
+  edCont1.Text := IntToStr(frmMenu.posFila1);
+  edCont2.Text := IntToStr(frmMenu.posFila2);
+  edCont3.Text := IntToStr(frmMenu.posFila3);
+  edCont4.Text := IntToStr(frmMenu.posFila4);
+  edCont5.Text := IntToStr(frmMenu.posFila5);
+
+  if not FSETMAIN.Reset then Exit;
+
+  S := Trim(FSETMAIN.Hora);
+  if (S = '') or (not TryStrToTime(S, HoraAlvo)) then Exit;
+
+  // Trabalhar apenas com o tempo do dia (ignora data)
+  HoraAlvo     := Frac(HoraAlvo);
+  AgoraTime    := Frac(Now);
+  JanelaFimTime:= Frac(IncMinute(Now, 5));
+
+  // Janela normal vs. janela cruzando meia-noite
+  if JanelaFimTime >= AgoraTime then
+    Dispara := (CompareTime(HoraAlvo, AgoraTime)    >= 0) and
+               (CompareTime(HoraAlvo, JanelaFimTime) <= 0)
+  else
+    Dispara := (CompareTime(HoraAlvo, AgoraTime)    >= 0) or
+               (CompareTime(HoraAlvo, JanelaFimTime) <= 0);
+
+  if Dispara then
+  begin
+    resetnumeracao();
+    resetlistas();
+    SalvarContexto();
+  end;
+
+
 end;
 
 procedure Tfrmmain.FormShow(Sender: TObject);
@@ -289,6 +342,8 @@ begin
   edRotuloTopo.text := FSETMAIN.RotuloTopo;
 
   seFonteSize.Value :=  FSETMAIN.FonteSize;
+  cbReset.Checked:= FSETMAIN.Reset;
+  edtime.Text:=FSETMAIN.Hora;
 
   frmSplash.hide;
   if (cbIniciar.Checked) then
@@ -451,11 +506,7 @@ end;
 
 procedure Tfrmmain.btResetClick(Sender: TObject);
 begin
-   edCont1.Text:= '0';
-   edCont2.Text:= '0';
-   edCont3.Text:= '0';
-   edCont4.Text:= '0';
-   edCont5.Text:= '0';
+     resetnumeracao();
 end;
 
 procedure Tfrmmain.btSalvarClick(Sender: TObject);
@@ -471,11 +522,7 @@ end;
 
 procedure Tfrmmain.btLimparClick(Sender: TObject);
 begin
-  Lista1.Items.clear;
-  Lista2.Items.clear;
-  Lista3.Items.clear;
-  Lista4.Items.clear;
-  Lista5.Items.clear;
+     resetlistas();
 end;
 
 procedure Tfrmmain.edCont3Change(Sender: TObject);
@@ -605,6 +652,8 @@ begin
       FSETMAIN.RotuloTopo:= edRotuloTopo.text;
 
       FSETMAIN.FonteSize:= seFonteSize.Value;
+      FSETMAIN.Reset:= cbReset.Checked;
+      FSETMAIN.Hora:= edtime.Text;
 
 
       FSETMAIN.SalvaContexto();

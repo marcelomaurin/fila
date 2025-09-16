@@ -83,6 +83,8 @@ type
         FPainelEsquerdo : boolean;
         FRotuloTopo : String;
         FFonteSize : integer;
+        Freset : boolean;
+        FHORA : String;
 
 
         procedure Default();
@@ -165,6 +167,8 @@ type
         property PainelEsquerdo : boolean read FPainelEsquerdo write FPainelEsquerdo;
         property RotuloTopo : String read FRotuloTopo write FRotuloTopo;
         property FonteSize : integer read FFonteSize write FFonteSize;
+        property Reset : boolean read FReset write FReset;
+        property Hora : String read FHora write FHora;
   end;
 
   var
@@ -354,6 +358,8 @@ begin
     FAbrev04 := 'AB4';
     FAbrev05 := 'AB5';
     FFonteSize := 0;  //Default do sistema
+    FReset := false;
+    FHora := '';
 
     FRotuloTopo:= 'Click ou Pressione o botão para imprimir seu ticket';
 end;
@@ -546,6 +552,14 @@ begin
     begin
       FFONTESIZE := strtoint(RetiraInfo(arquivo.Strings[posicao]));
     end;
+    if  BuscaChave(arquivo,'RESET:',posicao) then
+    begin
+      FRESET := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'HORA:',posicao) then
+    begin
+      FHORA := RetiraInfo(arquivo.Strings[posicao]);
+    end;
 end;
 
 //Metodo construtor
@@ -630,7 +644,8 @@ begin
   arquivo.Append('PAINELESQUERDO:'+ booltostr(FPainelEsquerdo));
   arquivo.Append('ROTULOTOPO:'+ FRotuloTopo);
   arquivo.Append('FONTESIZE:'+ inttostr(FFonteSize));
-
+  arquivo.Append('RESET:'+ booltostr(FRESET));
+  arquivo.Append('HORA:'+ FHora);
 
 
   arquivo.SaveToFile(fpath+filename);

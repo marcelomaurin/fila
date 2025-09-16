@@ -83,6 +83,8 @@ type
         FPainelEsquerdo : boolean;
         FRotuloTopo : String;
         FFonteSize : integer;
+        Freset : boolean;
+        FHORA : String;
 
 
         procedure Default();
@@ -165,6 +167,7 @@ type
         property PainelEsquerdo : boolean read FPainelEsquerdo write FPainelEsquerdo;
         property RotuloTopo : String read FRotuloTopo write FRotuloTopo;
         property FonteSize : integer read FFonteSize write FFonteSize;
+        property Reset : boolean read FReset write FReset;
   end;
 
   var
@@ -354,6 +357,7 @@ begin
     FAbrev04 := 'AB4';
     FAbrev05 := 'AB5';
     FFonteSize := 0;  //Default do sistema
+    FReset := false;
 
     FRotuloTopo:= 'Click ou Pressione o botão para imprimir seu ticket';
 end;
@@ -453,23 +457,23 @@ begin
 
     if  BuscaChave(arquivo,'CONTAGEM1:',posicao) then
     begin
-      FCONTAGEM1 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+1;
+      FCONTAGEM1 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+2;
     end;
     if  BuscaChave(arquivo,'CONTAGEM2:',posicao) then
     begin
-      FCONTAGEM2 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+1;
+      FCONTAGEM2 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+2;
     end;
     if  BuscaChave(arquivo,'CONTAGEM3:',posicao) then
     begin
-      FCONTAGEM3 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+1;
+      FCONTAGEM3 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+2;
     end;
     if  BuscaChave(arquivo,'CONTAGEM4:',posicao) then
     begin
-      FCONTAGEM4 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+1;
+      FCONTAGEM4 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+2;
     end;
     if  BuscaChave(arquivo,'CONTAGEM5:',posicao) then
     begin
-      FCONTAGEM5 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+1;
+      FCONTAGEM5 := strtoint(RetiraInfo(arquivo.Strings[posicao]))+2;
     end;
     if  BuscaChave(arquivo,'IMAGEM:',posicao) then
     begin
@@ -545,6 +549,10 @@ begin
     if  BuscaChave(arquivo,'FONTESIZE:',posicao) then
     begin
       FFONTESIZE := strtoint(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'RESET:',posicao) then
+    begin
+      FRESET := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
     end;
 end;
 
@@ -630,6 +638,7 @@ begin
   arquivo.Append('PAINELESQUERDO:'+ booltostr(FPainelEsquerdo));
   arquivo.Append('ROTULOTOPO:'+ FRotuloTopo);
   arquivo.Append('FONTESIZE:'+ inttostr(FFonteSize));
+  arquivo.Append('RESET:'+ booltostr(FRESET));
 
 
 
