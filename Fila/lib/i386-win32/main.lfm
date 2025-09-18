@@ -1,7 +1,7 @@
 object frmmain: Tfrmmain
-  Left = -1517
+  Left = 347
   Height = 399
-  Top = 291
+  Top = 313
   Width = 989
   BorderStyle = bsSingle
   Caption = 'FILA - Configuração'
@@ -17,9 +17,9 @@ object frmmain: Tfrmmain
     Height = 399
     Top = 0
     Width = 989
-    ActivePage = TabSheet3
+    ActivePage = tbIniciar
     Align = alClient
-    TabIndex = 3
+    TabIndex = 0
     TabOrder = 0
     object tbIniciar: TTabSheet
       Caption = 'Iniciar'
@@ -26545,5 +26545,12 @@ object frmmain: Tfrmmain
     }
     Left = 176
     Top = 296
+  end
+  object UniqueInstance1: TUniqueInstance
+    Enabled = True
+    Identifier = 'Fila'
+    OnOtherInstance = UniqueInstance1OtherInstance
+    Left = 875
+    Top = 213
   end
 end

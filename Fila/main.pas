@@ -6,16 +6,19 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Menus, ComCtrls, EditBtn, Spin, DataPortIP, rxfolderlister, rxclock,
-  RxTimeEdit, lNetComponents, menu, lNet, log, splash, registro, setmain, IMP,
-  toolsfalar, DateUtils;
+  {$IFDEF WINDOWS}
+  Windows, //TlHelp32,
+  {$ENDIF}
+  ExtCtrls, Menus, ComCtrls, EditBtn, Spin, DataPortIP, UniqueInstance,
+  rxfolderlister, rxclock, RxTimeEdit, lNetComponents, menu, lNet, log, splash,
+  registro, setmain, IMP, toolsfalar, DateUtils;
 
 const
-
   PortGuiche = 8095;
   PortPainel = 8096;
   intversao = 4;
   intrevisao = 03;
+
 type
 
   { Tfrmmain }
@@ -136,6 +139,7 @@ type
     MenuItem2: TMenuItem;
     PopupMenu1: TPopupMenu;
     Timer1: TTimer;
+    UniqueInstance1: TUniqueInstance;
     Versao: TLabel;
 
     procedure btLimparClick(Sender: TObject);
@@ -162,6 +166,8 @@ type
     procedure ToggleBox1Change(Sender: TObject);
     procedure SalvarContexto();
     procedure ToggleBox1Click(Sender: TObject);
+    procedure UniqueInstance1OtherInstance(Sender: TObject;
+      ParamCount: Integer; const Parameters: array of String);
   private
     guiche : string;
     nro : integer;
@@ -185,19 +191,29 @@ implementation
 
 { Tfrmmain }
 
+{$IFDEF WINDOWS}
+function GetCurrentPID: DWORD;
+begin
+  Result := GetCurrentProcessId;
+end;
+
+function GetExeNameLower: string;
+begin
+  Result := LowerCase(ExtractFileName(ParamStr(0)));
+end;
+
+
+{$ENDIF}
+
 procedure Tfrmmain.salvalistagem();
 var
   diretorio: string;
   arq: string;
 begin
-  // Obtém o diretório temporário de forma automática
   diretorio := GetTempDir;
-
-  // Remove a barra ou contrabarra no final, se houver
   if (diretorio <> '') and (diretorio[Length(diretorio)] in ['\', '/']) then
     Delete(diretorio, Length(diretorio), 1);
 
-  // Salva os arquivos
   arq := diretorio + PathDelim + 'list01.txt';
   frmmain.lista1.Items.SaveToFile(arq);
 
@@ -216,20 +232,19 @@ end;
 
 procedure Tfrmmain.resetnumeracao();
 begin
-   edCont1.Text:= '0';
-   if(frmMenu <> nil) then
-   begin
-        frmMenu.posFila1 := 0;
-        frmMenu.posFila2 := 0;
-        frmMenu.posFila3 := 0;
-        frmMenu.posFila4 := 0;
-        frmMenu.posFila5 := 0;
-
-   end;
-   edCont2.Text:= '0';
-   edCont3.Text:= '0';
-   edCont4.Text:= '0';
-   edCont5.Text:= '0';
+  edCont1.Text:= '0';
+  if(frmMenu <> nil) then
+  begin
+    frmMenu.posFila1 := 0;
+    frmMenu.posFila2 := 0;
+    frmMenu.posFila3 := 0;
+    frmMenu.posFila4 := 0;
+    frmMenu.posFila5 := 0;
+  end;
+  edCont2.Text:= '0';
+  edCont3.Text:= '0';
+  edCont4.Text:= '0';
+  edCont5.Text:= '0';
 end;
 
 procedure Tfrmmain.resetlistas();
@@ -258,7 +273,7 @@ end;
 
 procedure Tfrmmain.MenuItem4Click(Sender: TObject);
 begin
-     Configurar();
+  Configurar();
 end;
 
 procedure Tfrmmain.Timer1Timer(Sender: TObject);
@@ -278,17 +293,15 @@ begin
   S := Trim(FSETMAIN.Hora);
   if (S = '') or (not TryStrToTime(S, HoraAlvo)) then Exit;
 
-  // Trabalhar apenas com o tempo do dia (ignora data)
-  HoraAlvo     := Frac(HoraAlvo);
-  AgoraTime    := Frac(Now);
-  JanelaFimTime:= Frac(IncMinute(Now, 5));
+  HoraAlvo      := Frac(HoraAlvo);
+  AgoraTime     := Frac(Now);
+  JanelaFimTime := Frac(IncMinute(Now, 5));
 
-  // Janela normal vs. janela cruzando meia-noite
   if JanelaFimTime >= AgoraTime then
-    Dispara := (CompareTime(HoraAlvo, AgoraTime)    >= 0) and
+    Dispara := (CompareTime(HoraAlvo, AgoraTime)     >= 0) and
                (CompareTime(HoraAlvo, JanelaFimTime) <= 0)
   else
-    Dispara := (CompareTime(HoraAlvo, AgoraTime)    >= 0) or
+    Dispara := (CompareTime(HoraAlvo, AgoraTime)     >= 0) or
                (CompareTime(HoraAlvo, JanelaFimTime) <= 0);
 
   if Dispara then
@@ -297,8 +310,6 @@ begin
     resetlistas();
     SalvarContexto();
   end;
-
-
 end;
 
 procedure Tfrmmain.FormShow(Sender: TObject);
@@ -363,7 +374,6 @@ end;
 
 procedure Tfrmmain.Label10Click(Sender: TObject);
 begin
-
 end;
 
 procedure Tfrmmain.LTCPComponent1Connect(aSocket: TLSocket);
@@ -392,17 +402,15 @@ begin
   if(FSETMAIN.TipoProtocolo=TP_APK) then
   begin
     item := frmmain.Lista1.items.Strings[0];
-    aSocket.SendMessage('Fila:'+inttostr(1)+';'+Item+#13);  //Vou implementar aqui
+    aSocket.SendMessage('Fila:'+inttostr(1)+';'+Item+#13);
     item := frmmain.Lista2.items.Strings[0];
-    aSocket.SendMessage('Fila:'+inttostr(2)+';'+Item+#13);  //Vou implementar aqui
+    aSocket.SendMessage('Fila:'+inttostr(2)+';'+Item+#13);
     item := frmmain.Lista3.items.Strings[0];
-    aSocket.SendMessage('Fila:'+inttostr(3)+';'+Item+#13);  //Vou implementar aqui
+    aSocket.SendMessage('Fila:'+inttostr(3)+';'+Item+#13);
   end
   else
   begin
-
   end;
-
 
   aSocket.Disconnect(true);
   LTCPComponent2.CallAction();
@@ -414,108 +422,83 @@ var
   strnro : string;
   posicao : integer;
 begin
-   //Mensagem recebida padrao Fila:nro+#13
   aSocket.GetMessage(mensagem);
   frmlog.Log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
   if (mensagem <> '') then
   begin
-      if (POS(mensagem, 'Fila:')>=0) then
-      begin
-        posicao := pos(':',mensagem);
-        strnro := copy(mensagem,posicao+1,pos(#13,mensagem)-(posicao+1));
-        nro := strtoint(strnro);
-        guiche := copy(mensagem,pos('>',mensagem)+1,pos(';',mensagem)-pos('>',mensagem)-1);
-        case nro of
-            1: begin
-              if (frmmain.Lista1.Count>0) then
-              begin
-                  item := frmmain.Lista1.Items.Strings[0];
-                  frmmain.Lista1.items.Delete(0);
-                  frmlog.Log('delete List1:'+item);
-              end
-              else
-              begin
-                item := '0';
-              end;
-            end;
-            2: begin
-              if (frmmain.Lista2.Count>0) then
-              begin
-                  item := frmmain.Lista2.items.Strings[0];
-                  frmmain.Lista2.items.Delete(0);
-                  frmlog.Log('delete List2:'+item);
-              end
-               else
-              begin
-                  item := '0';
-              end;
-            end;
-            3: begin
-              if (frmmain.Lista3.Count>0) then
-              begin
-                  item := frmmain.Lista3.items.Strings[0];
-                  frmmain.Lista3.items.Delete(0);
-                  frmlog.Log('delete List3:'+item);
-
-              end
-               else
-              begin
-                  item := '0';
-              end;
-            end;
-            4: begin
-              if (frmmain.Lista4.Count>0) then
-              begin
-                  item := frmmain.Lista4.items.Strings[0];
-                  frmmain.Lista4.items.Delete(0);
-                  frmlog.Log('delete List4:'+item);
-
-              end
-               else
-              begin
-                  item := '0';
-              end;
-            end;
-            5: begin
-              if (frmmain.Lista5.Count>0) then
-              begin
-                  item := frmmain.Lista5.items.Strings[0];
-                  frmmain.Lista5.items.Delete(0);
-                  frmlog.Log('delete List5:'+item);
-
-              end
-               else
-              begin
-                  item := '0';
-              end;
-            end;
+    if (POS(mensagem, 'Fila:')>=0) then
+    begin
+      posicao := pos(':',mensagem);
+      strnro := copy(mensagem,posicao+1,pos(#13,mensagem)-(posicao+1));
+      nro := strtoint(strnro);
+      guiche := copy(mensagem,pos('>',mensagem)+1,pos(';',mensagem)-pos('>',mensagem)-1);
+      case nro of
+        1: begin
+          if (frmmain.Lista1.Count>0) then
+          begin
+            item := frmmain.Lista1.Items.Strings[0];
+            frmmain.Lista1.items.Delete(0);
+            frmlog.Log('delete List1:'+item);
+          end
+          else item := '0';
         end;
-        aSocket.SendMessage('Fila:'+inttostr(nro)+';'+Item+#13);  //Vou implementar aqui
-        aSocket.Disconnect(true);
+        2: begin
+          if (frmmain.Lista2.Count>0) then
+          begin
+            item := frmmain.Lista2.items.Strings[0];
+            frmmain.Lista2.items.Delete(0);
+            frmlog.Log('delete List2:'+item);
+          end
+          else item := '0';
+        end;
+        3: begin
+          if (frmmain.Lista3.Count>0) then
+          begin
+            item := frmmain.Lista3.items.Strings[0];
+            frmmain.Lista3.items.Delete(0);
+            frmlog.Log('delete List3:'+item);
+          end
+          else item := '0';
+        end;
+        4: begin
+          if (frmmain.Lista4.Count>0) then
+          begin
+            item := frmmain.Lista4.items.Strings[0];
+            frmmain.Lista4.items.Delete(0);
+            frmlog.Log('delete List4:'+item);
+          end
+          else item := '0';
+        end;
+        5: begin
+          if (frmmain.Lista5.Count>0) then
+          begin
+            item := frmmain.Lista5.items.Strings[0];
+            frmmain.Lista5.items.Delete(0);
+            frmlog.Log('delete List5:'+item);
+          end
+          else item := '0';
+        end;
       end;
+      aSocket.SendMessage('Fila:'+inttostr(nro)+';'+Item+#13);
+      aSocket.Disconnect(true);
+    end;
   end;
-
 
   aSocket.Disconnect(true);
   LTCPComponent1.CallAction();
-
 end;
-
-
 
 procedure Tfrmmain.edCont2Change(Sender: TObject);
 begin
-
 end;
 
 procedure Tfrmmain.edCont1Change(Sender: TObject);
 begin
-
 end;
 
 procedure Tfrmmain.btResetClick(Sender: TObject);
 begin
-     resetnumeracao();
+  resetnumeracao();
 end;
 
 procedure Tfrmmain.btSalvarClick(Sender: TObject);
@@ -526,22 +509,19 @@ end;
 
 procedure Tfrmmain.cbIniciarChange(Sender: TObject);
 begin
-
 end;
 
 procedure Tfrmmain.btLimparClick(Sender: TObject);
 begin
-     resetlistas();
+  resetlistas();
 end;
 
 procedure Tfrmmain.edCont3Change(Sender: TObject);
 begin
-
 end;
 
 procedure Tfrmmain.edTipo1Change(Sender: TObject);
 begin
-
 end;
 
 procedure Tfrmmain.fileimagemChange(Sender: TObject);
@@ -549,18 +529,17 @@ begin
   if(fileimagem.text <>'') then
   begin
     if(FileExists(fileimagem.Text)) then
-    begin
-       FSETMAIN.Imagem:= fileimagem.Text;
-    end
+      FSETMAIN.Imagem:= fileimagem.Text
     else
-    begin
-         ShowMessage('Caminho inválido da imagem.');
-    end;
+      ShowMessage('Caminho inválido da imagem.');
   end;
 end;
 
 procedure Tfrmmain.FormCreate(Sender: TObject);
 begin
+  UniqueInstance1.Enabled := True;
+  //UniqueInstance1.Identifier := 'Fila'; // garante unicidade entre apps
+
   frmSplash := TfrmSplash.create(self);
   frmSplash.lbVersao.Caption := inttostr(intVersao) + '.' + inttostr(intRevisao);
   PageControl1.ActivePage := tbIniciar;
@@ -571,9 +550,7 @@ begin
   self.top := fsetmain.posy;
   carregalistagem();
   if  Fsetmain.splash then
-  begin
     frmSplash.show();
-  end;
 
   frmLog := Tfrmlog.create(self);
   frmRegistrar := TfrmRegistrar.Create(self);
@@ -582,28 +559,20 @@ begin
 
   if  FSETMAIN.splash then
   begin
-    Application.ProcessMessages;
-    sleep(1000);
-    Application.ProcessMessages;
-    sleep(1000);
-    Application.ProcessMessages;
-    sleep(1000);
-    Application.ProcessMessages;
-    sleep(1000);
+    Application.ProcessMessages; sleep(1000);
+    Application.ProcessMessages; sleep(1000);
+    Application.ProcessMessages; sleep(1000);
+    Application.ProcessMessages; sleep(1000);
   end;
+
   Application.ProcessMessages;
   if  Fsetmain.splash then
-  begin
-   frmSplash.hide();
-  end;
+    frmSplash.hide();
+
   if  Fsetmain.splash then
-  begin
     Fsetmain.splash :=  not frmSplash.cbnotsplash.Checked;
-  end;
-  //frmLog.hide;
+
   SobreProjeto();
-
-
 end;
 
 procedure Tfrmmain.FormDestroy(Sender: TObject);
@@ -618,66 +587,77 @@ end;
 
 procedure Tfrmmain.SalvarContexto();
 begin
-      FSETMAIN.empresa := edEmpresa.text;
-      FSETMAIN.Localizacao :=  edlocalizacao.text;
-      FSETMAIN.Tipo1 :=  edTipo1.text;
-      FSETMAIN.Tipo2 := edTipo2.text;
-      FSETMAIN.Tipo3 := edTipo3.text;
-      FSETMAIN.Tipo4 := edTipo4.text;
-      FSETMAIN.Tipo5 := edTipo5.text;
-      FSETMAIN.Contagem1 :=  strtoint(edCont1.text);
-      FSETMAIN.Contagem2 := strtoint(edCont2.text);
-      FSETMAIN.Contagem3 := strtoint(edCont3.text);
-      FSETMAIN.Contagem4 := strtoint(edCont4.text);
-      FSETMAIN.Contagem5 := strtoint(edCont5.text);
-      FSETMAIN.habilita01:= cbhab01.Checked;
-      FSETMAIN.habilita02:= cbhab02.Checked;
-      FSETMAIN.habilita03:= cbhab03.Checked;
-      FSETMAIN.habilita04:= cbhab04.Checked;
-      FSETMAIN.habilita05:= cbhab05.Checked;
-      FSETMAIN.posx := self.left;
-      FSetMain.posy := self.top;
-      FSetmain.painel:= edPainel.text;
-      Fsetmain.tipoimp := TTipoIMP(cbTipoImp.ItemIndex);
-      FSETMAIN.TipoProtocolo:= TTIPOPROTOCOLO(cbTipoProtocolo.ItemIndex);
-      Fsetmain.modeloimp := TModeloImpressora(cbModeImp.ItemIndex);
-      FSetmain.COMPORT := edPorta.text;
-      Fsetmain.EXEC:= cbIniciar.Checked;
-      FSETMAIN.Imagem:= fileimagem.Text;
-      FSETMAIN.TipoPapel:=  TPadraoPapel(cbTipoPapel.ItemIndex);
+  FSETMAIN.empresa := edEmpresa.text;
+  FSETMAIN.Localizacao :=  edlocalizacao.text;
+  FSETMAIN.Tipo1 :=  edTipo1.text;
+  FSETMAIN.Tipo2 := edTipo2.text;
+  FSETMAIN.Tipo3 := edTipo3.text;
+  FSETMAIN.Tipo4 := edTipo4.text;
+  FSETMAIN.Tipo5 := edTipo5.text;
+  FSETMAIN.Contagem1 :=  strtoint(edCont1.text);
+  FSETMAIN.Contagem2 := strtoint(edCont2.text);
+  FSETMAIN.Contagem3 := strtoint(edCont3.text);
+  FSETMAIN.Contagem4 := strtoint(edCont4.text);
+  FSETMAIN.Contagem5 := strtoint(edCont5.text);
+  FSETMAIN.habilita01:= cbhab01.Checked;
+  FSETMAIN.habilita02:= cbhab02.Checked;
+  FSETMAIN.habilita03:= cbhab03.Checked;
+  FSETMAIN.habilita04:= cbhab04.Checked;
+  FSETMAIN.habilita05:= cbhab05.Checked;
+  FSETMAIN.posx := self.left;
+  FSetMain.posy := self.top;
+  FSetmain.painel:= edPainel.text;
+  Fsetmain.tipoimp := TTipoIMP(cbTipoImp.ItemIndex);
+  FSETMAIN.TipoProtocolo:= TTIPOPROTOCOLO(cbTipoProtocolo.ItemIndex);
+  Fsetmain.modeloimp := TModeloImpressora(cbModeImp.ItemIndex);
+  FSetmain.COMPORT := edPorta.text;
+  Fsetmain.EXEC:= cbIniciar.Checked;
+  FSETMAIN.Imagem:= fileimagem.Text;
+  FSETMAIN.TipoPapel:=  TPadraoPapel(cbTipoPapel.ItemIndex);
 
-      FSETMAIN.Abrev01:= edAbrev01.text;
-      FSETMAIN.Abrev02:= edAbrev02.text;
-      FSETMAIN.Abrev03:= edAbrev03.text;
-      FSETMAIN.Abrev04:= edAbrev04.text;
-      FSETMAIN.Abrev05:= edAbrev05.text;
+  FSETMAIN.Abrev01:= edAbrev01.text;
+  FSETMAIN.Abrev02:= edAbrev02.text;
+  FSETMAIN.Abrev03:= edAbrev03.text;
+  FSETMAIN.Abrev04:= edAbrev04.text;
+  FSETMAIN.Abrev05:= edAbrev05.text;
 
+  FSETMAIN.Falar:= ckFala.Checked;
+  FSETMAIN.IPFALAR := edsrvfalar.text;
 
-      FSETMAIN.Falar:= ckFala.Checked;
-      FSETMAIN.IPFALAR := edsrvfalar.text;
+  FSETMAIN.PainelMaximizar:=  ckPainelMaximizar.Checked;
+  FSETMAIN.PainelEsquerdo:=  ckPainelEsquerdo.Checked;
+  FSETMAIN.RotuloTopo:= edRotuloTopo.text;
 
-      FSETMAIN.PainelMaximizar:=  ckPainelMaximizar.Checked;
-      FSETMAIN.PainelEsquerdo:=  ckPainelEsquerdo.Checked;
-      FSETMAIN.RotuloTopo:= edRotuloTopo.text;
+  FSETMAIN.FonteSize:= seFonteSize.Value;
+  FSETMAIN.Reset:= cbReset.Checked;
+  FSETMAIN.Hora:= edtime.Text;
 
-      FSETMAIN.FonteSize:= seFonteSize.Value;
-      FSETMAIN.Reset:= cbReset.Checked;
-      FSETMAIN.Hora:= edtime.Text;
-
-
-      FSETMAIN.SalvaContexto();
+  FSETMAIN.SalvaContexto();
 end;
 
 procedure Tfrmmain.ToggleBox1Click(Sender: TObject);
 begin
-     executar();
+  executar();
 end;
+
+procedure Tfrmmain.UniqueInstance1OtherInstance(Sender: TObject;
+  ParamCount: Integer; const Parameters: array of String);
+var
+  SelfPID, OtherPID: DWORD;
+begin
+  if(frmMenu=nil) then
+  begin
+    ShowMessage('Aplicação já esta rodando');
+    Application.Terminate;
+  end;
+end;
+
+
 
 procedure Tfrmmain.SobreProjeto();
 var
   plataforma : string;
 begin
-  // Detecta o SO
   {$IFDEF WINDOWS}
     plataforma := 'Windows ';
   {$ENDIF}
@@ -685,7 +665,6 @@ begin
     plataforma := 'Linux ';
   {$ENDIF}
 
-  // Detecta a arquitetura
   {$IFDEF CPU32}
     plataforma := plataforma + 'x86';
   {$ENDIF}
@@ -693,17 +672,16 @@ begin
     plataforma := plataforma + 'x64';
   {$ENDIF}
 
-  // Preenche os labels
   lbversao.Caption := IntToStr(intversao) + '.' + IntToStr(intrevisao);
   lbplataforma.Caption := plataforma;
 end;
-
 
 procedure Tfrmmain.Executar();
 begin
   hide;
   if(frmMenu = nil) then
   begin
+    UniqueInstance1.Enabled:= false;
     frmMenu := TfrmMenu.create(self);
     salvarContexto();
     Timer1.Enabled:=true;
@@ -732,41 +710,29 @@ begin
     frmMenu.lbFILA5 := edTipo5.text;
     frmMenu.comport := edPorta.text;
 
-    //Tamanho da fonte dos botões
     frmMenu.BtFila1.Font.Size :=  FSETMAIN.FonteSize;
     frmMenu.BtFila2.Font.Size :=  FSETMAIN.FonteSize;
     frmMenu.BtFila3.Font.Size :=  FSETMAIN.FonteSize;
     frmMenu.BtFila4.Font.Size :=  FSETMAIN.FonteSize;
     frmMenu.BtFila5.Font.Size :=  FSETMAIN.FonteSize;
 
-
     frmMenu.pnLeft.Visible := not FSETMAIN.PainelEsquerdo;
-    //
+
     if FSETMAIN.PainelMaximizar then
-    begin
-      frmMenu.WindowState:= wsMaximized;
-    end
-     else
-    begin
+      frmMenu.WindowState:= wsMaximized
+    else
       frmMenu.WindowState:= wsNormal;
-    end;
+
     frmMenu.lbRotulo.Caption:= FSETMAIN.RotuloTopo;
-
-
 
     frmToolsfalar.edIP.text := edsrvfalar.text;
     if(ckFala.Checked) then
-    begin
-        frmToolsfalar.Conectar();
-    end;
-    //frmMenu.FIMP.Tipoimp :=   TTipoImpressora(cbTipoImp.ItemIndex);
+      frmToolsfalar.Conectar();
+
     frmMenu.FIMP.modeloimp := TModeloImpressora(cbModeImp.itemindex);
 
-    //Verifica se existe caminho
     if (fileimagem.text<>'') then
-    begin
-         frmMenu.Image1.Picture.LoadFromFile(fileimagem.text);
-    end;
+      frmMenu.Image1.Picture.LoadFromFile(fileimagem.text);
 
     TrayIcon1.BalloonTitle:='FILA';
     TrayIcon1.Animate:=false;
@@ -781,7 +747,6 @@ begin
     Timer1.Enabled:=true;
     frmMenu.show();
   end;
-
 end;
 
 procedure Tfrmmain.Configurar();
@@ -793,7 +758,6 @@ begin
     fsetmain.EXEC := false;
     FSETMAIN.SalvaContexto();
     Application.Terminate;
-
   end;
 end;
 
@@ -802,14 +766,10 @@ var
   diretorio: string;
   arq: string;
 begin
-  // Obtém o diretório temporário de forma automática
   diretorio := GetTempDir;
-
-  // Remove a barra ou contrabarra no final, se houver
   if (diretorio <> '') and (diretorio[Length(diretorio)] in ['\', '/']) then
     Delete(diretorio, Length(diretorio), 1);
 
-  // Lista de arquivos
   arq := diretorio + PathDelim + 'list01.txt';
   if FileExists(arq) then
     frmmain.lista1.Items.LoadFromFile(arq);
@@ -833,8 +793,6 @@ end;
 
 procedure Tfrmmain.ToggleBox1Change(Sender: TObject);
 begin
-
-
 end;
 
 end.

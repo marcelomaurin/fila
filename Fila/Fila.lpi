@@ -29,31 +29,34 @@
         <Mode0 Name="default"/>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="8">
+    <RequiredPackages Count="9">
       <Item1>
-        <PackageName Value="indylaz"/>
+        <PackageName Value="uniqueinstance_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="industrial"/>
+        <PackageName Value="indylaz"/>
       </Item2>
       <Item3>
-        <PackageName Value="rxnew"/>
+        <PackageName Value="industrial"/>
       </Item3>
       <Item4>
-        <PackageName Value="LazSerialPort"/>
+        <PackageName Value="rxnew"/>
       </Item4>
       <Item5>
-        <PackageName Value="lnetvisual"/>
+        <PackageName Value="LazSerialPort"/>
       </Item5>
       <Item6>
-        <PackageName Value="DataPortLasarus"/>
+        <PackageName Value="lnetvisual"/>
       </Item6>
       <Item7>
-        <PackageName Value="fortes324forlaz"/>
+        <PackageName Value="DataPortLasarus"/>
       </Item7>
       <Item8>
-        <PackageName Value="LCL"/>
+        <PackageName Value="fortes324forlaz"/>
       </Item8>
+      <Item9>
+        <PackageName Value="LCL"/>
+      </Item9>
     </RequiredPackages>
     <Units Count="16">
       <Unit0>
