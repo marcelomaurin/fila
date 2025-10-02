@@ -9,7 +9,7 @@ uses
   StdCtrls, Menus, ComCtrls, PopupNotifier, Buttons, lNetComponents, lNet,
   DataPortIP, setmain, setup, splash, registro, log, hint;
 
-const Versao = '1.23';
+const Versao = '1.25';
 
 type
 
@@ -17,13 +17,6 @@ type
 
   Tfrmmain = class(TForm)
     btrechamar3: TSpeedButton;
-    btTipo2: TButton;
-    btSetup01: TButton;
-    btLog: TButton;
-    btTipo1: TButton;
-    btTipo3: TButton;
-    btTipo4: TButton;
-    btTipo5: TButton;
     Image1: TImage;
     ImageList1: TImageList;
     Label1: TLabel;
@@ -56,6 +49,13 @@ type
     pmItem: TPopupMenu;
     pmraiz: TPopupMenu;
     PopupMenu2: TPopupMenu;
+    btTipo1: TSpeedButton;
+    btTipo2: TSpeedButton;
+    btTipo3: TSpeedButton;
+    btTipo4: TSpeedButton;
+    btTipo5: TSpeedButton;
+    btSetup01: TSpeedButton;
+    btLog: TSpeedButton;
     tsFila: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
@@ -88,9 +88,11 @@ type
     procedure LTCPComponent1Accept(aSocket: TLSocket);
     procedure LTCPComponent1Connect(aSocket: TLSocket);
     procedure LTCPComponent1Disconnect(aSocket: TLSocket);
+    procedure LTCPComponent1Error(const msg: string; aSocket: TLSocket);
     procedure LTCPComponent1Receive(aSocket: TLSocket);
     procedure LTCPComponent2Accept(aSocket: TLSocket);
     procedure LTCPComponent2Disconnect(aSocket: TLSocket);
+    procedure LTCPComponent2Error(const msg: string; aSocket: TLSocket);
     procedure LTCPComponent2Receive(aSocket: TLSocket);
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
@@ -101,6 +103,9 @@ type
     procedure miLimparClick(Sender: TObject);
     procedure miLogClick(Sender: TObject);
     procedure miRechamarClick(Sender: TObject);
+
+
+
     procedure TrayIcon1Click(Sender: TObject);
     procedure Chamar(nro : integer);
     procedure Painel1(nro : string; guiche: integer);
@@ -199,7 +204,7 @@ end;
 
 procedure Tfrmmain.btTipo2Click(Sender: TObject);
 begin
-  chamar(2);
+    chamar(2);
 end;
 
 procedure Tfrmmain.btTipo3Click(Sender: TObject);
@@ -209,12 +214,12 @@ end;
 
 procedure Tfrmmain.btTipo4Click(Sender: TObject);
 begin
-  chamar(4);
+   chamar(4);
 end;
 
 procedure Tfrmmain.btTipo5Click(Sender: TObject);
 begin
-  chamar(5);
+   chamar(5);
 end;
 
 procedure Tfrmmain.DataPortTCP1DataAppear(Sender: TObject);
@@ -300,12 +305,28 @@ end;
 procedure Tfrmmain.LTCPComponent1Connect(aSocket: TLSocket);
 begin
   //conn := true;
+  if (frmLog <> nil) then
+  begin
+          frmLog.meLog.Append('Conectou painel '+aSocket.LocalAddress+' - '+timetostr(now));
+  end;
 end;
 
 procedure Tfrmmain.LTCPComponent1Disconnect(aSocket: TLSocket);
 begin
   aSocket.Disconnect(true);
+  if (frmLog <> nil) then
+  begin
+          frmLog.meLog.Append('Desconectou painel '+aSocket.LocalAddress+' - '+timetostr(now));
+  end;
   conn := false;
+end;
+
+procedure Tfrmmain.LTCPComponent1Error(const msg: string; aSocket: TLSocket);
+begin
+  if (frmLog <> nil) then
+  begin
+          frmLog.meLog.Append(msg+' - '+timetostr(now));
+  end;
 end;
 
 procedure Tfrmmain.LTCPComponent1Receive(aSocket: TLSocket);
@@ -343,6 +364,10 @@ begin
       //PopupNotifier1.Text:=strNro;
       //PopupNotifier1.Show;
       frmHint.MessageHint('Senha:'+strNro2);
+      if (frmLog <> nil) then
+      begin
+          frmLog.meLog.Append(strNro2+' - '+timetostr(now));
+      end;
       tvitem := tvFila.Items.AddChild(tnFila,strNro2);
       tvitem.ImageIndex:= 5;
       //Chama o painel
@@ -378,6 +403,14 @@ begin
   conn2 := false;
 end;
 
+procedure Tfrmmain.LTCPComponent2Error(const msg: string; aSocket: TLSocket);
+begin
+    if (frmLog <> nil) then
+    begin
+        frmLog.meLog.Append('Erro na conexao painel '+ msg + ' '+ timetostr(now));
+    end;
+end;
+
 procedure Tfrmmain.LTCPComponent2Receive(aSocket: TLSocket);
   var
   info : string;
@@ -388,6 +421,10 @@ procedure Tfrmmain.LTCPComponent2Receive(aSocket: TLSocket);
 begin
   aSocket.GetMessage(info);
   posicao := pos('OK'+#13,info);
+  if (frmLog <> nil) then
+  begin
+      frmLog.meLog.Append('Painel enviou '+ info + ' '+ timetostr(now));
+  end;
   if (posicao>=0) then
   begin
 
@@ -482,6 +519,7 @@ begin
        param := 'Fila:'+inttoStr(nro)+#13+'>'+FSetMain.NROGUICHE+';';
      end;
      LTCPComponent1.SendMessage(param,nil);
+     tvFila.AutoExpand:= true;
    end;
 end;
 
@@ -507,6 +545,10 @@ begin
      if (FSetMain.PROTOCOLO = 1) then
      begin
           param := 'FILA:'+nro+'>'+inttostr(guiche)+';';
+          if (frmLog <> nil) then
+          begin
+              frmLog.meLog.Append('Guiche:'+inttostr(guiche)+' chamou:'+nro+' - '+timetostr(now));
+          end;
 
      end
      else
@@ -634,6 +676,19 @@ begin
   //Rechamar();
 end;
 
+procedure Tfrmmain.btLogClick(Sender: TObject);
+begin
+    frmLog.show;
+end;
+
+procedure Tfrmmain.btSetup01Click(Sender: TObject);
+begin
+  Config();
+end;
+
+
+
+
 procedure Tfrmmain.TrayIcon1Click(Sender: TObject);
 begin
 
@@ -659,10 +714,7 @@ begin
   Chamar(3);
 end;
 
-procedure Tfrmmain.btLogClick(Sender: TObject);
-begin
-  frmLog.show;
-end;
+
 
 procedure Tfrmmain.btrechamar2Click(Sender: TObject);
 begin
@@ -686,10 +738,7 @@ begin
   ShowMessage(lastcall);
 end;
 
-procedure Tfrmmain.btSetup01Click(Sender: TObject);
-begin
-  Config();
-end;
+
 
 procedure Tfrmmain.btStart1Click(Sender: TObject);
 begin
