@@ -9,7 +9,7 @@ unit setmain;
 interface
 
 uses
-  Classes, SysUtils, funcoes;
+  Classes, SysUtils, funcoes, hint;
 
 const filename = 'fila.cfg';
 
@@ -100,7 +100,7 @@ type
         procedure SetSTBIT(value : integer);
         procedure SetEmpresa(value: string);
         procedure SetLocalizacao(value: string);
-        procedure SetTipo1(value: string);
+        procedure SetTipo1(value:  string);
         procedure SetTipo2(value: string);
         procedure SetTipo3(value: string);
         procedure SetTipo4(value: string);
@@ -168,6 +168,7 @@ type
         property RotuloTopo : String read FRotuloTopo write FRotuloTopo;
         property FonteSize : integer read FFonteSize write FFonteSize;
         property Reset : boolean read FReset write FReset;
+        property Hora : String read FHora write FHora;
   end;
 
   var
@@ -358,6 +359,7 @@ begin
     FAbrev05 := 'AB5';
     FFonteSize := 0;  //Default do sistema
     FReset := false;
+    FHora := '';
 
     FRotuloTopo:= 'Click ou Pressione o botão para imprimir seu ticket';
 end;
@@ -554,6 +556,10 @@ begin
     begin
       FRESET := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
     end;
+    if  BuscaChave(arquivo,'HORA:',posicao) then
+    begin
+      FHORA := RetiraInfo(arquivo.Strings[posicao]);
+    end;
 end;
 
 //Metodo construtor
@@ -573,8 +579,11 @@ begin
       Fpath :=GetAppConfigDir(false);
       if not(FileExists(FPATH)) then
       begin
-         createdir(fpath);
+         CreateDir(FPATH);
+         frmhint.MessageHint('Pasta '+Fpath+ ' criada com sucesso!');
+
       end;
+
   {$ENDIF}
 
   if (FileExists(fpath+filename)) then
@@ -639,7 +648,7 @@ begin
   arquivo.Append('ROTULOTOPO:'+ FRotuloTopo);
   arquivo.Append('FONTESIZE:'+ inttostr(FFonteSize));
   arquivo.Append('RESET:'+ booltostr(FRESET));
-
+  arquivo.Append('HORA:'+ FHora);
 
 
   arquivo.SaveToFile(fpath+filename);

@@ -9,7 +9,7 @@ unit setmain;
 interface
 
 uses
-  Classes, SysUtils, funcoes;
+  Classes, SysUtils, funcoes, hint;
 
 const filename = 'fila.cfg';
 
@@ -100,7 +100,7 @@ type
         procedure SetSTBIT(value : integer);
         procedure SetEmpresa(value: string);
         procedure SetLocalizacao(value: string);
-        procedure SetTipo1(value: string);
+        procedure SetTipo1(value:  string);
         procedure SetTipo2(value: string);
         procedure SetTipo3(value: string);
         procedure SetTipo4(value: string);
@@ -577,10 +577,13 @@ begin
   {$ENDIF}
   {$IFDEF WINDOWS}
       Fpath :=GetAppConfigDir(false);
-      if not(FileExists(FPATH)) then
+      if not(DirectoryExists(FPATH)) then
       begin
-         createdir(fpath);
+         CreateDir(FPATH);
+         frmhint.MessageHint('Pasta '+Fpath+ ' criada com sucesso!');
+
       end;
+
   {$ENDIF}
 
   if (FileExists(fpath+filename)) then

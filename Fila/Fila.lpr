@@ -9,7 +9,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, menu, fortes324forlaz, LazSerialPort, rxnew, indylaz, lnetvisual,
   Impressao, main, log, registro, imp_ELGINI9, imp_generico, imp_qr203, splash,
-  cupom, impressao2, toolsfalar
+  cupom, impressao2, toolsfalar, hint
   { you can add units after this };
 
 {$R *.res}
@@ -19,7 +19,6 @@ begin
   RequireDerivedFormResource:=True;
   Application.Initialize;
   Application.CreateForm(Tfrmmain, frmmain);
-  Application.CreateForm(Tfrmcupom, frmcupom);
   Application.Run;
 end.
 

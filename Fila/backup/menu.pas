@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, RLReport, LazSerial, Impressao, Impressao2, imp_ELGINI9,
-  cupom,funcoes, imp, setmain, toolsfalar;
+  cupom,funcoes, imp, setmain, toolsfalar, hint;
 
 
 
@@ -90,42 +90,38 @@ uses main;
 
 function TfrmMenu.PegaNro(Tipo: integer): integer;
 begin
-  if tipo = 1 then
-  begin
-    inc(posFila1);
-    result := posFila1;
-  end;
-  if tipo = 2 then
-  begin
-    inc(posFila2);
-    result := posFila2;
-  end;
-  if tipo = 3 then
-  begin
-    inc(posFila3);
-    result := posFila3;
-  end;
-  if tipo = 4 then
-  begin
-    inc(posFila4);
-    result := posFila4;
-  end;
-  if tipo = 5 then
-  begin
-    inc(posFila5);
-    result := posFila5;
+  case Tipo of
+    1: begin Inc(posFila1); Result := posFila1; end;
+    2: begin Inc(posFila2); Result := posFila2; end;
+    3: begin Inc(posFila3); Result := posFila3; end;
+    4: begin Inc(posFila4); Result := posFila4; end;
+    5: begin Inc(posFila5); Result := posFila5; end;
+  else
+    raise Exception.CreateFmt('Tipo de fila inválido: %d', [Tipo]);
   end;
 
-  FSETMAIN.Contagem1:=posFila1;
-  FSETMAIN.Contagem2:=posFila2;
-  FSETMAIN.Contagem3:=posFila3;
-  FSETMAIN.Contagem4:=posFila4;
-  FSETMAIN.Contagem5:=posFila5;
-  frmmain.SalvarContexto();
-  application.ProcessMessages;
-
-
+  FSETMAIN.Contagem1 := posFila1;
+  FSETMAIN.Contagem2 := posFila2;
+  FSETMAIN.Contagem3 := posFila3;
+  FSETMAIN.Contagem4 := posFila4;
+  FSETMAIN.Contagem5 := posFila5;
+  frmmain.SalvarContexto;
+  Application.ProcessMessages;
 end;
+
+function TfrmMenu.PegaNomeFila(Tipo: integer): string;
+begin
+  case Tipo of
+    1: Result := lbFILA1;
+    2: Result := lbFILA2;
+    3: Result := lbFILA3;
+    4: Result := lbFILA4;
+    5: Result := lbFILA5;
+  else
+    Result := 'Desconhecida';
+  end;
+end;
+
 
 function TfrmMenu.PegaNomeFila(Tipo : integer): string;
 begin
@@ -162,114 +158,120 @@ begin
 
 end;
 
-procedure TfrmMenu.ImprimeDriver(tipo: integer; nro : integer; senha : string);
+procedure TfrmMenu.ImprimeDriver(tipo: integer; nro: integer; senha: string);
+var
+  LIs58: Boolean;
 begin
+  LIs58 := (fsetmain.TipoPapel = TP_58MM);
 
-  if(fsetmain.TipoPapel = TP_58MM) then
-  begin
-    frmImpressao := Tfrmimpressao.create(self);
-    frmImpressao.RLTipo.Caption:= PegaNomeFila(Tipo);
+  // Adiciona senha nas listas antes de imprimir
+  case Tipo of
+    1: frmmain.lista1.Items.Append(senha);
+    2: frmmain.lista2.Items.Append(senha);
+    3: frmmain.lista3.Items.Append(senha);
+    4: frmmain.lista4.Items.Append(senha);
+    5: frmmain.lista5.Items.Append(senha);
+  end;
+  salvalistagem;
 
-  end
-  else
+  if LIs58 then
   begin
-    frmImpressao2 := Tfrmimpressao2.create(self);
-    frmImpressao2.RLTipo.Caption:= PegaNomeFila(Tipo);
-  end;
-  Case Tipo of
-      1: frmmain.lista1.items.Append(senha);
-      2: frmmain.lista2.items.Append(senha);
-      3: frmmain.lista3.items.Append(senha);
-      4: frmmain.lista4.items.Append(senha);
-      5: frmmain.lista5.items.Append(senha);
-  end;
-  salvalistagem();
-  if(fsetmain.TipoPapel = TP_58MM) then
-  begin
-    //frmImpressao.RLBNRO.Caption := senha;
-    frmImpressao.RLEmpresa.caption := pegaEmpresa();
-    frmImpressao.RLNRO.Caption := senha;
-    frmImpressao.RLLocalizacao.Caption:= PegaLocalizacao();
-    frmImpressao.RLDATETIME.Caption:= datetimetostr(now);
-    frmImpressao.RLEmpresa.Caption:= empresa;
-    frmImpressao.RLLocalizacao.Caption:= localizacao;
-    frmImpressao.RLReport1.PrintDialog := false;
-    frmImpressao.RLReport1.Print;
-    frmimpressao.free;
-    //frmImpressao.RLBNRO.Caption := senha;
-    if(FSETMAIN.ModeloImp <> TI_ELGINI9) then
-    begin
-         frmimpressao.RLReport1.PageSetup.PaperHeight:= 260;
-    end
-    else
-    begin
-         frmimpressao.RLReport1.PageSetup.PaperHeight:= 260;
+    // NÃO reutilize instância global; crie local e libere no finally
+    frmImpressao := TfrmImpressao.Create(Self);
+    try
+      frmImpressao.RLTipo.Caption := PegaNomeFila(Tipo);
+      frmImpressao.RLEmpresa.Caption := PegaEmpresa();
+      frmImpressao.RLNRO.Caption := senha;
+      frmImpressao.RLLocalizacao.Caption := PegaLocalizacao();
+      frmImpressao.RLDATETIME.Caption := DateTimeToStr(Now);
+
+      frmImpressao.RLReport1.PrintDialog := False;
+      frmImpressao.RLReport1.Print;
+
+      // Ajustes de papel (se necessário, faça ANTES do Print)
+      if (FSETMAIN.ModeloImp <> TI_ELGINI9) then
+        frmImpressao.RLReport1.PageSetup.PaperHeight := 260
+      else
+        frmImpressao.RLReport1.PageSetup.PaperHeight := 260;
+    finally
+      FreeAndNil(frmImpressao);
     end;
   end
   else
   begin
-    //frmImpressao.RLBNRO.Caption := senha;
-    if(FSETMAIN.ModeloImp <> TI_ELGINI9) then
-    begin
-         frmimpressao2.RLReport1.PageSetup.PaperHeight:= 100;
-         frmimpressao2.RLReport1.Height:= 100;
-         frmimpressao2.RLPicote.top := 350;
-    end
-    else
-    begin
-         frmimpressao2.RLReport1.PageSetup.PaperHeight:= 100;
-         frmimpressao2.RLReport1.Height:= 90;
-         frmimpressao2.RLPicote.top := 160;
+    frmImpressao2 := TfrmImpressao2.Create(Self);
+    try
+      // Ajuste de papel ANTES do Print
+      if (FSETMAIN.ModeloImp <> TI_ELGINI9) then
+      begin
+        frmImpressao2.RLReport1.PageSetup.PaperHeight := 100;
+        frmImpressao2.RLReport1.Height := 100;
+        frmImpressao2.RLPicote.Top := 350;
+      end
+      else
+      begin
+        frmImpressao2.RLReport1.PageSetup.PaperHeight := 100;
+        frmImpressao2.RLReport1.Height := 90;
+        frmImpressao2.RLPicote.Top := 160;
+      end;
+
+      frmImpressao2.RLTipo.Caption := PegaNomeFila(Tipo);
+      frmImpressao2.RLEmpresa.Caption := PegaEmpresa();
+      frmImpressao2.RLNRO.Caption := senha;
+      frmImpressao2.RLLocalizacao.Caption := PegaLocalizacao();
+      frmImpressao2.RLDATETIME.Caption := DateTimeToStr(Now);
+
+      frmImpressao2.RLReport1.PrintDialog := False;
+      frmImpressao2.RLReport1.Print;
+    finally
+      FreeAndNil(frmImpressao2);
     end;
-    frmImpressao2.RLEmpresa.caption := pegaEmpresa();
-    frmImpressao2.RLNRO.Caption := senha;
-    frmImpressao2.RLLocalizacao.Caption:= PegaLocalizacao();
-    frmImpressao2.RLDATETIME.Caption:= datetimetostr(now);
-    frmImpressao2.RLEmpresa.Caption:= empresa;
-    frmImpressao2.RLLocalizacao.Caption:= localizacao;
-    //frmimpressao2.RLImage1.Picture.LoadFromFile(FSETMAIN.Imagem);
-    frmImpressao2.RLReport1.PrintDialog := false;
-    frmImpressao2.RLReport1.Print;
-    frmimpressao2.free;
   end;
-  if ( FSETMAIN.Falar) then
+
+  // Fala (garanta que o form existe)
+  if FSETMAIN.Falar and Assigned(frmToolsfalar) then
   begin
-    frmToolsfalar.Falar('Sua senha é '+senha+ ' do tipo '+ PegaNomeFila(Tipo));
+    frmToolsfalar.Falar('Sua senha é ' + senha + ' do tipo ' + PegaNomeFila(Tipo));
     Sleep(2000);
-    frmToolsfalar.Conectar();
+    frmToolsfalar.Conectar;
   end;
 end;
 
-procedure TfrmMenu.ImprimeSerial(Tipo: integer; nro : integer; senha : string);
+
+procedure TfrmMenu.ImprimeSerial(Tipo: integer; nro: integer; senha: string);
 begin
   try
-    Case Tipo of
-        1: frmmain.lista1.items.Append(senha);
-        2: frmmain.lista2.items.Append(senha);
-        3: frmmain.lista3.items.Append(senha);
-        4: frmmain.lista4.items.Append(senha);
-        5: frmmain.lista5.items.Append(senha);
+    case Tipo of
+      1: frmmain.lista1.Items.Append(senha);
+      2: frmmain.lista2.Items.Append(senha);
+      3: frmmain.lista3.Items.Append(senha);
+      4: frmmain.lista4.Items.Append(senha);
+      5: frmmain.lista5.Items.Append(senha);
     end;
-    fimp.close;
-    //DefaultSerial();
-    fimp.Device:= comport;
+
+    if Trim(comport) = '' then
+      raise Exception.Create('Porta serial não definida.');
+
+    fimp.Close;
+    fimp.Device := comport;
     fimp.Open;
-    fimp.TextoSerial(pegaEmpresa(),FCENTER,TT_DOUBLE);
-    //LineSerial();
-    fimp.TextoSerial('TIPO:'+PegaNomeFila(Tipo),FLEFT,TT_NORMAL);
-    fimp.TextoSerial('Data:'+DateTimeToStr(now),FLEFT,TT_NORMAL);
-    //LineSerial();
-    fimp.TextoSerial('Senha:'+ senha,FLeft, TT_DOUBLE);
-    //LineSerial();
-    fimp.TextoSerial(PegaLocalizacao(),Fcenter);
-    fimp.EjetarCUPOM();
-    fimp.Guilhotina();
-    fimp.close;
-  Except
-     on e: EInOutError do
-       ShowMessage(E.ClassName + '/'+ E.Message);
+
+    fimp.TextoSerial(PegaEmpresa(), FCENTER, TT_DOUBLE);
+    fimp.TextoSerial('TIPO:' + PegaNomeFila(Tipo), FLEFT, TT_NORMAL);
+    fimp.TextoSerial('Data:' + DateTimeToStr(Now), FLEFT, TT_NORMAL);
+    fimp.TextoSerial('Senha:' + senha, FLeft, TT_DOUBLE);
+    fimp.TextoSerial(PegaLocalizacao(), Fcenter);
+    fimp.EjetarCUPOM;
+    fimp.Guilhotina;
+    fimp.Close;
+  except
+    on E: EInOutError do
+      ShowMessage(E.ClassName + ' / ' + E.Message);
+    on E: Exception do
+      ShowMessage('Erro na impressão serial: ' + E.Message);
   end;
 end;
+
 
 
 
@@ -365,34 +367,62 @@ end;
 
 
 
-procedure TfrmMenu.salvalistagem();
+procedure TfrmMenu.salvalistagem;
 var
-  diretorio: string;
-  arq: string;
+  diretorio, arq: string;
 begin
-  // Obtém o diretório temporário de forma automática
-  diretorio := GetTempDir;
+  try
+    diretorio := GetAppConfigDir(False);
 
-  // Remove a barra ou contrabarra no final, se houver
-  if (diretorio <> '') and (diretorio[Length(diretorio)] in ['\', '/']) then
-    Delete(diretorio, Length(diretorio), 1);
+    // Remove separador final
+    if (diretorio <> '') and (diretorio[Length(diretorio)] in ['\', '/']) then
+      Delete(diretorio, Length(diretorio), 1);
 
-  // Salva os arquivos
-  arq := diretorio + PathDelim + 'list01.txt';
-  frmmain.lista1.Items.SaveToFile(arq);
+    // Garante toda a árvore
+    if not ForceDirectories(diretorio) then
+      raise Exception.Create('Não foi possível criar o diretório: ' + diretorio);
 
-  arq := diretorio + PathDelim + 'list02.txt';
-  frmmain.lista2.Items.SaveToFile(arq);
+    // Valida listas
+    if not Assigned(frmmain) then
+      raise Exception.Create('Form principal (frmmain) não está disponível.');
 
-  arq := diretorio + PathDelim + 'list03.txt';
-  frmmain.lista3.Items.SaveToFile(arq);
+    if Assigned(frmmain.lista1) then
+    begin
+      arq := diretorio + PathDelim + 'list01.txt';
+      frmmain.lista1.Items.SaveToFile(arq);
+    end;
 
-  arq := diretorio + PathDelim + 'list04.txt';
-  frmmain.lista4.Items.SaveToFile(arq);
+    if Assigned(frmmain.lista2) then
+    begin
+      arq := diretorio + PathDelim + 'list02.txt';
+      frmmain.lista2.Items.SaveToFile(arq);
+    end;
 
-  arq := diretorio + PathDelim + 'list05.txt';
-  frmmain.lista5.Items.SaveToFile(arq);
+    if Assigned(frmmain.lista3) then
+    begin
+      arq := diretorio + PathDelim + 'list03.txt';
+      frmmain.lista3.Items.SaveToFile(arq);
+    end;
+
+    if Assigned(frmmain.lista4) then
+    begin
+      arq := diretorio + PathDelim + 'list04.txt';
+      frmmain.lista4.Items.SaveToFile(arq);
+    end;
+
+    if Assigned(frmmain.lista5) then
+    begin
+      arq := diretorio + PathDelim + 'list05.txt';
+      frmmain.lista5.Items.SaveToFile(arq);
+    end;
+
+  except
+    on E: Exception do
+      frmHint.MessageHint('Erro ao salvar listagens: ' + E.Message);
+  end;
 end;
+
+
 
 end.
 

@@ -11,13 +11,13 @@ uses
   {$ENDIF}
   ExtCtrls, Menus, ComCtrls, EditBtn, Spin, DataPortIP, UniqueInstance,
   rxfolderlister, rxclock, RxTimeEdit, lNetComponents, menu, lNet, log, splash,
-  registro, setmain, IMP, toolsfalar, DateUtils;
+  registro, setmain, IMP, toolsfalar, DateUtils, hint;
 
 const
   PortGuiche = 8095;
   PortPainel = 8096;
   intversao = 4;
-  intrevisao = 03;
+  intrevisao = 04;
 
 type
 
@@ -210,7 +210,15 @@ var
   diretorio: string;
   arq: string;
 begin
-  diretorio := GetTempDir;
+  //diretorio := GetTempDir;
+  diretorio :=   GetAppConfigDir(false);
+  if(DirectoryExists(diretorio))   then
+  begin
+    frmhint.MessageHint('Pasta '+ diretorio+ ' não encontrada');
+    //CreateDir(GetTempDir);
+    CreateDir(GetAppConfigDir(false));
+    frmhint.MessageHint('Pasta '+ diretorio+ ' foi criada');
+  end;
   if (diretorio <> '') and (diretorio[Length(diretorio)] in ['\', '/']) then
     Delete(diretorio, Length(diretorio), 1);
 
@@ -545,6 +553,8 @@ begin
   PageControl1.ActivePage := tbIniciar;
   frmToolsfalar := TfrmToolsfalar.create(self);
 
+  frmhint := TfrmHint.create(self);
+
   Fsetmain := TSetmain.create();
   self.left := Fsetmain.posx;
   self.top := fsetmain.posy;
@@ -582,6 +592,8 @@ begin
   frmRegistrar := nil;
 
   Fsetmain.free();
+  frmHint.free;
+  frmHint := nil;
   frmToolsfalar.free;
 end;
 
@@ -645,8 +657,11 @@ procedure Tfrmmain.UniqueInstance1OtherInstance(Sender: TObject;
 var
   SelfPID, OtherPID: DWORD;
 begin
-  ShowMessage('Aplicação já esta rodando');
-  Application.Terminate;
+  if(frmMenu=nil) then
+  begin
+    ShowMessage('Aplicação já esta rodando');
+    Application.Terminate;
+  end;
 end;
 
 
