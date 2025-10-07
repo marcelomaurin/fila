@@ -276,6 +276,7 @@ begin
   begin
     ImprimeSerial(Tipo, nro , senha);
   end;
+  frmmain.RegistraEvento('',nro , 1);  //Registra inicio de atendimento
   frmmain.salvarContexto();
 
 end;

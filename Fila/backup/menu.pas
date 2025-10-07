@@ -122,31 +122,6 @@ begin
   end;
 end;
 
-
-function TfrmMenu.PegaNomeFila(Tipo : integer): string;
-begin
-  if (TIPO = 1) then
-  begin
-     result := lbFILA1;
-  end;
-  if (TIPO = 2) then
-  begin
-     result := lbFILA2;
-  end;
-  if (TIPO = 3) then
-  begin
-     result := lbFILA3;
-  end;
-  if (TIPO = 4) then
-  begin
-     result := lbFILA4;
-  end;
-  if (TIPO = 5) then
-  begin
-     result := lbFILA5;
-  end;
-end;
-
 function TfrmMenu.PegaLocalizacao(): string;
 begin
   result := localizacao;

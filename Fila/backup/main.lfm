@@ -19932,6 +19932,47 @@ object frmmain: Tfrmmain
         Caption = 'Hora Programada'
       end
     end
+    object TabSheet4: TTabSheet
+      Caption = 'Registro'
+      ClientHeight = 371
+      ClientWidth = 981
+      object Label33: TLabel
+        Left = 13
+        Height = 15
+        Top = 13
+        Width = 114
+        Caption = 'Registro de Marcação'
+      end
+      object ckFlgAnalise: TCheckBox
+        Left = 39
+        Height = 19
+        Top = 32
+        Width = 55
+        Caption = 'Marcar'
+        TabOrder = 0
+      end
+      object Label34: TLabel
+        Left = 13
+        Height = 15
+        Top = 64
+        Width = 109
+        Caption = 'Executa o programa:'
+      end
+      object edPathAnalise: TFileNameEdit
+        Left = 13
+        Height = 23
+        Top = 80
+        Width = 339
+        FileName = 'edPathAnalise'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        MaxLength = 0
+        TabOrder = 1
+        Text = 'edPathAnalise'
+      end
+    end
   end
   object PopupMenu1: TPopupMenu
     Left = 32

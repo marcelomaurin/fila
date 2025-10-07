@@ -11,13 +11,13 @@ uses
   {$ENDIF}
   ExtCtrls, Menus, ComCtrls, EditBtn, Spin, DataPortIP, UniqueInstance,
   rxfolderlister, rxclock, RxTimeEdit, lNetComponents, menu, lNet, log, splash,
-  registro, setmain, IMP, toolsfalar, DateUtils, hint;
+  registro, setmain, IMP, toolsfalar, DateUtils, hint, Process;
 
 const
   PortGuiche = 8095;
   PortPainel = 8096;
   intversao = 4;
-  intrevisao = 04;
+  intrevisao = 05;
 
 type
 
@@ -38,6 +38,7 @@ type
     cbTipoProtocolo: TComboBox;
     cbTipoPapel: TComboBox;
     cbReset: TCheckBox;
+    ckFlgAnalise: TCheckBox;
     ckPainelMaximizar: TCheckBox;
     ckPainelEsquerdo: TCheckBox;
     ckFala: TCheckBox;
@@ -64,6 +65,7 @@ type
     edAbrev01: TEdit;
     Empresa: TLabel;
     fileimagem: TFileNameEdit;
+    edPathAnalise: TFileNameEdit;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -91,6 +93,8 @@ type
     Label30: TLabel;
     Label31: TLabel;
     Label32: TLabel;
+    Label33: TLabel;
+    Label34: TLabel;
     lbPlataforma: TLabel;
     lbversao: TLabel;
     lblist01: TLabel;
@@ -127,6 +131,7 @@ type
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
+    TabSheet4: TTabSheet;
     tsProgramacao: TTabSheet;
     tsSobre: TTabSheet;
     tsMenuTickets: TTabSheet;
@@ -180,6 +185,7 @@ type
     procedure salvalistagem();
     procedure resetnumeracao();
     procedure resetlistas();
+    procedure RegistraEvento(NROGuiche: string; NroFILA : integer; Tipo : integer);
   end;
 
 var
@@ -263,6 +269,72 @@ begin
   Lista4.Items.clear;
   Lista5.Items.clear;
 end;
+
+//Registra Evento associado
+procedure Tfrmmain.RegistraEvento(NROGuiche: string; NroFila: integer; Tipo: integer);
+var
+  ExecPath: string;
+  P: TProcess;
+begin
+  ExecPath := Trim(FSETMAIN.PathAnalise);
+
+  // validações básicas
+  if ExecPath = '' then
+  begin
+    if Assigned(frmHint) then
+      frmHint.MessageHint('PathAnalise não configurado. Defina o caminho do executável nas configurações.');
+    Exit;
+  end;
+
+  if not FileExists(ExecPath) then
+  begin
+    if Assigned(frmHint) then
+      frmHint.MessageHint('Executável não encontrado em: ' + ExecPath);
+    if Assigned(frmLog) then
+      frmLog.Log('RegistraEvento: arquivo não encontrado -> ' + ExecPath);
+    Exit;
+  end;
+
+  P := TProcess.Create(nil);
+  try
+    P.Executable := ExecPath;
+
+    // Passa parâmetros de forma segura (sem precisar concatenar/aspas)
+    P.Parameters.Add(NROGuiche);
+    P.Parameters.Add(IntToStr(NroFila));
+    P.Parameters.Add(IntToStr(Tipo));
+
+    // Não bloquear a UI; apenas dispara o processo
+    {$IFDEF WINDOWS}
+    P.Options := [poNoConsole];
+    {$ELSE}
+    P.Options := [];
+    {$ENDIF}
+
+    if Assigned(frmLog) then
+      frmLog.Log(Format('RegistraEvento: executando "%s" [%s, %d, %d]',
+        [ExecPath, NROGuiche, NroFila, Tipo]));
+
+    P.Execute;
+
+    // Se preferir aguardar terminar e checar ExitStatus, descomente:
+    // P.Options := P.Options + [poWaitOnExit];
+    // P.Execute;
+    // if (P.ExitStatus <> 0) and Assigned(frmHint) then
+    //   frmHint.MessageHint('O analisador retornou código: ' + IntToStr(P.ExitStatus));
+
+  except
+    on E: Exception do
+    begin
+      if Assigned(frmHint) then
+        frmHint.MessageHint('Falha ao executar o analisador: ' + E.Message);
+      if Assigned(frmLog) then
+        frmLog.Log('RegistraEvento ERRO: ' + E.ClassName + ' - ' + E.Message);
+    end;
+  end;
+  P.Free;
+end;
+
 
 procedure Tfrmmain.MenuItem1Click(Sender: TObject);
 begin
@@ -372,6 +444,9 @@ begin
   seFonteSize.Value :=  FSETMAIN.FonteSize;
   cbReset.Checked:= FSETMAIN.Reset;
   edtime.Text:=FSETMAIN.Hora;
+
+  ckFlgAnalise.Checked:= FSETMAIN.flgAnalise;
+  edPathAnalise.text := FSETMAIN.PathAnalise;
 
   frmSplash.hide;
   if (cbIniciar.Checked) then
@@ -487,6 +562,7 @@ begin
           else item := '0';
         end;
       end;
+      RegistraEvento(Item, nro, 2);    //Registra Chamada do ticket
       aSocket.SendMessage('Fila:'+inttostr(nro)+';'+Item+#13);
       aSocket.Disconnect(true);
     end;
@@ -643,6 +719,9 @@ begin
   FSETMAIN.FonteSize:= seFonteSize.Value;
   FSETMAIN.Reset:= cbReset.Checked;
   FSETMAIN.Hora:= edtime.Text;
+
+  FSETMAIN.flgAnalise := ckFlgAnalise.Checked;
+  FSETMAIN.PathAnalise := edPathAnalise.text;
 
   FSETMAIN.SalvaContexto();
 end;

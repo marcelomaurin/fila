@@ -85,7 +85,8 @@ type
         FFonteSize : integer;
         Freset : boolean;
         FHORA : String;
-
+        FflgAnalise : boolean;
+        FPathAnalise : String;
 
         procedure Default();
         procedure SetPOSX(value : integer);
@@ -115,6 +116,7 @@ type
 
         procedure SetModeloImp(value: TModeloImpressora);
         procedure SetTipoImp(value: TTipoIMP);
+
 
   public
         procedure SalvaContexto();
@@ -169,6 +171,9 @@ type
         property FonteSize : integer read FFonteSize write FFonteSize;
         property Reset : boolean read FReset write FReset;
         property Hora : String read FHora write FHora;
+        property flgAnalise : Boolean read FflgAnalise write FflgAnalise;
+        property PathAnalise : String read FPathAnalise write FPathAnalise;
+
   end;
 
   var
@@ -560,6 +565,14 @@ begin
     begin
       FHORA := RetiraInfo(arquivo.Strings[posicao]);
     end;
+    if  BuscaChave(arquivo,'FLGANALISE:',posicao) then
+    begin
+      FFLGANALISE := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'PATHANALISE:',posicao) then
+    begin
+      FPATHANALISE := RetiraInfo(arquivo.Strings[posicao]);
+    end;
 end;
 
 //Metodo construtor
@@ -577,7 +590,7 @@ begin
   {$ENDIF}
   {$IFDEF WINDOWS}
       Fpath :=GetAppConfigDir(false);
-      if not(FileExists(FPATH)) then
+      if not(DirectoryExists(FPATH)) then
       begin
          CreateDir(FPATH);
          frmhint.MessageHint('Pasta '+Fpath+ ' criada com sucesso!');
@@ -649,6 +662,8 @@ begin
   arquivo.Append('FONTESIZE:'+ inttostr(FFonteSize));
   arquivo.Append('RESET:'+ booltostr(FRESET));
   arquivo.Append('HORA:'+ FHora);
+  arquivo.Append('FLGANALISE:'+ booltostr(FflgAnalise));
+  arquivo.Append('PATHANALISE:'+ FPATHANALISE);
 
 
   arquivo.SaveToFile(fpath+filename);
