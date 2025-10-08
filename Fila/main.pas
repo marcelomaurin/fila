@@ -17,7 +17,7 @@ const
   PortGuiche = 8095;
   PortPainel = 8096;
   intversao = 4;
-  intrevisao = 05;
+  intrevisao = 06;
 
 type
 
@@ -185,7 +185,7 @@ type
     procedure salvalistagem();
     procedure resetnumeracao();
     procedure resetlistas();
-    procedure RegistraEvento(NROGuiche: string; NroFILA : integer; Tipo : integer);
+    procedure RegistraEvento(NROGuiche: string; NroFILA : string; Tipo : integer);
   end;
 
 var
@@ -271,7 +271,7 @@ begin
 end;
 
 //Registra Evento associado
-procedure Tfrmmain.RegistraEvento(NROGuiche: string; NroFila: integer; Tipo: integer);
+procedure Tfrmmain.RegistraEvento(NROGuiche: string; NroFila: string; Tipo: integer);
 var
   ExecPath: string;
   P: TProcess;
@@ -301,7 +301,7 @@ begin
 
     // Passa parâmetros de forma segura (sem precisar concatenar/aspas)
     P.Parameters.Add(NROGuiche);
-    P.Parameters.Add(IntToStr(NroFila));
+    P.Parameters.Add(NroFila);
     P.Parameters.Add(IntToStr(Tipo));
 
     // Não bloquear a UI; apenas dispara o processo
@@ -312,7 +312,7 @@ begin
     {$ENDIF}
 
     if Assigned(frmLog) then
-      frmLog.Log(Format('RegistraEvento: executando "%s" [%s, %d, %d]',
+      frmLog.Log(Format('RegistraEvento: executando "%s" [%s, %s, %d]',
         [ExecPath, NROGuiche, NroFila, Tipo]));
 
     P.Execute;
@@ -515,11 +515,13 @@ begin
       strnro := copy(mensagem,posicao+1,pos(#13,mensagem)-(posicao+1));
       nro := strtoint(strnro);
       guiche := copy(mensagem,pos('>',mensagem)+1,pos(';',mensagem)-pos('>',mensagem)-1);
+
       case nro of
         1: begin
           if (frmmain.Lista1.Count>0) then
           begin
             item := frmmain.Lista1.Items.Strings[0];
+            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
             frmmain.Lista1.items.Delete(0);
             frmlog.Log('delete List1:'+item);
           end
@@ -529,6 +531,7 @@ begin
           if (frmmain.Lista2.Count>0) then
           begin
             item := frmmain.Lista2.items.Strings[0];
+            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
             frmmain.Lista2.items.Delete(0);
             frmlog.Log('delete List2:'+item);
           end
@@ -538,6 +541,7 @@ begin
           if (frmmain.Lista3.Count>0) then
           begin
             item := frmmain.Lista3.items.Strings[0];
+            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
             frmmain.Lista3.items.Delete(0);
             frmlog.Log('delete List3:'+item);
           end
@@ -547,6 +551,7 @@ begin
           if (frmmain.Lista4.Count>0) then
           begin
             item := frmmain.Lista4.items.Strings[0];
+            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
             frmmain.Lista4.items.Delete(0);
             frmlog.Log('delete List4:'+item);
           end
@@ -556,13 +561,14 @@ begin
           if (frmmain.Lista5.Count>0) then
           begin
             item := frmmain.Lista5.items.Strings[0];
+            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
             frmmain.Lista5.items.Delete(0);
             frmlog.Log('delete List5:'+item);
           end
           else item := '0';
         end;
       end;
-      RegistraEvento(Item, nro, 2);    //Registra Chamada do ticket
+
       aSocket.SendMessage('Fila:'+inttostr(nro)+';'+Item+#13);
       aSocket.Disconnect(true);
     end;

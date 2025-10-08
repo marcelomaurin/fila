@@ -274,9 +274,9 @@ begin
   end;
   if(Fimp.TIPOIMP = TI_SERIAL) then  (*Tipo Serial*)
   begin
-    ImprimeSerial(Tipo, nro , senha);
+    ImprimeSerial(Tipo, TIPO , senha);
   end;
-  frmmain.RegistraEvento('',nro , 1);  //Registra inicio de atendimento
+  frmmain.RegistraEvento('0',Senha , 1);  //Registra inicio de atendimento
   frmmain.salvarContexto();
 
 end;
