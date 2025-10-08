@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="contador.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="223"/>
+        <CursorPos Y="275"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\component\ZConnection.pas"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="29"/>
+        <CursorPos X="44" Y="79"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\component\ZAbstractConnection.pas"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="526"/>
+        <CursorPos X="42" Y="571"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcIntfs.pas"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="5008"/>
+        <CursorPos X="12" Y="5038"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\component\ZAbstractConnection.pas"/>
+        <Caret Line="293" Column="47" TopLine="250"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\component\ZAbstractConnection.pas"/>
+        <Caret Line="571" Column="42" TopLine="526"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\component\ZAbstractConnection.pas"/>
+        <Caret Line="1429" Column="43" TopLine="1384"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\component\ZAbstractConnection.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\component\ZAbstractConnection.pas"/>
+        <Caret Line="197" Column="25" TopLine="154"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\component\ZAbstractConnection.pas"/>
+        <Caret Line="293" Column="47" TopLine="269"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\component\ZAbstractConnection.pas"/>
+        <Caret Line="571" Column="42" TopLine="526"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcIntfs.pas"/>
+        <Caret Line="205" Column="14" TopLine="180"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcIntfs.pas"/>
+        <Caret Line="169" Column="14" TopLine="142"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcIntfs.pas"/>
+        <Caret Line="205" Column="45" TopLine="160"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcIntfs.pas"/>
+        <Caret Line="4941" Column="12" TopLine="4896"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcIntfs.pas"/>
+        <Caret Line="5086" Column="12" TopLine="5054"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcIntfs.pas"/>
+        <Caret Line="5038" Column="12" TopLine="5011"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcIntfs.pas"/>
+        <Caret Line="5047" Column="12" TopLine="5011"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcIntfs.pas"/>
+        <Caret Line="5062" Column="15" TopLine="5017"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcIntfs.pas"/>
+        <Caret Line="5066" Column="37" TopLine="5021"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcIntfs.pas"/>
+        <Caret Line="5086" Column="25" TopLine="5042"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\Users\mmaurin\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcIntfs.pas"/>
+        <Caret Line="4913" Column="37" TopLine="4881"/>
+      </Position>
+      <Position>
+        <Filename Value="contador.lpr"/>
+        <Caret Line="226" Column="5" TopLine="197"/>
+      </Position>
+      <Position>
+        <Filename Value="contador.lpr"/>
+        <Caret Line="223" TopLine="198"/>
+      </Position>
+      <Position>
+        <Filename Value="contador.lpr"/>
+        <Caret Line="226" Column="7" TopLine="198"/>
+      </Position>
+      <Position>
+        <Filename Value="contador.lpr"/>
+        <Caret Line="227" Column="5" TopLine="198"/>
+      </Position>
+      <Position>
+        <Filename Value="contador.lpr"/>
+        <Caret Line="228" Column="7" TopLine="198"/>
+      </Position>
+      <Position>
+        <Filename Value="contador.lpr"/>
+        <Caret Line="220" Column="20" TopLine="198"/>
+      </Position>
+      <Position>
+        <Filename Value="contador.lpr"/>
+        <Caret Line="241" Column="52" TopLine="210"/>
+      </Position>
+      <Position>
+        <Filename Value="contador.lpr"/>
+        <Caret Line="297" Column="10" TopLine="262"/>
+      </Position>
+      <Position>
+        <Filename Value="contador.lpr"/>
+        <Caret Line="230" Column="11" TopLine="196"/>
+      </Position>
+      <Position>
+        <Filename Value="contador.lpr"/>
+        <Caret Line="224" Column="43" TopLine="211"/>
+      </Position>
+      <Position>
+        <Filename Value="contador.lpr"/>
+        <Caret Line="246" TopLine="194"/>
+      </Position>
+      <Position>
+        <Filename Value="contador.lpr"/>
+        <Caret Line="155" Column="49" TopLine="128"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode="default">
+        <Mode Name="default">
+          <local>
+            <CommandLineParams Value="3 A015 1"/>
+          </local>
+        </Mode>
+      </Modes>
+    </RunParams>
+    <HistoryLists>
+      <List Name="LaunchingApplication" Type="File" Count="1">
+        <Item1 Value="C:\Windows\system32\cmd.exe /C ${TargetCmdLine}"/>
+      </List>
+      <List Name="CommandLineParameters" Count="1">
+        <Item1 Value="3 A015 1"/>
+      </List>
+    </HistoryLists>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="contador.lpr"/>
+        <Line Value="1"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="contador.lpr"/>
+        <Line Value="1"/>
+      </Item>
+    </BreakPoints>
+  </Debugging>
+</CONFIG>
