@@ -9,7 +9,7 @@ uses
   StdCtrls, Menus, ComCtrls, PopupNotifier, Buttons, lNetComponents, lNet,
   DataPortIP, setmain, setup, splash, registro, log, hint;
 
-const Versao = '1.26';
+const Versao = '1.27';
 
 type
 
@@ -352,7 +352,7 @@ begin
       strNro := StringReplace(strNro, #13, '', [rfReplaceAll]); // remove \r
       strNro2 := StringReplace(strNro, #10, '', [rfReplaceAll]); // remove \n
       //nro := strtoint(strnro2);
-      sleep(1000);
+      sleep(500);
       Application.ProcessMessages;
       if frmsetup.ckPainel.Checked then
       begin
@@ -371,12 +371,15 @@ begin
       tvitem := tvFila.Items.AddChild(tnFila,strNro2);
       tvitem.ImageIndex:= 5;
       //Chama o painel
+      (*
       if(FsetMain.PAINEL) then
       begin
          Painel1( strNro2,strtoint(FsetMain.NROGUICHE));
          Painel2( strNro2,strtoint(FsetMain.NROGUICHE));
          Painel3( strNro2,strtoint(FsetMain.NROGUICHE));
       end;
+      *)
+
     end
     else
     begin
@@ -387,7 +390,8 @@ begin
   begin
 
   end;
-
+ btrechamar3.Enabled:= true;
+ Cursor:= crDefault;
  // MessageDlg('Retornou',info,[],[],null);
  aSocket.Disconnect(true); //Nao recebeu nada
 end;
@@ -501,6 +505,7 @@ begin
    PageControl1.ActivePage  :=  tsFila;
    if not (LTCPComponent1.Connected) then
    begin
+     Cursor:= crHourGlass;
      LTCPComponent1.Connect(FSetMain.IPFILA,8095);
      repeat
        //tentando conectar
@@ -508,8 +513,9 @@ begin
        //frmlog.log('Tentando conectar');
        application.ProcessMessages;
      until  not conn ;
+     btrechamar3.Enabled:= false;
      //LTCPComponent1.CallAction;
-     sleep(1000);
+     sleep(300);
      if (FSetMain.PROTOCOLO = 1) then
      begin
           param := 'Fila:'+inttoStr(nro)+#13+'>'+FSetMain.NROGUICHE+';';
@@ -541,7 +547,7 @@ begin
        application.ProcessMessages;
      until  not conn2 ;
      //LTCPComponent1.CallAction;
-     sleep(1000);
+     sleep(300);
      if (FSetMain.PROTOCOLO = 1) then
      begin
           param := 'FILA:'+nro+'>'+inttostr(guiche)+';';
@@ -578,7 +584,7 @@ begin
        application.ProcessMessages;
      until  not conn2 ;
      //LTCPComponent1.CallAction;
-     sleep(1000);
+     sleep(300);
      if (FSetMain.PROTOCOLO = 1) then
      begin
           param := 'FILA:'+nro+'>'+inttostr(guiche)+';';
@@ -613,7 +619,7 @@ begin
        application.ProcessMessages;
      until  not conn2 ;
      //LTCPComponent1.CallAction;
-     sleep(1000);
+     sleep(300);
      if (FSetMain.PROTOCOLO = 1) then
      begin
           param := 'FILA:'+nro+'>'+inttostr(guiche)+';';
