@@ -353,7 +353,14 @@ end;
 
 procedure Tfrmmain.MenuItem4Click(Sender: TObject);
 begin
-  Configurar();
+  //Configurar();
+  frmmenu.hide;
+  frmmenu.Free;
+  frmmenu := nil;
+  FSETMAIN.EXEC:= false;
+  FSETMAIN.SalvaContexto();
+  cbIniciar.Checked := false;
+  show;
 end;
 
 procedure Tfrmmain.Timer1Timer(Sender: TObject);
@@ -515,12 +522,13 @@ begin
       strnro := copy(mensagem,posicao+1,pos(#13,mensagem)-(posicao+1));
       nro := strtoint(strnro);
       guiche := copy(mensagem,pos('>',mensagem)+1,pos(';',mensagem)-pos('>',mensagem)-1);
-      RegistraEvento(guiche, strnro, 2);    //Registra Chamada do ticket
+
       case nro of
         1: begin
           if (frmmain.Lista1.Count>0) then
           begin
             item := frmmain.Lista1.Items.Strings[0];
+            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
             frmmain.Lista1.items.Delete(0);
             frmlog.Log('delete List1:'+item);
           end
@@ -530,6 +538,7 @@ begin
           if (frmmain.Lista2.Count>0) then
           begin
             item := frmmain.Lista2.items.Strings[0];
+            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
             frmmain.Lista2.items.Delete(0);
             frmlog.Log('delete List2:'+item);
           end
@@ -539,6 +548,7 @@ begin
           if (frmmain.Lista3.Count>0) then
           begin
             item := frmmain.Lista3.items.Strings[0];
+            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
             frmmain.Lista3.items.Delete(0);
             frmlog.Log('delete List3:'+item);
           end
@@ -548,6 +558,7 @@ begin
           if (frmmain.Lista4.Count>0) then
           begin
             item := frmmain.Lista4.items.Strings[0];
+            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
             frmmain.Lista4.items.Delete(0);
             frmlog.Log('delete List4:'+item);
           end
@@ -557,6 +568,7 @@ begin
           if (frmmain.Lista5.Count>0) then
           begin
             item := frmmain.Lista5.items.Strings[0];
+            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
             frmmain.Lista5.items.Delete(0);
             frmlog.Log('delete List5:'+item);
           end

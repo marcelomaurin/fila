@@ -8,7 +8,7 @@ object frmmain: Tfrmmain
   ClientHeight = 399
   ClientWidth = 989
   Position = poMainFormCenter
-  LCLVersion = '4.0.0.4'
+  LCLVersion = '4.4.0.0'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -17,9 +17,9 @@ object frmmain: Tfrmmain
     Height = 399
     Top = 0
     Width = 989
-    ActivePage = tbIniciar
+    ActivePage = TabSheet4
     Align = alClient
-    TabIndex = 0
+    TabIndex = 9
     TabOrder = 0
     object tbIniciar: TTabSheet
       Caption = 'Iniciar'

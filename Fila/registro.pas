@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  lNetComponents, lNet, log, IdHTTP, IdSSLOpenSSL, IdSSLOpenSSLHeaders;
+  lNetComponents, lNet, log, IdHTTP, IdSSLOpenSSL, IdSSLOpenSSLHeaders,
+  IdURI;
 
 type
 
@@ -17,7 +18,6 @@ type
     edNome: TEdit;
     edEmail: TEdit;
     IdHTTP1: TIdHTTP;
-    IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -99,7 +99,7 @@ begin
   aSocket.GetMessage(retorno);
 
   //ShowMessage(retorno);
-  frmlog.RegistraLog('Recebeu retorno do socket:'+copy(retorno,1,10));
+  //frmlog.RegistraLog('Recebeu retorno do socket:'+copy(retorno,1,10));
 end;
 
 procedure TfrmRegistrar.Memo1Change(Sender: TObject);
@@ -112,37 +112,45 @@ begin
 
 end;
 
-procedure TfrmRegistrar.Identifica();
+
+
+procedure TfrmRegistrar.Identifica;
+var
+  Resp: string;
 begin
-  (*
-  if(LTCPComponent1.Connected) then
-  begin
-       LTCPComponent1.Disconnect(true);
-       sleep(1000);
-  end;
-  *)
+  // Segurança básica: timeouts para não travar a aplicação
+  IdHTTP1.ConnectTimeout := 5000; // 5s
+  IdHTTP1.ReadTimeout    := 10000; // 10s
 
-  {$IFDEF MSWINDOWS}
-  IdOpenSSLSetLibSSL(ExtractFilePath(ParamStr(0)) + 'libssl-1_0-x64.dll');  // Ajuste o nome se for ssleay32.dll
-  IdOpenSSLSetLibCrypto(ExtractFilePath(ParamStr(0)) + 'libcrypto-1_0-x64.dll');  // Ajuste o nome se for libeay32.dll
-  {$ENDIF}
-  {$IFDEF LINUX}
-  //IdOpenSSLSetLibSSL('/usr/lib/x86_64-linux-gnu/libssl.so.3');  // Ajuste o nome se for ssleay32.dll
-  //IdOpenSSLSetLibCrypto('/usr/lib/x86_64-linux-gnu/libcrypto.so');  // Ajuste o nome se for libeay32.dll
-  {$ENDIF}
+  // Evita cache e identifica o client
+  IdHTTP1.Request.UserAgent := 'Maurinsoft/1.0';
+  IdHTTP1.Request.CacheControl := 'no-cache';
+  IdHTTP1.Request.Pragma := 'no-cache';
 
-  // No Linux, não defina caminhos; use os defaults do sistema após a instalação acima.
-
-  //SSLHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
-  //SSLHandler.SSLOptions;
   try
-    //IdHTTP1.IOHandler := SSLHandler;
-    IdSSLIOHandlerSocketOpenSSL1.SSLOptions.VerifyDirs:='/usr/lib/i386-linux-gnu/';
-    IdHTTP1.Get('https://maurinsoft.com.br/ws/register/iconnected.php');
-  finally
-    //SSLHandler.Free;
+    //Resp := IdHTTP1.Get('http://maurinsoft.com.br/ws/register/iconnected.php');
+
+    // Se quiser, pode usar a resposta (ex.: mostrar status, gravar log, etc.)
+    // ShowMessage(Resp);
+
+  except
+    on E: EIdHTTPProtocolException do
+    begin
+      // Erros HTTP (404, 500, etc.)
+      // E.ErrorCode tem o código, E.Message tem detalhe
+      // Exemplo:
+      // ShowMessage('HTTP ' + IntToStr(E.ErrorCode) + ': ' + E.Message);
+      raise;
+    end;
+    on E: Exception do
+    begin
+      // Erros gerais (rede, timeout, DNS, etc.)
+      // ShowMessage('Falha ao identificar: ' + E.Message);
+      raise;
+    end;
   end;
 end;
+
 
 end.
 

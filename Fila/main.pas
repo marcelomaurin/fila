@@ -17,7 +17,7 @@ const
   PortGuiche = 8095;
   PortPainel = 8096;
   intversao = 4;
-  intrevisao = 06;
+  intrevisao = 07;
 
 type
 
@@ -353,7 +353,14 @@ end;
 
 procedure Tfrmmain.MenuItem4Click(Sender: TObject);
 begin
-  Configurar();
+  //Configurar();
+  frmmenu.hide;
+  frmmenu.Free;
+  frmmenu := nil;
+  FSETMAIN.EXEC:= false;
+  FSETMAIN.SalvaContexto();
+  cbIniciar.Checked := false;
+  show;
 end;
 
 procedure Tfrmmain.Timer1Timer(Sender: TObject);
