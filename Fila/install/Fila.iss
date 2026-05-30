@@ -30,7 +30,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Types]
 Name: "Elgin"; Description:  {cm:T_Elgin}
-Name: "Pos58"; Description: {cm:T_Pos58}
+Name: "Pos58"; Description: {cm:T_Pos58}git com
 Name: "Pos5811"; Description: {cm:T_Pos5811}
 Name: "Fila"; Description: {cm:T_Fila}
 

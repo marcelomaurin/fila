@@ -8,6 +8,7 @@ object frmSplash: TfrmSplash
   ClientHeight = 240
   ClientWidth = 320
   FormStyle = fsSplash
+  OnCreate = FormCreate
   Position = poMainFormCenter
   LCLVersion = '4.0.0.4'
   object Image1: TImage
