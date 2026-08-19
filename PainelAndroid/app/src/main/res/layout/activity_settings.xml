@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark"
+    android:padding="32dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_settings"
+            android:textColor="@color/text_primary"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Port Setting -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_port"
+            android:textColor="@color/accent_blue"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etPort"
+            android:layout_width="300dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_btn_selector"
+            android:inputType="number"
+            android:paddingHorizontal="16dp"
+            android:text="8196"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:focusable="true" />
+
+        <!-- TTS Setting -->
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchTts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:checked="true"
+            android:text="@string/pref_tts_enabled"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:focusable="true" />
+
+        <!-- Chime Setting -->
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchChime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:checked="true"
+            android:text="@string/pref_chime_enabled"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:focusable="true" />
+
+        <!-- Ads URL Setting -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_ads_url"
+            android:textColor="@color/accent_blue"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etAdsUrl"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/bg_btn_selector"
+            android:hint="http://servidor/anuncios"
+            android:inputType="textUri"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_muted"
+            android:textSize="16sp"
+            android:focusable="true" />
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="220dp"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_btn_selector"
+                android:focusable="true"
+                android:text="@string/btn_save"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp" />
+
+            <Button
+                android:id="@+id/btnTestCall"
+                android:layout_width="220dp"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_btn_selector"
+                android:focusable="true"
+                android:text="@string/btn_test"
+                android:textColor="@color/accent_amber"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

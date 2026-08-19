@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Painel TV</string>
+    <string name="header_title">Painel de Atendimento de Senhas</string>
+    <string name="label_current_guiche">GUICHÊ</string>
+    <string name="label_current_senha">SENHA</string>
+    <string name="default_guiche">01</string>
+    <string name="default_senha">A000</string>
+    <string name="history_title">ÚLTIMAS CHAMADAS</string>
+    <string name="default_history_guiche">Guichê %1$d</string>
+    <string name="default_history_senha">----</string>
+    <string name="default_message">Painel de chamada, aguarde atendimento.</string>
+    <string name="status_listening">Ouvindo na porta %1$d | IP: %2$s</string>
+    <string name="status_connecting">Conectando...</string>
+    <string name="status_error">Erro de rede</string>
+    <string name="btn_settings">Configurações</string>
+    <string name="title_settings">Configurações do Painel</string>
+    <string name="pref_port">Porta TCP</string>
+    <string name="pref_tts_enabled">Ativar Voz (TTS)</string>
+    <string name="pref_chime_enabled">Alerta Sonoro</string>
+    <string name="pref_ads_url">URL de Imagens/Anúncios</string>
+    <string name="pref_idle_seconds">Tempo para Anúncios (segundos)</string>
+    <string name="btn_save">Salvar e Fechar</string>
+    <string name="btn_test">Simular Chamada</string>
+</resources>
