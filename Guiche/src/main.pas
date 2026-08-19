@@ -147,12 +147,27 @@ implementation
 procedure Tfrmmain.CarregaContexto();
 begin
   FSetMain.CarregaContexto();
-  self.Left:= FsetMain.left;
-  self.top:= FSetMain.top;
-  self.width:= FsetMain.width;
-  self.Height:= FSetMain.height;
+  if (FsetMain.width >= 400) and (FsetMain.height >= 400) then
+  begin
+    self.width := FsetMain.width;
+    self.Height := FSetMain.height;
+  end
+  else
+  begin
+    self.Width := 590;
+    self.Height := 580;
+  end;
 
-
+  if (FsetMain.left >= 0) and (FsetMain.left + self.Width <= Screen.Width) and
+     (FsetMain.top >= 0) and (FsetMain.top + self.Height <= Screen.Height) then
+  begin
+    self.Left := FsetMain.left;
+    self.Top := FsetMain.top;
+  end
+  else
+  begin
+    self.Position := poScreenCenter;
+  end;
 end;
 
 procedure Tfrmmain.Rechamar();
@@ -182,7 +197,7 @@ end;
 procedure Tfrmmain.CadastraRaiz();
 begin
   tnFila := tvFila.Items.AddFirst(nil,'Fila');
-  tnFila.ImageIndex:= 6;
+  tnFila.ImageIndex:= 5;
 end;
 
 procedure Tfrmmain.AtualizaBotoes();
@@ -279,8 +294,6 @@ begin
   frmRegistrar := TfrmRegistrar.create(self);
   frmRegistrar.Identifica(); (*Bate na Maurinsoft*)
   AtualizaBotoes();
-
-  sleep(2000);
   lista := TStringList.create;
 
 
@@ -299,8 +312,8 @@ end;
 
 procedure Tfrmmain.FormShow(Sender: TObject);
 begin
-  sleep(2000);
-  frmSplash.hide;
+  if Assigned(frmSplash) then
+    frmSplash.hide;
   TrayIcon1.Visible:=true;
 end;
 
@@ -377,7 +390,7 @@ begin
           frmLog.meLog.Append(strNro2+' - '+timetostr(now));
       end;
       tvitem := tvFila.Items.AddChild(tnFila,strNro2);
-      tvitem.ImageIndex:= 5;
+      tvitem.ImageIndex:= 9;
       //Chama o painel
       (*
       if(FsetMain.PAINEL) then

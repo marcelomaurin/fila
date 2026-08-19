@@ -99,10 +99,10 @@ implementation
 //Valores default do codigo
 procedure TSetMain.Default();
 begin
-   FTOP :=  96;
-   FWIDTH:= 282;
-   FHEIGHT:= 782;
-   FLEFT:= 1617;
+   FTOP := 100;
+   FWIDTH := 590;
+   FHEIGHT := 580;
+   FLEFT := 100;
    FNROGUICHE:='1';
    FIPFILA:='127.0.0.1';
    FIPPAINEL1:='127.0.0.1';

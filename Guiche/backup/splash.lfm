@@ -9,7 +9,8 @@ object frmSplash: TfrmSplash
   ClientWidth = 320
   FormStyle = fsSplash
   Position = poMainFormCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '4.4.0.0'
+  OnCreate = FormCreate
   object Image1: TImage
     Left = 24
     Height = 194
@@ -629,7 +630,7 @@ object frmSplash: TfrmSplash
   object Label1: TLabel
     Left = 104
     Height = 45
-    Top = 40
+    Top = 72
     Width = 115
     Caption = 'GUICHE'
     Font.Height = -33
@@ -637,15 +638,15 @@ object frmSplash: TfrmSplash
     ParentFont = False
   end
   object Label2: TLabel
-    Left = 96
+    Left = 64
     Height = 15
-    Top = 224
-    Width = 134
-    Caption = 'http://maurinsoft.com.br'
+    Top = 220
+    Width = 209
+    Caption = 'https://github.com/marcelomaurin/fila'
     ParentColor = False
   end
   object lbVersao: TLabel
-    Left = 136
+    Left = 120
     Height = 28
     Top = 120
     Width = 75

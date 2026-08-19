@@ -121,7 +121,11 @@ type
 
     lista : TStringList;
     Mudou : boolean;
+    FPendenteChamada : Integer;
     procedure CarregaContexto();
+    procedure EnviaPainel(AComponente: TLTCPComponent; const AIP, ASenha: string; AGuiche: Integer);
+    function GetGuicheNro: Integer;
+    procedure GravaLog(const AMsg: string);
   public
     tnFila : TTreeNode;
     tnsel : TTreeNode;
@@ -143,23 +147,41 @@ implementation
 procedure Tfrmmain.CarregaContexto();
 begin
   FSetMain.CarregaContexto();
-  self.Left:= FsetMain.left;
-  self.top:= FSetMain.top;
-  self.width:= FsetMain.width;
-  self.Height:= FSetMain.height;
+  if (FsetMain.width >= 400) and (FsetMain.height >= 400) then
+  begin
+    self.width := FsetMain.width;
+    self.Height := FSetMain.height;
+  end
+  else
+  begin
+    self.Width := 590;
+    self.Height := 580;
+  end;
 
-
+  if (FsetMain.left >= 0) and (FsetMain.left + self.Width <= Screen.Width) and
+     (FsetMain.top >= 0) and (FsetMain.top + self.Height <= Screen.Height) then
+  begin
+    self.Left := FsetMain.left;
+    self.Top := FsetMain.top;
+  end
+  else
+  begin
+    self.Position := poScreenCenter;
+  end;
 end;
 
 procedure Tfrmmain.Rechamar();
+var
+  LGuiche: Integer;
 begin
   if FsetMain.PAINEL then
   begin
        if(lastcall<>'') then
        begin
-         painel1(lastcall,strtoint(FSetMain.NROGUICHE));
-         painel2(lastcall,strtoint(FSetMain.NROGUICHE));
-         painel3(lastcall,strtoint(FSetMain.NROGUICHE));
+         LGuiche := GetGuicheNro;
+         painel1(lastcall, LGuiche);
+         painel2(lastcall, LGuiche);
+         painel3(lastcall, LGuiche);
          frmhint.MessageHint(lastcall);
        end
        else
@@ -175,7 +197,7 @@ end;
 procedure Tfrmmain.CadastraRaiz();
 begin
   tnFila := tvFila.Items.AddFirst(nil,'Fila');
-  tnFila.ImageIndex:= 6;
+  tnFila.ImageIndex:= 5;
 end;
 
 procedure Tfrmmain.AtualizaBotoes();
@@ -272,8 +294,6 @@ begin
   frmRegistrar := TfrmRegistrar.create(self);
   frmRegistrar.Identifica(); (*Bate na Maurinsoft*)
   AtualizaBotoes();
-
-  sleep(2000);
   lista := TStringList.create;
 
 
@@ -292,8 +312,8 @@ end;
 
 procedure Tfrmmain.FormShow(Sender: TObject);
 begin
-  sleep(2000);
-  frmSplash.hide;
+  if Assigned(frmSplash) then
+    frmSplash.hide;
   TrayIcon1.Visible:=true;
 end;
 
@@ -303,30 +323,29 @@ begin
 end;
 
 procedure Tfrmmain.LTCPComponent1Connect(aSocket: TLSocket);
+var
+  param : string;
 begin
-  //conn := true;
-  if (frmLog <> nil) then
+  GravaLog('Conectou Fila: ' + aSocket.LocalAddress);
+  
+  if FPendenteChamada > 0 then
   begin
-          frmLog.meLog.Append('Conectou painel '+aSocket.LocalAddress+' - '+timetostr(now));
+    param := 'Fila:'+inttoStr(FPendenteChamada)+#13+'>'+FSetMain.NROGUICHE+';';
+    LTCPComponent1.SendMessage(param, nil);
+    FPendenteChamada := 0; // Limpa o estado pendente
   end;
 end;
 
 procedure Tfrmmain.LTCPComponent1Disconnect(aSocket: TLSocket);
 begin
   aSocket.Disconnect(true);
-  if (frmLog <> nil) then
-  begin
-          frmLog.meLog.Append('Desconectou painel '+aSocket.LocalAddress+' - '+timetostr(now));
-  end;
+  GravaLog('Desconectou Fila: ' + aSocket.LocalAddress);
   conn := false;
 end;
 
 procedure Tfrmmain.LTCPComponent1Error(const msg: string; aSocket: TLSocket);
 begin
-  if (frmLog <> nil) then
-  begin
-          frmLog.meLog.Append(msg+' - '+timetostr(now));
-  end;
+  GravaLog('Erro Fila: ' + msg);
 end;
 
 procedure Tfrmmain.LTCPComponent1Receive(aSocket: TLSocket);
@@ -338,6 +357,7 @@ var
   posicao : integer;
   posfim : integer;
   tvitem : TTreeNode;
+  LGuiche : integer;
 begin
   aSocket.GetMessage(info);
   posicao := pos('Fila:',info);
@@ -352,13 +372,14 @@ begin
       strNro := StringReplace(strNro, #13, '', [rfReplaceAll]); // remove \r
       strNro2 := StringReplace(strNro, #10, '', [rfReplaceAll]); // remove \n
       //nro := strtoint(strnro2);
-      sleep(1000);
+      sleep(500);
       Application.ProcessMessages;
       if frmsetup.ckPainel.Checked then
       begin
-           Painel1(strNro2, strtoint(FSetMain.NROGUICHE));
-           Painel2(strNro2, strtoint(FSetMain.NROGUICHE));
-           Painel3(strNro2, strtoint(FSetMain.NROGUICHE));
+           LGuiche := GetGuicheNro;
+           Painel1(strNro2, LGuiche);
+           Painel2(strNro2, LGuiche);
+           Painel3(strNro2, LGuiche);
       end;
       //ShowMessage('Senha:'+strNro);
       //PopupNotifier1.Text:=strNro;
@@ -501,142 +522,61 @@ procedure Tfrmmain.Chamar(nro : integer);
 var
   param : string;
 begin
-   conn := false;
    PageControl1.ActivePage  :=  tsFila;
-   if not (LTCPComponent1.Connected) then
+   FPendenteChamada := nro;
+   
+   if LTCPComponent1.Connected then
+   begin
+     param := 'Fila:'+inttoStr(nro)+#13+'>'+FSetMain.NROGUICHE+';';
+     LTCPComponent1.SendMessage(param, nil);
+     FPendenteChamada := 0; // Limpa a pendência
+     tvFila.AutoExpand:= true;
+   end
+   else
    begin
      Cursor:= crHourGlass;
-     LTCPComponent1.Connect(FSetMain.IPFILA,8095);
-     repeat
-       //tentando conectar
-       sleep(300);
-       //frmlog.log('Tentando conectar');
-       application.ProcessMessages;
-     until  not conn ;
      btrechamar3.Enabled:= false;
-     //LTCPComponent1.CallAction;
-     sleep(1000);
-     if (FSetMain.PROTOCOLO = 1) then
-     begin
-          param := 'Fila:'+inttoStr(nro)+#13+'>'+FSetMain.NROGUICHE+';';
-     end
-     else
-     begin
-       param := 'Fila:'+inttoStr(nro)+#13+'>'+FSetMain.NROGUICHE+';';
-     end;
-     LTCPComponent1.SendMessage(param,nil);
-     tvFila.AutoExpand:= true;
+     LTCPComponent1.Connect(FSetMain.IPFILA, 8095);
    end;
+end;
+
+procedure Tfrmmain.EnviaPainel(AComponente: TLTCPComponent; const AIP, ASenha: string; AGuiche: Integer);
+var
+  param : string;
+begin
+  if (AIP <> '') and (AComponente <> nil) then
+  begin
+    if not AComponente.Connected then
+    begin
+      AComponente.Connect(AIP, 8196);
+      sleep(100); // Intervalo curto seguro para buffer assíncrono
+      Application.ProcessMessages;
+    end;
+
+    if (FSetMain.PROTOCOLO = 1) then
+      param := 'FILA:' + ASenha + '>' + inttostr(AGuiche) + ';'
+    else
+      param := 'Fila:' + ASenha + #13 + '>' + inttostr(AGuiche) + ';';
+
+    AComponente.SendMessage(param, nil);
+    GravaLog('Guiche:' + inttostr(AGuiche) + ' enviou ao painel (' + AIP + '): ' + ASenha);
+  end;
 end;
 
 procedure Tfrmmain.Painel1(nro: string; guiche: integer);
-var
-  param : string;
 begin
- if(FsetMain.IPPAINEL1 <> '') then
- begin
-   conn2 := false;
-
-   if not (LTCPComponent2.Connected) then
-   begin
-     LTCPComponent2.Connect(FsetMain.IPPAINEL1,8196);
-     repeat
-       //tentando conectar
-       sleep(300);
-       //frmlog.log('Tentando conectar');
-       application.ProcessMessages;
-     until  not conn2 ;
-     //LTCPComponent1.CallAction;
-     sleep(1000);
-     if (FSetMain.PROTOCOLO = 1) then
-     begin
-          param := 'FILA:'+nro+'>'+inttostr(guiche)+';';
-          if (frmLog <> nil) then
-          begin
-              frmLog.meLog.Append('Guiche:'+inttostr(guiche)+' chamou:'+nro+' - '+timetostr(now));
-          end;
-
-     end
-     else
-     begin
-          param := 'Fila:'+nro+#13+'>'+inttostr(guiche)+';';
-     end;
-
-     LTCPComponent2.SendMessage(param,nil);
-   end;
- end;
+  EnviaPainel(LTCPComponent2, FsetMain.IPPAINEL1, nro, guiche);
 end;
 
 procedure Tfrmmain.Painel2(nro: string; guiche: integer);
-var
-  param : string;
 begin
- if(FsetMain.IPPAINEL2 <> '') then
- begin
-   conn2 := false;
-   if not (LTCPComponent2.Connected) then
-   begin
-     LTCPComponent3.Connect(FsetMain.IPPAINEL2,8196);
-     repeat
-       //tentando conectar
-       sleep(300);
-       //frmlog.log('Tentando conectar');
-       application.ProcessMessages;
-     until  not conn2 ;
-     //LTCPComponent1.CallAction;
-     sleep(1000);
-     if (FSetMain.PROTOCOLO = 1) then
-     begin
-          param := 'FILA:'+nro+'>'+inttostr(guiche)+';';
-
-     end
-     else
-     begin
-          param := 'Fila:'+nro+#13+'>'+inttostr(guiche)+';';
-     end;
-
-     LTCPComponent3.SendMessage(param,nil);
-   end;
- end;
-
+  EnviaPainel(LTCPComponent3, FsetMain.IPPAINEL2, nro, guiche);
 end;
 
 procedure Tfrmmain.Painel3(nro: string; guiche: integer);
-var
-  param : string;
 begin
-   conn2 := false;
- if not (LTCPComponent2.Connected) then
- begin
-
-   if not (LTCPComponent4.Connected) then
-   begin
-     LTCPComponent4.Connect(FsetMain.IPPAINEL3,8196);
-     repeat
-       //tentando conectar
-       sleep(300);
-       //frmlog.log('Tentando conectar');
-       application.ProcessMessages;
-     until  not conn2 ;
-     //LTCPComponent1.CallAction;
-     sleep(1000);
-     if (FSetMain.PROTOCOLO = 1) then
-     begin
-          param := 'FILA:'+nro+'>'+inttostr(guiche)+';';
-
-     end
-     else
-     begin
-          param := 'Fila:'+nro+#13+'>'+inttostr(guiche)+';';
-     end;
-
-     LTCPComponent4.SendMessage(param,nil);
-   end;
- end;
+  EnviaPainel(LTCPComponent4, FsetMain.IPPAINEL3, nro, guiche);
 end;
-
-
-
 
 procedure Tfrmmain.MenuItem1Click(Sender: TObject);
 begin
@@ -660,17 +600,20 @@ begin
 end;
 
 procedure Tfrmmain.miRechamarClick(Sender: TObject);
+var
+  LGuiche: Integer;
 begin
-
-  if (tnsel <> nil)then
-  begin
-       if( tnsel.Text<>'') then
-       begin
-         painel1( tnsel.Text,strtoint(FSetMain.NROGUICHE));
-         painel2( tnsel.Text,strtoint(FSetMain.NROGUICHE));
-         painel3( tnsel.Text,strtoint(FSetMain.NROGUICHE));
-         frmhint.MessageHint(lastcall);
-       end
+ 
+   if (tnsel <> nil)then
+   begin
+        if( tnsel.Text<>'') then
+        begin
+          LGuiche := GetGuicheNro;
+          painel1( tnsel.Text, LGuiche);
+          painel2( tnsel.Text, LGuiche);
+          painel3( tnsel.Text, LGuiche);
+          frmhint.MessageHint(lastcall);
+        end
        else
        begin
          //frmHint.MessageHint('Não há senhas a serem chamadas!');
@@ -733,12 +676,15 @@ begin
 end;
 
 procedure Tfrmmain.btRechamarClick(Sender: TObject);
+var
+  LGuiche: Integer;
 begin
   if FsetMain.PAINEL then
   begin
-       painel1(lastcall,strtoint(FSetMain.NROGUICHE));
-       painel2(lastcall,strtoint(FSetMain.NROGUICHE));
-       painel3(lastcall,strtoint(FSetMain.NROGUICHE));
+       LGuiche := GetGuicheNro;
+       painel1(lastcall, LGuiche);
+       painel2(lastcall, LGuiche);
+       painel3(lastcall, LGuiche);
        AtualizaBotoes();
   end;
   ShowMessage(lastcall);
@@ -749,6 +695,48 @@ end;
 procedure Tfrmmain.btStart1Click(Sender: TObject);
 begin
 
+end;
+
+function Tfrmmain.GetGuicheNro: Integer;
+var
+  LNro: Integer;
+begin
+  if TryStrToInt(FSetMain.NROGUICHE, LNro) then
+    Result := LNro
+  else
+    Result := 1; // Valor padrão seguro
+end;
+
+procedure Tfrmmain.GravaLog(const AMsg: string);
+var
+  LogFile: string;
+  F: TextFile;
+  LogDir: string;
+begin
+  // Adiciona no Memo visual limitando a 100 linhas para poupar memória RAM
+  if frmLog <> nil then
+  begin
+    if frmLog.meLog.Lines.Count > 100 then
+      frmLog.meLog.Lines.Delete(0);
+    frmLog.meLog.Append(AMsg);
+  end;
+
+  // Grava em arquivo físico rotativo em disco
+  LogDir := ExtractFilePath(Application.ExeName) + 'logs';
+  if not DirectoryExists(LogDir) then
+    CreateDir(LogDir);
+
+  LogFile := LogDir + PathDelim + 'guiche_' + FormatDateTime('yyyy-mm-dd', Now) + '.log';
+  AssignFile(F, LogFile);
+  try
+    if FileExists(LogFile) then
+      Append(F)
+    else
+      Rewrite(F);
+    Writeln(F, FormatDateTime('yyyy-mm-dd hh:nn:ss', Now) + ' - ' + AMsg);
+  finally
+    CloseFile(F);
+  end;
 end;
 
 end.

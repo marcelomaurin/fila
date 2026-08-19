@@ -38,7 +38,7 @@ begin
   if FileExists(LSplashPath) then
   begin
     try
-      Image1.Picture.LoadFromFile(LSplashPath);
+      //Image1.Picture.LoadFromFile(LSplashPath);
     except
       // Falha silenciosa caso o arquivo esteja corrompido
     end;
