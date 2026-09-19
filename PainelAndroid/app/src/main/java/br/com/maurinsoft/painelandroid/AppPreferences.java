@@ -16,6 +16,12 @@ public class AppPreferences {
     private static final String KEY_HISTORY_GUICHE_PREFIX = "history_guiche_";
     private static final String KEY_HISTORY_SENHA_PREFIX = "history_senha_";
     private static final String KEY_GROUP_PREFIX = "group_";
+    private static final String KEY_SERVICE_STARTED_AT = "service_started_at";
+    private static final String KEY_LAST_CALL_AT = "last_call_at";
+    private static final String KEY_CALL_COUNT = "call_count";
+    private static final String KEY_SERVER_RUNNING = "server_running";
+    private static final String KEY_RETRY_COUNT = "retry_count";
+    private static final String KEY_LAST_ERROR = "last_error";
 
     private final SharedPreferences prefs;
 
@@ -119,5 +125,55 @@ public class AppPreferences {
     public String getGroupDescription(String groupId) {
         if (groupId == null) return "";
         return prefs.getString(KEY_GROUP_PREFIX + groupId.trim(), "");
+    }
+
+    public void markServiceStarted(long timestamp) {
+        prefs.edit()
+                .putLong(KEY_SERVICE_STARTED_AT, timestamp)
+                .putInt(KEY_RETRY_COUNT, 0)
+                .apply();
+    }
+
+    public long getServiceStartedAt() {
+        return prefs.getLong(KEY_SERVICE_STARTED_AT, 0L);
+    }
+
+    public void markCallReceived(long timestamp) {
+        prefs.edit()
+                .putLong(KEY_LAST_CALL_AT, timestamp)
+                .putLong(KEY_CALL_COUNT, getCallCount() + 1L)
+                .apply();
+    }
+
+    public long getLastCallAt() {
+        return prefs.getLong(KEY_LAST_CALL_AT, 0L);
+    }
+
+    public long getCallCount() {
+        return prefs.getLong(KEY_CALL_COUNT, 0L);
+    }
+
+    public void setServerRunning(boolean running) {
+        prefs.edit().putBoolean(KEY_SERVER_RUNNING, running).apply();
+    }
+
+    public boolean isServerRunning() {
+        return prefs.getBoolean(KEY_SERVER_RUNNING, false);
+    }
+
+    public void setRetryCount(int count) {
+        prefs.edit().putInt(KEY_RETRY_COUNT, Math.max(0, count)).apply();
+    }
+
+    public int getRetryCount() {
+        return prefs.getInt(KEY_RETRY_COUNT, 0);
+    }
+
+    public void setLastError(String error) {
+        prefs.edit().putString(KEY_LAST_ERROR, error == null ? "" : error).apply();
+    }
+
+    public String getLastError() {
+        return prefs.getString(KEY_LAST_ERROR, "");
     }
 }
