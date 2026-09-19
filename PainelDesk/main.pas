@@ -11,10 +11,9 @@ uses
   IdServerInterceptLogEvent, IdSSLOpenSSL, setmain, IdThread, IdCustomTCPServer,
   IdContext, IdTCPServer, IdCmdTCPServer, IdSimpleServer, IdIOHandlerStack,
   IdIOHandlerStream, IdServerIOHandlerStack, IdIntercept, IdComponent, lNet,
-  toolsfalar, fphttpclient, RegExpr, opensslsockets,URIParser;
+  toolsfalar, fphttpclient, RegExpr, opensslsockets, URIParser, uFilaProtocol;
 
 Const
-  PortPainel = '8196';
   Versao = '2.2';
 
 type
@@ -148,9 +147,9 @@ end;
 
 procedure Tfrmmain.Start_srv;
 begin
-  LTCPComponent1.Port := strtoint(PortPainel);
-  LTCPComponent1.Listen(strtoint(PortPainel));
-  Memo1.Lines.Add('Servidor TCP iniciado na porta '+PortPainel);
+  LTCPComponent1.Port := FILA_PORT_PAINEL;
+  LTCPComponent1.Listen(FILA_PORT_PAINEL);
+  Memo1.Lines.Add('Servidor TCP iniciado na porta ' + IntToStr(FILA_PORT_PAINEL));
 end;
 
 procedure Tfrmmain.ProcessaMSG(MSG: string);
@@ -269,6 +268,9 @@ end;
 
 procedure Tfrmmain.arquivoSenhaAtual(info: string);
 begin
+  if info = '' then
+    Exit;
+
   if info.Chars[0] = 'A' then
   begin
     lbIGrupo1.caption := info;
