@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements TcpServerManager.
         soundManager = new SoundManager(this);
 
         initViews();
+        restorePanelState();
         setupSettingsLauncher();
         startClock();
         startTcpServer();
@@ -168,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements TcpServerManager.
         // Update Current Call Display
         tvCurrentGuiche.setText(guiche);
         tvCurrentSenha.setText(senha);
+        preferences.savePanelState(guiche, senha, historyList);
 
         // Visual blinking animation
         startBlinkAnimation();
@@ -176,23 +178,40 @@ public class MainActivity extends AppCompatActivity implements TcpServerManager.
         soundManager.speakCall(guiche, senha, preferences.isChimeEnabled(), preferences.isTtsEnabled());
     }
 
+    private void restorePanelState() {
+        String currentGuiche = preferences.getCurrentGuiche();
+        String currentSenha = preferences.getCurrentSenha();
+
+        if (currentGuiche != null && !currentGuiche.trim().isEmpty()) {
+            tvCurrentGuiche.setText(currentGuiche);
+        }
+        if (currentSenha != null && !currentSenha.trim().isEmpty()) {
+            tvCurrentSenha.setText(currentSenha);
+        }
+
+        historyList.clear();
+        historyList.addAll(preferences.loadHistory());
+        updateHistoryUI();
+    }
+
     private void updateHistoryUI() {
-        if (historyList.size() > 0) {
-            tvHistGuiche1.setText("Guichê " + historyList.get(0).getGuiche());
-            tvHistSenha1.setText(historyList.get(0).getSenha());
+        TextView[] guiches = {tvHistGuiche1, tvHistGuiche2, tvHistGuiche3, tvHistGuiche4};
+        TextView[] senhas = {tvHistSenha1, tvHistSenha2, tvHistSenha3, tvHistSenha4};
+
+        for (int i = 0; i < guiches.length; i++) {
+            if (i < historyList.size()) {
+                guiches[i].setText("Guichê " + historyList.get(i).getGuiche());
+                senhas[i].setText(historyList.get(i).getSenha());
+            } else {
+                guiches[i].setText("Guichê --");
+                senhas[i].setText("----");
+            }
         }
-        if (historyList.size() > 1) {
-            tvHistGuiche2.setText("Guichê " + historyList.get(1).getGuiche());
-            tvHistSenha2.setText(historyList.get(1).getSenha());
-        }
-        if (historyList.size() > 2) {
-            tvHistGuiche3.setText("Guichê " + historyList.get(2).getGuiche());
-            tvHistSenha3.setText(historyList.get(2).getSenha());
-        }
-        if (historyList.size() > 3) {
-            tvHistGuiche4.setText("Guichê " + historyList.get(3).getGuiche());
-            tvHistSenha4.setText(historyList.get(3).getSenha());
-        }
+    }
+
+    @Override
+    public void onGroupReceived(String groupId, String description) {
+        preferences.setGroupDescription(groupId, description);
     }
 
     private void startBlinkAnimation() {
@@ -230,6 +249,11 @@ public class MainActivity extends AppCompatActivity implements TcpServerManager.
 
     @Override
     protected void onDestroy() {
+        preferences.savePanelState(
+                tvCurrentGuiche.getText().toString(),
+                tvCurrentSenha.getText().toString(),
+                historyList
+        );
         super.onDestroy();
         handler.removeCallbacks(clockRunnable);
         if (tcpServer != null) {
