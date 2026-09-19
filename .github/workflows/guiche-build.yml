@@ -1,0 +1,103 @@
+name: Guiche full Lazarus build
+
+concurrency:
+  group: guiche-build-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - master
+      - 'ci/**'
+      - 'refactor/**'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  guiche-linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Guiche
+            shared
+          sparse-checkout-cone-mode: true
+
+      - name: Install Lazarus build environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y             lazarus lcl lcl-utils             fp-compiler fp-units-base fp-units-fcl fp-units-net             libgtk2.0-dev wget unzip ca-certificates
+
+      - name: Show Lazarus versions
+        run: |
+          fpc -iV
+          lazbuild --version
+
+      - name: Download OPM dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/lazarus-deps"
+          cd "$RUNNER_TEMP/lazarus-deps"
+
+          download_package() {
+            local name="$1"
+            local url="https://packages.lazarus-ide.org/${name}.zip"
+            echo "Downloading ${url}"
+            wget --https-only --tries=3 --timeout=30 -O "${name}.zip" "${url}"
+            unzip -q "${name}.zip" -d "${name}"
+          }
+
+          download_package "lnet"
+          download_package "Indy10"
+          download_package "DataPort"
+
+          # DataPort builds found in historical project metadata also referenced
+          # Synapse; register it when the OPM package is available.
+          if wget --https-only --tries=2 --timeout=20 -O Synapse40.1.zip               "https://packages.lazarus-ide.org/Synapse40.1.zip"; then
+            unzip -q Synapse40.1.zip -d Synapse40.1
+          else
+            rm -f Synapse40.1.zip
+          fi
+
+          echo "LPK files found:"
+          find "$RUNNER_TEMP/lazarus-deps" -type f -iname '*.lpk' -print
+
+      - name: Register Lazarus packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          PCP="$RUNNER_TEMP/lazarus-config"
+          mkdir -p "$PCP"
+
+          while IFS= read -r lpk; do
+            echo "Registering $lpk"
+            lazbuild --pcp="$PCP" --add-package-link="$lpk"
+          done < <(find "$RUNNER_TEMP/lazarus-deps" -type f -iname '*.lpk' | sort)
+
+          lazbuild --pcp="$PCP" --verbose-pkgsearch             "$RUNNER_TEMP/lazarus-deps/lnet/lnet/lazaruspackage/lnetvisual.lpk" || true
+
+      - name: Build Guiche
+        shell: bash
+        run: |
+          set -euo pipefail
+          PCP="$RUNNER_TEMP/lazarus-config"
+          mkdir -p Guiche/lib/x86_64-linux
+          lazbuild             --pcp="$PCP"             --widgetset=gtk2             --build-all             --verbose-pkgsearch             Guiche/Guiche.lpi
+
+      - name: Verify Guiche binary
+        run: |
+          test -x Guiche/Guiche
+          file Guiche/Guiche
+
+      - name: Upload Guiche Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Guiche-linux-x86_64
+          path: Guiche/Guiche
+          if-no-files-found: error
