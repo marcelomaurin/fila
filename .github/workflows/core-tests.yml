@@ -13,8 +13,13 @@ jobs:
   core-tests:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout core only
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            shared
+            tests
+          sparse-checkout-cone-mode: true
 
       - name: Install Free Pascal
         run: |
