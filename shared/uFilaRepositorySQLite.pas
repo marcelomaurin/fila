@@ -107,8 +107,8 @@ begin
   FConnection.Open;
   FTransaction.StartTransaction;
 
-  Execute('PRAGMA foreign_keys = ON');
-  Execute('PRAGMA journal_mode = WAL');
+  // Mantemos o bootstrap compatível com SQLDB/SQLite em todas as plataformas.
+  // WAL pode ser habilitado externamente, mas não é requisito funcional.
 
   Execute(
     'CREATE TABLE IF NOT EXISTS senha (' +
