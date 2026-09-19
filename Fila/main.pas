@@ -11,7 +11,8 @@ uses
   {$ENDIF}
   ExtCtrls, Menus, ComCtrls, EditBtn, Spin, DataPortIP, UniqueInstance,
   rxfolderlister, rxclock, RxTimeEdit, lNetComponents, menu, lNet, log, splash,
-  registro, setmain, IMP, toolsfalar, DateUtils, hint, Process, uFilaProtocol;
+  registro, setmain, IMP, toolsfalar, DateUtils, hint, Process, uFilaProtocol,
+  uFilaService;
 
 const
   intversao = 4;
@@ -175,7 +176,9 @@ type
     guiche : string;
     nro : integer;
     item : string;
+    FQueueService: TFilaService;
     procedure SobreProjeto();
+    procedure AtualizaListasVisuais();
   public
     procedure Executar();
     procedure Configurar();
@@ -184,6 +187,7 @@ type
     procedure resetnumeracao();
     procedure resetlistas();
     procedure RegistraEvento(NROGuiche: string; NroFILA : string; Tipo : integer);
+    procedure AdicionarSenha(Tipo: Integer; const Senha: string);
   end;
 
 var
@@ -209,37 +213,32 @@ end;
 
 {$ENDIF}
 
-procedure Tfrmmain.salvalistagem();
-var
-  diretorio: string;
-  arq: string;
+procedure Tfrmmain.AtualizaListasVisuais();
 begin
-  //diretorio := GetTempDir;
-  diretorio :=   GetAppConfigDir(false);
-  if not DirectoryExists(diretorio) then
-  begin
-    if not ForceDirectories(diretorio) then
-      raise Exception.Create('Não foi possível criar a pasta: ' + diretorio);
-    if Assigned(frmhint) then
-      frmhint.MessageHint('Pasta ' + diretorio + ' foi criada');
-  end;
-  if (diretorio <> '') and (diretorio[Length(diretorio)] in ['\', '/']) then
-    Delete(diretorio, Length(diretorio), 1);
+  if not Assigned(FQueueService) then
+    Exit;
+  FQueueService.AssignQueue(1, Lista1.Items);
+  FQueueService.AssignQueue(2, Lista2.Items);
+  FQueueService.AssignQueue(3, Lista3.Items);
+  FQueueService.AssignQueue(4, Lista4.Items);
+  FQueueService.AssignQueue(5, Lista5.Items);
+end;
 
-  arq := diretorio + PathDelim + 'list01.txt';
-  frmmain.lista1.Items.SaveToFile(arq);
+procedure Tfrmmain.salvalistagem();
+begin
+  if not Assigned(FQueueService) then
+    Exit;
+  FQueueService.SaveToDirectory(GetAppConfigDir(False));
+  AtualizaListasVisuais();
+end;
 
-  arq := diretorio + PathDelim + 'list02.txt';
-  frmmain.lista2.Items.SaveToFile(arq);
+procedure Tfrmmain.AdicionarSenha(Tipo: Integer; const Senha: string);
+begin
+  if not Assigned(FQueueService) then
+    raise Exception.Create('Serviço de filas não inicializado.');
 
-  arq := diretorio + PathDelim + 'list03.txt';
-  frmmain.lista3.Items.SaveToFile(arq);
-
-  arq := diretorio + PathDelim + 'list04.txt';
-  frmmain.lista4.Items.SaveToFile(arq);
-
-  arq := diretorio + PathDelim + 'list05.txt';
-  frmmain.lista5.Items.SaveToFile(arq);
+  FQueueService.AddTicket(Tipo, Senha);
+  salvalistagem();
 end;
 
 procedure Tfrmmain.resetnumeracao();
@@ -261,11 +260,11 @@ end;
 
 procedure Tfrmmain.resetlistas();
 begin
-  Lista1.Items.clear;
-  Lista2.Items.clear;
-  Lista3.Items.clear;
-  Lista4.Items.clear;
-  Lista5.Items.clear;
+  if Assigned(FQueueService) then
+  begin
+    FQueueService.ClearAll;
+    salvalistagem();
+  end;
 end;
 
 //Registra Evento associado
@@ -472,35 +471,26 @@ end;
 
 procedure Tfrmmain.LTCPComponent2Receive(aSocket: TLSocket);
 var
-  mensagem : string;
+  mensagem: string;
+  Ticket: string;
+  I: Integer;
 begin
   aSocket.GetMessage(mensagem);
-  frmlog.Log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
-  aSocket.SendMessage('GUICHE>'+guiche+':'+item+';');
-  sleep(200);
-  aSocket.SendMessage('GRUPO>'+'1'+':'+edTipo1.text+';');
-  sleep(200);
-  aSocket.SendMessage('GRUPO>'+'2'+':'+edTipo2.text+';');
-  sleep(200);
-  aSocket.SendMessage('GRUPO>'+'3'+':'+edTipo3.text+';');
-  sleep(200);
-  aSocket.SendMessage('GRUPO>'+'4'+':'+edTipo4.text+';');
-  sleep(200);
-  aSocket.SendMessage('GRUPO>'+'5'+':'+edTipo5.text+';');
-  if(FSETMAIN.TipoProtocolo=TP_APK) then
-  begin
-    item := frmmain.Lista1.items.Strings[0];
-    aSocket.SendMessage('Fila:'+inttostr(1)+';'+Item+#13);
-    item := frmmain.Lista2.items.Strings[0];
-    aSocket.SendMessage('Fila:'+inttostr(2)+';'+Item+#13);
-    item := frmmain.Lista3.items.Strings[0];
-    aSocket.SendMessage('Fila:'+inttostr(3)+';'+Item+#13);
-  end
-  else
-  begin
-  end;
+  frmlog.Log('Receive:' + aSocket.PeerAddress + ',msg:' + mensagem);
+  aSocket.SendMessage('GUICHE>' + guiche + ':' + item + ';');
 
-  aSocket.Disconnect(true);
+  aSocket.SendMessage(EncodeGroup(1, edTipo1.Text));
+  aSocket.SendMessage(EncodeGroup(2, edTipo2.Text));
+  aSocket.SendMessage(EncodeGroup(3, edTipo3.Text));
+  aSocket.SendMessage(EncodeGroup(4, edTipo4.Text));
+  aSocket.SendMessage(EncodeGroup(5, edTipo5.Text));
+
+  if FSETMAIN.TipoProtocolo = TP_APK then
+    for I := 1 to 3 do
+      if FQueueService.PeekTicket(I, Ticket) then
+        aSocket.SendMessage(EncodeTicketResponse(I, Ticket));
+
+  aSocket.Disconnect(True);
   LTCPComponent2.CallAction();
 end;
 
@@ -518,66 +508,21 @@ begin
     nro := QueueId;
     guiche := DeskId;
 
-    case nro of
-      1:
-        if Lista1.Count > 0 then
-        begin
-          item := Lista1.Items[0];
-          RegistraEvento(guiche, item, 2);
-          Lista1.Items.Delete(0);
-          frmlog.Log('delete List1:' + item);
-        end
-        else
-          item := '0';
-      2:
-        if Lista2.Count > 0 then
-        begin
-          item := Lista2.Items[0];
-          RegistraEvento(guiche, item, 2);
-          Lista2.Items.Delete(0);
-          frmlog.Log('delete List2:' + item);
-        end
-        else
-          item := '0';
-      3:
-        if Lista3.Count > 0 then
-        begin
-          item := Lista3.Items[0];
-          RegistraEvento(guiche, item, 2);
-          Lista3.Items.Delete(0);
-          frmlog.Log('delete List3:' + item);
-        end
-        else
-          item := '0';
-      4:
-        if Lista4.Count > 0 then
-        begin
-          item := Lista4.Items[0];
-          RegistraEvento(guiche, item, 2);
-          Lista4.Items.Delete(0);
-          frmlog.Log('delete List4:' + item);
-        end
-        else
-          item := '0';
-      5:
-        if Lista5.Count > 0 then
-        begin
-          item := Lista5.Items[0];
-          RegistraEvento(guiche, item, 2);
-          Lista5.Items.Delete(0);
-          frmlog.Log('delete List5:' + item);
-        end
-        else
-          item := '0';
-    end;
+    if FQueueService.TryCallNext(nro, item) then
+    begin
+      RegistraEvento(guiche, item, 2);
+      frmlog.Log('Fila ' + IntToStr(nro) + ' chamou: ' + item);
+      salvalistagem();
+    end
+    else
+      item := '0';
 
-    salvalistagem();
     aSocket.SendMessage(EncodeTicketResponse(nro, item));
   end
   else
     frmlog.Log('Mensagem de guiche invalida ignorada: ' + mensagem);
 
-  aSocket.Disconnect(true);
+  aSocket.Disconnect(True);
   LTCPComponent1.CallAction();
 end;
 
@@ -642,6 +587,7 @@ begin
   frmhint := TfrmHint.create(self);
 
   Fsetmain := TSetmain.create();
+  FQueueService := TFilaService.Create;
   self.left := Fsetmain.posx;
   self.top := fsetmain.posy;
   carregalistagem();
@@ -677,6 +623,7 @@ begin
   frmRegistrar.free();
   frmRegistrar := nil;
 
+  FreeAndNil(FQueueService);
   Fsetmain.free();
   frmHint.free;
   frmHint := nil;
@@ -863,34 +810,12 @@ begin
 end;
 
 procedure Tfrmmain.carregalistagem();
-var
-  diretorio: string;
-  arq: string;
 begin
-  //diretorio := GetTempDir;
-  diretorio := GetAppConfigDir(false);
-  if (diretorio <> '') and (diretorio[Length(diretorio)] in ['\', '/']) then
-    Delete(diretorio, Length(diretorio), 1);
+  if not Assigned(FQueueService) then
+    Exit;
 
-  arq := diretorio + PathDelim + 'list01.txt';
-  if FileExists(arq) then
-    frmmain.lista1.Items.LoadFromFile(arq);
-
-  arq := diretorio + PathDelim + 'list02.txt';
-  if FileExists(arq) then
-    frmmain.lista2.Items.LoadFromFile(arq);
-
-  arq := diretorio + PathDelim + 'list03.txt';
-  if FileExists(arq) then
-    frmmain.lista3.Items.LoadFromFile(arq);
-
-  arq := diretorio + PathDelim + 'list04.txt';
-  if FileExists(arq) then
-    frmmain.lista4.Items.LoadFromFile(arq);
-
-  arq := diretorio + PathDelim + 'list05.txt';
-  if FileExists(arq) then
-    frmmain.lista5.Items.LoadFromFile(arq);
+  FQueueService.LoadFromDirectory(GetAppConfigDir(False));
+  AtualizaListasVisuais();
 end;
 
 procedure Tfrmmain.ToggleBox1Change(Sender: TObject);
