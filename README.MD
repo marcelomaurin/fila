@@ -24,7 +24,8 @@ A ideia central é simples:
 4. o módulo **Fila** devolve a senha chamada;
 5. o **Guichê** envia a chamada para o **PainelDesk**;
 6. o painel exibe a senha, o guichê e mantém o histórico visual das últimas chamadas;
-7. opcionalmente, o módulo **Contador** registra a chamada em banco SQLite.
+7. o módulo **Fila** registra emissão, chamada e estado da senha em `fila.db` (SQLite), mantendo os arquivos TXT como compatibilidade;
+8. opcionalmente, o módulo **Contador** pode continuar sendo usado como integração externa.
 
 ---
 
@@ -75,6 +76,8 @@ Opcional:
 O módulo **Fila** é o núcleo do sistema.
 
 Ele permite configurar até cinco filas, emitir tickets, controlar a numeração, salvar a lista de senhas pendentes, escutar os guichês pela porta `8095` e fornecer informações de painel pela porta `8096`.
+
+A partir da refatoração do núcleo, o Fila também mantém um banco `fila.db` no diretório de configuração do usuário. O banco registra as senhas emitidas, chamadas e canceladas, além de um histórico de eventos. Os arquivos `list01.txt` a `list05.txt` continuam sendo gravados como mecanismo de compatibilidade e recuperação.
 
 Também concentra configurações como empresa, localização, tipo de impressora, modelo de impressora, tipo de papel, imagem, fala, painel, fonte, reset programado e integração externa por executável.
 
@@ -168,6 +171,9 @@ Opcionalmente, Contador registra a chamada no SQLite
 
 ```text
 fila/
+├── database/              # esquema SQLite do núcleo
+├── shared/                # protocolo, serviço de filas, tipos e repositório SQLite
+├── tests/                 # testes automatizados do núcleo
 ├── Contador/              # utilitário console para registro de chamadas em SQLite
 │   └── README.md
 ├── Fila/                  # aplicação principal de emissão e controle de fila
@@ -200,6 +206,7 @@ fila/
 - DataPortLasarus;
 - Fortes Report for Lazarus;
 - ZeosDB no módulo Contador;
+- SQLDB / SQLite3Conn no núcleo do Fila;
 - SQLite no módulo Contador;
 - LAMW em parte do projeto Android;
 - Inno Setup em materiais de empacotamento Windows.
@@ -212,7 +219,7 @@ fila/
 - Free Pascal compatível;
 - pacotes Lazarus exigidos por cada projeto;
 - drivers de impressora térmica, quando usados;
-- `sqlite3.dll` compatível com a arquitetura do executável, quando usar o Contador;
+- `sqlite3.dll` compatível com a arquitetura do executável no Windows, para o novo histórico SQLite do Fila e para o Contador;
 - permissões de firewall para as portas `8095`, `8096` e `8196`;
 - permissão de porta serial, quando usar impressora serial;
 - ambiente LAMW configurado, caso vá trabalhar com a versão Android.
