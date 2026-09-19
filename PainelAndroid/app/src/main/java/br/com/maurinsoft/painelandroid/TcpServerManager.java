@@ -68,31 +68,15 @@ public class TcpServerManager {
      * Não usamos readLine(), pois o Guichê não é obrigado a enviar '\n'.
      */
     private void handleClient(Socket socket) {
-        StringBuilder pending = new StringBuilder();
+        DelimitedMessageBuffer messageBuffer = new DelimitedMessageBuffer(MAX_MESSAGE_LENGTH);
         char[] buffer = new char[512];
 
         try (InputStreamReader reader = new InputStreamReader(
                 socket.getInputStream(), StandardCharsets.UTF_8)) {
             int count;
             while (isRunning && (count = reader.read(buffer)) != -1) {
-                for (int i = 0; i < count; i++) {
-                    char ch = buffer[i];
-
-                    if (ch == ';') {
-                        if (pending.length() > 0) {
-                            processMessage(pending.toString() + ";");
-                            pending.setLength(0);
-                        }
-                        continue;
-                    }
-
-                    if (pending.length() >= MAX_MESSAGE_LENGTH) {
-                        Log.w(TAG, "TCP message discarded: exceeded " + MAX_MESSAGE_LENGTH + " chars");
-                        pending.setLength(0);
-                        continue;
-                    }
-
-                    pending.append(ch);
+                for (String message : messageBuffer.append(buffer, count)) {
+                    processMessage(message);
                 }
             }
         } catch (Exception e) {
