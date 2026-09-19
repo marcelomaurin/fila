@@ -5,7 +5,7 @@ unit uFilaRepositorySQLite;
 interface
 
 uses
-  Classes, SysUtils, DB, SQLDB, SQLite3Conn;
+  Classes, SysUtils, StrUtils, DB, SQLDB, SQLite3Conn, uFilaTypes;
 
 type
   EFilaRepository = class(Exception);
@@ -18,6 +18,10 @@ type
     function NewQuery: TSQLQuery;
     procedure Commit;
     procedure Execute(const ASQL: string);
+    function ColumnExists(const ATable, AColumn: string): Boolean;
+    procedure EnsureColumn(const ATable, AColumn, ADefinition: string);
+    function ChangeStatus(const ATicket, ADeskId, AFromStatus, AToStatus,
+      ADateColumn, AEventType, ADetails: string): Boolean;
   public
     constructor Create(const ADatabaseFile: string);
     destructor Destroy; override;
@@ -28,10 +32,15 @@ type
     procedure AddTicket(AQueueId: Integer; const ATicket: string;
       APriority: Integer = 0);
     procedure MarkCalled(AQueueId: Integer; const ATicket, ADeskId: string);
+    function StartService(const ATicket, ADeskId: string): Boolean;
+    function FinishService(const ATicket, ADeskId: string): Boolean;
+    function MarkAbsent(const ATicket, ADeskId: string): Boolean;
+    function CancelTicket(const ATicket, ADeskId, AReason: string): Boolean;
     procedure AddEvent(const AEventType: string; AQueueId: Integer;
       const ATicket, ADeskId, ADetails: string);
 
     function WaitingCount: Integer;
+    function GetMetrics: TFilaMetrics;
     procedure LoadWaiting(AQueueId: Integer; ADestination: TStrings);
     procedure ImportWaiting(AQueueId: Integer; ASource: TStrings);
     procedure CancelAllWaiting(const AReason: string);
@@ -94,6 +103,33 @@ begin
   end;
 end;
 
+function TFilaSQLiteRepository.ColumnExists(const ATable, AColumn: string): Boolean;
+var
+  Q: TSQLQuery;
+begin
+  Result := False;
+  Q := NewQuery;
+  try
+    Q.SQL.Text := 'PRAGMA table_info(' + ATable + ')';
+    Q.Open;
+    while not Q.EOF do
+    begin
+      if SameText(Q.FieldByName('name').AsString, AColumn) then
+        Exit(True);
+      Q.Next;
+    end;
+  finally
+    Q.Free;
+  end;
+end;
+
+procedure TFilaSQLiteRepository.EnsureColumn(const ATable, AColumn,
+  ADefinition: string);
+begin
+  if not ColumnExists(ATable, AColumn) then
+    Execute('ALTER TABLE ' + ATable + ' ADD COLUMN ' + AColumn + ' ' + ADefinition);
+end;
+
 procedure TFilaSQLiteRepository.Initialize;
 var
   Dir: string;
@@ -107,9 +143,6 @@ begin
   FConnection.Open;
   FTransaction.StartTransaction;
 
-  // Mantemos o bootstrap compatível com SQLDB/SQLite em todas as plataformas.
-  // WAL pode ser habilitado externamente, mas não é requisito funcional.
-
   Execute(
     'CREATE TABLE IF NOT EXISTS senha (' +
     'id INTEGER PRIMARY KEY AUTOINCREMENT,' +
@@ -119,9 +152,18 @@ begin
     'status TEXT NOT NULL,' +
     'emitida_em TEXT NOT NULL,' +
     'chamada_em TEXT,' +
+    'inicio_atendimento_em TEXT,' +
+    'fim_atendimento_em TEXT,' +
     'guiche TEXT,' +
+    'operador TEXT,' +
+    'motivo_fim TEXT,' +
     'origem TEXT NOT NULL DEFAULT ''FILA''' +
     ')');
+
+  EnsureColumn('senha', 'inicio_atendimento_em', 'TEXT');
+  EnsureColumn('senha', 'fim_atendimento_em', 'TEXT');
+  EnsureColumn('senha', 'operador', 'TEXT');
+  EnsureColumn('senha', 'motivo_fim', 'TEXT');
 
   Execute(
     'CREATE INDEX IF NOT EXISTS idx_senha_fila_status ' +
@@ -140,9 +182,7 @@ begin
     'FOREIGN KEY(senha_id) REFERENCES senha(id)' +
     ')');
 
-  Execute(
-    'CREATE INDEX IF NOT EXISTS idx_evento_data ON evento(criado_em)');
-
+  Execute('CREATE INDEX IF NOT EXISTS idx_evento_data ON evento(criado_em)');
   Commit;
 end;
 
@@ -156,8 +196,7 @@ procedure TFilaSQLiteRepository.AddTicket(AQueueId: Integer;
 var
   Q: TSQLQuery;
 begin
-  if not IsReady then
-    Exit;
+  if not IsReady then Exit;
 
   Q := NewQuery;
   try
@@ -182,8 +221,7 @@ procedure TFilaSQLiteRepository.MarkCalled(AQueueId: Integer;
 var
   Q: TSQLQuery;
 begin
-  if not IsReady then
-    Exit;
+  if not IsReady then Exit;
 
   Q := NewQuery;
   try
@@ -204,20 +242,93 @@ begin
   Commit;
 end;
 
+function TFilaSQLiteRepository.ChangeStatus(const ATicket, ADeskId,
+  AFromStatus, AToStatus, ADateColumn, AEventType, ADetails: string): Boolean;
+var
+  Q: TSQLQuery;
+begin
+  Result := False;
+  if not IsReady then Exit;
+
+  Q := NewQuery;
+  try
+    Q.SQL.Text :=
+      'SELECT id,fila_id FROM senha WHERE codigo=:codigo ' +
+      'AND status IN (' + AFromStatus + ') ORDER BY id DESC LIMIT 1';
+    Q.ParamByName('codigo').AsString := ATicket;
+    Q.Open;
+    if Q.EOF then Exit;
+
+    Q.Close;
+    Q.SQL.Text :=
+      'UPDATE senha SET status=:status, guiche=CASE WHEN :guiche='''' THEN guiche ELSE :guiche END' +
+      IfThen(ADateColumn <> '', ', ' + ADateColumn + '=:data', '') +
+      IfThen(AToStatus = 'CANCELADA', ', motivo_fim=:motivo', '') +
+      ' WHERE id=(SELECT id FROM senha WHERE codigo=:codigo ' +
+      'AND status IN (' + AFromStatus + ') ORDER BY id DESC LIMIT 1)';
+    Q.ParamByName('status').AsString := AToStatus;
+    Q.ParamByName('guiche').AsString := ADeskId;
+    if ADateColumn <> '' then
+      Q.ParamByName('data').AsString := ISODateTime(Now);
+    if AToStatus = 'CANCELADA' then
+      Q.ParamByName('motivo').AsString := ADetails;
+    Q.ParamByName('codigo').AsString := ATicket;
+    Q.ExecSQL;
+    Result := Q.RowsAffected > 0;
+  finally
+    Q.Free;
+  end;
+
+  if Result then
+  begin
+    AddEvent(AEventType, 0, ATicket, ADeskId, ADetails);
+    Commit;
+  end;
+end;
+
+function TFilaSQLiteRepository.StartService(const ATicket,
+  ADeskId: string): Boolean;
+begin
+  Result := ChangeStatus(ATicket, ADeskId, '''CHAMADA''',
+    'EM_ATENDIMENTO', 'inicio_atendimento_em', 'INICIO_ATENDIMENTO', '');
+end;
+
+function TFilaSQLiteRepository.FinishService(const ATicket,
+  ADeskId: string): Boolean;
+begin
+  Result := ChangeStatus(ATicket, ADeskId, '''EM_ATENDIMENTO''',
+    'FINALIZADA', 'fim_atendimento_em', 'FINALIZADA', '');
+end;
+
+function TFilaSQLiteRepository.MarkAbsent(const ATicket,
+  ADeskId: string): Boolean;
+begin
+  Result := ChangeStatus(ATicket, ADeskId, '''CHAMADA'',''EM_ATENDIMENTO''',
+    'AUSENTE', 'fim_atendimento_em', 'AUSENTE', '');
+end;
+
+function TFilaSQLiteRepository.CancelTicket(const ATicket,
+  ADeskId, AReason: string): Boolean;
+begin
+  Result := ChangeStatus(ATicket, ADeskId,
+    '''AGUARDANDO'',''CHAMADA'',''EM_ATENDIMENTO''',
+    'CANCELADA', 'fim_atendimento_em', 'CANCELADA', AReason);
+end;
+
 procedure TFilaSQLiteRepository.AddEvent(const AEventType: string;
   AQueueId: Integer; const ATicket, ADeskId, ADetails: string);
 var
   Q: TSQLQuery;
 begin
-  if not IsReady then
-    Exit;
+  if not IsReady then Exit;
 
   Q := NewQuery;
   try
     Q.SQL.Text :=
       'INSERT INTO evento(senha_id,codigo,fila_id,guiche,tipo,detalhes,criado_em) ' +
-      'VALUES((SELECT id FROM senha WHERE codigo=:codigo AND fila_id=:fila ' +
-      'ORDER BY id DESC LIMIT 1),:codigo,:fila,:guiche,:tipo,:detalhes,:data)';
+      'SELECT id,codigo,fila_id,:guiche,:tipo,:detalhes,:data ' +
+      'FROM senha WHERE codigo=:codigo ' +
+      'AND (:fila=0 OR fila_id=:fila) ORDER BY id DESC LIMIT 1';
     Q.ParamByName('codigo').AsString := ATicket;
     Q.ParamByName('fila').AsInteger := AQueueId;
     Q.ParamByName('guiche').AsString := ADeskId;
@@ -235,9 +346,7 @@ var
   Q: TSQLQuery;
 begin
   Result := 0;
-  if not IsReady then
-    Exit;
-
+  if not IsReady then Exit;
   Q := NewQuery;
   try
     Q.SQL.Text := 'SELECT COUNT(*) qtd FROM senha WHERE status=''AGUARDANDO''';
@@ -248,17 +357,49 @@ begin
   end;
 end;
 
+function TFilaSQLiteRepository.GetMetrics: TFilaMetrics;
+var
+  Q: TSQLQuery;
+begin
+  FillChar(Result, SizeOf(Result), 0);
+  if not IsReady then Exit;
+
+  Q := NewQuery;
+  try
+    Q.SQL.Text :=
+      'SELECT ' +
+      'SUM(CASE WHEN status=''AGUARDANDO'' THEN 1 ELSE 0 END) aguardando,' +
+      'SUM(CASE WHEN status=''CHAMADA'' THEN 1 ELSE 0 END) chamadas,' +
+      'SUM(CASE WHEN status=''EM_ATENDIMENTO'' THEN 1 ELSE 0 END) em_atendimento,' +
+      'SUM(CASE WHEN status=''FINALIZADA'' AND substr(fim_atendimento_em,1,10)=date(''now'',''localtime'') THEN 1 ELSE 0 END) finalizadas_hoje,' +
+      'SUM(CASE WHEN status=''AUSENTE'' AND substr(fim_atendimento_em,1,10)=date(''now'',''localtime'') THEN 1 ELSE 0 END) ausentes_hoje,' +
+      'SUM(CASE WHEN status=''CANCELADA'' AND substr(fim_atendimento_em,1,10)=date(''now'',''localtime'') THEN 1 ELSE 0 END) canceladas_hoje,' +
+      'AVG(CASE WHEN chamada_em IS NOT NULL THEN (julianday(chamada_em)-julianday(emitida_em))*86400 END) espera_media,' +
+      'AVG(CASE WHEN fim_atendimento_em IS NOT NULL AND inicio_atendimento_em IS NOT NULL THEN ' +
+      '(julianday(fim_atendimento_em)-julianday(inicio_atendimento_em))*86400 END) atendimento_medio ' +
+      'FROM senha';
+    Q.Open;
+    Result.Aguardando := Q.FieldByName('aguardando').AsInteger;
+    Result.Chamadas := Q.FieldByName('chamadas').AsInteger;
+    Result.EmAtendimento := Q.FieldByName('em_atendimento').AsInteger;
+    Result.FinalizadasHoje := Q.FieldByName('finalizadas_hoje').AsInteger;
+    Result.AusentesHoje := Q.FieldByName('ausentes_hoje').AsInteger;
+    Result.CanceladasHoje := Q.FieldByName('canceladas_hoje').AsInteger;
+    Result.TempoMedioEsperaSeg := Q.FieldByName('espera_media').AsFloat;
+    Result.TempoMedioAtendimentoSeg := Q.FieldByName('atendimento_medio').AsFloat;
+  finally
+    Q.Free;
+  end;
+end;
+
 procedure TFilaSQLiteRepository.LoadWaiting(AQueueId: Integer;
   ADestination: TStrings);
 var
   Q: TSQLQuery;
 begin
-  if not Assigned(ADestination) then
-    Exit;
+  if not Assigned(ADestination) then Exit;
   ADestination.Clear;
-
-  if not IsReady then
-    Exit;
+  if not IsReady then Exit;
 
   Q := NewQuery;
   try
@@ -282,9 +423,7 @@ procedure TFilaSQLiteRepository.ImportWaiting(AQueueId: Integer;
 var
   I: Integer;
 begin
-  if not IsReady or not Assigned(ASource) then
-    Exit;
-
+  if not IsReady or not Assigned(ASource) then Exit;
   for I := 0 to ASource.Count - 1 do
     AddTicket(AQueueId, ASource[I], 0);
 end;
@@ -293,12 +432,15 @@ procedure TFilaSQLiteRepository.CancelAllWaiting(const AReason: string);
 var
   Q: TSQLQuery;
 begin
-  if not IsReady then
-    Exit;
+  if not IsReady then Exit;
 
   Q := NewQuery;
   try
-    Q.SQL.Text := 'UPDATE senha SET status=''CANCELADA'' WHERE status=''AGUARDANDO''';
+    Q.SQL.Text :=
+      'UPDATE senha SET status=''CANCELADA'', fim_atendimento_em=:data, motivo_fim=:motivo ' +
+      'WHERE status=''AGUARDANDO''';
+    Q.ParamByName('data').AsString := ISODateTime(Now);
+    Q.ParamByName('motivo').AsString := AReason;
     Q.ExecSQL;
   finally
     Q.Free;

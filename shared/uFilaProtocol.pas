@@ -16,12 +16,18 @@ function EncodeCallRequest(AQueueId: Integer; const ADeskId: string): string;
 function EncodeTicketResponse(AQueueId: Integer; const ATicket: string): string;
 function EncodePanelCall(const ATicket: string; ADeskId, AProtocol: Integer): string;
 function EncodeGroup(AGroupId: Integer; const ADescription: string): string;
+function EncodeLifecycleCommand(const AAction, ATicket, ADeskId,
+  ADetails: string): string;
+function EncodeLifecycleResponse(const AAction, ATicket: string;
+  AOk: Boolean): string;
 
 function TryParseCallRequest(const AData: string; out AQueueId: Integer;
   out ADeskId: string): Boolean;
 function TryParseTicketResponse(const AData: string; out AQueueId: Integer;
   out ATicket: string): Boolean;
 function TryParsePanelCall(const AData: string; out ATicket, ADeskId: string): Boolean;
+function TryParseLifecycleCommand(const AData: string; out AAction,
+  ATicket, ADeskId, ADetails: string): Boolean;
 
 implementation
 
@@ -52,6 +58,23 @@ end;
 function EncodeGroup(AGroupId: Integer; const ADescription: string): string;
 begin
   Result := 'GRUPO>' + IntToStr(AGroupId) + ':' + ADescription + ';';
+end;
+
+function EncodeLifecycleCommand(const AAction, ATicket, ADeskId,
+  ADetails: string): string;
+begin
+  Result := 'ATENDIMENTO:' + UpperCase(Trim(AAction)) + '>' +
+    Trim(ATicket) + '>' + Trim(ADeskId) + '>' + Trim(ADetails) + ';';
+end;
+
+function EncodeLifecycleResponse(const AAction, ATicket: string;
+  AOk: Boolean): string;
+begin
+  if AOk then
+    Result := 'ATENDIMENTO:OK>'
+  else
+    Result := 'ATENDIMENTO:ERRO>';
+  Result := Result + UpperCase(Trim(AAction)) + '>' + Trim(ATicket) + ';';
 end;
 
 function TryParseCallRequest(const AData: string; out AQueueId: Integer;
@@ -142,6 +165,47 @@ begin
   ADeskId := Trim(StripLineBreaks(Copy(S, PGreater + 1, PSemi - PGreater - 1)));
 
   Result := (ATicket <> '') and (ADeskId <> '');
+end;
+
+function TryParseLifecycleCommand(const AData: string; out AAction,
+  ATicket, ADeskId, ADetails: string): Boolean;
+var
+  S, Payload: string;
+  P1, P2, P3, PSemi: SizeInt;
+begin
+  Result := False;
+  AAction := '';
+  ATicket := '';
+  ADeskId := '';
+  ADetails := '';
+
+  S := Trim(AData);
+  if Pos('ATENDIMENTO:', UpperCase(S)) <> 1 then
+    Exit;
+
+  Payload := Copy(S, Length('ATENDIMENTO:') + 1, MaxInt);
+  P1 := Pos('>', Payload);
+  if P1 <= 1 then Exit;
+  AAction := UpperCase(Trim(Copy(Payload, 1, P1 - 1)));
+  Delete(Payload, 1, P1);
+
+  P2 := Pos('>', Payload);
+  if P2 <= 1 then Exit;
+  ATicket := Trim(Copy(Payload, 1, P2 - 1));
+  Delete(Payload, 1, P2);
+
+  P3 := Pos('>', Payload);
+  if P3 <= 0 then Exit;
+  ADeskId := Trim(Copy(Payload, 1, P3 - 1));
+  Delete(Payload, 1, P3);
+
+  PSemi := Pos(';', Payload);
+  if PSemi <= 0 then Exit;
+  ADetails := Trim(Copy(Payload, 1, PSemi - 1));
+
+  Result := (AAction = 'INICIAR') or (AAction = 'FINALIZAR') or
+    (AAction = 'AUSENTE') or (AAction = 'CANCELAR');
+  Result := Result and (ATicket <> '');
 end;
 
 end.

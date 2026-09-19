@@ -17,6 +17,17 @@ type
     ssCancelada
   );
 
+  TFilaMetrics = record
+    Aguardando: Integer;
+    Chamadas: Integer;
+    EmAtendimento: Integer;
+    FinalizadasHoje: Integer;
+    AusentesHoje: Integer;
+    CanceladasHoje: Integer;
+    TempoMedioEsperaSeg: Double;
+    TempoMedioAtendimentoSeg: Double;
+  end;
+
   TSenhaInfo = record
     Id: Int64;
     Codigo: string;

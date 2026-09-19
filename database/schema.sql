@@ -8,7 +8,11 @@ CREATE TABLE IF NOT EXISTS senha (
   status TEXT NOT NULL,
   emitida_em TEXT NOT NULL,
   chamada_em TEXT,
+  inicio_atendimento_em TEXT,
+  fim_atendimento_em TEXT,
   guiche TEXT,
+  operador TEXT,
+  motivo_fim TEXT,
   origem TEXT NOT NULL DEFAULT 'FILA'
 );
 
