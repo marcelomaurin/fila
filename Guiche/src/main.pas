@@ -9,7 +9,7 @@ uses
   StdCtrls, Menus, ComCtrls, PopupNotifier, Buttons, lNetComponents, lNet,
   DataPortIP, setmain, setup, splash, registro, log, hint, uFilaProtocol;
 
-const Versao = '1.27';
+const Versao = '1.28';
 
 type
 
@@ -118,6 +118,13 @@ type
     conn : boolean;
     conn2 : boolean;
     lastcall : string;
+    FPendingLifecycle: string;
+    FPendingLifecycleAction: string;
+    FPendingLifecycleTicket: string;
+    FLifecyclePanel: TPanel;
+    btIniciarAtendimento: TButton;
+    btFinalizarAtendimento: TButton;
+    btAusenteAtendimento: TButton;
 
     lista : TStringList;
     Mudou : boolean;
@@ -125,6 +132,13 @@ type
     procedure CarregaContexto();
     procedure EnviaPainel(AComponente: TLTCPComponent; const AIP, ASenha: string; AGuiche: Integer);
     function GetGuicheNro: Integer;
+    function CurrentTicket: string;
+    procedure CreateLifecycleControls;
+    procedure UpdateLifecycleControls;
+    procedure SendLifecycle(const AAction, ADetails: string);
+    procedure LifecycleStartClick(Sender: TObject);
+    procedure LifecycleFinishClick(Sender: TObject);
+    procedure LifecycleAbsentClick(Sender: TObject);
     procedure GravaLog(const AMsg: string);
   public
     tnFila : TTreeNode;
@@ -278,16 +292,14 @@ end;
 procedure Tfrmmain.FormCreate(Sender: TObject);
 begin
   frmhint := TfrmHint.create(self);
-  self.Caption := 'Guiche - '+versao;
-  lbVersao.Caption:= versao;
+  self.Caption := 'Guiche - ' + versao;
+  lbVersao.Caption := versao;
   frmSplash := TfrmSplash.create(self);
   frmSplash.lbVersao.caption := Versao;
   FsetMain := TsetMain.create();
   CarregaContexto();
 
   frmsetup := Tfrmsetup.Create(self);
-
-
   frmLog := TfrmLog.create(self);
   frmSplash.show();
   application.ProcessMessages;
@@ -296,12 +308,13 @@ begin
   AtualizaBotoes();
   lista := TStringList.create;
 
-
-
   CadastraRaiz();
 
-
-
+  FPendingLifecycle := '';
+  FPendingLifecycleAction := '';
+  FPendingLifecycleTicket := '';
+  CreateLifecycleControls;
+  UpdateLifecycleControls;
 end;
 
 procedure Tfrmmain.FormDestroy(Sender: TObject);
@@ -327,12 +340,17 @@ var
   param : string;
 begin
   GravaLog('Conectou Fila: ' + aSocket.LocalAddress);
-  
-  if FPendenteChamada > 0 then
+
+  if FPendingLifecycle <> '' then
+  begin
+    LTCPComponent1.SendMessage(FPendingLifecycle, nil);
+    FPendingLifecycle := '';
+  end
+  else if FPendenteChamada > 0 then
   begin
     param := EncodeCallRequest(FPendenteChamada, FSetMain.NROGUICHE);
     LTCPComponent1.SendMessage(param, nil);
-    FPendenteChamada := 0; // Limpa o estado pendente
+    FPendenteChamada := 0;
   end;
 end;
 
@@ -355,10 +373,33 @@ var
   QueueId: Integer;
   tvitem: TTreeNode;
   LGuiche: Integer;
+  LifeOk: Boolean;
+  LifeAction, LifeTicket: string;
 begin
   aSocket.GetMessage(info);
 
-  if TryParseTicketResponse(info, QueueId, strNro) then
+  if TryParseLifecycleResponse(info, LifeOk, LifeAction, LifeTicket) then
+  begin
+    if LifeOk then
+    begin
+      GravaLog('Atendimento ' + LifeAction + ' confirmado para ' + LifeTicket);
+      frmHint.MessageHint('Senha ' + LifeTicket + ': ' + LifeAction);
+
+      if (LifeAction = 'FINALIZAR') or (LifeAction = 'AUSENTE') then
+        if SameText(lastcall, LifeTicket) then
+          lastcall := '';
+    end
+    else
+    begin
+      GravaLog('Atendimento ' + LifeAction + ' recusado para ' + LifeTicket);
+      ShowMessage('Operação não permitida para a senha ' + LifeTicket + '.');
+    end;
+
+    FPendingLifecycleAction := '';
+    FPendingLifecycleTicket := '';
+    UpdateLifecycleControls;
+  end
+  else if TryParseTicketResponse(info, QueueId, strNro) then
   begin
     if strNro <> '0' then
     begin
@@ -378,6 +419,9 @@ begin
 
       tvitem := tvFila.Items.AddChild(tnFila, strNro);
       tvitem.ImageIndex := 9;
+      tvFila.Selected := tvitem;
+      tnsel := tvitem;
+      UpdateLifecycleControls;
     end
     else
       ShowMessage('Fila Vazia');
@@ -472,6 +516,7 @@ end;
 procedure Tfrmmain.tvFilaChange(Sender: TObject; Node: TTreeNode);
 begin
   tnsel := node;
+  UpdateLifecycleControls;
   if(node <> nil) then
   begin
     if(node.Parent = tnFila) then
@@ -665,6 +710,122 @@ end;
 procedure Tfrmmain.btStart1Click(Sender: TObject);
 begin
 
+end;
+
+function Tfrmmain.CurrentTicket: string;
+begin
+  Result := '';
+  if Assigned(tnsel) and Assigned(tnsel.Parent) and (tnsel.Parent = tnFila) then
+    Result := Trim(tnsel.Text);
+
+  if Result = '' then
+    Result := Trim(lastcall);
+end;
+
+procedure Tfrmmain.CreateLifecycleControls;
+begin
+  FLifecyclePanel := TPanel.Create(Self);
+  FLifecyclePanel.Parent := Self;
+  FLifecyclePanel.Align := alBottom;
+  FLifecyclePanel.Height := 52;
+  FLifecyclePanel.BevelOuter := bvNone;
+
+  btIniciarAtendimento := TButton.Create(Self);
+  btIniciarAtendimento.Parent := FLifecyclePanel;
+  btIniciarAtendimento.Caption := 'Iniciar atendimento';
+  btIniciarAtendimento.Left := 8;
+  btIniciarAtendimento.Top := 8;
+  btIniciarAtendimento.Width := 145;
+  btIniciarAtendimento.Height := 34;
+  btIniciarAtendimento.OnClick := @LifecycleStartClick;
+
+  btFinalizarAtendimento := TButton.Create(Self);
+  btFinalizarAtendimento.Parent := FLifecyclePanel;
+  btFinalizarAtendimento.Caption := 'Finalizar';
+  btFinalizarAtendimento.Left := 161;
+  btFinalizarAtendimento.Top := 8;
+  btFinalizarAtendimento.Width := 110;
+  btFinalizarAtendimento.Height := 34;
+  btFinalizarAtendimento.OnClick := @LifecycleFinishClick;
+
+  btAusenteAtendimento := TButton.Create(Self);
+  btAusenteAtendimento.Parent := FLifecyclePanel;
+  btAusenteAtendimento.Caption := 'Ausente';
+  btAusenteAtendimento.Left := 279;
+  btAusenteAtendimento.Top := 8;
+  btAusenteAtendimento.Width := 100;
+  btAusenteAtendimento.Height := 34;
+  btAusenteAtendimento.OnClick := @LifecycleAbsentClick;
+end;
+
+procedure Tfrmmain.UpdateLifecycleControls;
+var
+  HasTicket, Busy: Boolean;
+begin
+  HasTicket := CurrentTicket <> '';
+  Busy := FPendingLifecycleAction <> '';
+
+  if Assigned(btIniciarAtendimento) then
+    btIniciarAtendimento.Enabled := HasTicket and not Busy;
+  if Assigned(btFinalizarAtendimento) then
+    btFinalizarAtendimento.Enabled := HasTicket and not Busy;
+  if Assigned(btAusenteAtendimento) then
+    btAusenteAtendimento.Enabled := HasTicket and not Busy;
+end;
+
+procedure Tfrmmain.SendLifecycle(const AAction, ADetails: string);
+var
+  Ticket, Command: string;
+begin
+  Ticket := CurrentTicket;
+  if Ticket = '' then
+  begin
+    ShowMessage('Selecione uma senha ou chame uma senha antes desta operação.');
+    Exit;
+  end;
+
+  if FPendingLifecycleAction <> '' then
+  begin
+    ShowMessage('Existe uma operação de atendimento aguardando resposta.');
+    Exit;
+  end;
+
+  FPendingLifecycleAction := UpperCase(Trim(AAction));
+  FPendingLifecycleTicket := Ticket;
+  Command := EncodeLifecycleCommand(FPendingLifecycleAction, Ticket,
+    FSetMain.NROGUICHE, ADetails);
+  UpdateLifecycleControls;
+
+  if LTCPComponent1.Connected then
+    LTCPComponent1.SendMessage(Command, nil)
+  else
+  begin
+    FPendingLifecycle := Command;
+    LTCPComponent1.Connect(FSetMain.IPFILA, FILA_PORT_GUICHE);
+  end;
+end;
+
+procedure Tfrmmain.LifecycleStartClick(Sender: TObject);
+begin
+  SendLifecycle('INICIAR', '');
+end;
+
+procedure Tfrmmain.LifecycleFinishClick(Sender: TObject);
+begin
+  SendLifecycle('FINALIZAR', '');
+end;
+
+procedure Tfrmmain.LifecycleAbsentClick(Sender: TObject);
+begin
+  if CurrentTicket = '' then
+  begin
+    ShowMessage('Nenhuma senha selecionada.');
+    Exit;
+  end;
+
+  if MessageDlg('Confirmar ausência da senha ' + CurrentTicket + '?',
+    mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    SendLifecycle('AUSENTE', '');
 end;
 
 function Tfrmmain.GetGuicheNro: Integer;
