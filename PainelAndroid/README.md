@@ -52,3 +52,19 @@ cd D:\projetos\maurinsoft\fila\PainelAndroid
 gradlew assembleDebug
 ```
 O APK será gerado em `app/build/outputs/apk/debug/app-debug.apk`.
+
+
+## Robustez TCP e persistência
+
+A versão 2.3.0 não usa mais leitura por linha. O servidor acumula o stream TCP até o delimitador `;`, permitindo:
+
+- mensagem dividida em vários pacotes;
+- várias mensagens no mesmo pacote;
+- mensagens sem `\n`;
+- limite de tamanho para evitar crescimento indefinido do buffer.
+
+A chamada atual e as quatro chamadas anteriores são persistidas localmente e restauradas após reinício da Activity/aplicativo.
+
+## CI Android
+
+O workflow `PainelAndroid build` executa testes unitários JVM e gera o APK debug automaticamente com Android SDK 34 / Java 17.
