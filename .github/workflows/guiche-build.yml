@@ -87,14 +87,24 @@ jobs:
             --verbose-pkgsearch \
             Guiche/Guiche.lpi
 
-      - name: Verify Guiche binary
+      - name: Locate and verify Guiche binary
+        shell: bash
         run: |
-          test -x Guiche/Guiche
-          file Guiche/Guiche
+          set -euo pipefail
+
+          echo "Executable candidates:"
+          find . -maxdepth 4 -type f -perm /111 -print || true
+
+          BIN="$(find . -maxdepth 4 -type f \( -name 'Guiche' -o -name 'guiche' \) -perm /111 -print -quit)"
+          test -n "$BIN"
+
+          echo "Guiche binary: $BIN"
+          file "$BIN"
+          echo "GUICHE_BIN=$BIN" >> "$GITHUB_ENV"
 
       - name: Upload Guiche Linux artifact
         uses: actions/upload-artifact@v4
         with:
           name: Guiche-linux-x86_64
-          path: Guiche/Guiche
+          path: ${{ env.GUICHE_BIN }}
           if-no-files-found: error
