@@ -102,3 +102,41 @@ http://servidor/fila/web-admin/media/playlist.php
 ```
 
 Também existe `media/playlist.sample.json` como referência para playlists mantidas manualmente.
+
+
+## Gestão de mídia pelo navegador
+
+Abra `media.php`.
+
+A interface permite:
+
+- upload de JPG/JPEG/PNG/WEBP/MP4/WEBM;
+- exclusão;
+- ativar/desativar item;
+- ordenar a playlist;
+- configurar duração das imagens;
+- copiar a URL da playlist usada pelas TVs.
+
+As alterações são persistidas em `media/playlist-config.json`, criado em runtime. Os arquivos continuam em `media/files/`.
+
+A configuração do PHP deve permitir o tamanho desejado de upload (`upload_max_filesize` e `post_max_size`). A aplicação limita cada mídia a 200 MB.
+
+## Releases do PainelAndroid
+
+Abra `releases.php` para publicar o APK de produção.
+
+Informe:
+
+- `version_name`;
+- `version_code`;
+- APK release assinado.
+
+O servidor:
+
+- aceita APK de até 250 MB;
+- calcula SHA-256;
+- grava em `releases/`;
+- atualiza `releases/latest.json`;
+- disponibiliza a metadata em `api/panel/update.php`.
+
+A TV nunca instala um APK cujo SHA-256 seja diferente do valor publicado.
