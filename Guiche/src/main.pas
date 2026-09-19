@@ -125,6 +125,7 @@ type
     btIniciarAtendimento: TButton;
     btFinalizarAtendimento: TButton;
     btAusenteAtendimento: TButton;
+    btCancelarAtendimento: TButton;
 
     lista : TStringList;
     Mudou : boolean;
@@ -139,6 +140,7 @@ type
     procedure LifecycleStartClick(Sender: TObject);
     procedure LifecycleFinishClick(Sender: TObject);
     procedure LifecycleAbsentClick(Sender: TObject);
+    procedure LifecycleCancelClick(Sender: TObject);
     procedure GravaLog(const AMsg: string);
   public
     tnFila : TTreeNode;
@@ -364,6 +366,15 @@ end;
 procedure Tfrmmain.LTCPComponent1Error(const msg: string; aSocket: TLSocket);
 begin
   GravaLog('Erro Fila: ' + msg);
+
+  if FPendingLifecycleAction <> '' then
+  begin
+    FPendingLifecycle := '';
+    FPendingLifecycleAction := '';
+    FPendingLifecycleTicket := '';
+    UpdateLifecycleControls;
+    ShowMessage('Não foi possível concluir a operação de atendimento: ' + msg);
+  end;
 end;
 
 procedure Tfrmmain.LTCPComponent1Receive(aSocket: TLSocket);
@@ -756,6 +767,15 @@ begin
   btAusenteAtendimento.Width := 100;
   btAusenteAtendimento.Height := 34;
   btAusenteAtendimento.OnClick := @LifecycleAbsentClick;
+
+  btCancelarAtendimento := TButton.Create(Self);
+  btCancelarAtendimento.Parent := FLifecyclePanel;
+  btCancelarAtendimento.Caption := 'Cancelar';
+  btCancelarAtendimento.Left := 387;
+  btCancelarAtendimento.Top := 8;
+  btCancelarAtendimento.Width := 100;
+  btCancelarAtendimento.Height := 34;
+  btCancelarAtendimento.OnClick := @LifecycleCancelClick;
 end;
 
 procedure Tfrmmain.UpdateLifecycleControls;
@@ -771,6 +791,8 @@ begin
     btFinalizarAtendimento.Enabled := HasTicket and not Busy;
   if Assigned(btAusenteAtendimento) then
     btAusenteAtendimento.Enabled := HasTicket and not Busy;
+  if Assigned(btCancelarAtendimento) then
+    btCancelarAtendimento.Enabled := HasTicket and not Busy;
 end;
 
 procedure Tfrmmain.SendLifecycle(const AAction, ADetails: string);
@@ -826,6 +848,22 @@ begin
   if MessageDlg('Confirmar ausência da senha ' + CurrentTicket + '?',
     mtConfirmation, [mbYes, mbNo], 0) = mrYes then
     SendLifecycle('AUSENTE', '');
+end;
+
+procedure Tfrmmain.LifecycleCancelClick(Sender: TObject);
+var
+  Reason: string;
+begin
+  if CurrentTicket = '' then
+  begin
+    ShowMessage('Nenhuma senha selecionada.');
+    Exit;
+  end;
+
+  Reason := '';
+  if InputQuery('Cancelar atendimento',
+    'Informe o motivo do cancelamento da senha ' + CurrentTicket + ':', Reason) then
+    SendLifecycle('CANCELAR', Trim(Reason));
 end;
 
 function Tfrmmain.GetGuicheNro: Integer;
