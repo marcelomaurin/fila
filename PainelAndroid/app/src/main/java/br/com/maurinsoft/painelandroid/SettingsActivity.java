@@ -30,6 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText etIdleSeconds;
     private Button btnSave;
     private Button btnTestCall;
+    private Button btnCheckUpdate;
     private TextView tvDiagnostics;
     private AppPreferences preferences;
 
@@ -52,6 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
         etIdleSeconds = findViewById(R.id.etIdleSeconds);
         btnSave = findViewById(R.id.btnSave);
         btnTestCall = findViewById(R.id.btnTestCall);
+        btnCheckUpdate = findViewById(R.id.btnCheckUpdate);
         tvDiagnostics = findViewById(R.id.tvDiagnostics);
 
         loadPreferences();
@@ -59,6 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         btnSave.setOnClickListener(v -> saveAndExit());
         btnTestCall.setOnClickListener(v -> simulateTestCall());
+        btnCheckUpdate.setOnClickListener(v -> checkUpdateNow());
     }
 
     @Override
@@ -117,6 +120,21 @@ public class SettingsActivity extends AppCompatActivity {
                 hb,
                 hbError);
 
+        long updateAt = preferences.getLastUpdateCheckAt();
+        String updateCheck = updateAt > 0
+                ? new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+                    .format(new Date(updateAt))
+                : "Nunca";
+        String updateVersion = preferences.getLastUpdateVersion();
+        String updateError = preferences.getLastUpdateError();
+        if (updateError == null || updateError.trim().isEmpty()) updateError = "Nenhum";
+
+        diagnostics += String.format(Locale.getDefault(),
+                "\nÚltima verificação de atualização: %s\nVersão remota: %s\nErro atualização: %s",
+                updateCheck,
+                updateVersion == null || updateVersion.isEmpty() ? "-" : updateVersion,
+                updateError);
+
         tvDiagnostics.setText(diagnostics);
     }
 
@@ -173,6 +191,31 @@ public class SettingsActivity extends AppCompatActivity {
         } catch (NumberFormatException e) {
             Toast.makeText(this, "Porta inválida!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void checkUpdateNow() {
+        if (!preferences.isCentralAdminEnabled()) {
+            Toast.makeText(this, "Configure a administração central primeiro.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        btnCheckUpdate.setEnabled(false);
+        Toast.makeText(this, "Verificando atualização...", Toast.LENGTH_SHORT).show();
+
+        UpdateManager manager = new UpdateManager(this, preferences);
+        manager.checkAndPrepare((available, version, error) -> runOnUiThread(() -> {
+            btnCheckUpdate.setEnabled(true);
+            manager.shutdown();
+            refreshDiagnostics();
+
+            if (error != null && !error.trim().isEmpty()) {
+                Toast.makeText(this, "Falha: " + error, Toast.LENGTH_LONG).show();
+            } else if (available) {
+                Toast.makeText(this, "Atualização " + version + " pronta para instalar.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Aplicativo já está atualizado.", Toast.LENGTH_SHORT).show();
+            }
+        }));
     }
 
     private void simulateTestCall() {
