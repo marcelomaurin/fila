@@ -3,7 +3,8 @@ program test_core;
 {$mode objfpc}{$H+}
 
 uses
-  Classes, SysUtils, uFilaProtocol, uFilaService, uFilaTypes;
+  Classes, SysUtils, uFilaProtocol, uFilaService, uFilaTypes,
+  uFilaRepositorySQLite;
 
 procedure Check(ACondition: Boolean; const AMessage: string);
 begin
@@ -107,11 +108,50 @@ begin
   end;
 end;
 
+procedure TestSQLiteRepository;
+var
+  Repo: TFilaSQLiteRepository;
+  DbFile: string;
+  L: TStringList;
+begin
+  DbFile := IncludeTrailingPathDelimiter(GetTempDir(False)) +
+    'fila-sqlite-test-' + IntToStr(GetProcessID) + '.db';
+  L := TStringList.Create;
+  Repo := TFilaSQLiteRepository.Create(DbFile);
+  try
+    Repo.Initialize;
+    Check(Repo.IsReady, 'Repositorio SQLite deve inicializar');
+
+    Repo.AddTicket(1, 'A1', 0);
+    Repo.AddTicket(1, 'A2', 10);
+    Repo.AddTicket(2, 'B1', 0);
+    Check(Repo.WaitingCount = 3, 'SQLite deve registrar senhas aguardando');
+
+    Repo.LoadWaiting(1, L);
+    Check(L.Count = 2, 'SQLite deve carregar fila 1');
+    Check(L[0] = 'A2', 'Prioridade maior deve ser carregada primeiro');
+    Check(L[1] = 'A1', 'Ordem restante deve ser FIFO');
+
+    Repo.MarkCalled(1, 'A2', '3');
+    Check(Repo.WaitingCount = 2, 'Chamada deve retirar senha dos aguardando');
+
+    Repo.CancelAllWaiting('teste');
+    Check(Repo.WaitingCount = 0, 'Reset deve cancelar aguardando');
+  finally
+    Repo.Free;
+    L.Free;
+    DeleteFile(DbFile);
+    DeleteFile(DbFile + '-wal');
+    DeleteFile(DbFile + '-shm');
+  end;
+end;
+
 begin
   try
     TestProtocol;
     TestQueueService;
-    WriteLn('OK - testes do nucleo passaram.');
+    TestSQLiteRepository;
+    WriteLn('OK - testes do nucleo e SQLite passaram.');
   except
     on E: Exception do
     begin
