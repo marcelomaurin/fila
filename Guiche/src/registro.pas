@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  lNetComponents, lNet, log, IdHTTP, IdSSLOpenSSL, IdSSLOpenSSLHeaders;
+  lNetComponents, lNet, log;
 
 type
 
@@ -16,8 +16,6 @@ type
     Button1: TButton;
     edNome: TEdit;
     edEmail: TEdit;
-    IdHTTP1: TIdHTTP;
-    IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
