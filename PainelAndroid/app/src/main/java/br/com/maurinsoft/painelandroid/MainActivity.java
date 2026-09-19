@@ -2,15 +2,17 @@ package br.com.maurinsoft.painelandroid;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -25,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements TcpServerManager.OnCallReceivedListener {
+public class MainActivity extends AppCompatActivity {
 
     private TextView tvHeaderTitle;
     private TextView tvIpStatus;
@@ -37,24 +39,43 @@ public class MainActivity extends AppCompatActivity implements TcpServerManager.
     private TextView lblSenha;
     private TextView tvCurrentSenha;
 
-    // History Views
     private TextView tvHistGuiche1, tvHistSenha1;
     private TextView tvHistGuiche2, tvHistSenha2;
     private TextView tvHistGuiche3, tvHistSenha3;
     private TextView tvHistGuiche4, tvHistSenha4;
 
-    // Footer Views
     private TextView tvDate, tvTime, tvMarqueeMessage;
 
     private AppPreferences preferences;
-    private SoundManager soundManager;
-    private TcpServerManager tcpServer;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 
     private final List<CallHistoryItem> historyList = new ArrayList<>();
     private ActivityResultLauncher<Intent> settingsLauncher;
+    private boolean receiverRegistered = false;
+
+    private final BroadcastReceiver panelReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent == null || intent.getAction() == null) return;
+
+            if (PanelService.ACTION_CALL.equals(intent.getAction())) {
+                restorePanelState();
+                startBlinkAnimation();
+            } else if (PanelService.ACTION_STATUS.equals(intent.getAction())) {
+                boolean running = intent.getBooleanExtra(PanelService.EXTRA_RUNNING, false);
+                int port = intent.getIntExtra(PanelService.EXTRA_PORT, preferences.getPort());
+                updateConnectionStatus(running, port);
+            } else if (PanelService.ACTION_GROUP.equals(intent.getAction())) {
+                String id = intent.getStringExtra(PanelService.EXTRA_GROUP_ID);
+                String description = intent.getStringExtra(PanelService.EXTRA_GROUP_DESCRIPTION);
+                if (id != null && description != null) {
+                    preferences.setGroupDescription(id, description);
+                }
+            }
+        }
+    };
 
     private final Runnable clockRunnable = new Runnable() {
         @Override
@@ -72,12 +93,26 @@ public class MainActivity extends AppCompatActivity implements TcpServerManager.
         setContentView(R.layout.activity_main);
 
         preferences = new AppPreferences(this);
-        soundManager = new SoundManager(this);
 
         initViews();
+        restorePanelState();
         setupSettingsLauncher();
         startClock();
-        startTcpServer();
+        showConfiguredEndpoint();
+        startPanelService();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerPanelReceiver();
+        restorePanelState();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterPanelReceiver();
+        super.onStop();
     }
 
     private void initViews() {
@@ -111,112 +146,123 @@ public class MainActivity extends AppCompatActivity implements TcpServerManager.
 
     private void setupSettingsLauncher() {
         settingsLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK) {
-                    // Restart TCP Server if port changed
-                    restartTcpServer();
-                    if (result.getData() != null && result.getData().getBooleanExtra("SIMULATE_CALL", false)) {
-                        String g = result.getData().getStringExtra("TEST_GUICHE");
-                        String s = result.getData().getStringExtra("TEST_SENHA");
-                        onCallReceived(g != null ? g : "01", s != null ? s : "A001");
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() != RESULT_OK) return;
+
+                    Intent restart = new Intent(this, PanelService.class);
+                    restart.setAction(PanelService.ACTION_RESTART_SERVER);
+                    ContextCompat.startForegroundService(this, restart);
+
+                    if (result.getData() != null
+                            && result.getData().getBooleanExtra("SIMULATE_CALL", false)) {
+                        Intent simulate = new Intent(this, PanelService.class);
+                        simulate.setAction(PanelService.ACTION_SIMULATE);
+                        simulate.putExtra(PanelService.EXTRA_GUICHE,
+                                result.getData().getStringExtra("TEST_GUICHE"));
+                        simulate.putExtra(PanelService.EXTRA_SENHA,
+                                result.getData().getStringExtra("TEST_SENHA"));
+                        ContextCompat.startForegroundService(this, simulate);
                     }
+
+                    showConfiguredEndpoint();
                 }
-            }
         );
     }
 
     private void openSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        settingsLauncher.launch(intent);
+        settingsLauncher.launch(new Intent(this, SettingsActivity.class));
     }
 
     private void startClock() {
         handler.post(clockRunnable);
     }
 
-    private void startTcpServer() {
-        int port = preferences.getPort();
-        String ip = NetworkUtils.getLocalIpAddress(this);
-        tvIpStatus.setText(String.format(Locale.getDefault(), "IP: %s | Porta: %d", ip, port));
-
-        tcpServer = new TcpServerManager(port, this);
-        tcpServer.start();
+    private void startPanelService() {
+        Intent serviceIntent = new Intent(this, PanelService.class);
+        ContextCompat.startForegroundService(this, serviceIntent);
     }
 
-    private void restartTcpServer() {
-        if (tcpServer != null) {
-            tcpServer.stop();
+    private void registerPanelReceiver() {
+        if (receiverRegistered) return;
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(PanelService.ACTION_CALL);
+        filter.addAction(PanelService.ACTION_GROUP);
+        filter.addAction(PanelService.ACTION_STATUS);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(panelReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(panelReceiver, filter);
         }
-        startTcpServer();
+        receiverRegistered = true;
     }
 
-    @Override
-    public void onCallReceived(String guiche, String senha) {
-        // Shift previous current call to history
-        String oldGuiche = tvCurrentGuiche.getText().toString();
-        String oldSenha = tvCurrentSenha.getText().toString();
+    private void unregisterPanelReceiver() {
+        if (!receiverRegistered) return;
+        unregisterReceiver(panelReceiver);
+        receiverRegistered = false;
+    }
 
-        if (!oldSenha.equals("A000") && !oldSenha.equals("----") && !oldSenha.equals(senha)) {
-            historyList.add(0, new CallHistoryItem(oldGuiche, oldSenha));
-            if (historyList.size() > 4) {
-                historyList.remove(historyList.size() - 1);
-            }
-            updateHistoryUI();
+    private void showConfiguredEndpoint() {
+        String localIp = NetworkUtils.getLocalIpAddress(this);
+        tvIpStatus.setText(String.format(Locale.getDefault(),
+                "IP: %s | Porta: %d", localIp, preferences.getPort()));
+    }
+
+    private void updateConnectionStatus(boolean running, int port) {
+        if (running) {
+            String localIp = NetworkUtils.getLocalIpAddress(this);
+            tvIpStatus.setText(String.format(Locale.getDefault(),
+                    "● ONLINE | IP: %s | Porta: %d", localIp, port));
+        } else {
+            tvIpStatus.setText(R.string.status_error);
+        }
+    }
+
+    private void restorePanelState() {
+        String currentGuiche = preferences.getCurrentGuiche();
+        String currentSenha = preferences.getCurrentSenha();
+
+        if (currentGuiche != null && !currentGuiche.trim().isEmpty()) {
+            tvCurrentGuiche.setText(currentGuiche);
+        }
+        if (currentSenha != null && !currentSenha.trim().isEmpty()) {
+            tvCurrentSenha.setText(currentSenha);
         }
 
-        // Update Current Call Display
-        tvCurrentGuiche.setText(guiche);
-        tvCurrentSenha.setText(senha);
-
-        // Visual blinking animation
-        startBlinkAnimation();
-
-        // Sound chime and speech announcement
-        soundManager.speakCall(guiche, senha, preferences.isChimeEnabled(), preferences.isTtsEnabled());
+        historyList.clear();
+        historyList.addAll(preferences.loadHistory());
+        updateHistoryUI();
     }
 
     private void updateHistoryUI() {
-        if (historyList.size() > 0) {
-            tvHistGuiche1.setText("Guichê " + historyList.get(0).getGuiche());
-            tvHistSenha1.setText(historyList.get(0).getSenha());
-        }
-        if (historyList.size() > 1) {
-            tvHistGuiche2.setText("Guichê " + historyList.get(1).getGuiche());
-            tvHistSenha2.setText(historyList.get(1).getSenha());
-        }
-        if (historyList.size() > 2) {
-            tvHistGuiche3.setText("Guichê " + historyList.get(2).getGuiche());
-            tvHistSenha3.setText(historyList.get(2).getSenha());
-        }
-        if (historyList.size() > 3) {
-            tvHistGuiche4.setText("Guichê " + historyList.get(3).getGuiche());
-            tvHistSenha4.setText(historyList.get(3).getSenha());
+        TextView[] guiches = {tvHistGuiche1, tvHistGuiche2, tvHistGuiche3, tvHistGuiche4};
+        TextView[] senhas = {tvHistSenha1, tvHistSenha2, tvHistSenha3, tvHistSenha4};
+
+        for (int i = 0; i < guiches.length; i++) {
+            if (i < historyList.size()) {
+                guiches[i].setText("Guichê " + historyList.get(i).getGuiche());
+                senhas[i].setText(historyList.get(i).getSenha());
+            } else {
+                guiches[i].setText("Guichê --");
+                senhas[i].setText("----");
+            }
         }
     }
 
     private void startBlinkAnimation() {
         int colorNormal = ContextCompat.getColor(this, R.color.bg_surface);
-        int colorHighlight = Color.parseColor("#7F1D1D"); // Deep Red
+        int colorHighlight = Color.parseColor("#7F1D1D");
 
-        ValueAnimator anim = ValueAnimator.ofObject(new ArgbEvaluator(), colorNormal, colorHighlight, colorNormal);
+        ValueAnimator anim = ValueAnimator.ofObject(
+                new ArgbEvaluator(), colorNormal, colorHighlight, colorNormal);
         anim.setDuration(600);
         anim.setRepeatCount(3);
-        anim.addUpdateListener(animator -> {
-            int color = (int) animator.getAnimatedValue();
-            currentCallCard.setCardBackgroundColor(color);
-        });
+        anim.addUpdateListener(animator ->
+                currentCallCard.setCardBackgroundColor((int) animator.getAnimatedValue()));
         anim.start();
-    }
-
-    @Override
-    public void onStatusChanged(boolean running, String ip, int port) {
-        String localIp = NetworkUtils.getLocalIpAddress(this);
-        if (running) {
-            tvIpStatus.setText(String.format(Locale.getDefault(), "IP: %s | Porta: %d", localIp, preferences.getPort()));
-        } else {
-            tvIpStatus.setText(R.string.status_error);
-        }
     }
 
     @Override
@@ -230,13 +276,8 @@ public class MainActivity extends AppCompatActivity implements TcpServerManager.
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         handler.removeCallbacks(clockRunnable);
-        if (tcpServer != null) {
-            tcpServer.stop();
-        }
-        if (soundManager != null) {
-            soundManager.release();
-        }
+        unregisterPanelReceiver();
+        super.onDestroy();
     }
 }

@@ -4,26 +4,28 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TcpServerManager {
     private static final String TAG = "TcpServerManager";
+    private static final int MAX_MESSAGE_LENGTH = 4096;
 
     public interface OnCallReceivedListener {
         void onCallReceived(String guiche, String senha);
+        void onGroupReceived(String groupId, String description);
         void onStatusChanged(boolean running, String ip, int port);
     }
 
     private final int port;
     private final OnCallReceivedListener listener;
     private ServerSocket serverSocket;
-    private boolean isRunning = false;
+    private volatile boolean isRunning = false;
     private final ExecutorService executor = Executors.newCachedThreadPool();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -43,12 +45,12 @@ public class TcpServerManager {
             serverSocket = new ServerSocket(port);
             serverSocket.setReuseAddress(true);
             Log.i(TAG, "TCP Server started on port " + port);
-
             notifyStatus(true);
 
             while (isRunning && !serverSocket.isClosed()) {
                 try {
                     Socket clientSocket = serverSocket.accept();
+                    clientSocket.setSoTimeout(15000);
                     executor.execute(() -> handleClient(clientSocket));
                 } catch (SocketException se) {
                     if (!isRunning) break;
@@ -61,80 +63,54 @@ public class TcpServerManager {
         }
     }
 
+    /**
+     * O protocolo do Projeto Fila termina cada mensagem com ';'.
+     * Não usamos readLine(), pois o Guichê não é obrigado a enviar '\n'.
+     */
     private void handleClient(Socket socket) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                processMessage(line.trim());
+        DelimitedMessageBuffer messageBuffer = new DelimitedMessageBuffer(MAX_MESSAGE_LENGTH);
+        char[] buffer = new char[512];
+
+        try (InputStreamReader reader = new InputStreamReader(
+                socket.getInputStream(), StandardCharsets.UTF_8)) {
+            int count;
+            while (isRunning && (count = reader.read(buffer)) != -1) {
+                for (String message : messageBuffer.append(buffer, count)) {
+                    processMessage(message);
+                }
             }
         } catch (Exception e) {
-            Log.d(TAG, "Client disconnected or read error: " + e.getMessage());
+            if (isRunning) {
+                Log.d(TAG, "Client disconnected or read error: " + e.getMessage());
+            }
         } finally {
             try {
                 socket.close();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
     }
 
     public void processMessage(String msg) {
-        if (msg == null || msg.isEmpty()) return;
-        Log.i(TAG, "Received TCP message: " + msg);
+        if (msg == null || msg.trim().isEmpty()) return;
 
-        // Protocol formats:
-        // 1) FILA:>GUICHE:CODIGO; (e.g. FILA:>01:A001;)
-        // 2) GUICHE:...
-        // 3) GRUPO:...
+        PanelProtocol.Message parsed = PanelProtocol.parse(msg);
+        Log.i(TAG, "Received TCP message: " + msg + " => " + parsed.getType());
 
-        int colonIdx = msg.indexOf(':');
-        if (colonIdx <= 0) return;
-
-        String comando = msg.substring(0, colonIdx);
-        String info = msg.substring(colonIdx + 1);
-
-        if ("FILA".equalsIgnoreCase(comando)) {
-            parseFilaMessage(info);
-        } else if ("GUICHE".equalsIgnoreCase(comando)) {
-            parseGuicheMessage(info);
-        }
-    }
-
-    private void parseFilaMessage(String info) {
-        // info: >GUICHE:CODIGO;  or  >1:A001;
-        info = info.replace("\r", "").replace("\n", "");
-        int posMaior = info.indexOf('>');
-        int posDoisPontos = info.indexOf(':');
-        int posPontoVirgula = info.indexOf(';');
-
-        if (posMaior != -1 && posDoisPontos != -1 && posPontoVirgula != -1) {
-            String guiche = info.substring(posMaior + 1, posDoisPontos).trim();
-            String codigo = info.substring(posDoisPontos + 1, posPontoVirgula).trim();
-
-            if (!guiche.isEmpty() && !codigo.isEmpty()) {
-                mainHandler.post(() -> {
-                    if (listener != null) {
-                        listener.onCallReceived(guiche, codigo);
-                    }
-                });
-            }
-        }
-    }
-
-    private void parseGuicheMessage(String info) {
-        int posMaior = info.indexOf('>');
-        int posDoisPontos = info.indexOf(':');
-        int posPontoVirgula = info.indexOf(';');
-
-        if (posDoisPontos != -1 && posPontoVirgula != -1) {
-            String guiche = posMaior != -1 ? info.substring(posMaior + 1, posDoisPontos).trim() : "1";
-            String codigo = info.substring(posDoisPontos + 1, posPontoVirgula).trim();
-
-            if (!codigo.isEmpty()) {
-                mainHandler.post(() -> {
-                    if (listener != null) {
-                        listener.onCallReceived(guiche, codigo);
-                    }
-                });
-            }
+        if (parsed.getType() == PanelProtocol.Type.CALL) {
+            mainHandler.post(() -> {
+                if (listener != null) {
+                    listener.onCallReceived(parsed.getDesk(), parsed.getTicket());
+                }
+            });
+        } else if (parsed.getType() == PanelProtocol.Type.GROUP) {
+            mainHandler.post(() -> {
+                if (listener != null) {
+                    listener.onGroupReceived(parsed.getGroupId(), parsed.getGroupDescription());
+                }
+            });
+        } else {
+            Log.w(TAG, "Unsupported or malformed panel message: " + msg);
         }
     }
 
@@ -155,6 +131,7 @@ public class TcpServerManager {
         } catch (Exception e) {
             Log.e(TAG, "Error closing serverSocket", e);
         }
+        executor.shutdownNow();
         notifyStatus(false);
     }
 }
