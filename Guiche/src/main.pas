@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, Menus, ComCtrls, PopupNotifier, Buttons, lNetComponents, lNet,
-  DataPortIP, setmain, setup, splash, registro, log, hint, uFilaProtocol;
+  setmain, setup, splash, registro, log, hint, uFilaProtocol;
 
 const Versao = '1.28';
 
@@ -77,7 +77,6 @@ type
     procedure btTipo3Click(Sender: TObject);
     procedure btTipo4Click(Sender: TObject);
     procedure btTipo5Click(Sender: TObject);
-    procedure DataPortTCP1DataAppear(Sender: TObject);
     procedure edGuicheChange(Sender: TObject);
     procedure edIPFILAChange(Sender: TObject);
     procedure edIPPainelChange(Sender: TObject);
@@ -259,11 +258,6 @@ end;
 procedure Tfrmmain.btTipo5Click(Sender: TObject);
 begin
    chamar(5);
-end;
-
-procedure Tfrmmain.DataPortTCP1DataAppear(Sender: TObject);
-begin
-
 end;
 
 procedure Tfrmmain.edGuicheChange(Sender: TObject);
