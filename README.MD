@@ -25,7 +25,9 @@ A ideia central é simples:
 5. o **Guichê** envia a chamada para o **PainelDesk**;
 6. o painel exibe a senha, o guichê e mantém o histórico visual das últimas chamadas;
 7. o módulo **Fila** registra emissão, chamada e estado da senha em `fila.db` (SQLite), mantendo os arquivos TXT como compatibilidade;
-8. opcionalmente, o módulo **Contador** pode continuar sendo usado como integração externa.
+8. o atendimento pode seguir os estados **CHAMADA → EM_ATENDIMENTO → FINALIZADA**, ou terminar como **AUSENTE/CANCELADA**;
+9. o painel **web-admin** apresenta indicadores e permite ações administrativas;
+10. opcionalmente, o módulo **Contador** pode continuar sendo usado como integração externa.
 
 ---
 
@@ -39,6 +41,7 @@ Cada módulo possui uma documentação própria:
 | Guichê | [Guiche/README.md](Guiche/README.md) | terminal do atendente para chamar senhas |
 | PainelDesk | [PainelDesk/README.md](PainelDesk/README.md) | painel desktop TCP para exibir senhas chamadas |
 | Contador | [Contador/README.md](Contador/README.md) | executável auxiliar para registrar chamadas em SQLite |
+| Web Admin | [web-admin/README.md](web-admin/README.md) | indicadores, histórico e ações administrativas |
 
 ---
 
@@ -77,7 +80,9 @@ O módulo **Fila** é o núcleo do sistema.
 
 Ele permite configurar até cinco filas, emitir tickets, controlar a numeração, salvar a lista de senhas pendentes, escutar os guichês pela porta `8095` e fornecer informações de painel pela porta `8096`.
 
-A partir da refatoração do núcleo, o Fila também mantém um banco `fila.db` no diretório de configuração do usuário. O banco registra as senhas emitidas, chamadas e canceladas, além de um histórico de eventos. Os arquivos `list01.txt` a `list05.txt` continuam sendo gravados como mecanismo de compatibilidade e recuperação.
+A partir da refatoração do núcleo, o Fila também mantém um banco `fila.db` no diretório de configuração do usuário. O banco registra emissão, chamada, início e fim do atendimento, ausência, cancelamento e histórico de eventos. Os arquivos `list01.txt` a `list05.txt` continuam sendo gravados como mecanismo de compatibilidade e recuperação.
+
+O núcleo calcula ainda quantidade aguardando, chamadas pendentes, atendimentos em andamento, finalizadas/ausentes/canceladas no dia, tempo médio de espera e tempo médio de atendimento.
 
 Também concentra configurações como empresa, localização, tipo de impressora, modelo de impressora, tipo de papel, imagem, fala, painel, fonte, reset programado e integração externa por executável.
 
@@ -156,7 +161,14 @@ Guichê envia requisição para o Fila pela porta 8095
         ↓
 Fila remove a primeira senha da lista e devolve ao Guichê
         ↓
+status = CHAMADA
+        ↓
 Guichê mostra a senha chamada e registra no histórico
+        ↓
+opcionalmente: INICIAR → EM_ATENDIMENTO
+        ↓
+FINALIZAR → FINALIZADA
+ou AUSENTE / CANCELADA
         ↓
 Guichê envia a chamada ao PainelDesk pela porta 8196
         ↓
@@ -174,6 +186,7 @@ fila/
 ├── database/              # esquema SQLite do núcleo
 ├── shared/                # protocolo, serviço de filas, tipos e repositório SQLite
 ├── tests/                 # testes automatizados do núcleo
+├── web-admin/             # administração PHP, indicadores e ações
 ├── Contador/              # utilitário console para registro de chamadas em SQLite
 │   └── README.md
 ├── Fila/                  # aplicação principal de emissão e controle de fila
@@ -298,6 +311,45 @@ Ordem recomendada de execução:
 4. testar emissão de senha;
 5. testar chamada pelo guichê;
 6. validar exibição no painel.
+
+---
+
+## Ciclo de atendimento
+
+O ciclo estruturado da senha é:
+
+```text
+AGUARDANDO
+   ↓ chamada
+CHAMADA
+   ├─→ AUSENTE
+   ├─→ CANCELADA
+   ↓ iniciar
+EM_ATENDIMENTO
+   ├─→ AUSENTE
+   ├─→ CANCELADA
+   ↓ finalizar
+FINALIZADA
+```
+
+O protocolo mantém compatibilidade com as mensagens antigas e acrescenta comandos opcionais:
+
+```text
+ATENDIMENTO:INICIAR>A015>3>;
+ATENDIMENTO:FINALIZAR>A015>3>;
+ATENDIMENTO:AUSENTE>A015>3>;
+ATENDIMENTO:CANCELAR>A015>3>motivo;
+```
+
+O servidor responde com `ATENDIMENTO:OK>...` ou `ATENDIMENTO:ERRO>...`.
+
+---
+
+## Administração web
+
+A pasta `web-admin/` contém um painel PHP. Ele consulta o `fila.db` para indicadores e histórico, mas envia alterações de estado ao servidor Fila pela porta `8095`, evitando divergência entre o SQLite e a fila mantida em memória.
+
+A configuração usa as variáveis `FILA_DB_PATH`, `FILA_ADMIN_TOKEN`, `FILA_HOST` e `FILA_PORT`.
 
 ---
 
