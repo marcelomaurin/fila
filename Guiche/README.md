@@ -84,3 +84,21 @@ O Guichê integra-se com:
 - [Instalar e configurar o Guichê](../docs/04-instalar-guiche.md)
 - [Operação diária](../docs/08-operacao-diaria.md)
 - [Solução de problemas](../docs/09-solucao-de-problemas.md)
+
+
+## Build reproduzível no Linux
+
+O Guichê agora possui compilação integral automatizada em `.github/workflows/guiche-build.yml`.
+
+O workflow:
+
+- instala Lazarus, Free Pascal e GTK2;
+- baixa o lNet 0.6.5;
+- compila e registra `lnetbase` e `lnetvisual`;
+- executa `lazbuild Guiche/Guiche.lpi`;
+- verifica o executável produzido;
+- publica o artefato `Guiche-linux-x86_64`.
+
+As dependências antigas `DataPortLasarus` e `indylaz` foram removidas do Guichê porque os componentes associados não participavam mais do fluxo ativo. A comunicação do Guichê permanece baseada em lNet.
+
+Isso torna a compilação Linux reproduzível no CI sem depender da configuração pessoal do Lazarus/Online Package Manager.

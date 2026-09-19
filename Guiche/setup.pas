@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Menus, ComCtrls, lNetComponents, lNet, DataPortIP, setmain, Types;
+  StdCtrls, Menus, ComCtrls, lNetComponents, lNet, setmain, Types;
 
 
 
@@ -26,7 +26,6 @@ type
     ckRotulo04: TCheckBox;
     ckRotulo05: TCheckBox;
     cbProtocolo: TComboBox;
-    DataPortTCP1: TDataPortTCP;
     edGuiche: TEdit;
     edIPFILA: TEdit;
     edIPPainel1: TEdit;
@@ -84,7 +83,6 @@ type
     procedure btSalvarClick(Sender: TObject);
     procedure btSetupClick(Sender: TObject);
     procedure btStartClick(Sender: TObject);
-    procedure DataPortTCP1DataAppear(Sender: TObject);
     procedure edIPFILAChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure LTCPComponent1Accept(aSocket: TLSocket);
@@ -135,11 +133,6 @@ end;
 
 
 procedure TfrmSetup.btStartClick(Sender: TObject);
-begin
-
-end;
-
-procedure TfrmSetup.DataPortTCP1DataAppear(Sender: TObject);
 begin
 
 end;
