@@ -46,6 +46,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         super.onCreate();
         preferences = new AppPreferences(this);
         soundManager = new SoundManager(this);
+        preferences.markServiceStarted(System.currentTimeMillis());
         createNotificationChannel();
         startForeground(NOTIFICATION_ID, buildNotification("Inicializando painel"));
         startTcpServer();
@@ -68,15 +69,35 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     }
 
     private void startTcpServer() {
+        if (destroyed) return;
+
+        handler.removeCallbacks(retryRunnable);
         if (tcpServer != null) {
             tcpServer.stop();
         }
+
+        preferences.setServerRunning(false);
         tcpServer = new TcpServerManager(preferences.getPort(), this);
         tcpServer.start();
     }
 
     private void restartTcpServer() {
+        retryCount = 0;
+        preferences.setRetryCount(0);
         startTcpServer();
+    }
+
+    private void scheduleRetry(String reason) {
+        if (destroyed || handler.hasCallbacks(retryRunnable)) return;
+
+        int index = Math.min(retryCount, RETRY_DELAYS_MS.length - 1);
+        long delay = RETRY_DELAYS_MS[index];
+        retryCount++;
+
+        preferences.setRetryCount(retryCount);
+        preferences.setLastError(reason == null ? "Servidor TCP offline" : reason);
+        handler.postDelayed(retryRunnable, delay);
+        updateNotification("Reconectando em " + (delay / 1000L) + "s");
     }
 
     @Override
@@ -95,6 +116,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         }
 
         preferences.savePanelState(guiche, senha, history);
+        preferences.markCallReceived(System.currentTimeMillis());
         soundManager.speakCall(guiche, senha,
                 preferences.isChimeEnabled(), preferences.isTtsEnabled());
 
