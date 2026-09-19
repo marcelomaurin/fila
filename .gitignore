@@ -1,0 +1,23 @@
+# Lazarus / Free Pascal
+lib/
+*.o
+*.ppu
+*.compiled
+*.dbg
+*.or
+*.rst
+*.bak
+*.lps
+
+# Test/build outputs
+build/
+build-tests/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+
+# Runtime logs
+*.log

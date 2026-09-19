@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, Menus, ComCtrls, PopupNotifier, Buttons, lNetComponents, lNet,
-  DataPortIP, setmain, setup, splash, registro, log, hint;
+  DataPortIP, setmain, setup, splash, registro, log, hint, uFilaProtocol;
 
 const Versao = '1.27';
 
@@ -330,7 +330,7 @@ begin
   
   if FPendenteChamada > 0 then
   begin
-    param := 'Fila:'+inttoStr(FPendenteChamada)+#13+'>'+FSetMain.NROGUICHE+';';
+    param := EncodeCallRequest(FPendenteChamada, FSetMain.NROGUICHE);
     LTCPComponent1.SendMessage(param, nil);
     FPendenteChamada := 0; // Limpa o estado pendente
   end;
@@ -350,71 +350,44 @@ end;
 
 procedure Tfrmmain.LTCPComponent1Receive(aSocket: TLSocket);
 var
-  info : string;
-  strNro : string;
-  strNro2 : string;
-  nro : integer;
-  posicao : integer;
-  posfim : integer;
-  tvitem : TTreeNode;
-  LGuiche : integer;
+  info: string;
+  strNro: string;
+  QueueId: Integer;
+  tvitem: TTreeNode;
+  LGuiche: Integer;
 begin
   aSocket.GetMessage(info);
-  posicao := pos('Fila:',info);
-  if (posicao>=0) then
-  begin
-    posfim := pos(#13,info);
-    strNro := copy(info , posicao+7,posfim-(posicao+6));
 
-    if (strNro <> '0'+#13) then
+  if TryParseTicketResponse(info, QueueId, strNro) then
+  begin
+    if strNro <> '0' then
     begin
-      lastcall:= strnro;
-      strNro := StringReplace(strNro, #13, '', [rfReplaceAll]); // remove \r
-      strNro2 := StringReplace(strNro, #10, '', [rfReplaceAll]); // remove \n
-      //nro := strtoint(strnro2);
-      sleep(500);
-      Application.ProcessMessages;
+      lastcall := strNro;
+
       if frmsetup.ckPainel.Checked then
       begin
-           LGuiche := GetGuicheNro;
-           Painel1(strNro2, LGuiche);
-           Painel2(strNro2, LGuiche);
-           Painel3(strNro2, LGuiche);
+        LGuiche := GetGuicheNro;
+        Painel1(strNro, LGuiche);
+        Painel2(strNro, LGuiche);
+        Painel3(strNro, LGuiche);
       end;
-      //ShowMessage('Senha:'+strNro);
-      //PopupNotifier1.Text:=strNro;
-      //PopupNotifier1.Show;
-      frmHint.MessageHint('Senha:'+strNro2);
-      if (frmLog <> nil) then
-      begin
-          frmLog.meLog.Append(strNro2+' - '+timetostr(now));
-      end;
-      tvitem := tvFila.Items.AddChild(tnFila,strNro2);
-      tvitem.ImageIndex:= 9;
-      //Chama o painel
-      (*
-      if(FsetMain.PAINEL) then
-      begin
-         Painel1( strNro2,strtoint(FsetMain.NROGUICHE));
-         Painel2( strNro2,strtoint(FsetMain.NROGUICHE));
-         Painel3( strNro2,strtoint(FsetMain.NROGUICHE));
-      end;
-      *)
 
+      frmHint.MessageHint('Senha:' + strNro);
+      if Assigned(frmLog) then
+        frmLog.meLog.Append(strNro + ' - ' + TimeToStr(Now));
+
+      tvitem := tvFila.Items.AddChild(tnFila, strNro);
+      tvitem.ImageIndex := 9;
     end
     else
-    begin
       ShowMessage('Fila Vazia');
-    end;
   end
   else
-  begin
+    GravaLog('Resposta invalida recebida do Fila: ' + info);
 
-  end;
- btrechamar3.Enabled:= true;
- Cursor:= crDefault;
- // MessageDlg('Retornou',info,[],[],null);
- aSocket.Disconnect(true); //Nao recebeu nada
+  btrechamar3.Enabled := True;
+  Cursor := crDefault;
+  aSocket.Disconnect(True);
 end;
 
 procedure Tfrmmain.LTCPComponent2Accept(aSocket: TLSocket);
@@ -527,7 +500,7 @@ begin
    
    if LTCPComponent1.Connected then
    begin
-     param := 'Fila:'+inttoStr(nro)+#13+'>'+FSetMain.NROGUICHE+';';
+     param := EncodeCallRequest(nro, FSetMain.NROGUICHE);
      LTCPComponent1.SendMessage(param, nil);
      FPendenteChamada := 0; // Limpa a pendência
      tvFila.AutoExpand:= true;
@@ -536,7 +509,7 @@ begin
    begin
      Cursor:= crHourGlass;
      btrechamar3.Enabled:= false;
-     LTCPComponent1.Connect(FSetMain.IPFILA, 8095);
+     LTCPComponent1.Connect(FSetMain.IPFILA, FILA_PORT_GUICHE);
    end;
 end;
 
@@ -548,15 +521,12 @@ begin
   begin
     if not AComponente.Connected then
     begin
-      AComponente.Connect(AIP, 8196);
+      AComponente.Connect(AIP, FILA_PORT_PAINEL);
       sleep(100); // Intervalo curto seguro para buffer assíncrono
       Application.ProcessMessages;
     end;
 
-    if (FSetMain.PROTOCOLO = 1) then
-      param := 'FILA:' + ASenha + '>' + inttostr(AGuiche) + ';'
-    else
-      param := 'Fila:' + ASenha + #13 + '>' + inttostr(AGuiche) + ';';
+    param := EncodePanelCall(ASenha, AGuiche, FSetMain.PROTOCOLO);
 
     AComponente.SendMessage(param, nil);
     GravaLog('Guiche:' + inttostr(AGuiche) + ' enviou ao painel (' + AIP + '): ' + ASenha);

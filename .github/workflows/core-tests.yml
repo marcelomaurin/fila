@@ -1,0 +1,39 @@
+name: Core tests
+
+concurrency:
+  group: core-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - master
+      - 'refactor/**'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  core-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout core only
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            shared
+            tests
+          sparse-checkout-cone-mode: true
+
+      - name: Install Free Pascal
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fp-compiler
+
+      - name: Compile core tests
+        run: |
+          mkdir -p build-tests
+          fpc -Fu./shared -FU./build-tests -FE./build-tests tests/test_core.lpr
+
+      - name: Run core tests
+        run: ./build-tests/test_core

@@ -62,8 +62,6 @@ type
     comport : string;
 
 
-    procedure salvalistagem();
-
     procedure Imprime(Tipo : integer);
     function PegaNro(Tipo: integer): integer;
     function PegaNomeFila(Tipo : integer): string;
@@ -139,16 +137,6 @@ var
 begin
   LIs58 := (fsetmain.TipoPapel = TP_58MM);
 
-  // Adiciona senha nas listas antes de imprimir
-  case Tipo of
-    1: frmmain.lista1.Items.Append(senha);
-    2: frmmain.lista2.Items.Append(senha);
-    3: frmmain.lista3.Items.Append(senha);
-    4: frmmain.lista4.Items.Append(senha);
-    5: frmmain.lista5.Items.Append(senha);
-  end;
-  salvalistagem;
-
   if LIs58 then
   begin
     // NÃO reutilize instância global; crie local e libere no finally
@@ -216,14 +204,6 @@ end;
 procedure TfrmMenu.ImprimeSerial(Tipo: integer; nro: integer; senha: string);
 begin
   try
-    case Tipo of
-      1: frmmain.lista1.Items.Append(senha);
-      2: frmmain.lista2.Items.Append(senha);
-      3: frmmain.lista3.Items.Append(senha);
-      4: frmmain.lista4.Items.Append(senha);
-      5: frmmain.lista5.Items.Append(senha);
-    end;
-
     if Trim(comport) = '' then
       raise Exception.Create('Porta serial não definida.');
 
@@ -267,6 +247,9 @@ begin
   4 :  Senha := FSETMAIN.Abrev04+inttostr(nro);
   5 :  Senha := FSETMAIN.Abrev05+inttostr(nro);
   end;
+
+  // A fila é atualizada pelo serviço de domínio, e não mais pelo componente visual.
+  frmmain.AdicionarSenha(Tipo, Senha);
 
   if(Fimp.TIPOIMP = TI_DRIVER) then (*Tipo driver*)
   begin
@@ -341,62 +324,6 @@ begin
   frmcupom.show;
 end;
 
-
-
-procedure TfrmMenu.salvalistagem;
-var
-  diretorio, arq: string;
-begin
-  try
-    diretorio := GetAppConfigDir(False);
-
-    // Remove separador final
-    if (diretorio <> '') and (diretorio[Length(diretorio)] in ['\', '/']) then
-      Delete(diretorio, Length(diretorio), 1);
-
-    // Garante toda a árvore
-    if not ForceDirectories(diretorio) then
-      raise Exception.Create('Não foi possível criar o diretório: ' + diretorio);
-
-    // Valida listas
-    if not Assigned(frmmain) then
-      raise Exception.Create('Form principal (frmmain) não está disponível.');
-
-    if Assigned(frmmain.lista1) then
-    begin
-      arq := diretorio + PathDelim + 'list01.txt';
-      frmmain.lista1.Items.SaveToFile(arq);
-    end;
-
-    if Assigned(frmmain.lista2) then
-    begin
-      arq := diretorio + PathDelim + 'list02.txt';
-      frmmain.lista2.Items.SaveToFile(arq);
-    end;
-
-    if Assigned(frmmain.lista3) then
-    begin
-      arq := diretorio + PathDelim + 'list03.txt';
-      frmmain.lista3.Items.SaveToFile(arq);
-    end;
-
-    if Assigned(frmmain.lista4) then
-    begin
-      arq := diretorio + PathDelim + 'list04.txt';
-      frmmain.lista4.Items.SaveToFile(arq);
-    end;
-
-    if Assigned(frmmain.lista5) then
-    begin
-      arq := diretorio + PathDelim + 'list05.txt';
-      frmmain.lista5.Items.SaveToFile(arq);
-    end;
-
-  except
-    on E: Exception do
-      frmHint.MessageHint('Erro ao salvar listagens: ' + E.Message);
-  end;
-end;
 
 
 
