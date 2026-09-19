@@ -10,6 +10,12 @@ public class AppPreferences {
     private static final String KEY_CHIME_ENABLED = "chime_enabled";
     private static final String KEY_ADS_URL = "ads_url";
     private static final String KEY_IDLE_SECONDS = "idle_seconds";
+    private static final String KEY_CURRENT_GUICHE = "current_guiche";
+    private static final String KEY_CURRENT_SENHA = "current_senha";
+    private static final String KEY_HISTORY_COUNT = "history_count";
+    private static final String KEY_HISTORY_GUICHE_PREFIX = "history_guiche_";
+    private static final String KEY_HISTORY_SENHA_PREFIX = "history_senha_";
+    private static final String KEY_GROUP_PREFIX = "group_";
 
     private final SharedPreferences prefs;
 
@@ -55,5 +61,63 @@ public class AppPreferences {
 
     public void setIdleSeconds(int seconds) {
         prefs.edit().putInt(KEY_IDLE_SECONDS, seconds).apply();
+    }
+
+    public void savePanelState(String currentGuiche, String currentSenha,
+                               java.util.List<CallHistoryItem> history) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(KEY_CURRENT_GUICHE, currentGuiche == null ? "" : currentGuiche);
+        editor.putString(KEY_CURRENT_SENHA, currentSenha == null ? "" : currentSenha);
+
+        int count = Math.min(history == null ? 0 : history.size(), 4);
+        editor.putInt(KEY_HISTORY_COUNT, count);
+
+        for (int i = 0; i < 4; i++) {
+            if (i < count) {
+                CallHistoryItem item = history.get(i);
+                editor.putString(KEY_HISTORY_GUICHE_PREFIX + i, item.getGuiche());
+                editor.putString(KEY_HISTORY_SENHA_PREFIX + i, item.getSenha());
+            } else {
+                editor.remove(KEY_HISTORY_GUICHE_PREFIX + i);
+                editor.remove(KEY_HISTORY_SENHA_PREFIX + i);
+            }
+        }
+        editor.apply();
+    }
+
+    public String getCurrentGuiche() {
+        return prefs.getString(KEY_CURRENT_GUICHE, "");
+    }
+
+    public String getCurrentSenha() {
+        return prefs.getString(KEY_CURRENT_SENHA, "");
+    }
+
+    public java.util.List<CallHistoryItem> loadHistory() {
+        java.util.List<CallHistoryItem> result = new java.util.ArrayList<>();
+        int count = Math.max(0, Math.min(4, prefs.getInt(KEY_HISTORY_COUNT, 0)));
+
+        for (int i = 0; i < count; i++) {
+            String guiche = prefs.getString(KEY_HISTORY_GUICHE_PREFIX + i, "");
+            String senha = prefs.getString(KEY_HISTORY_SENHA_PREFIX + i, "");
+            if (senha != null && !senha.trim().isEmpty()) {
+                result.add(new CallHistoryItem(
+                        guiche == null ? "" : guiche,
+                        senha
+                ));
+            }
+        }
+        return result;
+    }
+
+    public void setGroupDescription(String groupId, String description) {
+        if (groupId == null || groupId.trim().isEmpty()) return;
+        prefs.edit().putString(KEY_GROUP_PREFIX + groupId.trim(),
+                description == null ? "" : description.trim()).apply();
+    }
+
+    public String getGroupDescription(String groupId) {
+        if (groupId == null) return "";
+        return prefs.getString(KEY_GROUP_PREFIX + groupId.trim(), "");
     }
 }
