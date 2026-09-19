@@ -16,6 +16,7 @@ procedure TestProtocol;
 var
   QueueId: Integer;
   DeskId, Ticket: string;
+  Action, Details: string;
 begin
   Check(EncodeCallRequest(2, '3') = 'Fila:2' + #13 + '>3;',
     'EncodeCallRequest');
@@ -45,6 +46,15 @@ begin
   Check(TryParsePanelCall('Fila:A10' + #13 + '>4;', Ticket, DeskId),
     'TryParsePanelCall protocolo legado alternativo');
   Check((Ticket = 'A10') and (DeskId = '4'), 'Conteudo painel alternativo');
+
+  Check(EncodeLifecycleCommand('iniciar', 'A10', '4', '') =
+    'ATENDIMENTO:INICIAR>A10>4>;', 'EncodeLifecycleCommand');
+  Check(TryParseLifecycleCommand('ATENDIMENTO:FINALIZAR>A10>4>;',
+    Action, Ticket, DeskId, Details), 'TryParseLifecycleCommand');
+  Check((Action = 'FINALIZAR') and (Ticket = 'A10') and
+    (DeskId = '4') and (Details = ''), 'Conteudo lifecycle');
+  Check(not TryParseLifecycleCommand('ATENDIMENTO:INVALIDO>A10>4>;',
+    Action, Ticket, DeskId, Details), 'Lifecycle deve rejeitar acao invalida');
 end;
 
 procedure TestQueueService;
@@ -134,6 +144,23 @@ begin
 
     Repo.MarkCalled(1, 'A2', '3');
     Check(Repo.WaitingCount = 2, 'Chamada deve retirar senha dos aguardando');
+
+    Check(Repo.StartService('A2', '3'), 'Deve iniciar atendimento');
+    Check(Repo.FinishService('A2', '3'), 'Deve finalizar atendimento');
+
+    Repo.MarkCalled(2, 'B1', '4');
+    Check(Repo.MarkAbsent('B1', '4'), 'Deve marcar ausencia');
+
+    Repo.AddTicket(3, 'C1', 0);
+    Check(Repo.CancelTicket('C1', '5', 'cancelado em teste'),
+      'Deve cancelar senha individual');
+
+    with Repo.GetMetrics do
+    begin
+      Check(FinalizadasHoje >= 1, 'Indicador de finalizadas');
+      Check(AusentesHoje >= 1, 'Indicador de ausentes');
+      Check(CanceladasHoje >= 1, 'Indicador de canceladas');
+    end;
 
     Repo.CancelAllWaiting('teste');
     Check(Repo.WaitingCount = 0, 'Reset deve cancelar aguardando');
