@@ -55,9 +55,49 @@ jobs:
         working-directory: PainelAndroid
         run: gradle --no-daemon assembleDebug
 
+      - name: Prepare release keystore
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > "$RUNNER_TEMP/painel-release.jks"
+          echo "ANDROID_KEYSTORE_FILE=$RUNNER_TEMP/painel-release.jks" >> "$GITHUB_ENV"
+          echo "ANDROID_KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> "$GITHUB_ENV"
+          echo "ANDROID_KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}" >> "$GITHUB_ENV"
+          echo "ANDROID_KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}" >> "$GITHUB_ENV"
+
+      - name: Build signed release APK
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        working-directory: PainelAndroid
+        run: gradle --no-daemon assembleRelease
+
+      - name: Generate release metadata
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK="PainelAndroid/app/build/outputs/apk/release/app-release.apk"
+          test -f "$APK"
+          SHA256="$(sha256sum "$APK" | awk '{print $1}')"
+          VERSION_NAME="$(grep -oP 'versionName "\K[^"]+' PainelAndroid/app/build.gradle | head -1)"
+          VERSION_CODE="$(grep -oP 'versionCode \K[0-9]+' PainelAndroid/app/build.gradle | head -1)"
+          SIZE="$(stat -c%s "$APK")"
+          printf '{"version_name":"%s","version_code":%s,"sha256":"%s","size":%s}\n'             "$VERSION_NAME" "$VERSION_CODE" "$SHA256" "$SIZE"             > PainelAndroid/app/build/outputs/apk/release/update.json
+
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
           name: PainelAndroid-debug
           path: PainelAndroid/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+
+      - name: Upload signed release
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: PainelAndroid-release
+          path: |
+            PainelAndroid/app/build/outputs/apk/release/app-release.apk
+            PainelAndroid/app/build/outputs/apk/release/update.json
           if-no-files-found: error
