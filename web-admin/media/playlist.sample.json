@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "type": "image",
+      "url": "https://servidor.exemplo/fila/web-admin/media/files/campanha.jpg",
+      "duration": 12
+    },
+    {
+      "type": "video",
+      "url": "https://servidor.exemplo/fila/web-admin/media/files/orientacao.mp4",
+      "duration": 0
+    }
+  ]
+}

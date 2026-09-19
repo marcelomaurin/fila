@@ -27,6 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
     private SwitchCompat switchTts;
     private SwitchCompat switchChime;
     private EditText etAdsUrl;
+    private EditText etIdleSeconds;
     private Button btnSave;
     private Button btnTestCall;
     private TextView tvDiagnostics;
@@ -48,6 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
         switchTts = findViewById(R.id.switchTts);
         switchChime = findViewById(R.id.switchChime);
         etAdsUrl = findViewById(R.id.etAdsUrl);
+        etIdleSeconds = findViewById(R.id.etIdleSeconds);
         btnSave = findViewById(R.id.btnSave);
         btnTestCall = findViewById(R.id.btnTestCall);
         tvDiagnostics = findViewById(R.id.tvDiagnostics);
@@ -137,6 +139,7 @@ public class SettingsActivity extends AppCompatActivity {
         switchTts.setChecked(preferences.isTtsEnabled());
         switchChime.setChecked(preferences.isChimeEnabled());
         etAdsUrl.setText(preferences.getAdsUrl());
+        etIdleSeconds.setText(String.valueOf(preferences.getIdleSeconds()));
     }
 
     private void saveAndExit() {
@@ -161,6 +164,8 @@ public class SettingsActivity extends AppCompatActivity {
             preferences.setTtsEnabled(switchTts.isChecked());
             preferences.setChimeEnabled(switchChime.isChecked());
             preferences.setAdsUrl(etAdsUrl.getText().toString().trim());
+            int idleSeconds = Integer.parseInt(etIdleSeconds.getText().toString().trim());
+            preferences.setIdleSeconds(Math.max(5, Math.min(3600, idleSeconds)));
 
             Toast.makeText(this, "Configurações salvas!", Toast.LENGTH_SHORT).show();
             setResult(RESULT_OK);
