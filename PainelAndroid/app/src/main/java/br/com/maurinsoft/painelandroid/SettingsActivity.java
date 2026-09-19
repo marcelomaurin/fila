@@ -1,6 +1,8 @@
 package br.com.maurinsoft.painelandroid;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -80,7 +82,7 @@ public class SettingsActivity extends AppCompatActivity {
         String diagnostics = String.format(Locale.getDefault(),
                 "Versão: %s\nIP: %s\nPorta: %d\nTCP: %s\nUptime: %02d:%02d:%02d\n" +
                         "Chamadas recebidas: %d\nÚltima chamada: %s\nTentativas de reconexão: %d\nÚltimo erro: %s",
-                BuildConfig.VERSION_NAME,
+                getAppVersionName(),
                 NetworkUtils.getLocalIpAddress(this),
                 preferences.getPort(),
                 status,
@@ -91,6 +93,15 @@ public class SettingsActivity extends AppCompatActivity {
                 lastError);
 
         tvDiagnostics.setText(diagnostics);
+    }
+
+    private String getAppVersionName() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            return info.versionName == null ? "?" : info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            return "?";
+        }
     }
 
     private void loadPreferences() {
