@@ -160,3 +160,65 @@ Para forçar atualização de um arquivo mantendo o mesmo nome no servidor, pref
 ### Tempo ocioso
 
 A tela Configurações permite escolher o tempo antes da mídia, entre 5 e 3600 segundos.
+
+
+## PainelAndroid 2.7.0 — release e atualização
+
+A versão 2.7.0 adiciona o fluxo de atualização assistida.
+
+A TV consulta periodicamente:
+
+```text
+GET web-admin/api/panel/update.php
+X-Panel-Token: FILA_PANEL_TOKEN
+```
+
+Quando existe `version_code` maior que o instalado:
+
+1. baixa o APK em cache privado;
+2. limita o APK a 250 MB;
+3. calcula SHA-256;
+4. compara com o hash publicado pela central;
+5. cria notificação de atualização;
+6. ao selecionar a notificação, abre o instalador oficial do Android.
+
+Android comum não permite instalação silenciosa sem Device Owner/root. Por isso a atualização é automática até o download/validação, mas a confirmação final de instalação permanece no sistema operacional.
+
+A tela Configurações também possui **Verificar Atualização** para checagem imediata.
+
+### Assinatura de release no GitHub Actions
+
+Configure estes GitHub Actions Secrets:
+
+```text
+ANDROID_KEYSTORE_BASE64
+ANDROID_KEYSTORE_PASSWORD
+ANDROID_KEY_ALIAS
+ANDROID_KEY_PASSWORD
+```
+
+`ANDROID_KEYSTORE_BASE64` deve conter o keystore codificado em Base64. Com os quatro Secrets presentes, o workflow gera o artefato `PainelAndroid-release` com APK assinado e `update.json`.
+
+Sem os Secrets, o CI continua compilando a variante release não assinada para detectar regressões, mas não publica artefato de produção.
+
+## Soak test em TV real
+
+O utilitário:
+
+```text
+tools/panel_android_soak.py
+```
+
+envia chamadas reais para a porta TCP da TV e registra sucessos/falhas.
+
+Exemplos:
+
+```bash
+python tools/panel_android_soak.py --host 192.168.1.50 --hours 24
+python tools/panel_android_soak.py --host 192.168.1.50 --hours 72 --interval 2
+python tools/panel_android_soak.py --host 192.168.1.50 --hours 168 --mode mixed
+```
+
+O modo `mixed` alterna mensagens normais, fragmentadas, agrupadas e reconexões. O relatório é gravado em `panel-soak-report.json`.
+
+Além disso, o CI executa `PanelProtocolSoakTest`, com dezenas de milhares de mensagens, em toda alteração do PainelAndroid.
