@@ -65,27 +65,18 @@ jobs:
           test -n "$LNET_VISUAL"
 
           lazbuild --pcp="$PCP" --widgetset=gtk2 "$LNET_BASE"
-          lazbuild --pcp="$PCP" --widgetset=gtk2 --add-package-link="$LNET_BASE" "$LNET_VISUAL"
-          lazbuild --pcp="$PCP" --add-package-link="$LNET_BASE"
-          lazbuild --pcp="$PCP" --add-package-link="$LNET_VISUAL"
+          lazbuild --pcp="$PCP" --widgetset=gtk2 --add-package-link "$LNET_BASE" "$LNET_VISUAL"
+          lazbuild --pcp="$PCP" --add-package-link "$LNET_BASE"
+          lazbuild --pcp="$PCP" --add-package-link "$LNET_VISUAL"
 
       - name: Build Guiche
         shell: bash
         run: |
           set -euo pipefail
           PCP="$RUNNER_TEMP/lazarus-config"
-          LNET_BASE="$(find "$RUNNER_TEMP/lazarus-deps/lnet" -type f -iname 'lnetbase.lpk' -print -quit)"
-          LNET_VISUAL="$(find "$RUNNER_TEMP/lazarus-deps/lnet" -type f -iname 'lnetvisual.lpk' -print -quit)"
           mkdir -p Guiche/lib/x86_64-linux
 
-          lazbuild \
-            --pcp="$PCP" \
-            --add-package-link="$LNET_BASE" \
-            --add-package-link="$LNET_VISUAL" \
-            --widgetset=gtk2 \
-            --build-all \
-            --verbose-pkgsearch \
-            Guiche/Guiche.lpi
+          lazbuild             --pcp="$PCP"             --widgetset=gtk2             --build-all             --verbose-pkgsearch             Guiche/Guiche.lpi
 
       - name: Locate and verify Guiche binary
         shell: bash
