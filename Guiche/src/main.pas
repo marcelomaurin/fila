@@ -121,6 +121,7 @@ type
     FPendingLifecycle: string;
     FPendingLifecycleAction: string;
     FPendingLifecycleTicket: string;
+    FCurrentLifecycleState: string;
     FLifecyclePanel: TPanel;
     btIniciarAtendimento: TButton;
     btFinalizarAtendimento: TButton;
@@ -315,6 +316,7 @@ begin
   FPendingLifecycle := '';
   FPendingLifecycleAction := '';
   FPendingLifecycleTicket := '';
+  FCurrentLifecycleState := '';
   CreateLifecycleControls;
   UpdateLifecycleControls;
 end;
@@ -396,9 +398,15 @@ begin
       GravaLog('Atendimento ' + LifeAction + ' confirmado para ' + LifeTicket);
       frmHint.MessageHint('Senha ' + LifeTicket + ': ' + LifeAction);
 
-      if (LifeAction = 'FINALIZAR') or (LifeAction = 'AUSENTE') then
+      if LifeAction = 'INICIAR' then
+        FCurrentLifecycleState := 'EM_ATENDIMENTO'
+      else if (LifeAction = 'FINALIZAR') or (LifeAction = 'AUSENTE') or
+              (LifeAction = 'CANCELAR') then
+      begin
         if SameText(lastcall, LifeTicket) then
           lastcall := '';
+        FCurrentLifecycleState := '';
+      end;
     end
     else
     begin
@@ -415,6 +423,7 @@ begin
     if strNro <> '0' then
     begin
       lastcall := strNro;
+      FCurrentLifecycleState := 'CHAMADA';
 
       if frmsetup.ckPainel.Checked then
       begin
@@ -725,12 +734,9 @@ end;
 
 function Tfrmmain.CurrentTicket: string;
 begin
-  Result := '';
-  if Assigned(tnsel) and Assigned(tnsel.Parent) and (tnsel.Parent = tnFila) then
-    Result := Trim(tnsel.Text);
-
-  if Result = '' then
-    Result := Trim(lastcall);
+  // Ações de atendimento atuam apenas sobre a senha ativa do guichê.
+  // A árvore permanece somente como histórico/rechamada.
+  Result := Trim(lastcall);
 end;
 
 procedure Tfrmmain.CreateLifecycleControls;
@@ -786,13 +792,22 @@ begin
   Busy := FPendingLifecycleAction <> '';
 
   if Assigned(btIniciarAtendimento) then
-    btIniciarAtendimento.Enabled := HasTicket and not Busy;
+    btIniciarAtendimento.Enabled := HasTicket and
+      SameText(FCurrentLifecycleState, 'CHAMADA') and not Busy;
+
   if Assigned(btFinalizarAtendimento) then
-    btFinalizarAtendimento.Enabled := HasTicket and not Busy;
+    btFinalizarAtendimento.Enabled := HasTicket and
+      SameText(FCurrentLifecycleState, 'EM_ATENDIMENTO') and not Busy;
+
   if Assigned(btAusenteAtendimento) then
-    btAusenteAtendimento.Enabled := HasTicket and not Busy;
+    btAusenteAtendimento.Enabled := HasTicket and
+      ((SameText(FCurrentLifecycleState, 'CHAMADA')) or
+       (SameText(FCurrentLifecycleState, 'EM_ATENDIMENTO'))) and not Busy;
+
   if Assigned(btCancelarAtendimento) then
-    btCancelarAtendimento.Enabled := HasTicket and not Busy;
+    btCancelarAtendimento.Enabled := HasTicket and
+      ((SameText(FCurrentLifecycleState, 'CHAMADA')) or
+       (SameText(FCurrentLifecycleState, 'EM_ATENDIMENTO'))) and not Busy;
 end;
 
 procedure Tfrmmain.SendLifecycle(const AAction, ADetails: string);
