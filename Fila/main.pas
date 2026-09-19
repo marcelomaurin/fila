@@ -12,7 +12,7 @@ uses
   ExtCtrls, Menus, ComCtrls, EditBtn, Spin, DataPortIP, UniqueInstance,
   rxfolderlister, rxclock, RxTimeEdit, lNetComponents, menu, lNet, log, splash,
   registro, setmain, IMP, toolsfalar, DateUtils, hint, Process, uFilaProtocol,
-  uFilaService;
+  uFilaService, uFilaRepositorySQLite;
 
 const
   intversao = 4;
@@ -177,7 +177,11 @@ type
     nro : integer;
     item : string;
     FQueueService: TFilaService;
+    FQueueRepository: TFilaSQLiteRepository;
     procedure SobreProjeto();
+    procedure InicializaPersistencia();
+    procedure CarregaFilasDoBanco();
+    procedure ImportaFilasLegadas();
     procedure AtualizaListasVisuais();
   public
     procedure Executar();
@@ -238,6 +242,20 @@ begin
     raise Exception.Create('Serviço de filas não inicializado.');
 
   FQueueService.AddTicket(Tipo, Senha);
+
+  if Assigned(FQueueRepository) then
+  begin
+    try
+      FQueueRepository.AddTicket(Tipo, Senha, 0);
+    except
+      on E: Exception do
+      begin
+        if Assigned(frmLog) then
+          frmLog.Log('SQLite AddTicket: ' + E.Message);
+      end;
+    end;
+  end;
+
   salvalistagem();
 end;
 
@@ -260,6 +278,17 @@ end;
 
 procedure Tfrmmain.resetlistas();
 begin
+  if Assigned(FQueueRepository) then
+  begin
+    try
+      FQueueRepository.CancelAllWaiting('Reset manual/programado da fila');
+    except
+      on E: Exception do
+        if Assigned(frmLog) then
+          frmLog.Log('SQLite Reset: ' + E.Message);
+    end;
+  end;
+
   if Assigned(FQueueService) then
   begin
     FQueueService.ClearAll;
@@ -510,6 +539,16 @@ begin
 
     if FQueueService.TryCallNext(nro, item) then
     begin
+      if Assigned(FQueueRepository) then
+      begin
+        try
+          FQueueRepository.MarkCalled(nro, item, guiche);
+        except
+          on E: Exception do
+            frmlog.Log('SQLite MarkCalled: ' + E.Message);
+        end;
+      end;
+
       RegistraEvento(guiche, item, 2);
       frmlog.Log('Fila ' + IntToStr(nro) + ' chamou: ' + item);
       salvalistagem();
@@ -588,6 +627,7 @@ begin
 
   Fsetmain := TSetmain.create();
   FQueueService := TFilaService.Create;
+  InicializaPersistencia();
   self.left := Fsetmain.posx;
   self.top := fsetmain.posy;
   carregalistagem();
@@ -623,6 +663,7 @@ begin
   frmRegistrar.free();
   frmRegistrar := nil;
 
+  FreeAndNil(FQueueRepository);
   FreeAndNil(FQueueService);
   Fsetmain.free();
   frmHint.free;
@@ -809,13 +850,106 @@ begin
   end;
 end;
 
+procedure Tfrmmain.InicializaPersistencia();
+var
+  DbFile: string;
+begin
+  FreeAndNil(FQueueRepository);
+  DbFile := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'fila.db';
+
+  try
+    FQueueRepository := TFilaSQLiteRepository.Create(DbFile);
+    FQueueRepository.Initialize;
+  except
+    on E: Exception do
+    begin
+      FreeAndNil(FQueueRepository);
+      if Assigned(frmHint) then
+        frmHint.MessageHint('SQLite indisponível; usando persistência legada: ' + E.Message);
+    end;
+  end;
+end;
+
+procedure Tfrmmain.CarregaFilasDoBanco();
+var
+  I, J: Integer;
+  L: TStringList;
+begin
+  if not Assigned(FQueueRepository) or not Assigned(FQueueService) then
+    Exit;
+
+  FQueueService.ClearAll;
+  L := TStringList.Create;
+  try
+    for I := 1 to 5 do
+    begin
+      FQueueRepository.LoadWaiting(I, L);
+      for J := 0 to L.Count - 1 do
+        FQueueService.AddTicket(I, L[J]);
+    end;
+  finally
+    L.Free;
+  end;
+
+  AtualizaListasVisuais();
+end;
+
+procedure Tfrmmain.ImportaFilasLegadas();
+var
+  I: Integer;
+  L: TStringList;
+begin
+  if not Assigned(FQueueRepository) or not Assigned(FQueueService) then
+    Exit;
+
+  L := TStringList.Create;
+  try
+    for I := 1 to 5 do
+    begin
+      FQueueService.AssignQueue(I, L);
+      if L.Count > 0 then
+        FQueueRepository.ImportWaiting(I, L);
+    end;
+  finally
+    L.Free;
+  end;
+end;
+
 procedure Tfrmmain.carregalistagem();
 begin
   if not Assigned(FQueueService) then
     Exit;
 
+  if Assigned(FQueueRepository) then
+  begin
+    try
+      if FQueueRepository.WaitingCount > 0 then
+      begin
+        CarregaFilasDoBanco();
+        Exit;
+      end;
+    except
+      on E: Exception do
+      begin
+        if Assigned(frmLog) then
+          frmLog.Log('SQLite carga: ' + E.Message);
+      end;
+    end;
+  end;
+
   FQueueService.LoadFromDirectory(GetAppConfigDir(False));
   AtualizaListasVisuais();
+
+  if Assigned(FQueueRepository) then
+  begin
+    try
+      ImportaFilasLegadas();
+    except
+      on E: Exception do
+        if Assigned(frmLog) then
+          frmLog.Log('SQLite migração legada: ' + E.Message);
+    end;
+  end;
 end;
 
 procedure Tfrmmain.ToggleBox1Change(Sender: TObject);
