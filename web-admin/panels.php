@@ -27,6 +27,8 @@ th{background:#fafafa;position:sticky;top:0}
 <header>
   <strong>Projeto Fila — Painéis TV</strong>
   <a href="index.php">← Atendimento</a>
+  <a href="media.php">Mídia</a>
+  <a href="releases.php">Releases</a>
   <input id="token" type="password" placeholder="Token administrativo">
   <button onclick="saveToken()">Conectar</button>
   <button onclick="refreshPanels()">Atualizar</button>
