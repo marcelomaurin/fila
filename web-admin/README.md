@@ -15,6 +15,7 @@ Defina no ambiente do servidor web:
 ```text
 FILA_DB_PATH=/caminho/para/fila.db
 FILA_ADMIN_TOKEN=um-token-longo-e-secreto
+FILA_PANEL_TOKEN=um-token-compartilhado-com-as-tvs
 FILA_HOST=127.0.0.1
 FILA_PORT=8095
 ```
@@ -30,3 +31,41 @@ Abra `index.php`, informe o token e use o painel. O token fica armazenado apenas
 - `POST api/action.php` — ações `INICIAR`, `FINALIZAR`, `AUSENTE` e `CANCELAR`.
 
 As consultas leem o `fila.db`. As ações administrativas são enviadas ao servidor Fila por TCP (`FILA_HOST`/`FILA_PORT`) para manter SQLite, memória e arquivos TXT sincronizados. O painel não substitui o protocolo do Guichê; ele é uma interface administrativa adicional.
+
+
+## Administração central dos Painéis TV
+
+Abra `panels.php` para acompanhar os PainelAndroid registrados.
+
+Cada TV pode configurar:
+
+- ID estável do painel;
+- nome amigável;
+- unidade/local;
+- URL do `web-admin`;
+- token do painel.
+
+O `PanelService` envia heartbeat a cada 30 segundos para:
+
+```text
+POST api/panel/heartbeat.php
+X-Panel-Token: FILA_PANEL_TOKEN
+```
+
+A central considera o painel online quando recebeu heartbeat nos últimos 90 segundos.
+
+### Ações remotas
+
+A página de painéis permite:
+
+- chamada de teste;
+- reinício do servidor TCP;
+- atualização de nome/unidade;
+- alteração da porta TCP;
+- habilitar/desabilitar TTS;
+- habilitar/desabilitar alerta sonoro;
+- alterar a URL de mídia/anúncios.
+
+Os comandos são enfileirados no SQLite. A TV os recebe no heartbeat e confirma a execução no heartbeat seguinte. Se a resposta se perder, comandos enviados sem confirmação podem ser entregues novamente após 60 segundos.
+
+A administração central é opcional: se URL/token não forem configurados na TV, o painel continua operando normalmente pelo protocolo TCP local.
