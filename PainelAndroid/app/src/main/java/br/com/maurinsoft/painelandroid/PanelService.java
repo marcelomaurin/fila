@@ -42,7 +42,11 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     private final Handler handler = new Handler(Looper.getMainLooper());
     private int retryCount = 0;
     private boolean destroyed = false;
-    private final Runnable retryRunnable = this::startTcpServer;
+    private boolean retryScheduled = false;
+    private final Runnable retryRunnable = () -> {
+        retryScheduled = false;
+        startTcpServer();
+    };
     private final Runnable heartbeatRunnable = new Runnable() {
         @Override
         public void run() {
@@ -116,6 +120,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         if (destroyed) return;
 
         handler.removeCallbacks(retryRunnable);
+        retryScheduled = false;
         if (tcpServer != null) {
             tcpServer.stop();
         }
@@ -132,7 +137,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     }
 
     private void scheduleRetry(String reason) {
-        if (destroyed || handler.hasCallbacks(retryRunnable)) return;
+        if (destroyed || retryScheduled) return;
 
         int index = Math.min(retryCount, RETRY_DELAYS_MS.length - 1);
         long delay = RETRY_DELAYS_MS[index];
@@ -140,6 +145,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
 
         preferences.setRetryCount(retryCount);
         preferences.setLastError(reason == null ? "Servidor TCP offline" : reason);
+        retryScheduled = true;
         handler.postDelayed(retryRunnable, delay);
         updateNotification("Reconectando em " + (delay / 1000L) + "s");
     }
@@ -195,6 +201,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
             preferences.setRetryCount(0);
             preferences.setLastError("");
             handler.removeCallbacks(retryRunnable);
+            retryScheduled = false;
         } else if (!"stopped".equalsIgnoreCase(errorMessage)) {
             String reason = (errorMessage == null || errorMessage.trim().isEmpty())
                     ? "Servidor TCP offline"
@@ -310,6 +317,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     public void onDestroy() {
         destroyed = true;
         handler.removeCallbacks(retryRunnable);
+        retryScheduled = false;
         handler.removeCallbacks(heartbeatRunnable);
         handler.removeCallbacks(watchdogRunnable);
         preferences.setServerRunning(false);
