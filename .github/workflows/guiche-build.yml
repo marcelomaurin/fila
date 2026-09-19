@@ -38,37 +38,20 @@ jobs:
           fpc -iV
           lazbuild --version
 
-      - name: Download OPM dependencies
+      - name: Download lNet
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/lazarus-deps"
           cd "$RUNNER_TEMP/lazarus-deps"
 
-          download_package() {
-            local name="$1"
-            local url="https://packages.lazarus-ide.org/${name}.zip"
-            echo "Downloading ${url}"
-            wget --https-only --tries=3 --timeout=30 -O "${name}.zip" "${url}"
-            unzip -q "${name}.zip" -d "${name}"
-          }
+          wget --https-only --tries=3 --timeout=30             -O lnet.zip             "https://sourceforge.net/projects/lazarus-ccr/files/lNet/lNet%200.6.5/lnet-0.6.5.zip/download"
+          unzip -q lnet.zip -d lnet
 
-          download_package "lnet"
-          download_package "Indy10"
-          download_package "DataPort"
+          echo "lNet packages found:"
+          find "$RUNNER_TEMP/lazarus-deps/lnet" -type f -iname '*.lpk' -print
 
-          # DataPort builds found in historical project metadata also referenced
-          # Synapse; register it when the OPM package is available.
-          if wget --https-only --tries=2 --timeout=20 -O Synapse40.1.zip               "https://packages.lazarus-ide.org/Synapse40.1.zip"; then
-            unzip -q Synapse40.1.zip -d Synapse40.1
-          else
-            rm -f Synapse40.1.zip
-          fi
-
-          echo "LPK files found:"
-          find "$RUNNER_TEMP/lazarus-deps" -type f -iname '*.lpk' -print
-
-      - name: Register Lazarus packages
+      - name: Register lNet packages
         shell: bash
         run: |
           set -euo pipefail
@@ -78,9 +61,7 @@ jobs:
           while IFS= read -r lpk; do
             echo "Registering $lpk"
             lazbuild --pcp="$PCP" --add-package-link="$lpk"
-          done < <(find "$RUNNER_TEMP/lazarus-deps" -type f -iname '*.lpk' | sort)
-
-          lazbuild --pcp="$PCP" --verbose-pkgsearch             "$RUNNER_TEMP/lazarus-deps/lnet/lnet/lazaruspackage/lnetvisual.lpk" || true
+          done < <(find "$RUNNER_TEMP/lazarus-deps/lnet" -type f -iname '*.lpk' | sort)
 
       - name: Build Guiche
         shell: bash
