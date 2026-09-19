@@ -86,3 +86,22 @@ Com isso:
 - a chamada atual e o histórico são restaurados depois de reinício.
 
 O manifesto declara as permissões de foreground service e inicialização após boot necessárias para Android TV/TV Box.
+
+
+## PainelAndroid 2.4.0 — operação autônoma
+
+A versão 2.4.0 adiciona recursos para uso prolongado em TV/TV Box:
+
+- reabertura automática do servidor TCP após falha;
+- espera progressiva de 2, 5, 10 e 30 segundos entre tentativas;
+- verificação periódica do estado do servidor;
+- registro persistente de status online/offline e último erro;
+- contador de chamadas recebidas;
+- registro de data/hora da última chamada;
+- contador de tentativas de reconexão;
+- horário de início do serviço para cálculo de uptime;
+- modo imersivo (fullscreen + ocultação das barras do sistema);
+- tela mantida ligada enquanto o painel está em exibição;
+- seção de diagnóstico nas configurações com versão, IP, porta, TCP, uptime, chamadas, última chamada, reconexões e último erro.
+
+O modo imersivo não depende de privilégios de Device Owner e continua permitindo acesso às configurações pela tecla Menu/Settings do controle.

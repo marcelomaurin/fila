@@ -19,7 +19,7 @@ public class TcpServerManager {
     public interface OnCallReceivedListener {
         void onCallReceived(String guiche, String senha);
         void onGroupReceived(String groupId, String description);
-        void onStatusChanged(boolean running, String ip, int port);
+        void onStatusChanged(boolean running, String ip, int port, String errorMessage);
     }
 
     private final int port;
@@ -45,7 +45,7 @@ public class TcpServerManager {
             serverSocket = new ServerSocket(port);
             serverSocket.setReuseAddress(true);
             Log.i(TAG, "TCP Server started on port " + port);
-            notifyStatus(true);
+            notifyStatus(true, "");
 
             while (isRunning && !serverSocket.isClosed()) {
                 try {
@@ -59,7 +59,7 @@ public class TcpServerManager {
             }
         } catch (Exception e) {
             Log.e(TAG, "Error starting server on port " + port, e);
-            notifyStatus(false);
+            notifyStatus(false, e.getMessage());
         }
     }
 
@@ -114,10 +114,11 @@ public class TcpServerManager {
         }
     }
 
-    private void notifyStatus(boolean running) {
+    private void notifyStatus(boolean running, String errorMessage) {
         mainHandler.post(() -> {
             if (listener != null) {
-                listener.onStatusChanged(running, "", port);
+                listener.onStatusChanged(running, "", port,
+                        errorMessage == null ? "" : errorMessage);
             }
         });
     }
@@ -132,6 +133,6 @@ public class TcpServerManager {
             Log.e(TAG, "Error closing serverSocket", e);
         }
         executor.shutdownNow();
-        notifyStatus(false);
+        notifyStatus(false, "stopped");
     }
 }

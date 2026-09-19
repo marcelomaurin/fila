@@ -7,6 +7,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -29,19 +31,37 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
 
     private static final String CHANNEL_ID = "painel_service";
     private static final int NOTIFICATION_ID = 8196;
+    private static final long[] RETRY_DELAYS_MS = {2000L, 5000L, 10000L, 30000L};
 
     private AppPreferences preferences;
     private SoundManager soundManager;
     private TcpServerManager tcpServer;
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private int retryCount = 0;
+    private boolean destroyed = false;
+    private final Runnable retryRunnable = this::startTcpServer;
+    private final Runnable watchdogRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!destroyed && !preferences.isServerRunning()) {
+                scheduleRetry("Servidor TCP permaneceu offline");
+            }
+            if (!destroyed) {
+                handler.postDelayed(this, 60000L);
+            }
+        }
+    };
 
     @Override
     public void onCreate() {
         super.onCreate();
         preferences = new AppPreferences(this);
         soundManager = new SoundManager(this);
+        preferences.markServiceStarted(System.currentTimeMillis());
         createNotificationChannel();
         startForeground(NOTIFICATION_ID, buildNotification("Inicializando painel"));
         startTcpServer();
+        handler.postDelayed(watchdogRunnable, 60000L);
     }
 
     @Override
@@ -61,15 +81,35 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     }
 
     private void startTcpServer() {
+        if (destroyed) return;
+
+        handler.removeCallbacks(retryRunnable);
         if (tcpServer != null) {
             tcpServer.stop();
         }
+
+        preferences.setServerRunning(false);
         tcpServer = new TcpServerManager(preferences.getPort(), this);
         tcpServer.start();
     }
 
     private void restartTcpServer() {
+        retryCount = 0;
+        preferences.setRetryCount(0);
         startTcpServer();
+    }
+
+    private void scheduleRetry(String reason) {
+        if (destroyed || handler.hasCallbacks(retryRunnable)) return;
+
+        int index = Math.min(retryCount, RETRY_DELAYS_MS.length - 1);
+        long delay = RETRY_DELAYS_MS[index];
+        retryCount++;
+
+        preferences.setRetryCount(retryCount);
+        preferences.setLastError(reason == null ? "Servidor TCP offline" : reason);
+        handler.postDelayed(retryRunnable, delay);
+        updateNotification("Reconectando em " + (delay / 1000L) + "s");
     }
 
     @Override
@@ -88,6 +128,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         }
 
         preferences.savePanelState(guiche, senha, history);
+        preferences.markCallReceived(System.currentTimeMillis());
         soundManager.speakCall(guiche, senha,
                 preferences.isChimeEnabled(), preferences.isTtsEnabled());
 
@@ -112,11 +153,29 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     }
 
     @Override
-    public void onStatusChanged(boolean running, String ip, int port) {
+    public void onStatusChanged(boolean running, String ip, int port, String errorMessage) {
+        if (destroyed) return;
+
+        preferences.setServerRunning(running);
+
+        if (running) {
+            retryCount = 0;
+            preferences.setRetryCount(0);
+            preferences.setLastError("");
+            handler.removeCallbacks(retryRunnable);
+        } else if (!"stopped".equalsIgnoreCase(errorMessage)) {
+            String reason = (errorMessage == null || errorMessage.trim().isEmpty())
+                    ? "Servidor TCP offline"
+                    : errorMessage.trim();
+            scheduleRetry(reason);
+        }
+
         Intent event = new Intent(ACTION_STATUS);
         event.setPackage(getPackageName());
         event.putExtra(EXTRA_RUNNING, running);
         event.putExtra(EXTRA_PORT, port);
+        event.putExtra("retry_count", retryCount);
+        event.putExtra("error", errorMessage == null ? "" : errorMessage);
         sendBroadcast(event);
 
         updateNotification(running
@@ -158,6 +217,10 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
 
     @Override
     public void onDestroy() {
+        destroyed = true;
+        handler.removeCallbacks(retryRunnable);
+        handler.removeCallbacks(watchdogRunnable);
+        preferences.setServerRunning(false);
         if (tcpServer != null) {
             tcpServer.stop();
             tcpServer = null;
