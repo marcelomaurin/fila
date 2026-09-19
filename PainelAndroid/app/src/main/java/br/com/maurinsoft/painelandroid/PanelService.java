@@ -39,6 +39,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     private SoundManager soundManager;
     private TcpServerManager tcpServer;
     private CentralAdminClient centralAdminClient;
+    private UpdateManager updateManager;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private int retryCount = 0;
     private boolean destroyed = false;
@@ -47,6 +48,20 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         retryScheduled = false;
         startTcpServer();
     };
+    private final Runnable updateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!destroyed && updateManager != null && preferences.isCentralAdminEnabled()) {
+                updateManager.checkAndPrepare((available, version, error) -> {
+                    // Resultado persistido pelo UpdateManager.
+                });
+            }
+            if (!destroyed) {
+                handler.postDelayed(this, 6L * 60L * 60L * 1000L);
+            }
+        }
+    };
+
     private final Runnable heartbeatRunnable = new Runnable() {
         @Override
         public void run() {
@@ -92,11 +107,13 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         preferences = new AppPreferences(this);
         soundManager = new SoundManager(this);
         centralAdminClient = new CentralAdminClient(this, preferences);
+        updateManager = new UpdateManager(this, preferences);
         preferences.markServiceStarted(System.currentTimeMillis());
         createNotificationChannel();
         startForeground(NOTIFICATION_ID, buildNotification("Inicializando painel"));
         startTcpServer();
         handler.postDelayed(heartbeatRunnable, 5000L);
+        handler.postDelayed(updateRunnable, 2L * 60L * 1000L);
         handler.postDelayed(watchdogRunnable, 60000L);
     }
 
@@ -319,6 +336,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         handler.removeCallbacks(retryRunnable);
         retryScheduled = false;
         handler.removeCallbacks(heartbeatRunnable);
+        handler.removeCallbacks(updateRunnable);
         handler.removeCallbacks(watchdogRunnable);
         preferences.setServerRunning(false);
         if (tcpServer != null) {
@@ -332,6 +350,10 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         if (centralAdminClient != null) {
             centralAdminClient.shutdown();
             centralAdminClient = null;
+        }
+        if (updateManager != null) {
+            updateManager.shutdown();
+            updateManager = null;
         }
         super.onDestroy();
     }
