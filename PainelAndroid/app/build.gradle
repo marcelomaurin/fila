@@ -10,8 +10,8 @@ android {
         applicationId "br.com.maurinsoft.painelandroid"
         minSdk 21
         targetSdk 34
-        versionCode 3
-        versionName "2.4.0"
+        versionCode 4
+        versionName "2.5.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
