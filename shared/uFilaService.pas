@@ -27,6 +27,7 @@ type
     function TryCallNext(AQueueId: Integer; out ATicket: string): Boolean;
     function PeekTicket(AQueueId: Integer; out ATicket: string): Boolean;
     function Count(AQueueId: Integer): Integer;
+    function RemoveTicket(AQueueId: Integer; const ATicket: string): Boolean;
     procedure Clear(AQueueId: Integer);
     procedure ClearAll;
 
@@ -108,6 +109,18 @@ function TFilaService.Count(AQueueId: Integer): Integer;
 begin
   ValidateQueueId(AQueueId);
   Result := FQueues[AQueueId].Count;
+end;
+
+function TFilaService.RemoveTicket(AQueueId: Integer;
+  const ATicket: string): Boolean;
+var
+  Index: Integer;
+begin
+  ValidateQueueId(AQueueId);
+  Index := FQueues[AQueueId].IndexOf(Trim(ATicket));
+  Result := Index >= 0;
+  if Result then
+    FQueues[AQueueId].Delete(Index);
 end;
 
 procedure TFilaService.Clear(AQueueId: Integer);
