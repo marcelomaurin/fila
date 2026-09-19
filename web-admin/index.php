@@ -30,7 +30,6 @@ small{color:#666}
   <a href="panels.php">Painéis TV</a>
   <a href="media.php">Mídia</a>
   <a href="releases.php">Releases</a>
-  <a href="panels.php">Painéis TV</a>
   <input id="token" type="password" placeholder="Token administrativo">
   <button onclick="saveToken()">Conectar</button>
   <button onclick="refreshAll()">Atualizar</button>
