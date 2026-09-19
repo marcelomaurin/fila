@@ -70,8 +70,7 @@ jobs:
           printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$ANDROID_KEYSTORE_FILE"
           test -s "$ANDROID_KEYSTORE_FILE"
 
-      - name: Build signed release APK
-        if: ${{ env.ANDROID_KEYSTORE_BASE64 != '' }}
+      - name: Build release APK
         working-directory: PainelAndroid
         run: gradle --no-daemon assembleRelease
 
