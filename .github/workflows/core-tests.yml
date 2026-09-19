@@ -1,5 +1,9 @@
 name: Core tests
 
+concurrency:
+  group: core-tests-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
