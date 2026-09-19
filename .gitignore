@@ -21,3 +21,11 @@ Thumbs.db
 
 # Runtime logs
 *.log
+
+# PainelAndroid/web-admin runtime artifacts
+web-admin/media/playlist-config.json
+web-admin/media/files/*
+!web-admin/media/files/.gitkeep
+web-admin/releases/*
+!web-admin/releases/.gitkeep
+panel-soak-report.json

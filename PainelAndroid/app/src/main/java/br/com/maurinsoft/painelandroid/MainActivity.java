@@ -1,11 +1,13 @@
 package br.com.maurinsoft.painelandroid;
 
+import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -120,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         preferences = new AppPreferences(this);
+        requestNotificationPermissionIfNeeded();
         mediaPlaylistManager = new MediaPlaylistManager(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         applyImmersiveMode();
@@ -133,6 +136,14 @@ public class MainActivity extends AppCompatActivity {
         loadPlaylist();
         scheduleMediaAfterIdle();
         handler.postDelayed(refreshPlaylistRunnable, 15 * 60 * 1000L);
+    }
+
+    private void requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 2700);
+        }
     }
 
     private void applyImmersiveMode() {
