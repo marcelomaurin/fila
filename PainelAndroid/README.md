@@ -120,3 +120,43 @@ A central pode responder com configuração desejada e comandos remotos. Atualme
 - `CONFIG`.
 
 O protocolo administrativo usa HTTP/JSON e token separado do token do administrador web. A ausência da central não interrompe o recebimento TCP local.
+
+
+## PainelAndroid 2.6.0 — mídia institucional
+
+A versão 2.6.0 transforma `adsUrl` em uma playlist real de mídia institucional.
+
+### Formato da playlist
+
+A URL deve retornar JSON:
+
+```json
+{
+  "items": [
+    {"type":"image","url":"https://servidor/banner.jpg","duration":12},
+    {"type":"video","url":"https://servidor/video.mp4","duration":0}
+  ]
+}
+```
+
+Tipos aceitos:
+
+- `image`: JPG/JPEG/PNG/WEBP; `duration` define por quantos segundos a imagem fica na tela;
+- `video`: MP4/WEBM; o vídeo avança quando a reprodução termina.
+
+### Comportamento
+
+- depois do tempo ocioso configurado, a playlist ocupa a área principal do painel;
+- uma nova chamada interrompe imediatamente imagem/vídeo;
+- senha e guichê voltam à frente;
+- depois do novo período de ociosidade, a playlist recomeça;
+- a playlist é atualizada periodicamente;
+- os arquivos são armazenados no cache interno do aplicativo;
+- se a rede cair, a última playlist e os arquivos já baixados continuam disponíveis;
+- arquivos individuais são limitados a 200 MB e a playlist a 50 itens.
+
+Para forçar atualização de um arquivo mantendo o mesmo nome no servidor, prefira alterar a URL (por exemplo usando `?v=2`) ou publicar com novo nome.
+
+### Tempo ocioso
+
+A tela Configurações permite escolher o tempo antes da mídia, entre 5 e 3600 segundos.
