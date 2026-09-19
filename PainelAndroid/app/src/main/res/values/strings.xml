@@ -29,4 +29,6 @@
     <string name="pref_panel_token">Token do painel</string>
     <string name="diagnostics_title">Diagnóstico do Painel</string>
     <string name="diagnostics_loading">Carregando diagnóstico...</string>
+    <string name="media_content">Mídia institucional</string>
+    <string name="media_offline_cache">Mídia em cache offline</string>
 </resources>
