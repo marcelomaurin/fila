@@ -13,6 +13,18 @@ function fila_db_path(): string
     return __DIR__ . '/' . DEFAULT_DB_RELATIVE;
 }
 
+function fila_server_host(): string
+{
+    $host = getenv('FILA_HOST');
+    return ($host === false || trim($host) === '') ? '127.0.0.1' : trim($host);
+}
+
+function fila_server_port(): int
+{
+    $port = (int)(getenv('FILA_PORT') ?: 8095);
+    return ($port >= 1 && $port <= 65535) ? $port : 8095;
+}
+
 function fila_admin_token(): string
 {
     $token = getenv('FILA_ADMIN_TOKEN');
