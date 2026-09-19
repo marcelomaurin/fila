@@ -40,6 +40,17 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     private int retryCount = 0;
     private boolean destroyed = false;
     private final Runnable retryRunnable = this::startTcpServer;
+    private final Runnable watchdogRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!destroyed && !preferences.isServerRunning()) {
+                scheduleRetry("Servidor TCP permaneceu offline");
+            }
+            if (!destroyed) {
+                handler.postDelayed(this, 60000L);
+            }
+        }
+    };
 
     @Override
     public void onCreate() {
@@ -50,6 +61,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         createNotificationChannel();
         startForeground(NOTIFICATION_ID, buildNotification("Inicializando painel"));
         startTcpServer();
+        handler.postDelayed(watchdogRunnable, 60000L);
     }
 
     @Override
@@ -207,6 +219,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     public void onDestroy() {
         destroyed = true;
         handler.removeCallbacks(retryRunnable);
+        handler.removeCallbacks(watchdogRunnable);
         preferences.setServerRunning(false);
         if (tcpServer != null) {
             tcpServer.stop();
