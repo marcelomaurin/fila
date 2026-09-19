@@ -31,6 +31,9 @@ public class AppPreferences {
     private static final String KEY_LAST_HEARTBEAT_ERROR = "last_heartbeat_error";
     private static final String KEY_ACK_COMMAND_ID = "ack_command_id";
     private static final String KEY_ACK_COMMAND_RESULT = "ack_command_result";
+    private static final String KEY_LAST_UPDATE_CHECK_AT = "last_update_check_at";
+    private static final String KEY_LAST_UPDATE_VERSION = "last_update_version";
+    private static final String KEY_LAST_UPDATE_ERROR = "last_update_error";
 
     private final SharedPreferences prefs;
 
@@ -274,5 +277,25 @@ public class AppPreferences {
                 .remove(KEY_ACK_COMMAND_ID)
                 .remove(KEY_ACK_COMMAND_RESULT)
                 .apply();
+    }
+
+    public void markUpdateCheck(long timestamp, String version, String error) {
+        prefs.edit()
+                .putLong(KEY_LAST_UPDATE_CHECK_AT, timestamp)
+                .putString(KEY_LAST_UPDATE_VERSION, version == null ? "" : version)
+                .putString(KEY_LAST_UPDATE_ERROR, error == null ? "" : error)
+                .apply();
+    }
+
+    public long getLastUpdateCheckAt() {
+        return prefs.getLong(KEY_LAST_UPDATE_CHECK_AT, 0L);
+    }
+
+    public String getLastUpdateVersion() {
+        return prefs.getString(KEY_LAST_UPDATE_VERSION, "");
+    }
+
+    public String getLastUpdateError() {
+        return prefs.getString(KEY_LAST_UPDATE_ERROR, "");
     }
 }
