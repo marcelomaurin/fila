@@ -105,3 +105,18 @@ A versão 2.4.0 adiciona recursos para uso prolongado em TV/TV Box:
 - seção de diagnóstico nas configurações com versão, IP, porta, TCP, uptime, chamadas, última chamada, reconexões e último erro.
 
 O modo imersivo não depende de privilégios de Device Owner e continua permitindo acesso às configurações pela tecla Menu/Settings do controle.
+
+
+## PainelAndroid 2.5.0 — administração central
+
+A versão 2.5.0 permite cadastrar cada TV em uma central web.
+
+O painel mantém um `panel_id` persistente e envia heartbeat periódico com estado operacional, IP, porta, versão, uptime, contador de chamadas, última senha, último erro e configurações de áudio.
+
+A central pode responder com configuração desejada e comandos remotos. Atualmente são suportados:
+
+- `TEST_CALL`;
+- `RESTART_TCP`;
+- `CONFIG`.
+
+O protocolo administrativo usa HTTP/JSON e token separado do token do administrador web. A ausência da central não interrompe o recebimento TCP local.
