@@ -326,9 +326,9 @@ begin
   try
     Q.SQL.Text :=
       'INSERT INTO evento(senha_id,codigo,fila_id,guiche,tipo,detalhes,criado_em) ' +
-      'VALUES((SELECT id FROM senha WHERE codigo=:codigo ' +
-      'AND (:fila=0 OR fila_id=:fila) ORDER BY id DESC LIMIT 1),' +
-      ':codigo,:fila,:guiche,:tipo,:detalhes,:data)';
+      'SELECT id,codigo,fila_id,:guiche,:tipo,:detalhes,:data ' +
+      'FROM senha WHERE codigo=:codigo ' +
+      'AND (:fila=0 OR fila_id=:fila) ORDER BY id DESC LIMIT 1';
     Q.ParamByName('codigo').AsString := ATicket;
     Q.ParamByName('fila').AsInteger := AQueueId;
     Q.ParamByName('guiche').AsString := ADeskId;
