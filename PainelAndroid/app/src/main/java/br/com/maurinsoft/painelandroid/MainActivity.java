@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +16,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -47,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvHistGuiche4, tvHistSenha4;
 
     private TextView tvDate, tvTime, tvMarqueeMessage;
+    private FrameLayout mediaOverlay;
+    private ImageView mediaImage;
+    private VideoView mediaVideo;
+    private TextView mediaStatus;
 
     private AppPreferences preferences;
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -56,6 +64,21 @@ public class MainActivity extends AppCompatActivity {
     private final List<CallHistoryItem> historyList = new ArrayList<>();
     private ActivityResultLauncher<Intent> settingsLauncher;
     private boolean receiverRegistered = false;
+    private MediaPlaylistManager mediaPlaylistManager;
+    private final List<MediaItem> mediaItems = new ArrayList<>();
+    private int mediaIndex = 0;
+    private boolean mediaActive = false;
+    private boolean playlistFromCache = false;
+
+    private final Runnable idleMediaRunnable = this::startMediaIfAvailable;
+    private final Runnable nextMediaRunnable = this::showNextMedia;
+    private final Runnable refreshPlaylistRunnable = new Runnable() {
+        @Override
+        public void run() {
+            loadPlaylist();
+            handler.postDelayed(this, 15 * 60 * 1000L);
+        }
+    };
 
     private final BroadcastReceiver panelReceiver = new BroadcastReceiver() {
         @Override
@@ -63,8 +86,10 @@ public class MainActivity extends AppCompatActivity {
             if (intent == null || intent.getAction() == null) return;
 
             if (PanelService.ACTION_CALL.equals(intent.getAction())) {
+                stopMediaForCall();
                 restorePanelState();
                 startBlinkAnimation();
+                scheduleMediaAfterIdle();
             } else if (PanelService.ACTION_STATUS.equals(intent.getAction())) {
                 boolean running = intent.getBooleanExtra(PanelService.EXTRA_RUNNING, false);
                 int port = intent.getIntExtra(PanelService.EXTRA_PORT, preferences.getPort());
@@ -95,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         preferences = new AppPreferences(this);
+        mediaPlaylistManager = new MediaPlaylistManager(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         applyImmersiveMode();
 
@@ -104,6 +130,9 @@ public class MainActivity extends AppCompatActivity {
         startClock();
         showConfiguredEndpoint();
         startPanelService();
+        loadPlaylist();
+        scheduleMediaAfterIdle();
+        handler.postDelayed(refreshPlaylistRunnable, 15 * 60 * 1000L);
     }
 
     private void applyImmersiveMode() {
@@ -130,10 +159,14 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         registerPanelReceiver();
         restorePanelState();
+        scheduleMediaAfterIdle();
     }
 
     @Override
     protected void onStop() {
+        handler.removeCallbacks(idleMediaRunnable);
+        handler.removeCallbacks(nextMediaRunnable);
+        stopMedia();
         unregisterPanelReceiver();
         super.onStop();
     }
@@ -163,6 +196,17 @@ public class MainActivity extends AppCompatActivity {
         tvMarqueeMessage = findViewById(R.id.tvMarqueeMessage);
         tvMarqueeMessage.setSelected(true);
 
+        mediaOverlay = findViewById(R.id.mediaOverlay);
+        mediaImage = findViewById(R.id.mediaImage);
+        mediaVideo = findViewById(R.id.mediaVideo);
+        mediaStatus = findViewById(R.id.mediaStatus);
+
+        mediaVideo.setOnCompletionListener(mp -> showNextMedia());
+        mediaVideo.setOnErrorListener((mp, what, extra) -> {
+            showNextMedia();
+            return true;
+        });
+
         btnOpenSettings.setOnClickListener(v -> openSettings());
         tvIpStatus.setOnClickListener(v -> openSettings());
     }
@@ -189,6 +233,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     showConfiguredEndpoint();
+                    loadPlaylist();
+                    scheduleMediaAfterIdle();
                 }
         );
     }
@@ -275,6 +321,114 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void loadPlaylist() {
+        String url = preferences.getAdsUrl();
+        if (url == null || url.trim().isEmpty()) {
+            mediaItems.clear();
+            stopMedia();
+            return;
+        }
+
+        mediaPlaylistManager.load(url, new MediaPlaylistManager.Listener() {
+            @Override
+            public void onPlaylistReady(List<MediaItem> items, boolean fromCache) {
+                mediaItems.clear();
+                mediaItems.addAll(items);
+                playlistFromCache = fromCache;
+                if (mediaIndex >= mediaItems.size()) mediaIndex = 0;
+                if (mediaActive && !mediaItems.isEmpty()) {
+                    showCurrentMedia();
+                }
+            }
+
+            @Override
+            public void onPlaylistError(String error) {
+                if (mediaItems.isEmpty()) {
+                    stopMedia();
+                }
+            }
+        });
+    }
+
+    private void scheduleMediaAfterIdle() {
+        handler.removeCallbacks(idleMediaRunnable);
+        handler.removeCallbacks(nextMediaRunnable);
+
+        if (preferences.getAdsUrl() == null || preferences.getAdsUrl().trim().isEmpty()) {
+            stopMedia();
+            return;
+        }
+
+        int seconds = Math.max(5, preferences.getIdleSeconds());
+        handler.postDelayed(idleMediaRunnable, seconds * 1000L);
+    }
+
+    private void startMediaIfAvailable() {
+        if (mediaItems.isEmpty()) {
+            loadPlaylist();
+            handler.postDelayed(idleMediaRunnable, 5000L);
+            return;
+        }
+
+        mediaActive = true;
+        mediaOverlay.setVisibility(View.VISIBLE);
+        showCurrentMedia();
+    }
+
+    private void showCurrentMedia() {
+        if (!mediaActive || mediaItems.isEmpty()) return;
+
+        handler.removeCallbacks(nextMediaRunnable);
+        if (mediaIndex < 0 || mediaIndex >= mediaItems.size()) mediaIndex = 0;
+
+        MediaItem item = mediaItems.get(mediaIndex);
+        if (item.getCachedFile() == null || !item.getCachedFile().isFile()) {
+            showNextMedia();
+            return;
+        }
+
+        mediaStatus.setVisibility(playlistFromCache ? View.VISIBLE : View.GONE);
+
+        if (item.getType() == MediaItem.Type.IMAGE) {
+            mediaVideo.stopPlayback();
+            mediaVideo.setVisibility(View.GONE);
+            mediaImage.setVisibility(View.VISIBLE);
+            mediaImage.setImageURI(Uri.fromFile(item.getCachedFile()));
+            handler.postDelayed(nextMediaRunnable, item.getDurationSeconds() * 1000L);
+        } else {
+            mediaImage.setVisibility(View.GONE);
+            mediaVideo.setVisibility(View.VISIBLE);
+            mediaVideo.setVideoURI(Uri.fromFile(item.getCachedFile()));
+            mediaVideo.start();
+        }
+    }
+
+    private void showNextMedia() {
+        if (!mediaActive || mediaItems.isEmpty()) return;
+        mediaIndex = (mediaIndex + 1) % mediaItems.size();
+        showCurrentMedia();
+    }
+
+    private void stopMediaForCall() {
+        stopMedia();
+    }
+
+    private void stopMedia() {
+        mediaActive = false;
+        handler.removeCallbacks(nextMediaRunnable);
+        if (mediaVideo != null) {
+            mediaVideo.stopPlayback();
+            mediaVideo.setVisibility(View.GONE);
+        }
+        if (mediaImage != null) {
+            mediaImage.setImageDrawable(null);
+            mediaImage.setVisibility(View.GONE);
+        }
+        if (mediaOverlay != null) {
+            mediaOverlay.setVisibility(View.GONE);
+        }
+    }
+
     private void startBlinkAnimation() {
         int colorNormal = ContextCompat.getColor(this, R.color.bg_surface);
         int colorHighlight = Color.parseColor("#7F1D1D");
@@ -300,6 +454,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         handler.removeCallbacks(clockRunnable);
+        handler.removeCallbacks(idleMediaRunnable);
+        handler.removeCallbacks(nextMediaRunnable);
+        handler.removeCallbacks(refreshPlaylistRunnable);
+        stopMedia();
+        if (mediaPlaylistManager != null) {
+            mediaPlaylistManager.shutdown();
+            mediaPlaylistManager = null;
+        }
         unregisterPanelReceiver();
         super.onDestroy();
     }
