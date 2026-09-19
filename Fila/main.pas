@@ -11,11 +11,9 @@ uses
   {$ENDIF}
   ExtCtrls, Menus, ComCtrls, EditBtn, Spin, DataPortIP, UniqueInstance,
   rxfolderlister, rxclock, RxTimeEdit, lNetComponents, menu, lNet, log, splash,
-  registro, setmain, IMP, toolsfalar, DateUtils, hint, Process;
+  registro, setmain, IMP, toolsfalar, DateUtils, hint, Process, uFilaProtocol;
 
 const
-  PortGuiche = 8095;
-  PortPainel = 8096;
   intversao = 4;
   intrevisao = 07;
 
@@ -218,12 +216,12 @@ var
 begin
   //diretorio := GetTempDir;
   diretorio :=   GetAppConfigDir(false);
-  if(DirectoryExists(diretorio))   then
+  if not DirectoryExists(diretorio) then
   begin
-    frmhint.MessageHint('Pasta '+ diretorio+ ' não encontrada');
-    //CreateDir(GetTempDir);
-    CreateDir(GetAppConfigDir(false));
-    frmhint.MessageHint('Pasta '+ diretorio+ ' foi criada');
+    if not ForceDirectories(diretorio) then
+      raise Exception.Create('Não foi possível criar a pasta: ' + diretorio);
+    if Assigned(frmhint) then
+      frmhint.MessageHint('Pasta ' + diretorio + ' foi criada');
   end;
   if (diretorio <> '') and (diretorio[Length(diretorio)] in ['\', '/']) then
     Delete(diretorio, Length(diretorio), 1);
@@ -508,82 +506,81 @@ end;
 
 procedure Tfrmmain.LTCPComponent1Receive(aSocket: TLSocket);
 var
-  mensagem : string;
-  strnro : string;
-  posicao : integer;
+  mensagem: string;
+  QueueId: Integer;
+  DeskId: string;
 begin
   aSocket.GetMessage(mensagem);
-  frmlog.Log('Receive:'+aSocket.PeerAddress+',msg:'+mensagem);
-  if (mensagem <> '') then
+  frmlog.Log('Receive:' + aSocket.PeerAddress + ',msg:' + mensagem);
+
+  if TryParseCallRequest(mensagem, QueueId, DeskId) then
   begin
-    if (POS(mensagem, 'Fila:')>=0) then
-    begin
-      posicao := pos(':',mensagem);
-      strnro := copy(mensagem,posicao+1,pos(#13,mensagem)-(posicao+1));
-      nro := strtoint(strnro);
-      guiche := copy(mensagem,pos('>',mensagem)+1,pos(';',mensagem)-pos('>',mensagem)-1);
+    nro := QueueId;
+    guiche := DeskId;
 
-      case nro of
-        1: begin
-          if (frmmain.Lista1.Count>0) then
-          begin
-            item := frmmain.Lista1.Items.Strings[0];
-            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
-            frmmain.Lista1.items.Delete(0);
-            frmlog.Log('delete List1:'+item);
-          end
-          else item := '0';
-        end;
-        2: begin
-          if (frmmain.Lista2.Count>0) then
-          begin
-            item := frmmain.Lista2.items.Strings[0];
-            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
-            frmmain.Lista2.items.Delete(0);
-            frmlog.Log('delete List2:'+item);
-          end
-          else item := '0';
-        end;
-        3: begin
-          if (frmmain.Lista3.Count>0) then
-          begin
-            item := frmmain.Lista3.items.Strings[0];
-            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
-            frmmain.Lista3.items.Delete(0);
-            frmlog.Log('delete List3:'+item);
-          end
-          else item := '0';
-        end;
-        4: begin
-          if (frmmain.Lista4.Count>0) then
-          begin
-            item := frmmain.Lista4.items.Strings[0];
-            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
-            frmmain.Lista4.items.Delete(0);
-            frmlog.Log('delete List4:'+item);
-          end
-          else item := '0';
-        end;
-        5: begin
-          if (frmmain.Lista5.Count>0) then
-          begin
-            item := frmmain.Lista5.items.Strings[0];
-            RegistraEvento(guiche, item, 2);    //Registra Chamada do ticket
-            frmmain.Lista5.items.Delete(0);
-            frmlog.Log('delete List5:'+item);
-          end
-          else item := '0';
-        end;
-      end;
-
-      aSocket.SendMessage('Fila:'+inttostr(nro)+';'+Item+#13);
-      aSocket.Disconnect(true);
+    case nro of
+      1:
+        if Lista1.Count > 0 then
+        begin
+          item := Lista1.Items[0];
+          RegistraEvento(guiche, item, 2);
+          Lista1.Items.Delete(0);
+          frmlog.Log('delete List1:' + item);
+        end
+        else
+          item := '0';
+      2:
+        if Lista2.Count > 0 then
+        begin
+          item := Lista2.Items[0];
+          RegistraEvento(guiche, item, 2);
+          Lista2.Items.Delete(0);
+          frmlog.Log('delete List2:' + item);
+        end
+        else
+          item := '0';
+      3:
+        if Lista3.Count > 0 then
+        begin
+          item := Lista3.Items[0];
+          RegistraEvento(guiche, item, 2);
+          Lista3.Items.Delete(0);
+          frmlog.Log('delete List3:' + item);
+        end
+        else
+          item := '0';
+      4:
+        if Lista4.Count > 0 then
+        begin
+          item := Lista4.Items[0];
+          RegistraEvento(guiche, item, 2);
+          Lista4.Items.Delete(0);
+          frmlog.Log('delete List4:' + item);
+        end
+        else
+          item := '0';
+      5:
+        if Lista5.Count > 0 then
+        begin
+          item := Lista5.Items[0];
+          RegistraEvento(guiche, item, 2);
+          Lista5.Items.Delete(0);
+          frmlog.Log('delete List5:' + item);
+        end
+        else
+          item := '0';
     end;
-  end;
+
+    salvalistagem();
+    aSocket.SendMessage(EncodeTicketResponse(nro, item));
+  end
+  else
+    frmlog.Log('Mensagem de guiche invalida ignorada: ' + mensagem);
 
   aSocket.Disconnect(true);
   LTCPComponent1.CallAction();
 end;
+
 
 procedure Tfrmmain.edCont2Change(Sender: TObject);
 begin
@@ -842,8 +839,8 @@ begin
     TrayIcon1.Animate:=false;
     TrayIcon1.BalloonHint:= 'Programa Fila';
     TrayIcon1.Visible:=true;
-    LTCPComponent1.Listen(PortGuiche);
-    LTCPComponent2.Listen(PortPainel);
+    LTCPComponent1.Listen(FILA_PORT_GUICHE);
+    LTCPComponent2.Listen(FILA_PORT_AUX);
     frmmenu.show;
   end
   else
