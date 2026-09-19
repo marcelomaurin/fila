@@ -20,6 +20,23 @@ Guichê envia a chamada ao Painel
 
 ---
 
+
+## Ciclo de atendimento no Guichê
+
+A partir da versão **1.28**, o Guichê possui uma barra inferior criada em tempo de execução com as ações:
+
+- **Iniciar atendimento** — disponível quando a senha está em `CHAMADA`;
+- **Finalizar** — disponível quando a senha está em `EM_ATENDIMENTO`;
+- **Ausente** — disponível para senha chamada ou em atendimento;
+- **Cancelar** — disponível para senha chamada ou em atendimento e solicita um motivo.
+
+As ações são enviadas ao servidor Fila pela porta `8095` usando o protocolo de ciclo de atendimento. O Guichê aguarda a confirmação `ATENDIMENTO:OK` antes de atualizar o estado local.
+
+A árvore de senhas continua funcionando como histórico e rechamada. As ações de ciclo atuam somente sobre a **senha ativa do guichê**, evitando alterar acidentalmente uma senha antiga selecionada no histórico.
+
+Em erro de conexão, a operação pendente é cancelada localmente e os botões são liberados novamente.
+
+---
 ## Principais funcionalidades
 
 - chamada da próxima senha;

@@ -28,6 +28,8 @@ function TryParseTicketResponse(const AData: string; out AQueueId: Integer;
 function TryParsePanelCall(const AData: string; out ATicket, ADeskId: string): Boolean;
 function TryParseLifecycleCommand(const AData: string; out AAction,
   ATicket, ADeskId, ADetails: string): Boolean;
+function TryParseLifecycleResponse(const AData: string; out AOk: Boolean;
+  out AAction, ATicket: string): Boolean;
 
 implementation
 
@@ -206,6 +208,43 @@ begin
   Result := (AAction = 'INICIAR') or (AAction = 'FINALIZAR') or
     (AAction = 'AUSENTE') or (AAction = 'CANCELAR');
   Result := Result and (ATicket <> '');
+end;
+
+function TryParseLifecycleResponse(const AData: string; out AOk: Boolean;
+  out AAction, ATicket: string): Boolean;
+var
+  S, Payload, Status: string;
+  P1, P2, PSemi: SizeInt;
+begin
+  Result := False;
+  AOk := False;
+  AAction := '';
+  ATicket := '';
+
+  S := Trim(AData);
+  if Pos('ATENDIMENTO:', UpperCase(S)) <> 1 then
+    Exit;
+
+  Payload := Copy(S, Length('ATENDIMENTO:') + 1, MaxInt);
+  P1 := Pos('>', Payload);
+  if P1 <= 1 then Exit;
+  Status := UpperCase(Trim(Copy(Payload, 1, P1 - 1)));
+  Delete(Payload, 1, P1);
+
+  P2 := Pos('>', Payload);
+  if P2 <= 1 then Exit;
+  AAction := UpperCase(Trim(Copy(Payload, 1, P2 - 1)));
+  Delete(Payload, 1, P2);
+
+  PSemi := Pos(';', Payload);
+  if PSemi <= 1 then Exit;
+  ATicket := Trim(Copy(Payload, 1, PSemi - 1));
+
+  if (Status <> 'OK') and (Status <> 'ERRO') then
+    Exit;
+
+  AOk := Status = 'OK';
+  Result := (AAction <> '') and (ATicket <> '');
 end;
 
 end.
