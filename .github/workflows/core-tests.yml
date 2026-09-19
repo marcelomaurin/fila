@@ -23,12 +23,13 @@ jobs:
           sparse-checkout: |
             shared
             tests
+            web-admin
           sparse-checkout-cone-mode: true
 
       - name: Install Free Pascal
         run: |
           sudo apt-get update
-          sudo apt-get install -y fp-compiler fp-units-fcl fp-units-db libsqlite3-0
+          sudo apt-get install -y fp-compiler fp-units-fcl fp-units-db libsqlite3-0 php-cli php-sqlite3
 
       - name: Compile core tests
         run: |
@@ -37,3 +38,7 @@ jobs:
 
       - name: Run core tests
         run: ./build-tests/test_core
+
+      - name: Lint PHP admin
+        run: |
+          find web-admin -name '*.php' -print0 | xargs -0 -n1 php -l
