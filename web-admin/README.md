@@ -69,3 +69,36 @@ A página de painéis permite:
 Os comandos são enfileirados no SQLite. A TV os recebe no heartbeat e confirma a execução no heartbeat seguinte. Se a resposta se perder, comandos enviados sem confirmação podem ser entregues novamente após 60 segundos.
 
 A administração central é opcional: se URL/token não forem configurados na TV, o painel continua operando normalmente pelo protocolo TCP local.
+
+
+## Mídia institucional
+
+O diretório:
+
+```text
+web-admin/media/files/
+```
+
+pode receber arquivos:
+
+- JPG/JPEG;
+- PNG;
+- WEBP;
+- MP4;
+- WEBM.
+
+O endpoint:
+
+```text
+web-admin/media/playlist.php
+```
+
+varre essa pasta e gera automaticamente uma playlist JSON, com imagens configuradas por padrão para 12 segundos.
+
+Exemplo de URL a configurar no painel:
+
+```text
+http://servidor/fila/web-admin/media/playlist.php
+```
+
+Também existe `media/playlist.sample.json` como referência para playlists mantidas manualmente.
