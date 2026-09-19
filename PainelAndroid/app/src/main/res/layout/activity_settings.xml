@@ -231,6 +231,18 @@
                 android:text="@string/btn_test"
                 android:textColor="@color/accent_amber"
                 android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp" />
+
+            <Button
+                android:id="@+id/btnCheckUpdate"
+                android:layout_width="240dp"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_btn_selector"
+                android:focusable="true"
+                android:text="@string/btn_check_update"
+                android:textColor="@color/accent_cyan"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
