@@ -220,6 +220,12 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
 
         int oldPort = preferences.getPort();
 
+        if (config.has("name") && !config.isNull("name")) {
+            preferences.setPanelName(config.optString("name", ""));
+        }
+        if (config.has("unit") && !config.isNull("unit")) {
+            preferences.setPanelUnit(config.optString("unit", ""));
+        }
         if (config.has("port") && !config.isNull("port")) {
             int port = config.optInt("port", oldPort);
             if (port >= 1 && port <= 65535) {
