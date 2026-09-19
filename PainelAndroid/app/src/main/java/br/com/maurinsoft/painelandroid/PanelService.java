@@ -141,11 +141,29 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     }
 
     @Override
-    public void onStatusChanged(boolean running, String ip, int port) {
+    public void onStatusChanged(boolean running, String ip, int port, String errorMessage) {
+        if (destroyed) return;
+
+        preferences.setServerRunning(running);
+
+        if (running) {
+            retryCount = 0;
+            preferences.setRetryCount(0);
+            preferences.setLastError("");
+            handler.removeCallbacks(retryRunnable);
+        } else if (!"stopped".equalsIgnoreCase(errorMessage)) {
+            String reason = (errorMessage == null || errorMessage.trim().isEmpty())
+                    ? "Servidor TCP offline"
+                    : errorMessage.trim();
+            scheduleRetry(reason);
+        }
+
         Intent event = new Intent(ACTION_STATUS);
         event.setPackage(getPackageName());
         event.putExtra(EXTRA_RUNNING, running);
         event.putExtra(EXTRA_PORT, port);
+        event.putExtra("retry_count", retryCount);
+        event.putExtra("error", errorMessage == null ? "" : errorMessage);
         sendBroadcast(event);
 
         updateNotification(running
@@ -187,6 +205,9 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
 
     @Override
     public void onDestroy() {
+        destroyed = true;
+        handler.removeCallbacks(retryRunnable);
+        preferences.setServerRunning(false);
         if (tcpServer != null) {
             tcpServer.stop();
             tcpServer = null;
