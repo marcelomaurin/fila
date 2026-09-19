@@ -7,6 +7,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -29,10 +31,15 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
 
     private static final String CHANNEL_ID = "painel_service";
     private static final int NOTIFICATION_ID = 8196;
+    private static final long[] RETRY_DELAYS_MS = {2000L, 5000L, 10000L, 30000L};
 
     private AppPreferences preferences;
     private SoundManager soundManager;
     private TcpServerManager tcpServer;
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private int retryCount = 0;
+    private boolean destroyed = false;
+    private final Runnable retryRunnable = this::startTcpServer;
 
     @Override
     public void onCreate() {
