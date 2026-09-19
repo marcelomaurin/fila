@@ -460,3 +460,10 @@ Puertos principales:
 - `8095`: Guiché hacia Fila;
 - `8096`: canal de panel/consulta de Fila;
 - `8196`: Guiché hacia PainelDesk.
+
+
+## CI do Guichê
+
+Além dos testes do núcleo, o repositório possui o workflow **Guiche full Lazarus build**, que compila integralmente o cliente Guichê em Linux/GTK2 e publica o executável como artefato `Guiche-linux-x86_64`.
+
+O Guichê passou a depender apenas de LCL + lNet para comunicação. Dependências legadas não utilizadas de Indy e DataPort foram removidas desse módulo.
