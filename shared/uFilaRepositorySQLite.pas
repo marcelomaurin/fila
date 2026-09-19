@@ -5,7 +5,7 @@ unit uFilaRepositorySQLite;
 interface
 
 uses
-  Classes, SysUtils, DB, SQLDB, SQLite3Conn, uFilaTypes;
+  Classes, SysUtils, StrUtils, DB, SQLDB, SQLite3Conn, uFilaTypes;
 
 type
   EFilaRepository = class(Exception);
