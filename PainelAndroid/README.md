@@ -68,3 +68,21 @@ A chamada atual e as quatro chamadas anteriores são persistidas localmente e re
 ## CI Android
 
 O workflow `PainelAndroid build` executa testes unitários JVM e gera o APK debug automaticamente com Android SDK 34 / Java 17.
+
+
+## Operação contínua em TV / TV Box
+
+O receptor TCP foi movido para `PanelService`, executado como `ForegroundService`.
+
+Com isso:
+
+- o servidor TCP não depende mais da `MainActivity`;
+- recriar ou fechar a tela não encerra a recepção de chamadas;
+- o serviço usa `START_STICKY`;
+- alterações de porta reiniciam somente o servidor TCP;
+- som e TTS são executados pelo serviço;
+- a Activity recebe eventos internos e apenas atualiza a interface;
+- `BootReceiver` inicia o serviço após `BOOT_COMPLETED`;
+- a chamada atual e o histórico são restaurados depois de reinício.
+
+O manifesto declara as permissões de foreground service e inicialização após boot necessárias para Android TV/TV Box.
