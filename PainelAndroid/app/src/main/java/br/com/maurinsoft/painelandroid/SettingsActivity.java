@@ -19,6 +19,11 @@ import androidx.appcompat.widget.SwitchCompat;
 public class SettingsActivity extends AppCompatActivity {
 
     private EditText etPort;
+    private EditText etPanelId;
+    private EditText etPanelName;
+    private EditText etPanelUnit;
+    private EditText etAdminUrl;
+    private EditText etPanelToken;
     private SwitchCompat switchTts;
     private SwitchCompat switchChime;
     private EditText etAdsUrl;
@@ -35,6 +40,11 @@ public class SettingsActivity extends AppCompatActivity {
         preferences = new AppPreferences(this);
 
         etPort = findViewById(R.id.etPort);
+        etPanelId = findViewById(R.id.etPanelId);
+        etPanelName = findViewById(R.id.etPanelName);
+        etPanelUnit = findViewById(R.id.etPanelUnit);
+        etAdminUrl = findViewById(R.id.etAdminUrl);
+        etPanelToken = findViewById(R.id.etPanelToken);
         switchTts = findViewById(R.id.switchTts);
         switchChime = findViewById(R.id.switchChime);
         etAdsUrl = findViewById(R.id.etAdsUrl);
@@ -79,9 +89,20 @@ public class SettingsActivity extends AppCompatActivity {
             lastError = "Nenhum";
         }
 
+        String hb = "Nunca";
+        long hbAt = preferences.getLastHeartbeatAt();
+        if (hbAt > 0) {
+            hb = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+                    .format(new Date(hbAt));
+        }
+        String hbError = preferences.getLastHeartbeatError();
+        if (hbError == null || hbError.trim().isEmpty()) hbError = "Nenhum";
+
         String diagnostics = String.format(Locale.getDefault(),
-                "Versão: %s\nIP: %s\nPorta: %d\nTCP: %s\nUptime: %02d:%02d:%02d\n" +
-                        "Chamadas recebidas: %d\nÚltima chamada: %s\nTentativas de reconexão: %d\nÚltimo erro: %s",
+                "Painel: %s\nVersão: %s\nIP: %s\nPorta: %d\nTCP: %s\nUptime: %02d:%02d:%02d\n" +
+                        "Chamadas recebidas: %d\nÚltima chamada: %s\nTentativas de reconexão: %d\n" +
+                        "Último erro TCP: %s\nÚltimo heartbeat: %s\nErro heartbeat: %s",
+                preferences.getPanelId(),
                 getAppVersionName(),
                 NetworkUtils.getLocalIpAddress(this),
                 preferences.getPort(),
@@ -90,7 +111,9 @@ public class SettingsActivity extends AppCompatActivity {
                 preferences.getCallCount(),
                 lastCall,
                 preferences.getRetryCount(),
-                lastError);
+                lastError,
+                hb,
+                hbError);
 
         tvDiagnostics.setText(diagnostics);
     }
@@ -105,6 +128,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void loadPreferences() {
+        etPanelId.setText(preferences.getPanelId());
+        etPanelName.setText(preferences.getPanelName());
+        etPanelUnit.setText(preferences.getPanelUnit());
+        etAdminUrl.setText(preferences.getAdminUrl());
+        etPanelToken.setText(preferences.getPanelToken());
         etPort.setText(String.valueOf(preferences.getPort()));
         switchTts.setChecked(preferences.isTtsEnabled());
         switchChime.setChecked(preferences.isChimeEnabled());
@@ -114,6 +142,21 @@ public class SettingsActivity extends AppCompatActivity {
     private void saveAndExit() {
         try {
             int port = Integer.parseInt(etPort.getText().toString().trim());
+            if (port < 1 || port > 65535) {
+                throw new NumberFormatException("Porta fora da faixa");
+            }
+
+            String panelId = etPanelId.getText().toString().trim();
+            if (!panelId.matches("[A-Za-z0-9._-]{3,80}")) {
+                Toast.makeText(this, "ID do painel inválido!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            preferences.setPanelId(panelId);
+            preferences.setPanelName(etPanelName.getText().toString().trim());
+            preferences.setPanelUnit(etPanelUnit.getText().toString().trim());
+            preferences.setAdminUrl(etAdminUrl.getText().toString().trim());
+            preferences.setPanelToken(etPanelToken.getText().toString().trim());
             preferences.setPort(port);
             preferences.setTtsEnabled(switchTts.isChecked());
             preferences.setChimeEnabled(switchChime.isChecked());

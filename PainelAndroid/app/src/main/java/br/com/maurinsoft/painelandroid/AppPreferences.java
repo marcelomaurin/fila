@@ -22,6 +22,15 @@ public class AppPreferences {
     private static final String KEY_SERVER_RUNNING = "server_running";
     private static final String KEY_RETRY_COUNT = "retry_count";
     private static final String KEY_LAST_ERROR = "last_error";
+    private static final String KEY_PANEL_ID = "panel_id";
+    private static final String KEY_PANEL_NAME = "panel_name";
+    private static final String KEY_PANEL_UNIT = "panel_unit";
+    private static final String KEY_ADMIN_URL = "admin_url";
+    private static final String KEY_PANEL_TOKEN = "panel_token";
+    private static final String KEY_LAST_HEARTBEAT_AT = "last_heartbeat_at";
+    private static final String KEY_LAST_HEARTBEAT_ERROR = "last_heartbeat_error";
+    private static final String KEY_ACK_COMMAND_ID = "ack_command_id";
+    private static final String KEY_ACK_COMMAND_RESULT = "ack_command_result";
 
     private final SharedPreferences prefs;
 
@@ -175,5 +184,95 @@ public class AppPreferences {
 
     public String getLastError() {
         return prefs.getString(KEY_LAST_ERROR, "");
+    }
+
+    public String getPanelId() {
+        String id = prefs.getString(KEY_PANEL_ID, "");
+        if (id == null || id.trim().isEmpty()) {
+            id = "TV-" + java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+            prefs.edit().putString(KEY_PANEL_ID, id).apply();
+        }
+        return id;
+    }
+
+    public void setPanelId(String id) {
+        prefs.edit().putString(KEY_PANEL_ID, id == null ? "" : id.trim()).apply();
+    }
+
+    public String getPanelName() {
+        return prefs.getString(KEY_PANEL_NAME, "");
+    }
+
+    public void setPanelName(String value) {
+        prefs.edit().putString(KEY_PANEL_NAME, value == null ? "" : value.trim()).apply();
+    }
+
+    public String getPanelUnit() {
+        return prefs.getString(KEY_PANEL_UNIT, "");
+    }
+
+    public void setPanelUnit(String value) {
+        prefs.edit().putString(KEY_PANEL_UNIT, value == null ? "" : value.trim()).apply();
+    }
+
+    public String getAdminUrl() {
+        return prefs.getString(KEY_ADMIN_URL, "");
+    }
+
+    public void setAdminUrl(String value) {
+        String url = value == null ? "" : value.trim();
+        while (url.endsWith("/")) {
+            url = url.substring(0, url.length() - 1);
+        }
+        prefs.edit().putString(KEY_ADMIN_URL, url).apply();
+    }
+
+    public String getPanelToken() {
+        return prefs.getString(KEY_PANEL_TOKEN, "");
+    }
+
+    public void setPanelToken(String value) {
+        prefs.edit().putString(KEY_PANEL_TOKEN, value == null ? "" : value.trim()).apply();
+    }
+
+    public boolean isCentralAdminEnabled() {
+        return !getAdminUrl().isEmpty() && !getPanelToken().isEmpty();
+    }
+
+    public void markHeartbeat(long timestamp, String error) {
+        prefs.edit()
+                .putLong(KEY_LAST_HEARTBEAT_AT, timestamp)
+                .putString(KEY_LAST_HEARTBEAT_ERROR, error == null ? "" : error)
+                .apply();
+    }
+
+    public long getLastHeartbeatAt() {
+        return prefs.getLong(KEY_LAST_HEARTBEAT_AT, 0L);
+    }
+
+    public String getLastHeartbeatError() {
+        return prefs.getString(KEY_LAST_HEARTBEAT_ERROR, "");
+    }
+
+    public void setCommandAck(long commandId, String result) {
+        prefs.edit()
+                .putLong(KEY_ACK_COMMAND_ID, commandId)
+                .putString(KEY_ACK_COMMAND_RESULT, result == null ? "OK" : result)
+                .apply();
+    }
+
+    public long getAckCommandId() {
+        return prefs.getLong(KEY_ACK_COMMAND_ID, 0L);
+    }
+
+    public String getAckCommandResult() {
+        return prefs.getString(KEY_ACK_COMMAND_RESULT, "");
+    }
+
+    public void clearCommandAck() {
+        prefs.edit()
+                .remove(KEY_ACK_COMMAND_ID)
+                .remove(KEY_ACK_COMMAND_RESULT)
+                .apply();
     }
 }

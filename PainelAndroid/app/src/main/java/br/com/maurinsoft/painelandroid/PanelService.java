@@ -13,6 +13,8 @@ import android.os.Looper;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class PanelService extends Service implements TcpServerManager.OnCallReceivedListener {
@@ -36,10 +38,42 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     private AppPreferences preferences;
     private SoundManager soundManager;
     private TcpServerManager tcpServer;
+    private CentralAdminClient centralAdminClient;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private int retryCount = 0;
     private boolean destroyed = false;
-    private final Runnable retryRunnable = this::startTcpServer;
+    private boolean retryScheduled = false;
+    private final Runnable retryRunnable = () -> {
+        retryScheduled = false;
+        startTcpServer();
+    };
+    private final Runnable heartbeatRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!destroyed && preferences.isCentralAdminEnabled()) {
+                centralAdminClient.sendHeartbeat(new CentralAdminClient.Callback() {
+                    @Override
+                    public void onRemoteConfig(JSONObject config) {
+                        handler.post(() -> applyRemoteConfig(config));
+                    }
+
+                    @Override
+                    public void onRemoteCommand(long id, String type, JSONObject payload) {
+                        handler.post(() -> executeRemoteCommand(id, type, payload));
+                    }
+
+                    @Override
+                    public void onHeartbeatResult(boolean ok, String error) {
+                        // O diagnóstico é persistido pelo cliente.
+                    }
+                });
+            }
+            if (!destroyed) {
+                handler.postDelayed(this, 30000L);
+            }
+        }
+    };
+
     private final Runnable watchdogRunnable = new Runnable() {
         @Override
         public void run() {
@@ -57,10 +91,12 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         super.onCreate();
         preferences = new AppPreferences(this);
         soundManager = new SoundManager(this);
+        centralAdminClient = new CentralAdminClient(this, preferences);
         preferences.markServiceStarted(System.currentTimeMillis());
         createNotificationChannel();
         startForeground(NOTIFICATION_ID, buildNotification("Inicializando painel"));
         startTcpServer();
+        handler.postDelayed(heartbeatRunnable, 5000L);
         handler.postDelayed(watchdogRunnable, 60000L);
     }
 
@@ -84,6 +120,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         if (destroyed) return;
 
         handler.removeCallbacks(retryRunnable);
+        retryScheduled = false;
         if (tcpServer != null) {
             tcpServer.stop();
         }
@@ -100,7 +137,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     }
 
     private void scheduleRetry(String reason) {
-        if (destroyed || handler.hasCallbacks(retryRunnable)) return;
+        if (destroyed || retryScheduled) return;
 
         int index = Math.min(retryCount, RETRY_DELAYS_MS.length - 1);
         long delay = RETRY_DELAYS_MS[index];
@@ -108,6 +145,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
 
         preferences.setRetryCount(retryCount);
         preferences.setLastError(reason == null ? "Servidor TCP offline" : reason);
+        retryScheduled = true;
         handler.postDelayed(retryRunnable, delay);
         updateNotification("Reconectando em " + (delay / 1000L) + "s");
     }
@@ -163,6 +201,7 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
             preferences.setRetryCount(0);
             preferences.setLastError("");
             handler.removeCallbacks(retryRunnable);
+            retryScheduled = false;
         } else if (!"stopped".equalsIgnoreCase(errorMessage)) {
             String reason = (errorMessage == null || errorMessage.trim().isEmpty())
                     ? "Servidor TCP offline"
@@ -181,6 +220,65 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         updateNotification(running
                 ? "Painel online na porta " + port
                 : "Painel offline");
+    }
+
+    private void applyRemoteConfig(JSONObject config) {
+        if (config == null) return;
+
+        int oldPort = preferences.getPort();
+
+        if (config.has("name") && !config.isNull("name")) {
+            preferences.setPanelName(config.optString("name", ""));
+        }
+        if (config.has("unit") && !config.isNull("unit")) {
+            preferences.setPanelUnit(config.optString("unit", ""));
+        }
+        if (config.has("port") && !config.isNull("port")) {
+            int port = config.optInt("port", oldPort);
+            if (port >= 1 && port <= 65535) {
+                preferences.setPort(port);
+            }
+        }
+        if (config.has("tts_enabled") && !config.isNull("tts_enabled")) {
+            preferences.setTtsEnabled(config.optInt("tts_enabled", 1) != 0);
+        }
+        if (config.has("chime_enabled") && !config.isNull("chime_enabled")) {
+            preferences.setChimeEnabled(config.optInt("chime_enabled", 1) != 0);
+        }
+        if (config.has("ads_url") && !config.isNull("ads_url")) {
+            preferences.setAdsUrl(config.optString("ads_url", ""));
+        }
+
+        if (preferences.getPort() != oldPort) {
+            restartTcpServer();
+        }
+    }
+
+    private void executeRemoteCommand(long commandId, String type, JSONObject payload) {
+        if (commandId <= 0 || type == null) return;
+
+        String normalized = type.trim().toUpperCase();
+        String result = "OK";
+
+        try {
+            if ("TEST_CALL".equals(normalized)) {
+                String ticket = payload.optString("ticket", "T001");
+                String desk = payload.optString("desk", "01");
+                onCallReceived(desk, ticket);
+            } else if ("RESTART_TCP".equals(normalized)) {
+                restartTcpServer();
+            } else if ("CONFIG".equals(normalized)) {
+                applyRemoteConfig(payload);
+            } else {
+                result = "Comando não suportado: " + normalized;
+            }
+        } catch (Exception e) {
+            result = "ERRO: " + e.getMessage();
+        }
+
+        preferences.setCommandAck(commandId, result);
+        handler.removeCallbacks(heartbeatRunnable);
+        handler.postDelayed(heartbeatRunnable, 1000L);
     }
 
     private void createNotificationChannel() {
@@ -219,6 +317,8 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
     public void onDestroy() {
         destroyed = true;
         handler.removeCallbacks(retryRunnable);
+        retryScheduled = false;
+        handler.removeCallbacks(heartbeatRunnable);
         handler.removeCallbacks(watchdogRunnable);
         preferences.setServerRunning(false);
         if (tcpServer != null) {
@@ -228,6 +328,10 @@ public class PanelService extends Service implements TcpServerManager.OnCallRece
         if (soundManager != null) {
             soundManager.release();
             soundManager = null;
+        }
+        if (centralAdminClient != null) {
+            centralAdminClient.shutdown();
+            centralAdminClient = null;
         }
         super.onDestroy();
     }

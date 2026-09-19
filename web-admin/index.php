@@ -27,6 +27,7 @@ small{color:#666}
 <body>
 <header>
   <strong>Projeto Fila — Administração</strong>
+  <a href="panels.php">Painéis TV</a>
   <input id="token" type="password" placeholder="Token administrativo">
   <button onclick="saveToken()">Conectar</button>
   <button onclick="refreshAll()">Atualizar</button>

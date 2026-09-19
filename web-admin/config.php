@@ -25,6 +25,25 @@ function fila_server_port(): int
     return ($port >= 1 && $port <= 65535) ? $port : 8095;
 }
 
+function fila_panel_token(): string
+{
+    $token = getenv('FILA_PANEL_TOKEN');
+    return $token === false ? '' : trim($token);
+}
+
+function require_panel_token(): void
+{
+    $expected = fila_panel_token();
+    if ($expected === '') {
+        json_response(['ok' => false, 'error' => 'FILA_PANEL_TOKEN não configurado.'], 503);
+    }
+
+    $provided = $_SERVER['HTTP_X_PANEL_TOKEN'] ?? '';
+    if (!hash_equals($expected, (string)$provided)) {
+        json_response(['ok' => false, 'error' => 'Token de painel inválido.'], 401);
+    }
+}
+
 function fila_admin_token(): string
 {
     $token = getenv('FILA_ADMIN_TOKEN');
