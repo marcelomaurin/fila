@@ -62,6 +62,8 @@ if ($action === 'TEST_CALL') {
     ]);
 
     $payload = [
+        'name' => array_key_exists('name', $input) ? trim((string)$input['name']) : null,
+        'unit' => array_key_exists('unit', $input) ? trim((string)$input['unit']) : null,
         'port' => $port,
         'tts_enabled' => $tts,
         'chime_enabled' => $chime,
