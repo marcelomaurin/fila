@@ -21,6 +21,12 @@
     <string name="pref_idle_seconds">Tempo para Anúncios (segundos)</string>
     <string name="btn_save">Salvar e Fechar</string>
     <string name="btn_test">Simular Chamada</string>
+    <string name="central_admin_title">Administração Central</string>
+    <string name="pref_panel_id">ID do painel</string>
+    <string name="pref_panel_name">Nome do painel (ex.: Recepção Principal)</string>
+    <string name="pref_panel_unit">Unidade/local</string>
+    <string name="pref_admin_url">URL do web-admin (ex.: http://servidor/fila/web-admin)</string>
+    <string name="pref_panel_token">Token do painel</string>
     <string name="diagnostics_title">Diagnóstico do Painel</string>
     <string name="diagnostics_loading">Carregando diagnóstico...</string>
 </resources>
