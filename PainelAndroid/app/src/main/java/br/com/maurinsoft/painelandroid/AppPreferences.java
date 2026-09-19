@@ -29,6 +29,8 @@ public class AppPreferences {
     private static final String KEY_PANEL_TOKEN = "panel_token";
     private static final String KEY_LAST_HEARTBEAT_AT = "last_heartbeat_at";
     private static final String KEY_LAST_HEARTBEAT_ERROR = "last_heartbeat_error";
+    private static final String KEY_ACK_COMMAND_ID = "ack_command_id";
+    private static final String KEY_ACK_COMMAND_RESULT = "ack_command_result";
 
     private final SharedPreferences prefs;
 
@@ -250,5 +252,27 @@ public class AppPreferences {
 
     public String getLastHeartbeatError() {
         return prefs.getString(KEY_LAST_HEARTBEAT_ERROR, "");
+    }
+
+    public void setCommandAck(long commandId, String result) {
+        prefs.edit()
+                .putLong(KEY_ACK_COMMAND_ID, commandId)
+                .putString(KEY_ACK_COMMAND_RESULT, result == null ? "OK" : result)
+                .apply();
+    }
+
+    public long getAckCommandId() {
+        return prefs.getLong(KEY_ACK_COMMAND_ID, 0L);
+    }
+
+    public String getAckCommandResult() {
+        return prefs.getString(KEY_ACK_COMMAND_RESULT, "");
+    }
+
+    public void clearCommandAck() {
+        prefs.edit()
+                .remove(KEY_ACK_COMMAND_ID)
+                .remove(KEY_ACK_COMMAND_RESULT)
+                .apply();
     }
 }
