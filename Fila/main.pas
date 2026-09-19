@@ -528,11 +528,48 @@ var
   mensagem: string;
   QueueId: Integer;
   DeskId: string;
+  Action, Ticket, Details: string;
+  LifeOk: Boolean;
 begin
   aSocket.GetMessage(mensagem);
   frmlog.Log('Receive:' + aSocket.PeerAddress + ',msg:' + mensagem);
 
-  if TryParseCallRequest(mensagem, QueueId, DeskId) then
+  if TryParseLifecycleCommand(mensagem, Action, Ticket, DeskId, Details) then
+  begin
+    LifeOk := False;
+
+    if Assigned(FQueueRepository) then
+    begin
+      try
+        if Action = 'INICIAR' then
+          LifeOk := FQueueRepository.StartService(Ticket, DeskId)
+        else if Action = 'FINALIZAR' then
+          LifeOk := FQueueRepository.FinishService(Ticket, DeskId)
+        else if Action = 'AUSENTE' then
+          LifeOk := FQueueRepository.MarkAbsent(Ticket, DeskId)
+        else if Action = 'CANCELAR' then
+        begin
+          LifeOk := FQueueRepository.CancelTicket(Ticket, DeskId, Details);
+          if LifeOk then
+          begin
+            for QueueId := 1 to 5 do
+              if FQueueService.RemoveTicket(QueueId, Ticket) then
+                Break;
+            salvalistagem();
+          end;
+        end;
+      except
+        on E: Exception do
+        begin
+          LifeOk := False;
+          frmlog.Log('Lifecycle ' + Action + ': ' + E.Message);
+        end;
+      end;
+    end;
+
+    aSocket.SendMessage(EncodeLifecycleResponse(Action, Ticket, LifeOk));
+  end
+  else if TryParseCallRequest(mensagem, QueueId, DeskId) then
   begin
     nro := QueueId;
     guiche := DeskId;
