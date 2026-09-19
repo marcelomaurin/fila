@@ -17,6 +17,7 @@ var
   QueueId: Integer;
   DeskId, Ticket: string;
   Action, Details: string;
+  ResponseOk: Boolean;
 begin
   Check(EncodeCallRequest(2, '3') = 'Fila:2' + #13 + '>3;',
     'EncodeCallRequest');
@@ -55,6 +56,16 @@ begin
     (DeskId = '4') and (Details = ''), 'Conteudo lifecycle');
   Check(not TryParseLifecycleCommand('ATENDIMENTO:INVALIDO>A10>4>;',
     Action, Ticket, DeskId, Details), 'Lifecycle deve rejeitar acao invalida');
+
+  Check(TryParseLifecycleResponse('ATENDIMENTO:OK>INICIAR>A10;',
+    ResponseOk, Action, Ticket), 'TryParseLifecycleResponse OK');
+  Check(ResponseOk and (Action = 'INICIAR') and (Ticket = 'A10'),
+    'Conteudo resposta OK');
+
+  Check(TryParseLifecycleResponse('ATENDIMENTO:ERRO>FINALIZAR>A10;',
+    ResponseOk, Action, Ticket), 'TryParseLifecycleResponse ERRO');
+  Check((not ResponseOk) and (Action = 'FINALIZAR') and (Ticket = 'A10'),
+    'Conteudo resposta ERRO');
 end;
 
 procedure TestQueueService;
