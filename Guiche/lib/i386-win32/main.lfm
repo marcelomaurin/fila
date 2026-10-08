@@ -1,13 +1,13 @@
 object frmmain: Tfrmmain
   Left = 450
-  Height = 580
-  Top = 220
-  Width = 614
-  Caption = 'Guichê de Atendimento'
-  ClientHeight = 580
-  ClientWidth = 614
-  Color = clBtnFace
-  Font.CharSet = ANSI_CHARSET
+  Height = 620
+  Top = 180
+  Width = 660
+  Caption = 'Guiche de Atendimento'
+  ClientHeight = 620
+  ClientWidth = 660
+  Color = 16316664
+  Font.CharSet = DEFAULT_CHARSET
   Font.Height = -13
   Font.Name = 'Segoe UI'
   Font.Pitch = fpVariable
@@ -18,48 +18,433 @@ object frmmain: Tfrmmain
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
+  object pnlHeader: TPanel
+    Left = 0
+    Height = 58
+    Top = 0
+    Width = 660
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 58
+    ClientWidth = 660
+    Color = 2758415
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 0
+    object lbAppTitle: TLabel
+      Left = 16
+      Height = 25
+      Top = 8
+      Width = 195
+      Caption = 'Guiche de Atendimento'
+      Font.CharSet = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object pnlGuicheBadge: TPanel
+      Left = 224
+      Height = 22
+      Top = 10
+      Width = 92
+      BevelOuter = bvNone
+      ClientHeight = 22
+      ClientWidth = 92
+      Color = 15426341
+      ParentBackground = False
+      ParentColor = False
+      TabOrder = 0
+      object lbGuicheHeader: TLabel
+        Left = 0
+        Height = 22
+        Top = 0
+        Width = 92
+        Align = alClient
+        Alignment = taCenter
+        Caption = 'GUICHE 01'
+        Font.CharSet = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        Layout = tlCenter
+        ParentColor = False
+        ParentFont = False
+      end
+    end
+    object lbConexaoStatus: TLabel
+      Left = 16
+      Height = 15
+      Top = 35
+      Width = 186
+      Caption = 'Servidor Fila: 127.0.0.1:8095'
+      Font.CharSet = DEFAULT_CHARSET
+      Font.Color = 12040120
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+    end
+    object btnHeaderSetup: TSpeedButton
+      Left = 450
+      Height = 32
+      Top = 12
+      Width = 110
+      Anchors = [akTop, akRight]
+      Caption = 'Configuracoes'
+      Flat = True
+      Font.CharSet = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
+      OnClick = btSetup01Click
+    end
+    object btnHeaderSobre: TSpeedButton
+      Left = 570
+      Height = 32
+      Top = 12
+      Width = 72
+      Anchors = [akTop, akRight]
+      Caption = 'Sobre'
+      Flat = True
+      Font.CharSet = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
+      OnClick = btnHeaderSobreClick
+    end
+  end
+  object pnlStatusBar: TPanel
+    Left = 0
+    Height = 26
+    Top = 594
+    Width = 660
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 26
+    ClientWidth = 660
+    Color = 16382457
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 1
+    object lbStatusInfo: TLabel
+      Left = 14
+      Height = 15
+      Top = 5
+      Width = 252
+      Caption = 'Guiche pronto para atendimento - Porta 8095'
+      Font.CharSet = DEFAULT_CHARSET
+      Font.Color = 7105652
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+    end
+    object lbStatusVersao: TLabel
+      Left = 510
+      Height = 15
+      Top = 5
+      Width = 138
+      Alignment = taRightJustify
+      Anchors = [akTop, akRight]
+      Caption = 'Maurinsoft Fila v1.28'
+      Font.CharSet = DEFAULT_CHARSET
+      Font.Color = 9737364
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+    end
+  end
   object PageControl1: TPageControl
     Left = 0
-    Height = 580
-    Top = 0
-    Width = 414
-    ActivePage = TabSheet3
+    Height = 536
+    Top = 58
+    Width = 440
+    ActivePage = tsFila
     Align = alClient
-    Font.CharSet = ANSI_CHARSET
+    Font.CharSet = DEFAULT_CHARSET
     Font.Height = -13
     Font.Name = 'Segoe UI'
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     ParentFont = False
-    TabIndex = 2
-    TabOrder = 0
+    TabIndex = 0
+    TabOrder = 2
     object tsFila: TTabSheet
-      Caption = 'Fila de Espera'
-      ClientHeight = 550
-      ClientWidth = 406
-      object tvFila: TTreeView
+      Caption = 'Atendimento'
+      ClientHeight = 506
+      ClientWidth = 432
+      object pnlCardAtiva: TPanel
         Left = 0
-        Height = 550
+        Height = 205
         Top = 0
-        Width = 406
-        Align = alClient
-        BorderStyle = bsNone
-        Font.CharSet = ANSI_CHARSET
-        Font.Height = -14
-        Font.Name = 'Segoe UI'
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        HideSelection = False
-        Images = ImageList1
-        Indent = 24
-        ParentFont = False
-        ParentShowHint = False
-        ReadOnly = True
-        RowSelect = True
-        ShowHint = True
+        Width = 432
+        Align = alTop
+        BevelOuter = bvNone
+        ClientHeight = 205
+        ClientWidth = 432
+        Color = clWhite
+        ParentBackground = False
+        ParentColor = False
         TabOrder = 0
-        Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
-        OnChange = tvFilaChange
+        object lbCardAtivaTitulo: TLabel
+          Left = 16
+          Height = 15
+          Top = 10
+          Width = 142
+          Caption = 'SENHA ATIVA NO GUICHE'
+          Font.CharSet = DEFAULT_CHARSET
+          Font.Color = 7105652
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object lbSenhaAtual: TLabel
+          Left = 0
+          Height = 54
+          Top = 28
+          Width = 432
+          Alignment = taCenter
+          Anchors = [akTop, akLeft, akRight]
+          AutoSize = False
+          Caption = '---'
+          Font.CharSet = DEFAULT_CHARSET
+          Font.Color = 2238779
+          Font.Height = -42
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object pnlStatusBadge: TPanel
+          Left = 16
+          Height = 26
+          Top = 88
+          Width = 400
+          Anchors = [akTop, akLeft, akRight]
+          BevelOuter = bvNone
+          ClientHeight = 26
+          ClientWidth = 400
+          Color = 16382457
+          ParentBackground = False
+          ParentColor = False
+          TabOrder = 0
+          object lbStatusAtendimento: TLabel
+            Left = 0
+            Height = 26
+            Top = 0
+            Width = 400
+            Align = alClient
+            Alignment = taCenter
+            Caption = 'Livre - Aguardando chamada'
+            Font.CharSet = DEFAULT_CHARSET
+            Font.Color = 7105652
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsBold]
+            Layout = tlCenter
+            ParentColor = False
+            ParentFont = False
+          end
+        end
+        object Bevel1: TBevel
+          Left = 16
+          Height = 2
+          Top = 124
+          Width = 400
+          Anchors = [akTop, akLeft, akRight]
+          Shape = bsTopLine
+        end
+        object pnlLifecycle: TPanel
+          Left = 16
+          Height = 54
+          Top = 136
+          Width = 400
+          Anchors = [akTop, akLeft, akRight]
+          BevelOuter = bvNone
+          ClientHeight = 54
+          ClientWidth = 400
+          Color = clWhite
+          ParentBackground = False
+          ParentColor = False
+          TabOrder = 1
+          object btIniciarAtendimento: TButton
+            Left = 0
+            Height = 40
+            Top = 6
+            Width = 106
+            Caption = 'Iniciar'
+            Font.CharSet = DEFAULT_CHARSET
+            Font.Height = -13
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 0
+            OnClick = LifecycleStartClick
+          end
+          object btFinalizarAtendimento: TButton
+            Left = 112
+            Height = 40
+            Top = 6
+            Width = 98
+            Caption = 'Finalizar'
+            Font.CharSet = DEFAULT_CHARSET
+            Font.Height = -13
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 1
+            OnClick = LifecycleFinishClick
+          end
+          object btAusenteAtendimento: TButton
+            Left = 216
+            Height = 40
+            Top = 6
+            Width = 86
+            Caption = 'Ausente'
+            Font.CharSet = DEFAULT_CHARSET
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            ParentFont = False
+            TabOrder = 2
+            OnClick = LifecycleAbsentClick
+          end
+          object btCancelarAtendimento: TButton
+            Left = 308
+            Height = 40
+            Top = 6
+            Width = 90
+            Caption = 'Cancelar'
+            Font.CharSet = DEFAULT_CHARSET
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            ParentFont = False
+            TabOrder = 3
+            OnClick = LifecycleCancelClick
+          end
+        end
+      end
+      object pnlCardHistorico: TPanel
+        Left = 0
+        Height = 301
+        Top = 205
+        Width = 432
+        Align = alClient
+        BevelOuter = bvNone
+        ClientHeight = 301
+        ClientWidth = 432
+        Color = clWhite
+        ParentBackground = False
+        ParentColor = False
+        TabOrder = 1
+        object pnlHistHeader: TPanel
+          Left = 0
+          Height = 34
+          Top = 0
+          Width = 432
+          Align = alTop
+          BevelOuter = bvNone
+          ClientHeight = 34
+          ClientWidth = 432
+          Color = 16382457
+          ParentBackground = False
+          ParentColor = False
+          TabOrder = 0
+          object lbHistTitulo: TLabel
+            Left = 14
+            Height = 17
+            Top = 8
+            Width = 236
+            Caption = 'Historico de Atendimentos Chamados'
+            Font.CharSet = DEFAULT_CHARSET
+            Font.Color = 3354965
+            Font.Height = -13
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsBold]
+            ParentColor = False
+            ParentFont = False
+          end
+          object btnLimparHist: TSpeedButton
+            Left = 328
+            Height = 24
+            Top = 5
+            Width = 92
+            Anchors = [akTop, akRight]
+            Caption = 'Limpar Lista'
+            Flat = True
+            Font.CharSet = DEFAULT_CHARSET
+            Font.Color = 4671305
+            Font.Height = -11
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            ParentFont = False
+            OnClick = miLimparClick
+          end
+        end
+        object tvFila: TTreeView
+          Left = 0
+          Height = 267
+          Top = 34
+          Width = 432
+          Align = alClient
+          BorderStyle = bsNone
+          Font.CharSet = DEFAULT_CHARSET
+          Font.Height = -13
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          HideSelection = False
+          Images = ImageList1
+          Indent = 24
+          ParentFont = False
+          ParentShowHint = False
+          ReadOnly = True
+          RowSelect = True
+          ShowHint = True
+          TabOrder = 1
+          Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+          OnChange = tvFilaChange
+          OnDblClick = tvFilaDblClick
+        end
       end
     end
     object TabSheet2: TTabSheet
@@ -72,7 +457,7 @@ object frmmain: Tfrmmain
         Top = 24
         Width = 340
         Caption = '  Configurar Servidores e Guichê'
-        Font.CharSet = ANSI_CHARSET
+        Font.CharSet = DEFAULT_CHARSET
         Font.Height = -14
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
@@ -91,7 +476,7 @@ object frmmain: Tfrmmain
         Top = 90
         Width = 340
         Caption = '  Visualizar Histórico e Logs'
-        Font.CharSet = ANSI_CHARSET
+        Font.CharSet = DEFAULT_CHARSET
         Font.Height = -14
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
@@ -119,7 +504,7 @@ object frmmain: Tfrmmain
         Alignment = taCenter
         AutoSize = False
         Caption = 'Projeto Open Source FILA'
-        Font.CharSet = ANSI_CHARSET
+        Font.CharSet = DEFAULT_CHARSET
         Font.Height = -18
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
@@ -135,7 +520,7 @@ object frmmain: Tfrmmain
         Alignment = taCenter
         AutoSize = False
         Caption = 'Guichê de Atendimento de Senha'
-        Font.CharSet = ANSI_CHARSET
+        Font.CharSet = DEFAULT_CHARSET
         Font.Height = -14
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
@@ -148,7 +533,7 @@ object frmmain: Tfrmmain
         Top = 400
         Width = 43
         Caption = 'Versão:'
-        Font.CharSet = ANSI_CHARSET
+        Font.CharSet = DEFAULT_CHARSET
         Font.Height = -13
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
@@ -161,7 +546,7 @@ object frmmain: Tfrmmain
         Top = 400
         Width = 53
         Caption = 'lbVersao'
-        Font.CharSet = ANSI_CHARSET
+        Font.CharSet = DEFAULT_CHARSET
         Font.Height = -13
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
@@ -51097,144 +51482,202 @@ object frmmain: Tfrmmain
     end
   end
   object Panel1: TPanel
-    Left = 414
-    Height = 580
-    Top = 0
-    Width = 200
+    Left = 440
+    Height = 536
+    Top = 58
+    Width = 220
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 580
-    ClientWidth = 200
-    Color = clBtnFace
+    ClientHeight = 536
+    ClientWidth = 220
+    Color = 16316664
     ParentBackground = False
     ParentColor = False
-    TabOrder = 1
-    object btTipo1: TSpeedButton
-      Left = 12
-      Height = 54
-      Top = 16
-      Width = 176
-      Caption = 'Tipo 1'
-      Font.CharSet = ANSI_CHARSET
-      Font.Height = -14
-      Font.Name = 'Segoe UI'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
-      Images = ImageList1
-      ImageIndex = 10
-      Margin = 12
-      Spacing = 10
-      ShowHint = True
-      ParentFont = False
-      ParentShowHint = False
-      OnClick = btTipo1Click
+    TabOrder = 3
+    object pnlCallHeader: TPanel
+      Left = 0
+      Height = 36
+      Top = 0
+      Width = 220
+      Align = alTop
+      BevelOuter = bvNone
+      ClientHeight = 36
+      ClientWidth = 220
+      Color = 16316664
+      ParentBackground = False
+      ParentColor = False
+      TabOrder = 0
+      object lbCallTitle: TLabel
+        Left = 14
+        Height = 15
+        Top = 12
+        Width = 111
+        Caption = 'CHAMAR PROXIMO'
+        Font.CharSet = DEFAULT_CHARSET
+        Font.Color = 7105652
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
     end
-    object btTipo2: TSpeedButton
-      Left = 12
-      Height = 54
-      Top = 80
-      Width = 176
-      Caption = 'Tipo 2'
-      Font.CharSet = ANSI_CHARSET
-      Font.Height = -14
-      Font.Name = 'Segoe UI'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
-      Images = ImageList1
-      ImageIndex = 10
-      Margin = 12
-      Spacing = 10
-      ShowHint = True
-      ParentFont = False
-      ParentShowHint = False
-      OnClick = btTipo2Click
+    object pnlRechamar: TPanel
+      Left = 0
+      Height = 78
+      Top = 458
+      Width = 220
+      Align = alBottom
+      BevelOuter = bvNone
+      ClientHeight = 78
+      ClientWidth = 220
+      Color = 16316664
+      ParentBackground = False
+      ParentColor = False
+      TabOrder = 1
+      object btrechamar3: TSpeedButton
+        Left = 10
+        Height = 60
+        Hint = 'Rechamar senha no Painel'
+        Top = 8
+        Width = 200
+        Caption = '  Rechamar'
+        Font.CharSet = DEFAULT_CHARSET
+        Font.Height = -15
+        Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        Images = ImageList1
+        ImageIndex = 1
+        Margin = 16
+        Spacing = 10
+        ShowHint = True
+        ParentFont = False
+        ParentShowHint = False
+        OnClick = btrechamar3Click
+      end
     end
-    object btTipo3: TSpeedButton
-      Left = 12
-      Height = 54
-      Top = 144
-      Width = 176
-      Caption = 'Tipo 3'
-      Font.CharSet = ANSI_CHARSET
-      Font.Height = -14
-      Font.Name = 'Segoe UI'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
-      Images = ImageList1
-      ImageIndex = 10
-      Margin = 12
-      Spacing = 10
-      ShowHint = True
-      ParentFont = False
-      ParentShowHint = False
-      OnClick = btTipo3Click
-    end
-    object btTipo4: TSpeedButton
-      Left = 12
-      Height = 54
-      Top = 208
-      Width = 176
-      Caption = 'Tipo 4'
-      Font.CharSet = ANSI_CHARSET
-      Font.Height = -14
-      Font.Name = 'Segoe UI'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
-      Images = ImageList1
-      ImageIndex = 10
-      Margin = 12
-      Spacing = 10
-      ShowHint = True
-      ParentFont = False
-      ParentShowHint = False
-      OnClick = btTipo4Click
-    end
-    object btTipo5: TSpeedButton
-      Left = 12
-      Height = 54
-      Top = 272
-      Width = 176
-      Caption = 'Tipo 5'
-      Font.CharSet = ANSI_CHARSET
-      Font.Height = -14
-      Font.Name = 'Segoe UI'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
-      Images = ImageList1
-      ImageIndex = 10
-      Margin = 12
-      Spacing = 10
-      ShowHint = True
-      ParentFont = False
-      ParentShowHint = False
-      OnClick = btTipo5Click
-    end
-    object btrechamar3: TSpeedButton
-      Left = 12
-      Height = 56
-      Hint = 'Rechamar senha no Painel'
-      Top = 508
-      Width = 176
-      Caption = 'Rechamar'
-      Font.CharSet = ANSI_CHARSET
-      Font.Height = -15
-      Font.Name = 'Segoe UI'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
-      Images = ImageList1
-      ImageIndex = 1
-      Margin = 12
-      Spacing = 10
-      ShowHint = True
-      ParentFont = False
-      ParentShowHint = False
-      OnClick = btrechamar3Click
+    object pnlCallButtons: TPanel
+      Left = 0
+      Height = 422
+      Top = 36
+      Width = 220
+      Align = alClient
+      BevelOuter = bvNone
+      ClientHeight = 422
+      ClientWidth = 220
+      Color = 16316664
+      ParentBackground = False
+      ParentColor = False
+      TabOrder = 2
+      object btTipo1: TSpeedButton
+        Left = 10
+        Height = 50
+        Top = 8
+        Width = 200
+        Caption = 'Tipo 1'
+        Font.CharSet = DEFAULT_CHARSET
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        Images = ImageList1
+        ImageIndex = 10
+        Margin = 14
+        Spacing = 10
+        ShowHint = True
+        ParentFont = False
+        ParentShowHint = False
+        OnClick = btTipo1Click
+      end
+      object btTipo2: TSpeedButton
+        Left = 10
+        Height = 50
+        Top = 64
+        Width = 200
+        Caption = 'Tipo 2'
+        Font.CharSet = DEFAULT_CHARSET
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        Images = ImageList1
+        ImageIndex = 10
+        Margin = 14
+        Spacing = 10
+        ShowHint = True
+        ParentFont = False
+        ParentShowHint = False
+        OnClick = btTipo2Click
+      end
+      object btTipo3: TSpeedButton
+        Left = 10
+        Height = 50
+        Top = 120
+        Width = 200
+        Caption = 'Tipo 3'
+        Font.CharSet = DEFAULT_CHARSET
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        Images = ImageList1
+        ImageIndex = 10
+        Margin = 14
+        Spacing = 10
+        ShowHint = True
+        ParentFont = False
+        ParentShowHint = False
+        OnClick = btTipo3Click
+      end
+      object btTipo4: TSpeedButton
+        Left = 10
+        Height = 50
+        Top = 176
+        Width = 200
+        Caption = 'Tipo 4'
+        Font.CharSet = DEFAULT_CHARSET
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        Images = ImageList1
+        ImageIndex = 10
+        Margin = 14
+        Spacing = 10
+        ShowHint = True
+        ParentFont = False
+        ParentShowHint = False
+        OnClick = btTipo4Click
+      end
+      object btTipo5: TSpeedButton
+        Left = 10
+        Height = 50
+        Top = 232
+        Width = 200
+        Caption = 'Tipo 5'
+        Font.CharSet = DEFAULT_CHARSET
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        Images = ImageList1
+        ImageIndex = 10
+        Margin = 14
+        Spacing = 10
+        ShowHint = True
+        ParentFont = False
+        ParentShowHint = False
+        OnClick = btTipo5Click
+      end
     end
   end
   object LTCPComponent1: TLTCPComponent

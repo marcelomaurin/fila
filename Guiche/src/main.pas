@@ -16,12 +16,30 @@ type
   { Tfrmmain }
 
   Tfrmmain = class(TForm)
+    Bevel1: TBevel;
+    btnHeaderSetup: TSpeedButton;
+    btnHeaderSobre: TSpeedButton;
+    btnLimparHist: TSpeedButton;
+    btIniciarAtendimento: TButton;
+    btFinalizarAtendimento: TButton;
+    btAusenteAtendimento: TButton;
+    btCancelarAtendimento: TButton;
     btrechamar3: TSpeedButton;
     Image1: TImage;
     ImageList1: TImageList;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
+    lbAppTitle: TLabel;
+    lbCardAtivaTitulo: TLabel;
+    lbCallTitle: TLabel;
+    lbConexaoStatus: TLabel;
+    lbGuicheHeader: TLabel;
+    lbHistTitulo: TLabel;
+    lbSenhaAtual: TLabel;
+    lbStatusAtendimento: TLabel;
+    lbStatusInfo: TLabel;
+    lbStatusVersao: TLabel;
     lbVersao: TLabel;
     LTCPComponent1: TLTCPComponent;
     btChamar: TMenuItem;
@@ -46,6 +64,17 @@ type
     N2: TMenuItem;
     PageControl1: TPageControl;
     Panel1: TPanel;
+    pnlCardAtiva: TPanel;
+    pnlCardHistorico: TPanel;
+    pnlCallHeader: TPanel;
+    pnlCallButtons: TPanel;
+    pnlRechamar: TPanel;
+    pnlGuicheBadge: TPanel;
+    pnlHeader: TPanel;
+    pnlHistHeader: TPanel;
+    pnlLifecycle: TPanel;
+    pnlStatusBar: TPanel;
+    pnlStatusBadge: TPanel;
     pmItem: TPopupMenu;
     pmraiz: TPopupMenu;
     PopupMenu2: TPopupMenu;
@@ -61,6 +90,8 @@ type
     TabSheet3: TTabSheet;
     TrayIcon1: TTrayIcon;
     tvFila: TTreeView;
+    procedure btnHeaderSobreClick(Sender: TObject);
+    procedure tvFilaDblClick(Sender: TObject);
     procedure btChamarClick(Sender: TObject);
     procedure btFila2Click(Sender: TObject);
     procedure btFila3Click(Sender: TObject);
@@ -103,8 +134,6 @@ type
     procedure miLogClick(Sender: TObject);
     procedure miRechamarClick(Sender: TObject);
 
-
-
     procedure TrayIcon1Click(Sender: TObject);
     procedure Chamar(nro : integer);
     procedure Painel1(nro : string; guiche: integer);
@@ -112,6 +141,10 @@ type
     procedure Painel3(nro : string; guiche: integer);
     procedure Config();
     procedure tvFilaChange(Sender: TObject; Node: TTreeNode);
+    procedure LifecycleStartClick(Sender: TObject);
+    procedure LifecycleFinishClick(Sender: TObject);
+    procedure LifecycleAbsentClick(Sender: TObject);
+    procedure LifecycleCancelClick(Sender: TObject);
 
   private
     conn : boolean;
@@ -121,11 +154,6 @@ type
     FPendingLifecycleAction: string;
     FPendingLifecycleTicket: string;
     FCurrentLifecycleState: string;
-    FLifecyclePanel: TPanel;
-    btIniciarAtendimento: TButton;
-    btFinalizarAtendimento: TButton;
-    btAusenteAtendimento: TButton;
-    btCancelarAtendimento: TButton;
 
     lista : TStringList;
     Mudou : boolean;
@@ -137,10 +165,6 @@ type
     procedure CreateLifecycleControls;
     procedure UpdateLifecycleControls;
     procedure SendLifecycle(const AAction, ADetails: string);
-    procedure LifecycleStartClick(Sender: TObject);
-    procedure LifecycleFinishClick(Sender: TObject);
-    procedure LifecycleAbsentClick(Sender: TObject);
-    procedure LifecycleCancelClick(Sender: TObject);
     procedure GravaLog(const AMsg: string);
   public
     tnFila : TTreeNode;
@@ -163,15 +187,15 @@ implementation
 procedure Tfrmmain.CarregaContexto();
 begin
   FSetMain.CarregaContexto();
-  if (FsetMain.width >= 400) and (FsetMain.height >= 400) then
+  if (FsetMain.width >= 660) and (FsetMain.height >= 580) then
   begin
     self.width := FsetMain.width;
     self.Height := FSetMain.height;
   end
   else
   begin
-    self.Width := 590;
-    self.Height := 580;
+    self.Width := 660;
+    self.Height := 620;
   end;
 
   if (FsetMain.left >= 0) and (FsetMain.left + self.Width <= Screen.Width) and
@@ -212,8 +236,9 @@ end;
 
 procedure Tfrmmain.CadastraRaiz();
 begin
-  tnFila := tvFila.Items.AddFirst(nil,'Fila');
+  tnFila := tvFila.Items.AddFirst(nil,'Histórico de Atendimentos');
   tnFila.ImageIndex:= 5;
+  tnFila.Expanded:= true;
 end;
 
 procedure Tfrmmain.AtualizaBotoes();
@@ -228,6 +253,12 @@ begin
        btTipo3.Visible:= FSetMain.Habilitado03;
        btTipo4.Visible:= FSetMain.Habilitado04;
        btTipo5.Visible:= FSetMain.Habilitado05;
+       if Assigned(lbGuicheHeader) then
+         lbGuicheHeader.Caption := 'GUICHÊ ' + FSetMain.NROGUICHE;
+       if Assigned(lbStatusInfo) then
+         lbStatusInfo.Caption := 'Guichê ' + FSetMain.NROGUICHE + ' • Servidor Fila: ' + FSetMain.IPFILA + ':8095';
+       if Assigned(lbConexaoStatus) then
+         lbConexaoStatus.Caption := '● Servidor Fila: ' + FSetMain.IPFILA + ':8095';
 end;
 
 procedure Tfrmmain.btStartClick(Sender: TObject);
@@ -289,8 +320,10 @@ end;
 procedure Tfrmmain.FormCreate(Sender: TObject);
 begin
   frmhint := TfrmHint.create(self);
-  self.Caption := 'Guiche - ' + versao;
-  lbVersao.Caption := versao;
+  self.Caption := 'Guichê de Atendimento - v' + versao;
+  lbVersao.Caption := 'v' + versao;
+  if Assigned(lbStatusVersao) then
+    lbStatusVersao.Caption := 'Maurinsoft Fila v' + versao;
   frmSplash := TfrmSplash.create(self);
   frmSplash.lbVersao.caption := Versao;
   FsetMain := TsetMain.create();
@@ -302,6 +335,22 @@ begin
   application.ProcessMessages;
   frmRegistrar := TfrmRegistrar.create(self);
   frmRegistrar.Identifica(); (*Bate na Maurinsoft*)
+
+  if Assigned(lbAppTitle) then
+    lbAppTitle.Caption := 'Guichê de Atendimento';
+  if Assigned(btnHeaderSetup) then
+    btnHeaderSetup.Caption := 'Configurações';
+  if Assigned(btnHeaderSobre) then
+    btnHeaderSobre.Caption := 'Sobre';
+  if Assigned(lbCallTitle) then
+    lbCallTitle.Caption := 'CHAMAR PRÓXIMO';
+  if Assigned(lbCardAtivaTitulo) then
+    lbCardAtivaTitulo.Caption := 'SENHA ATIVA NO GUICHÊ';
+  if Assigned(lbHistTitulo) then
+    lbHistTitulo.Caption := 'Histórico de Atendimentos Chamados';
+  if Assigned(btnLimparHist) then
+    btnLimparHist.Caption := 'Limpar Lista';
+
   AtualizaBotoes();
   lista := TStringList.create;
 
@@ -733,57 +782,93 @@ begin
   Result := Trim(lastcall);
 end;
 
+procedure Tfrmmain.btnHeaderSobreClick(Sender: TObject);
+begin
+  PageControl1.ActivePage := TabSheet3;
+end;
+
+procedure Tfrmmain.tvFilaDblClick(Sender: TObject);
+begin
+  miRechamarClick(Sender);
+end;
+
 procedure Tfrmmain.CreateLifecycleControls;
 begin
-  FLifecyclePanel := TPanel.Create(Self);
-  FLifecyclePanel.Parent := Self;
-  FLifecyclePanel.Align := alBottom;
-  FLifecyclePanel.Height := 52;
-  FLifecyclePanel.BevelOuter := bvNone;
+  if Assigned(btIniciarAtendimento) then
+  begin
+    btIniciarAtendimento.Caption := 'Iniciar';
+    btIniciarAtendimento.Hint := 'Iniciar atendimento presencial desta senha';
+    btIniciarAtendimento.OnClick := @LifecycleStartClick;
+  end;
 
-  btIniciarAtendimento := TButton.Create(Self);
-  btIniciarAtendimento.Parent := FLifecyclePanel;
-  btIniciarAtendimento.Caption := 'Iniciar atendimento';
-  btIniciarAtendimento.Left := 8;
-  btIniciarAtendimento.Top := 8;
-  btIniciarAtendimento.Width := 145;
-  btIniciarAtendimento.Height := 34;
-  btIniciarAtendimento.OnClick := @LifecycleStartClick;
+  if Assigned(btFinalizarAtendimento) then
+  begin
+    btFinalizarAtendimento.Caption := 'Finalizar';
+    btFinalizarAtendimento.Hint := 'Concluir atendimento com sucesso';
+    btFinalizarAtendimento.OnClick := @LifecycleFinishClick;
+  end;
 
-  btFinalizarAtendimento := TButton.Create(Self);
-  btFinalizarAtendimento.Parent := FLifecyclePanel;
-  btFinalizarAtendimento.Caption := 'Finalizar';
-  btFinalizarAtendimento.Left := 161;
-  btFinalizarAtendimento.Top := 8;
-  btFinalizarAtendimento.Width := 110;
-  btFinalizarAtendimento.Height := 34;
-  btFinalizarAtendimento.OnClick := @LifecycleFinishClick;
+  if Assigned(btAusenteAtendimento) then
+  begin
+    btAusenteAtendimento.Caption := 'Ausente';
+    btAusenteAtendimento.Hint := 'Cliente não compareceu ao chamado';
+    btAusenteAtendimento.OnClick := @LifecycleAbsentClick;
+  end;
 
-  btAusenteAtendimento := TButton.Create(Self);
-  btAusenteAtendimento.Parent := FLifecyclePanel;
-  btAusenteAtendimento.Caption := 'Ausente';
-  btAusenteAtendimento.Left := 279;
-  btAusenteAtendimento.Top := 8;
-  btAusenteAtendimento.Width := 100;
-  btAusenteAtendimento.Height := 34;
-  btAusenteAtendimento.OnClick := @LifecycleAbsentClick;
-
-  btCancelarAtendimento := TButton.Create(Self);
-  btCancelarAtendimento.Parent := FLifecyclePanel;
-  btCancelarAtendimento.Caption := 'Cancelar';
-  btCancelarAtendimento.Left := 387;
-  btCancelarAtendimento.Top := 8;
-  btCancelarAtendimento.Width := 100;
-  btCancelarAtendimento.Height := 34;
-  btCancelarAtendimento.OnClick := @LifecycleCancelClick;
+  if Assigned(btCancelarAtendimento) then
+  begin
+    btCancelarAtendimento.Caption := 'Cancelar';
+    btCancelarAtendimento.Hint := 'Cancelar atendimento com justificativa';
+    btCancelarAtendimento.OnClick := @LifecycleCancelClick;
+  end;
 end;
 
 procedure Tfrmmain.UpdateLifecycleControls;
 var
   HasTicket, Busy: Boolean;
+  TicketText: string;
 begin
-  HasTicket := CurrentTicket <> '';
+  TicketText := CurrentTicket;
+  HasTicket := TicketText <> '';
   Busy := FPendingLifecycleAction <> '';
+
+  // Atualiza exibição de Senha Atual no Card Hero
+  if Assigned(lbSenhaAtual) then
+  begin
+    if HasTicket then
+      lbSenhaAtual.Caption := TicketText
+    else
+      lbSenhaAtual.Caption := '— — —';
+  end;
+
+  // Atualiza status badge
+  if Assigned(lbStatusAtendimento) and Assigned(pnlStatusBadge) then
+  begin
+    if not HasTicket then
+    begin
+      lbStatusAtendimento.Caption := '⚪ Livre • Aguardando chamada';
+      pnlStatusBadge.Color := $00F1F5F9;
+      lbStatusAtendimento.Font.Color := $0064748B;
+    end
+    else if SameText(FCurrentLifecycleState, 'CHAMADA') then
+    begin
+      lbStatusAtendimento.Caption := '🟡 Senha Chamada • Aguardando cliente';
+      pnlStatusBadge.Color := $00C7F3FE; // Amber-100
+      lbStatusAtendimento.Font.Color := $000677D9; // Amber-700
+    end
+    else if SameText(FCurrentLifecycleState, 'EM_ATENDIMENTO') then
+    begin
+      lbStatusAtendimento.Caption := '🟢 Em Atendimento no Guichê';
+      pnlStatusBadge.Color := $00E7FCDC; // Emerald-100
+      lbStatusAtendimento.Font.Color := $0015803D; // Emerald-700
+    end
+    else
+    begin
+      lbStatusAtendimento.Caption := '⚪ Senha ' + TicketText;
+      pnlStatusBadge.Color := $00F1F5F9;
+      lbStatusAtendimento.Font.Color := $0064748B;
+    end;
+  end;
 
   if Assigned(btIniciarAtendimento) then
     btIniciarAtendimento.Enabled := HasTicket and
@@ -802,6 +887,23 @@ begin
     btCancelarAtendimento.Enabled := HasTicket and
       ((SameText(FCurrentLifecycleState, 'CHAMADA')) or
        (SameText(FCurrentLifecycleState, 'EM_ATENDIMENTO'))) and not Busy;
+
+  if Assigned(lbGuicheHeader) and Assigned(FSetMain) then
+    lbGuicheHeader.Caption := 'GUICHÊ ' + FSetMain.NROGUICHE;
+
+  if Assigned(lbConexaoStatus) and Assigned(FSetMain) then
+  begin
+    if (LTCPComponent1 <> nil) and LTCPComponent1.Connected then
+    begin
+      lbConexaoStatus.Caption := '● Conectado (Fila: ' + FSetMain.IPFILA + ')';
+      lbConexaoStatus.Font.Color := $004ADE80;
+    end
+    else
+    begin
+      lbConexaoStatus.Caption := '● Servidor Fila: ' + FSetMain.IPFILA + ':8095';
+      lbConexaoStatus.Font.Color := $0094A3B8;
+    end;
+  end;
 end;
 
 procedure Tfrmmain.SendLifecycle(const AAction, ADetails: string);

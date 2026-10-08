@@ -19313,12 +19313,6 @@ object frmSetup: TfrmSetup
       OnClick = btCancelarClick
     end
   end
-  object DataPortTCP1: TDataPortTCP
-    Active = False
-    OnDataAppear = DataPortTCP1DataAppear
-    Left = 392
-    Top = 88
-  end
   object LTCPComponent1: TLTCPComponent
     Port = 0
     OnReceive = LTCPComponent1Receive
